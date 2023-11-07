@@ -8,10 +8,8 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-
-<!-- 작성 공간 -->
 <div id="pageTitle">
-<h1></h1>
+<h1>알림</h1>
 <hr>
 </div>
 

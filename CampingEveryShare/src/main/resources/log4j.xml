@@ -19,6 +19,10 @@
 		<level value="info" />
 	</logger>
 	
+	<logger name="web.aop">
+		<level value="info" />
+	</logger>
+	
 	<logger name="web.dao">
 		<level value="trace" />
 	</logger>
