@@ -11,18 +11,17 @@
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-   <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
    
-   <!-- Enables the Spring MVC @Controller programming model -->
-   <annotation-driven />
-
-   <!-- spring-tx 모듈의 어노테이션 활성화 태그 -->
-   <tx:annotation-driven/>   
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	
+	<!-- spring-tx 모듈의 어노테이션 활성화 태그 -->
+	<tx:annotation-driven/>   
+	
+	<!-- @Aspect 어노테이션을 이용한 AOP객체 관리 활성화 태그 -->
+	<aop:aspectj-autoproxy />
    
-   <!-- @Aspect 어노테이션을 이용한 AOP객체 관리 활성화 태그 -->
-   <aop:aspectj-autoproxy />
-   
-
 	<!-- 인터셉터 설정 -->
 	<interceptors>
 		<interceptor>
@@ -49,8 +48,8 @@
 		<beans:property name="order" value="0" />
 	</beans:bean>
 
-<!--    FileDownloadView 클래스를 스프링 빈으로 등록하기    -->
-<!--    <beans:bean id="down" class="file.view.FileDownloadView" /> -->
+	<!--    FileDownloadView 클래스를 스프링 빈으로 등록하기    -->
+	<beans:bean id="down" class="web.view.FileDownloadView" />
    
    <!-- JSON 응답용 jsonView 클래스를 스프링 빈으로 등록하기 -->
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>   
@@ -68,19 +67,4 @@
       <beans:property name="maxUploadSizePerFile" value="5242880"/>
    </beans:bean>
    
-   
 </beans:beans>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
