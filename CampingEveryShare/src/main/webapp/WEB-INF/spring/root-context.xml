@@ -3,6 +3,56 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<!-- C:/spring_wallet/Wallet_campingeveryshare <<<이 경로에 지갑파일 다운받아서 압축해제 -->
+		<property name="url" value="jdbc:oracle:thin:@campingeveryshare_medium?TNS_ADMIN=C:/spring_wallet/Wallet_campingeveryshare" />
+<!-- 		<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=gdfd3151fe0ae94_campingeveryshare_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))" /> -->
+		<property name="username" value="dain" />
+		<property name="password" value="Campingeveryshare1" />
+	</bean>
+
+	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configuration">
+			<bean class="org.apache.ibatis.session.Configuration">
+				<property name="mapUnderscoreToCamelCase" value="true" />
+				<property name="jdbcTypeForNull" value="NULL" />
+			</bean>
+		</property>
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:/**/mapper/*Mapper.xml</value>
+			</array>
+		</property>
+		<property name="typeAliasesPackage">
+			<value>**.dto</value>
+		</property>
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="**.dao" />
+	</bean>
+	
+	
+	<!-- 트랜잭션 매니저 -->
+	<bean id="transactionManager"
+	 class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />	
+	</bean>
+	
 </beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
