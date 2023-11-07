@@ -10,8 +10,8 @@ pageEncoding="UTF-8"%>
 
 
 <!-- 작성 공간 -->
-<div id="pageTitle">
-<h1></h1>
+<div class="pageTitle">
+<h3 id="pageTitle">제목</h3>
 <hr>
 </div>
 

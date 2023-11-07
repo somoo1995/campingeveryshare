@@ -24,8 +24,8 @@ $(function() {
 
 <div class="container">
 
-<div id="pageTitle">
-<h1>메시지</h1>
+<div class="pageTitle">
+<h3 id="pageTitle">메시지</h3>
 <hr>
 </div>
 

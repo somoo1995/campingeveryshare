@@ -8,8 +8,8 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-<div id="pageTitle">
-<h1>이용 안내</h1>
+<div class="pageTitle">
+<h3 id="pageTitle">이용 안내</h3>
 <hr>
 </div>
 

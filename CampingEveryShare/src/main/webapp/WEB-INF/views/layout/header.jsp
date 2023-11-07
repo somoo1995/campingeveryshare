@@ -64,6 +64,11 @@ $(function () {
 	font-size: 2em;
 }
 
+#pageTitle {
+	color: green;
+	font-weight: bold;
+}
+
 /* 폰트 설정 */
 
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
