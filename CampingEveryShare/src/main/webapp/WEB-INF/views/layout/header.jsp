@@ -39,7 +39,7 @@ $(function () {
     position: relative;
     display: inline-block;
     width: 1300px;
-    height: 300px;
+    height: 310px;
 }
 
 .menu-icon {

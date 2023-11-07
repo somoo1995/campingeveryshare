@@ -8,4 +8,6 @@ public interface MypageService {
 
 	public List<Msg> msgList(Msg msg);
 
+	public void sendMsg(Msg msg);
+
 }

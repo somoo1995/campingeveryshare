@@ -27,14 +27,14 @@ public class MypageController {
 	@GetMapping("/message")
 	public void message(Model model, Msg msg) {
 		
-		msg.setReceiverNo(1);
+		msg.setReceiverId("dain");
 		
 		List<Msg> rList = mypageService.msgList(msg);
 		logger.info("rList : {}", rList);
 		model.addAttribute("rList", rList);
 		
-		msg.setReceiverNo(0);
-		msg.setWriterNo(1);
+		msg.setReceiverId(null);
+		msg.setWriterId("dain");
 		
 		List<Msg> wList = mypageService.msgList(msg);
 		logger.info("wList : {}", wList);
@@ -42,7 +42,11 @@ public class MypageController {
 	}
 	
 	@PostMapping("/message")
-	public void messageProc() {}
+	public void messageProc(Msg msg) {
+		
+		mypageService.sendMsg(msg);
+		
+	}
 	
 	@RequestMapping("/fail")
 	public void noLogin() {}

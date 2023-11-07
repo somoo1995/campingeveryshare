@@ -12,6 +12,26 @@ $(function() {
 	$("#btnSend").click(function() {
 		console.log("#btnSend click")
 		
+		$.ajax({
+         type: "post"
+         , url: "./message"
+         , data: {
+			content: $("#content").val(),
+			writerId: "dain",
+			receiverId: "gang",
+			boardCate: 1,
+			boardNo: 1
+         }
+         , dataType: "json"
+         , success: function(  ) {
+            console.log("AJAX 성공")
+			$("#content").val('')
+         }
+         , error: function() {
+            console.log("AJAX 실패")
+
+         }
+      })
 		
 		
 	})
@@ -29,7 +49,7 @@ $(function() {
 <hr>
 </div>
 
-<h3>받은 메시지</h3>
+<h4>받은 메시지</h4>
 
 <table class="table table-hover table-sm">
 
@@ -55,8 +75,8 @@ $(function() {
 	<c:forEach items="${rList }" var="l">
 	<tr>
 		<td>${l.msgNo }</td>	
-		<td>${l.writerNo }</td>
-		<td>${l.receiverNo }</td>	
+		<td>${l.writerId }</td>
+		<td>${l.receiverId }</td>	
 		<td>${l.content }</td>
 <%-- 		<td>${l.postDate }</td> --%>
 		<td>
@@ -77,7 +97,7 @@ $(function() {
 </table>
 
 <hr>
-<h3>보낸 메시지</h3>
+<h4>보낸 메시지</h4>
 
 <table class="table table-hover table-sm">
 
@@ -103,8 +123,8 @@ $(function() {
 	<c:forEach items="${wList }" var="l">
 	<tr>
 		<td>${l.msgNo }</td>	
-		<td>${l.writerNo }</td>
-		<td>${l.receiverNo }</td>	
+		<td>${l.writerId }</td>
+		<td>${l.receiverId }</td>	
 		<td>${l.content }</td>
 <%-- 		<td>${l.postDate }</td> --%>
 		<td>
@@ -127,9 +147,10 @@ $(function() {
 
 <div class="col-6 mx-auto">
 <textarea class="form-control" name="content" id="content" style="resize: none;" placeholder="메시지를 작성하세요"></textarea>
-<button class="btn btn-secondary btn-sm mt-3" id="btnSend">전송</button>
+<button class="btn btn-secondary btn-sm mt-3 float-end" id="btnSend">전송</button>
 </div>
 
+<div class="clearfix"></div>
 
 </div><!-- .container -->
 

@@ -6,21 +6,28 @@
   
 <mapper namespace="web.dao.face.MypageDao"> 
 	<sql id="selectMsg">
-		SELECT msg_no, writer_no, receiver_no, post_date, content, msg_status, board_cate, board_no
-		FROM msg
+		SELECT msg_no, writer_id, receiver_id, post_date, content, msg_status, board_cate, board_no
+		FROM msgtb
 	</sql>
 	
 	<select id="selectByReceiver" resultType="Msg" parameterType="Msg">
 		<include refid="selectMsg" />
 		<where>
-			<if test="receiverNo =! null and receiverNo != 0">
-			AND receiver_no = #{receiverNo }
+			<if test="receiverId != null">
+			AND receiver_id = #{receiverId }
 			</if>
-			<if test="writerNo =! null and writerNo != 0">
-			AND writer_no = #{writerNo }
+			<if test="writerId != null">
+			AND writer_id = #{writerId }
 			</if>
 		</where>
 	</select>
 
+	<insert id="insertMsg" parameterType="Msg">
+		<selectKey order="BEFORE" keyProperty="msgNo" resultType="int">
+			SELECT msg_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO msgtb ( msg_no, writer_id, receiver_id, content, board_cate, board_no )
+		VALUES ( #{msgNo }, #{writerId }, #{receiverId }, #{content }, #{boardCate }, #{boardNo } )
+	</insert>
 
 </mapper>
