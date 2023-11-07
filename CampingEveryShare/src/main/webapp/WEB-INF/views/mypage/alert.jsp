@@ -8,8 +8,8 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-<div id="pageTitle">
-<h1>알림</h1>
+<div class="pageTitle">
+<h3 id="pageTitle">알림</h3>
 <hr>
 </div>
 

@@ -8,8 +8,8 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-<div id="pageTitle">
-<h1>마이 메뉴</h1>
+<div class="pageTitle">
+<h3 id="pageTitle">마이 메뉴</h3>
 <hr>
 </div>
 
