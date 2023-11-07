@@ -3,7 +3,7 @@ package web.dto;
 import java.util.Date;
 
 public class Account {
-	//rtrt
+	
 	private int account;
 	private int userNo;
 	private int bandAccount;
