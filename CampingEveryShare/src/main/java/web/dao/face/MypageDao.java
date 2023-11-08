@@ -8,4 +8,6 @@ public interface MypageDao {
 
 	public List<Msg> selectByReceiver(Msg msg);
 
+	public void insertMsg(Msg msg);
+
 }

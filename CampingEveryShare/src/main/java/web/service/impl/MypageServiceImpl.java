@@ -23,5 +23,10 @@ public class MypageServiceImpl implements MypageService {
 		return list;
 	}
 
+	@Override
+	public void sendMsg(Msg msg) {
+		mypageDao.insertMsg(msg);
+	}
+
 }
 

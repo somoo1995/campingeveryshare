@@ -5,8 +5,8 @@ import java.util.Date;
 public class Msg {
 
 	private int msgNo;
-	private int writerNo;
-	private int receiverNo;
+	private String writerId;
+	private String receiverId;
 	private Date postDate;
 	private String content;
 	private int msgStatus;
@@ -15,12 +15,12 @@ public class Msg {
 	
 	public Msg() {}
 
-	public Msg(int msgNo, int writerNo, int receiverNo, Date postDate, String content, int msgStatus, int boardCate,
-			int boardNo) {
+	public Msg(int msgNo, String writerId, String receiverId, Date postDate, String content, int msgStatus,
+			int boardCate, int boardNo) {
 		super();
 		this.msgNo = msgNo;
-		this.writerNo = writerNo;
-		this.receiverNo = receiverNo;
+		this.writerId = writerId;
+		this.receiverId = receiverId;
 		this.postDate = postDate;
 		this.content = content;
 		this.msgStatus = msgStatus;
@@ -30,7 +30,7 @@ public class Msg {
 
 	@Override
 	public String toString() {
-		return "Msg [msgNo=" + msgNo + ", writerNo=" + writerNo + ", receiverNo=" + receiverNo + ", postDate="
+		return "Msg [msgNo=" + msgNo + ", writerId=" + writerId + ", receiverId=" + receiverId + ", postDate="
 				+ postDate + ", content=" + content + ", msgStatus=" + msgStatus + ", boardCate=" + boardCate
 				+ ", boardNo=" + boardNo + "]";
 	}
@@ -43,20 +43,20 @@ public class Msg {
 		this.msgNo = msgNo;
 	}
 
-	public int getWriterNo() {
-		return writerNo;
+	public String getWriterId() {
+		return writerId;
 	}
 
-	public void setWriterNo(int writerNo) {
-		this.writerNo = writerNo;
+	public void setWriterId(String writerId) {
+		this.writerId = writerId;
 	}
 
-	public int getReceiverNo() {
-		return receiverNo;
+	public String getReceiverId() {
+		return receiverId;
 	}
 
-	public void setReceiverNo(int receiverNo) {
-		this.receiverNo = receiverNo;
+	public void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public Date getPostDate() {
@@ -98,5 +98,5 @@ public class Msg {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	
+
 }
