@@ -30,8 +30,15 @@ $(document).ready(function () {
     });
     
     $(".alert-open").css("cursor", "pointer").click(function () {
-		$("#alert").attr("style", "visibility:visible")
-    	$("#alert").css("left", "362px")
+    	
+    	if( $("#alert").css("left") === "362px" ){
+        	$("#alert").css("left", "0px")
+    		$("#alert").attr("style", "visibility:hidden")
+    	} else {
+			$("#alert").attr("style", "visibility:visible")
+	    	$("#alert").css("left", "362px")
+		}
+    	
     });
     
     $(".alert-back").css("cursor","pointer").click(function () {
@@ -40,7 +47,41 @@ $(document).ready(function () {
     	
     });
     
+    	// div 외부 클릭 시 닫힘 처리
+//     $(document).on("click", function (event) {
+//         if (!$(event.target).closest("#alert, #menu").length) {
+// 	       	 $("#menu").css("left", "-362px")
+// 	    	 $("#alert").css("left", "-362px")
+// 	    	 $("#alert").attr("style", "visibility:hidden")
+//         }
+//     });
+
+
+	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
+	    var currentSrc = $(".tglStatus").attr("src");
+	    
+	    if (currentSrc === "/resources/img/toggle-green-right.png") {
+	    	
+	        $(".tglStatus").attr("src", "/resources/img/toggle-green-left.png");
+	        $("#host").removeClass("userStatus")
+	        $("#guest").addClass("userStatus")
+	        $("#campStatus").html("내 캠핑카")
+	        
+	    } else {
+	        $(".tglStatus").attr("src", "/resources/img/toggle-green-right.png");
+	        $("#guest").removeClass("userStatus")
+	        $("#host").addClass("userStatus")
+	        $("#campStatus").html("내 예약")
+	    }
+	})
+
 });
+
+$(function() {
+	$("btnLogout").click(function() {
+		
+	})
+})
 
 </script>
 
@@ -129,7 +170,16 @@ $(document).ready(function () {
  	visibility: hidden; 
 }
 
+.userStatus {
+	color: green;
+	font-weight: bold;
+}
 
+.wrap-menu span:hover {
+	font-weight: bold;
+	color: #4E4134;
+	cursor: pointer;
+}
 
 /* 폰트 설정 */
 
@@ -164,14 +214,14 @@ $(document).ready(function () {
 	<div>
 	<c:choose>
 		<c:when test="${empty isLogin or not isLogin }">
-			<a href="/user/login">로그인</a>
+			<span onclick="location.href='/user/login'">로그인</span>
 			|
-			<a href="/user/join">회원가입</a>
+			<span onclick="location.href='/user/join'">회원가입</span>
 		</c:when>
 		<c:when test="${not empty isLogin and isLogin }">
-			<a>내 프로필</a>
+			<span>내 정보</span>
 			|
-			<a href="/user/logout">로그아웃</a>
+			<span onclick="location.href='/user/logout'">로그아웃</span>
 		</c:when>
 	</c:choose>
 	
@@ -182,12 +232,23 @@ $(document).ready(function () {
 	
 	</div>
 	
+	<c:if test="${not empty isLogin and isLogin }">
+	<div class="mt-5"></div>
+	<div>
+		<span id="guest" class="userStatus">게스트</span>
+		<img alt="statusToggle" src="/resources/img/toggle-green-left.png" width="100px" height="90px" class="tglStatus">
+		<span id="host" class="">호스트</span>
+	</div>
+	</c:if>
+	
 	<div class="mt-5">
-	<a>내캠핑</a>
+<!-- 	<a id="campStatus">내캠핑</a> -->
+	<span id="campStatus">내캠핑</span>
 	|
-	<a href="./mypage/message">메시지</a>
+<!-- 	<a href="/mypage/message">메시지</a> -->
+	<span onclick="location.href='/mypage/message'">메시지</span>
 	|
-	<a>찜</a>
+	<span>찜</span>
 	|
 	<span class="alert-open">알림</span>
 	</div>
@@ -197,9 +258,9 @@ $(document).ready(function () {
 	</div>
 	
 	<div class="mt-5">
-	<a>공지사항</a>
+	<span>공지사항</span>
 	|
-	<a>고객문의</a>
+	<span>고객문의</span>
 	</div>
 	
 	</div>
