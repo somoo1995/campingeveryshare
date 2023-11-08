@@ -31,15 +31,21 @@ pageEncoding="UTF-8"%>
 .msgprofile{
 border: 1px solid;
 flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
-}
 
+
+}
+.container{
+	width: 1300px;
+	margin-left: -10px;
+	margin-right: 0px;
+}
 </style>
 <!-- 작성 공간 -->
 <div class="container">
 
 <div class="pageTitle">
 <h3 id="pageTitle">메세지</h3>
-<hr>
+<hr style="width: 1300px;">
 </div>
 <div class="msgmain">
 <div class="msglist">
