@@ -74,6 +74,7 @@ public class UserController {
 		if( loginResult ) {
 			logger.info("로그인 성공");
 			
+			session.setAttribute("isLogin", true);
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("userNick", user.getUserNick());
 			

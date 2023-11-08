@@ -9,7 +9,6 @@ pageEncoding="UTF-8"%>
 <div class="container">
 
 <div style="text-align: center;">
-<img alt="logo" src="/resources/img/logo_temp.png">
 
 <h2>메인 이미지 등록 필요</h2>
 
