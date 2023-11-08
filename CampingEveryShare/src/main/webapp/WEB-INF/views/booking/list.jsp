@@ -38,7 +38,7 @@
 
 .rentList span {
     display: block; /* 각 span을 블록 요소로 만듦 */
-    margin-bottom: 5px; /* 아래쪽 여백 추가 */
+    margin-bottom: 5px; /* 아래쪽 여백 추가 *ㅇㅇ/
 }
 
 .rentList strong {
