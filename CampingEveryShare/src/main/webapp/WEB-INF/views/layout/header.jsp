@@ -16,15 +16,31 @@
 
 <script type="text/javascript">
 
-$(function () {
-// 	$("#main").hover(function() {
-// 		console.log("#main hover")
-		
-// 	})
-	$("#main").css("cursor","pointer").click(function() {
-		$(location).attr("href", "/member/main")
-	})
-})
+$(document).ready(function () {
+	
+    $(".menu-icon").css("cursor","pointer").click(function () {
+            $("#menu").css("left", "0px")
+            $("#alert").css("left", "0px")
+    });
+    
+    $(".menu-back").css("cursor", "pointer").click(function () {
+    	 $("#menu").css("left", "-362px")
+    	 $("#alert").css("left", "-362px")
+    	 $("#alert").attr("style", "visibility:hidden")
+    });
+    
+    $(".alert-open").css("cursor", "pointer").click(function () {
+		$("#alert").attr("style", "visibility:visible")
+    	$("#alert").css("left", "362px")
+    });
+    
+    $(".alert-back").css("cursor","pointer").click(function () {
+    	$("#alert").css("left", "0px")
+		$("#alert").attr("style", "visibility:hidden")
+    	
+    });
+    
+});
 
 </script>
 
@@ -52,7 +68,6 @@ $(function () {
 	position: absolute;
 	top: 10px;
 	right: 10px;
-
 }
 
 .header-image {
@@ -68,6 +83,47 @@ $(function () {
 	color: green;
 	font-weight: bold;
 }
+
+.wrap-menu {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	width: 100%;
+}
+
+.menu-back {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: -362px; 
+    width: 362px; 
+    height: 5000px;
+    background-color: #F6E2A2; 
+    color: #fff; 
+    transition: left 0.4s; 
+    z-index: 1000;
+}
+
+.alert {
+    position: fixed; 
+    top: 0;
+    left: -362px; 
+    width: 362px; 
+    height: 5000px;
+    border-radius: 0px;
+    background-color: green; 
+    color: #fff; 
+    transition: left 0.4s; 
+    z-index: -1;
+ 	visibility: hidden; 
+}
+
+
 
 /* 폰트 설정 */
 
@@ -85,9 +141,53 @@ $(function () {
 
 <header class="header text-center my-4">
 <div class="header-container">
-	<a href="/mypage/main"><img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40"></a>
+	<img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40">
 	<a href="/"><img alt="header" class="header-img" src="/resources/img/header_text.png" width="1300" height="300"></a>
 	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
+</div>
+
+
+<div id="menu" class="menu">
+
+	<aside id="all_mymenu" role="navigation" style="left: 0px;" >
+	
+	<img class="menu-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
+	
+	<div class="wrap-menu text-center">
+	
+	<div>
+	<c:if test="">
+	<a href="/user/login">로그인</a>
+	<a href="/user/join">회원가입</a>
+	</c:if>
+	
+	<!--     <ul> -->
+	<!--         <li><a href="#">로그인</a></li> -->
+	<!--         <li><a href="#">회원가입</a></li> -->
+	<!--     </ul> -->
+	
+	</div>
+	
+	<div>
+	<a>내캠핑</a>
+	<a href="./mypage/message">메시지</a>
+	<a>찜</a>
+	<span class="alert-open">알림</span>
+	</div>
+	
+	<div id="alert" class="alert">
+		<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+	</div>
+	
+	<div>
+	<a>공지사항</a>
+	<a>고객문의</a>
+	</div>
+	
+	</div>
+	
+	</aside> <!-- #all_mymenu end -->
+
 </div>
 
 <div class="main-category-menu mt-3">
@@ -101,8 +201,6 @@ $(function () {
 </div>
 
 </header>
-
-
 
 <hr>
 
