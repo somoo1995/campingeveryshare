@@ -6,6 +6,7 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<!-- C:/spring_wallet/Wallet_campingeveryshare <<<이 경로에 지갑파일 다운받아서 압축해제 -->
+<!-- 		<property name="url" value="jdbc:oracle:thin:@campingeveryshare_medium?TNS_ADMIN=/home/ubuntu/Wallet_campingeveryshare" /> -->
 		<property name="url" value="jdbc:oracle:thin:@campingeveryshare_medium?TNS_ADMIN=C:/spring_wallet/Wallet_campingeveryshare" />
 <!-- 		<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=gdfd3151fe0ae94_campingeveryshare_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))" /> -->
 		<property name="username" value="dain" />
