@@ -89,6 +89,12 @@ $(document).ready(function () {
 	top: 100px;
 	left: 0;
 	width: 100%;
+	font-size: 25px;
+}
+
+.alert-open:hover {
+	font-weight: bold;
+	color: green;
 }
 
 .menu-back {
@@ -156,10 +162,18 @@ $(document).ready(function () {
 	<div class="wrap-menu text-center">
 	
 	<div>
-	<c:if test="">
-	<a href="/user/login">로그인</a>
-	<a href="/user/join">회원가입</a>
-	</c:if>
+	<c:choose>
+		<c:when test="${empty isLogin or not isLogin }">
+			<a href="/user/login">로그인</a>
+			|
+			<a href="/user/join">회원가입</a>
+		</c:when>
+		<c:when test="${not empty isLogin and isLogin }">
+			<a>내 프로필</a>
+			|
+			<a href="/user/logout">로그아웃</a>
+		</c:when>
+	</c:choose>
 	
 	<!--     <ul> -->
 	<!--         <li><a href="#">로그인</a></li> -->
@@ -168,10 +182,13 @@ $(document).ready(function () {
 	
 	</div>
 	
-	<div>
+	<div class="mt-5">
 	<a>내캠핑</a>
+	|
 	<a href="./mypage/message">메시지</a>
+	|
 	<a>찜</a>
+	|
 	<span class="alert-open">알림</span>
 	</div>
 	
@@ -179,8 +196,9 @@ $(document).ready(function () {
 		<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
 	</div>
 	
-	<div>
+	<div class="mt-5">
 	<a>공지사항</a>
+	|
 	<a>고객문의</a>
 	</div>
 	
@@ -193,7 +211,7 @@ $(document).ready(function () {
 <div class="main-category-menu mt-3">
 <a>대여</a>
 |
-<a>캠핑존공유</a>
+<a href="/share/list">캠핑존공유</a>
 |
 <a>중고장터</a>
 |
