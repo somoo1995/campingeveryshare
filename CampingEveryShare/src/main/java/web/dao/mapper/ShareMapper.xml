@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="web.dao.face.ShareDao">
+  	<select id="selectShareAll" parameterType="web.util.Paging" resultType="Map">
+  		SELECT * FROM (
+	  	SELECT ROWNUM rnum, B.* FROM (
+			SELECT board_no
+			, title
+			, location
+			, post_date
+			, hit 
+			, content
+			, delete_status
+			, board_cate 
+			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "recommend"
+			, boardtb.user_id
+			, user_nick
+			, user_name
+			FROM boardtb
+			JOIN usertb ON boardtb.user_id = usertb.user_id
+			ORDER BY board_no DESC
+	    ) B
+	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		AND board_cate = 2
+  	</select>
+  
+  	<select id="selectCntAll">
+  		SELECT count(*) FROM boardtb
+  	</select>
+  
+  	<select id="selectBoardView" resultType="Map" parameterType="boardtb">
+	SELECT
+	    board_no,
+	    title,
+	    location,
+	    post_date,
+	    hit,
+	    content,
+	    delete_status,
+	    board_cate,
+	    user_id,
+	    (SELECT user_nick FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_nick,
+	    (SELECT user_name FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_name
+	FROM boardtb
+	WHERE board_no = #{boardNo }
+  	</select>
+  	
+  	<update id="hit" parameterType="boardtb">
+  		UPDATE boardtb
+  		SET hit = hit+1
+  		WHERE board_no = #{boardNo}
+  	</update>
+  
+  </mapper>
