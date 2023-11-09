@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.RentDao">
+	
+	<sql id="selectRent">
+		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status
+		, (SELECT user_nick FROM usertb U FROM U.user_id = R.user_id ) AS nick
+		FROM renttb R
+	</sql>
+	
+	
+	<select id="selectCntAll" resultType="int" parameterType="map">
+		SELECT count(*) FROM renttb
+		<where>
+			<if test="rent.rentStatus != null and !''.equals(rent.rentStatus)">
+				AND rent_status = #{rent.rentStatus }
+			</if>
+			<if test="rent.userId != null and !''.equals(rent.userId)">
+				AND user_id = #{rent.userId }
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRentByRentStatus" resultType="Rent" parameterType="web.util.Paging">
+		<include refid="selectRent" />
+		<where>
+			AND rent_status = #{status }
+		</where>
+	</select>
+
+</mapper>

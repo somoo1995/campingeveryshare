@@ -3,9 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <c:import url="../layout/header.jsp" />
+
 <style>
 .button-group {
   display: flex; /* 버튼을 한 줄로 나란히 배열 */
@@ -63,31 +62,38 @@
 .rentList a:hover {
     background-color: #45a049; /* 버튼 호버시 색상 변경 */
 }
+.container{
+	width: 1300px;
+	margin-left: -10px;
+	margin-right: 0px;
+}
+
 </style>
 
 
 <div class="container">
+
     <div id="pageTitle">
          <h3 style="color: #2ECC71; font-weight: bold;">내예약</h3>
-        <hr>
+        <hr style="margin-left: -10px; width:1300px;">
     </div >
     
     <div class="button-group">
         <!-- param.status가 now, history 또는 설정되지 않았을 때 now로 간주 -->
-	    <a href="./list?status=now" class="button ${empty param.status || param.status == 'now' ? 'active' : ''}" id="currentBtn">진행 중</a>
-	    <a href="./list?status=history" class="button ${param.status == 'history' ? 'active' : ''}" id="historyBtn">이전 내역</a>
+	    <a href="./list?rentstatus=now" class="button ${empty param.rentstatus || param.rentstatus == 'now' ? 'active' : ''}" id="currentBtn">진행 중</a>
+	    <a href="./list?rentstatus=history" class="button ${param.rentstatus == 'history' ? 'active' : ''}" id="historyBtn">이전 내역</a>
 	</div>
 	
 	<div>
 	<c:choose>
-	<c:when test="${param.status == 'now' || empty param.status}">
+	<c:when test="${param.rentstatus == 'now' || empty param.rentstatus}">
 		<div class="rentList">
 			<strong>아직 예약된 캠핑카가 없습니다!</strong><br>
 			<span>캠핑카를 찾으시나요?</span><br>
 			<a  "href="링크URL" class="exploreButton">살펴보기</a>
 		</div>
 	</c:when>
-	<c:when test="${param.status == 'history' }">
+	<c:when test="${param.rentstatus == 'history' }">
 		<div class="rentList">
 			<h5>이전 진행내역</h5>
 		</div>
