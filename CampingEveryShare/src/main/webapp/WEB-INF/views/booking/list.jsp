@@ -63,13 +63,18 @@
 .rentList a:hover {
     background-color: #45a049; /* 버튼 호버시 색상 변경 */
 }
+.container{
+	width: 1300px;
+	margin-left: -10px;
+	margin-right: 0px;
+}
 </style>
 
 
 <div class="container">
     <div id="pageTitle">
          <h3 style="color: #2ECC71; font-weight: bold;">내예약</h3>
-        <hr>
+        <hr style="margin-left: -10px; width:1300px;">
     </div >
     
     <div class="button-group">
