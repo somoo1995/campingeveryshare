@@ -37,6 +37,7 @@ public interface UserService {
 	public boolean joinEmailCheck(String email);
 
 	/**
+	 * 
 	 * 회원가입 닉네임 중복체크
 	 * 
 	 * @param userNick
