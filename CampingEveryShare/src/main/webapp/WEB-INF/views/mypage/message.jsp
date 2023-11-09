@@ -17,7 +17,7 @@ $(function() {
          , url: "./message"
          , data: {
 			content: $("#content").val(),
-			writerId: "dain",
+			writerId: ${userId },
 			receiverId: "gang",
 			boardCate: 1,
 			boardNo: 1
@@ -38,8 +38,6 @@ $(function() {
 })
 
 
-
-
 </script>
 
 <div class="container">
@@ -50,6 +48,8 @@ $(function() {
 </div>
 
 <h4>받은 메시지</h4>
+
+받은 사람 : ${userId }
 
 <table class="table table-hover table-sm">
 

@@ -16,13 +16,70 @@
 
 <script type="text/javascript">
 
-$(function () {
-// 	$("#main").hover(function() {
-// 		console.log("#main hover")
+$(document).ready(function () {
+	
+    $(".menu-icon").css("cursor","pointer").click(function () {
+            $("#menu").css("left", "0px")
+            $("#alert").css("left", "0px")
+    });
+    
+    $(".menu-back").css("cursor", "pointer").click(function () {
+    	 $("#menu").css("left", "-362px")
+    	 $("#alert").css("left", "-362px")
+    	 $("#alert").attr("style", "visibility:hidden")
+    });
+    
+    $(".alert-open").css("cursor", "pointer").click(function () {
+    	
+    	if( $("#alert").css("left") === "362px" ){
+        	$("#alert").css("left", "0px")
+    		$("#alert").attr("style", "visibility:hidden")
+    	} else {
+			$("#alert").attr("style", "visibility:visible")
+	    	$("#alert").css("left", "362px")
+		}
+    	
+    });
+    
+    $(".alert-back").css("cursor","pointer").click(function () {
+    	$("#alert").css("left", "0px")
+		$("#alert").attr("style", "visibility:hidden")
+    	
+    });
+    
+    	// div 외부 클릭 시 닫힘 처리
+//     $(document).on("click", function (event) {
+//         if (!$(event.target).closest("#alert, #menu").length) {
+// 	       	 $("#menu").css("left", "-362px")
+// 	    	 $("#alert").css("left", "-362px")
+// 	    	 $("#alert").attr("style", "visibility:hidden")
+//         }
+//     });
+
+
+	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
+	    var currentSrc = $(".tglStatus").attr("src");
+	    
+	    if (currentSrc === "/resources/img/toggle-green-right.png") {
+	    	
+	        $(".tglStatus").attr("src", "/resources/img/toggle-green-left.png");
+	        $("#host").removeClass("userStatus")
+	        $("#guest").addClass("userStatus")
+	        $("#campStatus").html("내 캠핑카")
+	        
+	    } else {
+	        $(".tglStatus").attr("src", "/resources/img/toggle-green-right.png");
+	        $("#guest").removeClass("userStatus")
+	        $("#host").addClass("userStatus")
+	        $("#campStatus").html("내 예약")
+	    }
+	})
+
+});
+
+$(function() {
+	$("btnLogout").click(function() {
 		
-// 	})
-	$("#main").css("cursor","pointer").click(function() {
-		$(location).attr("href", "/member/main")
 	})
 })
 
@@ -52,7 +109,6 @@ $(function () {
 	position: absolute;
 	top: 10px;
 	right: 10px;
-
 }
 
 .header-image {
@@ -67,6 +123,62 @@ $(function () {
 #pageTitle {
 	color: green;
 	font-weight: bold;
+}
+
+.wrap-menu {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	width: 100%;
+	font-size: 25px;
+}
+
+.alert-open:hover {
+	font-weight: bold;
+	color: green;
+}
+
+.menu-back {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: -362px; 
+    width: 362px; 
+    height: 5000px;
+    background-color: #F6E2A2; 
+    color: #fff; 
+    transition: left 0.4s; 
+    z-index: 1000;
+}
+
+.alert {
+    position: fixed; 
+    top: 0;
+    left: -362px; 
+    width: 362px; 
+    height: 5000px;
+    border-radius: 0px;
+    background-color: green; 
+    color: #fff; 
+    transition: left 0.4s; 
+    z-index: -1;
+ 	visibility: hidden; 
+}
+
+.userStatus {
+	color: green;
+	font-weight: bold;
+}
+
+.wrap-menu span:hover {
+	font-weight: bold;
+	color: #4E4134;
+	cursor: pointer;
 }
 
 /* 폰트 설정 */
@@ -85,15 +197,82 @@ $(function () {
 
 <header class="header text-center my-4">
 <div class="header-container">
-	<a href="/mypage/main"><img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40"></a>
+	<img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40">
 	<a href="/"><img alt="header" class="header-img" src="/resources/img/header_text.png" width="1300" height="300"></a>
 	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
+</div>
+
+
+<div id="menu" class="menu">
+
+	<aside id="all_mymenu" role="navigation" style="left: 0px;" >
+	
+	<img class="menu-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
+	
+	<div class="wrap-menu text-center">
+	
+	<div>
+	<c:choose>
+		<c:when test="${empty isLogin or not isLogin }">
+			<span onclick="location.href='/user/login'">로그인</span>
+			|
+			<span onclick="location.href='/user/join'">회원가입</span>
+		</c:when>
+		<c:when test="${not empty isLogin and isLogin }">
+			<span>내 정보</span>
+			|
+			<span onclick="location.href='/user/logout'">로그아웃</span>
+		</c:when>
+	</c:choose>
+	
+	<!--     <ul> -->
+	<!--         <li><a href="#">로그인</a></li> -->
+	<!--         <li><a href="#">회원가입</a></li> -->
+	<!--     </ul> -->
+	
+	</div>
+	
+	<c:if test="${not empty isLogin and isLogin }">
+	<div class="mt-5"></div>
+	<div>
+		<span id="guest" class="userStatus">게스트</span>
+		<img alt="statusToggle" src="/resources/img/toggle-green-left.png" width="100px" height="90px" class="tglStatus">
+		<span id="host" class="">호스트</span>
+	</div>
+	</c:if>
+	
+	<div class="mt-5">
+<!-- 	<a id="campStatus">내캠핑</a> -->
+	<span id="campStatus">내캠핑</span>
+	|
+<!-- 	<a href="/mypage/message">메시지</a> -->
+	<span onclick="location.href='/mypage/message'">메시지</span>
+	|
+	<span>찜</span>
+	|
+	<span class="alert-open">알림</span>
+	</div>
+	
+	<div id="alert" class="alert">
+		<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+	</div>
+	
+	<div class="mt-5">
+	<span>공지사항</span>
+	|
+	<span>고객문의</span>
+	</div>
+	
+	</div>
+	
+	</aside> <!-- #all_mymenu end -->
+
 </div>
 
 <div class="main-category-menu mt-3">
 <a>대여</a>
 |
-<a>캠핑존공유</a>
+<a href="/share/list">캠핑존공유</a>
 |
 <a>중고장터</a>
 |
@@ -101,8 +280,6 @@ $(function () {
 </div>
 
 </header>
-
-
 
 <hr>
 
