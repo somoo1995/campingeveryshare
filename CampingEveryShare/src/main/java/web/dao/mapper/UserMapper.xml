@@ -12,4 +12,11 @@
 		AND user_pw = #{userPw}
 	</where>
 	</select>
+
+	<select id="selectNickById" resultType="string" parameterType="UserTb">
+		SELECT user_nick FROM usertb
+		<where>
+			AND user_id = #{userId}
+		</where>
+	</select>	
 </mapper>
