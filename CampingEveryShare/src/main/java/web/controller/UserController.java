@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
 import web.service.face.UserService;
@@ -25,43 +23,18 @@ public class UserController {
 		
 	@Autowired private UserService userService;
 		
-
-	@GetMapping("/idCheck/{userId}")
-	@ResponseBody
-	public boolean joinIdDuplicateCheck(@PathVariable String userId) {
-		return userService.joinIdCheck(userId);
+	@RequestMapping("/duplcheck")
+	public String joinDuplicateCheck(User user) {
+		return null;
 	}
-	
-	@GetMapping("/emailCheck/{email}")
-	@ResponseBody
-	public boolean joinEmailDuplicateCheck(@PathVariable String email) {
-		return userService.joinEmailCheck(email);
-	}
-	
-	@GetMapping("/nickCheck/{userNick}")
-	@ResponseBody
-	public boolean joinNickDuplicateCheck(@PathVariable String userNick) {
-		return userService.joinNickCheck(userNick);
-	}
-	
 	
 	@GetMapping("/join")
-	public void join() {}
-	
-	@PostMapping("/join")
-	public String joinProc(UserTb user ) {
-		logger.info("joinParam : {}",user);
-		//회원가입 처리
-		boolean joinResult = userService.join(user);
+	public void join() {
 		
-		if(joinResult) {
-			logger.info("회원가입 성공");
-			return "redirect:/";
-		} else {
-			logger.info("회원가입 실패");
-			return "redirect:./join";
-		}
-
+	}
+	@PostMapping("/join")
+	public String joinProc(User user) {
+		return "join";
 	}
 	
 	@GetMapping("/view")

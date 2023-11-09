@@ -14,7 +14,7 @@ public class BookingController {
 	
 	@GetMapping("/list")
 	public void bookinglist( Model model ) {
-		
+		logger.info("bookinglist");
 		
 	}
 }

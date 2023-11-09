@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
 	<tr>
 		<td>${boardtb.BOARD_NO }</td>
 		<td><a href="./view?boardNo=${boardtb.BOARD_NO }">${boardtb.TITLE }</a></td>
-		<td>${boardtb.USER_NICK }</td>
+		<td>${boardtb.USER_ID }</td>
 		<td>${boardtb.HIT }</td>
 		<td>${boardtb.recommend }</td>
 		<td>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
 </table>
 </form>
 
-<a href="/share/write?boardCate=${boardtb.BOARD_CATE }"><button>글쓰기</button></a>
+<a href="/share/write"><button>글쓰기</button></a>
 
 
 

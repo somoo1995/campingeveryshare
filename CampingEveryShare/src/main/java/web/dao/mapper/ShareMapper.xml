@@ -14,9 +14,7 @@
 			, hit 
 			, content
 			, delete_status
-			, board_cate
-			, (SELECT cate_name_en FROM board_category WHERE board_cate = 2) AS "cate_name_en" 
-			, (SELECT cate_name_ko FROM board_category WHERE board_cate = 2) AS "cate_name_ko" 
+			, board_cate 
 			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "recommend"
 			, boardtb.user_id
 			, user_nick
@@ -33,7 +31,7 @@
   		SELECT count(*) FROM boardtb
   	</select>
   
-  	<select id="selectBoardView" resultType="boardtb" parameterType="boardtb">
+  	<select id="selectBoardView" resultType="Map" parameterType="board">
 	SELECT
 	    board_no,
 	    title,
@@ -43,43 +41,17 @@
 	    content,
 	    delete_status,
 	    board_cate,
-	    user_id
+	    user_id,
+	    (SELECT user_nick FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_nick,
+	    (SELECT user_name FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_name
 	FROM boardtb
 	WHERE board_no = #{boardNo }
   	</select>
   	
-  	<select id="selectByUserNick" resultType="usertb" parameterType="usertb">
-  	SELECT user_nick
-  	FROM usertb
-  	WHERE user_id = #{userId }
-  	</select>
-  	
-  	<update id="hit" parameterType="boardtb">
+  	<update id="hit" parameterType="board">
   		UPDATE boardtb
   		SET hit = hit+1
   		WHERE board_no = #{boardNo}
   	</update>
-
-	<select id="selectGetFileByBoardNo" resultType="boardfiletb" parameterType="boardfiletb">
-		SELECT file_no, origin_name, stored_name, board_no, board_cate
-		FROM boardfiletb
-		WHERE board_no = #{boardNo}
-	</select>
-	
-  	<insert id="insertShareWrite" parameterType="boardtb">
-		<selectKey order="BEFORE"  resultType="int" keyProperty="boardNo">
-			SELECT board_seq.nextval FROM dual
-		</selectKey> 
-  		INSERT INTO boardtb (board_no, title,content, user_id, board_cate, location)
-  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
-  	</insert>
-
-	<insert id="insertShareFile" parameterType="boardfiletb">
-		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
-			SELECT file_seq.nextval FROM dual
-		</selectKey>
-		INSERT INTO boardfiletb ( file_no, origin_name, stored_name , board_no, board_cate)
-		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
-	</insert>  
   
   </mapper>

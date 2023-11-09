@@ -24,34 +24,29 @@ pageEncoding="UTF-8"%>
 	<col style="width: 15%">
 	<col style="width: 35%">
 </colgroup>
+	<c:forEach items="${list }" var="boardtb">
 	<tr>
-		<th class="table-info">글 번호</th><td >${board.boardNo }</td>
+		<th class="table-info">글 번호</th><td >${boardtb.BOARD_NO }</td>
 		<th class="table-info">작성일</th>
 		<td>
-		<fmt:formatDate value="${board.postDate}" pattern="MM.dd(E)" />
+		<fmt:formatDate value="${boardtb.POST_DATE}" pattern="MM.dd(E)" />
 		</td>
 	</tr>
 	<tr>
-		<th class="table-info">아이디</th><td>${board.userId }</td>
-		<th class="table-info">닉네임</th><td>${user.userNick }</td>
+		<th class="table-info">아이디</th><td>${boardtb.USER_ID }</td>
+		<th class="table-info">닉네임</th><td>${boardtb.USER_NICK }</td>
 	</tr>
 	<tr>
-		<th class="table-info">제목</th><td>${board.title }</td>
-		<th class="table-info">조회수</th><td>${board.hit }</td>
+		<th class="table-info">제목</th><td>${boardtb.TITLE }</td>
+		<th class="table-info">조회수</th><td>${boardtb.HIT }</td>
 	</tr>
 	<tr>
-		<th class="table-info">첨부파일</th>
-		<td colspan="3">
-		<c:forEach var="boardFile" items="${boardFile }">
-		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
-		${boardFile.originName }<br>
-		</a>
-		</c:forEach>		
-		</td>
+		<th class="table-info">첨부파일</th><td colspan="3">나중에 추가할래<%-- ${board.content } --%></td>
 	</tr>
 	<tr>
-		<th class="table-info">내용</th><td colspan="3">${board.content }</td>
+		<th class="table-info">내용</th><td colspan="3">${boardtb.CONTENT }</td>
 	</tr>
+	</c:forEach>
 </table>
 
 <div class="text-center">
