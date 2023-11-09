@@ -47,38 +47,43 @@ $(document).ready(function () {
     	
     });
     
+    
     	// div 외부 클릭 시 닫힘 처리
-//     $(document).on("click", function (event) {
-//         if (!$(event.target).closest("#alert, #menu").length) {
-// 	       	 $("#menu").css("left", "-362px")
-// 	    	 $("#alert").css("left", "-362px")
-// 	    	 $("#alert").attr("style", "visibility:hidden")
-//         }
-//     });
+    $(document).on("click", function (event) {
+        if (!$(event.target).closest("#alert, #menu, .menu-icon").length) {
+	       	 $("#menu").css("left", "-362px")
+	    	 $("#alert").css("left", "-362px")
+	    	 $("#alert").attr("style", "visibility:hidden")
+        }
+    });
 
 
 	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
 	    var currentSrc = $(".tglStatus").attr("src");
 	    
-	    if (currentSrc === "/resources/img/toggle-green-right.png") {
+	    if (currentSrc === "/resources/img/toggle-brown-right.png") {
 	    	
-	        $(".tglStatus").attr("src", "/resources/img/toggle-green-left.png");
+	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-left.png");
 	        $("#host").removeClass("userStatus")
 	        $("#guest").addClass("userStatus")
-	        $("#campStatus").html("내 캠핑카")
+	        $("#campStatus").html("내 예약").attr("camp-data", "/booking/list")
 	        
 	    } else {
-	        $(".tglStatus").attr("src", "/resources/img/toggle-green-right.png");
+	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-right.png");
 	        $("#guest").removeClass("userStatus")
 	        $("#host").addClass("userStatus")
-	        $("#campStatus").html("내 예약")
+	        $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/list")
 	    }
 	})
 
 });
 
 $(function() {
-	$("btnLogout").click(function() {
+	$("#campStatus").click(function() {
+		var campData = $("#campStatus").attr("camp-data")
+		console.log(campData)
+		
+		location.href = campData
 		
 	})
 })
@@ -123,6 +128,7 @@ $(function() {
 #pageTitle {
 	color: green;
 	font-weight: bold;
+	font-size: 40px;
 }
 
 .wrap-menu {
@@ -151,7 +157,7 @@ $(function() {
     width: 362px; 
     height: 5000px;
     background-color: #F6E2A2; 
-    color: #fff; 
+/*     color: #fff;  */
     transition: left 0.4s; 
     z-index: 1000;
 }
@@ -219,7 +225,7 @@ $(function() {
 			<span onclick="location.href='/user/join'">회원가입</span>
 		</c:when>
 		<c:when test="${not empty isLogin and isLogin }">
-			<span>내 정보</span>
+			<span onclick="location.href='/user/view'">내 정보</span>
 			|
 			<span onclick="location.href='/user/logout'">로그아웃</span>
 		</c:when>
@@ -236,26 +242,36 @@ $(function() {
 	<div class="mt-5"></div>
 	<div>
 		<span id="guest" class="userStatus">게스트</span>
-		<img alt="statusToggle" src="/resources/img/toggle-green-left.png" width="100px" height="90px" class="tglStatus">
+		<img alt="statusToggle" src="/resources/img/toggle-brown-left.png" width="100px" height="90px" class="tglStatus">
 		<span id="host" class="">호스트</span>
 	</div>
 	</c:if>
 	
 	<div class="mt-5">
-<!-- 	<a id="campStatus">내캠핑</a> -->
-	<span id="campStatus">내캠핑</span>
+	<c:choose>
+		<c:when test="${empty isLogin or not isLogin }">
+			<span id="campStatus" camp-data="/mypage/fail">내 캠핑</span>
+		</c:when>
+		<c:when test="${not empty isLogin and isLogin }">
+			<span id="campStatus" camp-data="/booking/list">내 예약</span>
+		</c:when>
+	</c:choose>
 	|
-<!-- 	<a href="/mypage/message">메시지</a> -->
-	<span onclick="location.href='/mypage/message'">메시지</span>
+	<span onclick="location.href='/msg/list'">메시지</span>
 	|
 	<span>찜</span>
 	|
+	<c:if test="${not empty isLogin and isLogin }">
 	<span class="alert-open">알림</span>
+		<div id="alert" class="alert">
+			<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+		</div>
+	</c:if>
+	<c:if test="${empty isLogin or not isLogin }">
+	<span class="alert-open" onclick="location.href='/mypage/fail'">알림</span>
+	</c:if>
 	</div>
 	
-	<div id="alert" class="alert">
-		<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
-	</div>
 	
 	<div class="mt-5">
 	<span>공지사항</span>

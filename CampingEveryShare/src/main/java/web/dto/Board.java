@@ -2,7 +2,7 @@ package web.dto;
 
 import java.util.Date;
 
-public class BoardTb {
+public class Board {
 
    private int boardNo;
    private String title;
@@ -14,9 +14,9 @@ public class BoardTb {
    private int userNo;
    private int boardCate;
    
-   public BoardTb() {}
+   public Board() {}
 
-   public BoardTb(int boardNo, String title, int location, Date postDate, int hit, String content, int deleteStatus,
+   public Board(int boardNo, String title, int location, Date postDate, int hit, String content, int deleteStatus,
          int userNo, int boardCate) {
       super();
       this.boardNo = boardNo;

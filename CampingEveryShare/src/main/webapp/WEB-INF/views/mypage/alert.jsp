@@ -34,6 +34,12 @@ pageEncoding="UTF-8"%>
 
 알림 내역
 
+<ul>
+	<li></li>
+
+
+</ul>
+
 </div>
 
 </aside> <!-- #all_mymenu end -->

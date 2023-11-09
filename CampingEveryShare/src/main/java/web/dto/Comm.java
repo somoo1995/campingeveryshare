@@ -2,7 +2,7 @@ package web.dto;
 
 import java.util.Date;
 
-public class CommentTb {
+public class Comm {
 
 	private int commentno;
 	private int boardno;
@@ -10,9 +10,9 @@ public class CommentTb {
 	private String content;
 	private Date writeDate;
 	
-	public CommentTb() {}
+	public Comm() {}
 
-	public CommentTb(int commentno, int boardno, String userid, String content, Date writeDate) {
+	public Comm(int commentno, int boardno, String userid, String content, Date writeDate) {
 		super();
 		this.commentno = commentno;
 		this.boardno = boardno;

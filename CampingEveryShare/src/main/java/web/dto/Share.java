@@ -1,18 +1,18 @@
 package web.dto;
 
-public class ShareTb {
+public class Share {
 
 	private int zoneNo;
 	private int paid;
 	private int boardNo;
-	public ShareTb(int zoneNo, int paid, int boardNo) {
+	public Share(int zoneNo, int paid, int boardNo) {
 		super();
 		this.zoneNo = zoneNo;
 		this.paid = paid;
 		this.boardNo = boardNo;
 	}
 	
-	public ShareTb() {}
+	public Share() {}
 
 	@Override
 	public String toString() {
