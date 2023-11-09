@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.GroupDao;
-import web.dto.BoardTb;
-import web.dto.GroupTb;
-import web.dto.UserTb;
+import web.dto.Board;
+import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
 
@@ -40,9 +39,9 @@ public class GroupServiceImpl implements GroupService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		 // 1. 게시글 목록 조회
-	    List<BoardTb> boardList = groupDao.selectBoardList(paging);
+	    List<Board> boardList = groupDao.selectBoardList(paging);
 	    
-	    List<UserTb> userNickList = groupDao.selectUserNick(paging);
+	    List<User> userNickList = groupDao.selectUserNick(paging);
 	    
 
 	    // 2. 페이징 정보 계산
@@ -62,9 +61,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 
-	
 	@Override
-	public BoardTb view(BoardTb board) {
+	public Board view(Board board) {
 		
 		//조회수 증가
 		groupDao.updateHit(board);

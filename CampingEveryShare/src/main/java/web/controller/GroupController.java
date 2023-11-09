@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import web.dao.face.GroupDao;
-import web.dto.BoardTb;
-import web.dto.UserTb;
+import web.dto.Board;
+import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
 
@@ -52,7 +52,7 @@ public class GroupController {
 		}
 
 	@GetMapping("/view")
-    public String groupView(BoardTb board, UserTb user, Model model, HttpSession httpSession) {
+    public String groupView(Board board, User user, Model model, HttpSession httpSession) {
 		
 		if( board.getBoardNo() < 1 ) {
 			return "redirect:./list";
