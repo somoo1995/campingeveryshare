@@ -3,7 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.BoardTb;
+import web.dto.Board;
 import web.util.Paging;
 
 public interface ShareDao {
@@ -29,13 +29,13 @@ public interface ShareDao {
 	 * @param board - 클릭한 게시글의 상세조회
 	 * @return - 상세조회된 게시글
 	 */
-	public List<Map<String,Object>> selectBoardView(BoardTb board);
+	public List<Map<String,Object>> selectBoardView(Board board);
 	
 	/**
 	 * 글 상세조회시 조회수 증가
 	 * 
 	 * @param board - 게시글 클릭하면 조회수 증가
 	 */
-	public void hit(BoardTb board);
+	public void hit(Board board);
 
 }
