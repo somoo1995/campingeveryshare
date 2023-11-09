@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.ShareDao;
-import web.dto.BoardTb;
+import web.dto.Board;
 import web.service.face.ShareService;
 import web.util.Paging;
 
@@ -31,7 +31,7 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
-	public List<Map<String,Object>> shareView(BoardTb board) {
+	public List<Map<String,Object>> shareView(Board board) {
 
 		List<Map<String,Object>> boardtb = shareDao.selectBoardView(board);
 		shareDao.hit(board);

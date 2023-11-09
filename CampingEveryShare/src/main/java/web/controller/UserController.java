@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import web.dto.UserTb;
+import web.dto.User;
 import web.service.face.UserService;
 
 @Controller
@@ -24,7 +24,7 @@ public class UserController {
 	@Autowired private UserService userService;
 		
 	@RequestMapping("/duplcheck")
-	public String joinDuplicateCheck(UserTb user) {
+	public String joinDuplicateCheck(User user) {
 		return null;
 	}
 	
@@ -33,27 +33,27 @@ public class UserController {
 		
 	}
 	@PostMapping("/join")
-	public String joinProc(UserTb user) {
+	public String joinProc(User user) {
 		return "join";
 	}
 	
 	@GetMapping("/view")
-	public void userView(UserTb user, Model model) {
+	public void userView(User user, Model model) {
 		
 	}
 	
 	@GetMapping("/delete")
-	public String userDelete(UserTb user) {
+	public String userDelete(User user) {
 		return null;
 	}
 	
 	@RequestMapping("/loginduple")
-	public void loginDuplicateCheck(UserTb user) {
+	public void loginDuplicateCheck(User user) {
 		
 	}
 	
 	@GetMapping("/update")
-	public String userUpdate(UserTb user) {
+	public String userUpdate(User user) {
 		return null;
 	}
 	@GetMapping("/login")
@@ -62,7 +62,7 @@ public class UserController {
 		logger.info("login[GET]");
 	}
 	@PostMapping("/login")
-	public String loginProc(UserTb user, HttpSession session ) {
+	public String loginProc(User user, HttpSession session ) {
 		logger.info("loginParam : {}", user);
 		
 		//로그인 인증
@@ -98,7 +98,7 @@ public class UserController {
 	public void idFind() {
 	}
 	@PostMapping("/idfind")
-	public String idFind(UserTb user) {
+	public String idFind(User user) {
 		return null;
 	}
 	@GetMapping("/pwfind")
@@ -106,7 +106,7 @@ public class UserController {
 		
 	}
 	@PostMapping("/pwfind")
-	public String pwFind(UserTb user) {
+	public String pwFind(User user) {
 		return null;
 	}
 	

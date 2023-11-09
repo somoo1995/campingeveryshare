@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.UserDao;
-import web.dto.UserTb;
+import web.dto.User;
 import web.service.face.UserService;
 
 @Service
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
 	@Override
-	public boolean login(UserTb user) {
+	public boolean login(User user) {
 		 int loginChk = userDao.selectCntUser(user);
 	        return loginChk > 0;
 	}

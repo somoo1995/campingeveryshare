@@ -5,7 +5,7 @@
 
 
 <mapper namespace="web.dao.face.UserDao">
-	<select id="selectCntUser" resultType="int" parameterType="UserTb">
+	<select id="selectCntUser" resultType="int" parameterType="User">
 	SELECT count(*) FROM userTb
 	<where>
 		AND user_id = #{userId}
