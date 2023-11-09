@@ -25,17 +25,14 @@ $(function() {
 	<div class="row g-3 align-items-center">
 	  <div class="col-auto">
 	    <label for="userId" class="col-form-label"></label>
-	  </div>
-	  <div class="inputPassword6">
-	    <input type="text" id="inputPassword6" name="userId" class="form-control" placeholder="아이디를 입력해주세요.">
+	    <input type="text" id="id" name="userId" class="form-control" placeholder="아이디를 입력해주세요.">
 	  </div>
 	</div>
+	
 	<div class="row g-3 align-items-center">
 	  <div class="col-auto">
 	    <label for="userPw" class="col-form-label"></label>
-	  </div>
-	  <div class="inputPassword6">
-	    <input type="password" id="inputPassword6" name="userPw" class="form-control" aria-describedby="passwordHelpInline" placeholder="비밀번호를 입력해주세요.">
+	    <input type="password" id="pw" name="userPw" class="form-control" aria-describedby="passwordHelpInline" placeholder="비밀번호를 입력해주세요.">
 	  </div>
 	</div>
 	

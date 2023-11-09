@@ -6,10 +6,51 @@
 
 <mapper namespace="web.dao.face.UserDao">
 	<select id="selectCntUser" resultType="int" parameterType="User">
-	SELECT count(*) FROM userTb
-	<where>
-		AND user_id = #{userId}
-		AND user_pw = #{userPw}
-	</where>
-	</select>
+        SELECT count(*)
+        FROM userTb
+        <where>
+            <if test="userId != null"> AND user_id = #{userId} </if>
+            <if test="userPw != null"> AND user_pw = #{userPw} </if>
+        </where>
+    </select>
+
+    <select id="findId" resultType="User" parameterType="User">
+        SELECT *
+        FROM userTb
+        <where>
+            <if test="email != null"> AND email = #{email} </if>
+            <if test="userName != null"> AND user_name = #{userName} </if>
+        </where>
+    </select>
+
+    <select id="selectCntUserId" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM userTb
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectCntEmail" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM userTb
+        WHERE email = #{email}
+    </select>
+
+    <select id="selectCntUserNick" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM userTb
+        WHERE user_nick = #{userNick}
+    </select>
+
+    <insert id="insert" parameterType="User">
+        INSERT INTO userTb (user_id, user_pw, email, user_name, user_nick, birth, address, address_detail, phone, profile, join_date, user_status)
+        VALUES (#{userId}, #{userPw}, #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, #{profile}, #{joinDate}, #{userStatus})
+    </insert>
+
+    <select id="selectInfo" resultType="User" parameterType="User">
+        SELECT *
+        FROM userTb
+        WHERE user_id = #{userId}
+        AND user_pw = #{userPw}
+    </select>
 </mapper>
+
