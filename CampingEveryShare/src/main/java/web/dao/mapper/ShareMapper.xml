@@ -31,7 +31,7 @@
   		SELECT count(*) FROM boardtb
   	</select>
   
-  	<select id="selectBoardView" resultType="Map" parameterType="boardtb">
+  	<select id="selectBoardView" resultType="Map" parameterType="board">
 	SELECT
 	    board_no,
 	    title,
@@ -48,7 +48,7 @@
 	WHERE board_no = #{boardNo }
   	</select>
   	
-  	<update id="hit" parameterType="boardtb">
+  	<update id="hit" parameterType="board">
   		UPDATE boardtb
   		SET hit = hit+1
   		WHERE board_no = #{boardNo}

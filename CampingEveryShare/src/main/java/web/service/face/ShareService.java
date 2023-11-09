@@ -3,7 +3,7 @@ package web.service.face;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.BoardTb;
+import web.dto.Board;
 import web.util.Paging;
 
 public interface ShareService {
@@ -30,6 +30,6 @@ public interface ShareService {
 	 * @param board - 클릭한 게시글의 boardNo
 	 * @return - DB에서 가져온 게시글 정보
 	 */
-	public List<Map<String,Object>> shareView(BoardTb board);
+	public List<Map<String,Object>> shareView(Board board);
 
 }
