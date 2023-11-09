@@ -1,6 +1,6 @@
 package web.dao.face;
 
-import web.dto.UserTb;
+import web.dto.User;
 
 public interface UserDao {
 
@@ -10,7 +10,7 @@ public interface UserDao {
 	 * @param user
 	 * @return
 	 */
-	public int selectCntUser(UserTb user);
+	public int selectCntUser(User user);
 
 	/**
 	 * 입력된 정보로 id찾기

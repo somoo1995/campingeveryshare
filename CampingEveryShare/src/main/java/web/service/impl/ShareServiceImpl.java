@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.ShareDao;
 import web.dto.Board;
+
 import web.dto.BoardFile;
 import web.dto.User;
+
 import web.service.face.ShareService;
 import web.util.Paging;
 
@@ -40,6 +42,7 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
+
 	public Board shareView(Board board) {
 
 		Board boardtb = shareDao.selectBoardView(board);

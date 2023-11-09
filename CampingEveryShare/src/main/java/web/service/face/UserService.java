@@ -1,6 +1,6 @@
 package web.service.face;
 
-import web.dto.UserTb;
+import web.dto.User;
 
 public interface UserService {
 
@@ -10,7 +10,7 @@ public interface UserService {
 	 * @param user 입력한 id/pw 정보
 	 * @return 로그인 인증 결과
 	 */
-	public boolean login(UserTb user);
+	public boolean login(User user);
 
 	/**
 	 * 아이디 찾기
