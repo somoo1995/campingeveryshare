@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import web.dto.BoardTb;
+import web.dto.Board;
 import web.service.face.ShareService;
 import web.util.Paging;
 
@@ -44,12 +44,13 @@ public class ShareController {
 	}
 	
 	@GetMapping("view")
-	public String shareView(BoardTb board, Model model, HttpSession session) {
+	public String shareView(Board board, Model model, HttpSession session) {
 	
 		List<Map<String,Object>> list = shareService.shareView(board);
 		
 		model.addAttribute("list", list);
 		logger.info("list {} : " + list.toString());
+		//ji
 		logger.info("session {} : " + session.toString());
 		return "/share/view";
 	}
