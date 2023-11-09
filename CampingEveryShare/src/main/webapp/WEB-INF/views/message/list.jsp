@@ -19,10 +19,8 @@ pageEncoding="UTF-8"%>
   min-height: 800px; /* 내용에 따라 늘어나도록 최소 높이 설정 */		 	
 }
 .msglist {
-
-  display: flex; /* flex 컨테이너 설정 */
+  display: flex;
   flex-direction: column; /* 자식 요소들을 세로로 정렬 */
-  justify-content: space-between; /* 시작점과 끝점 사이의 여백을 균등하게 분배 */
   border: 1px solid;
   width: 400px;
   flex-shrink: 0;
@@ -77,8 +75,11 @@ flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
 
-  border-bottom: 1px solid #ccc; /* 하단 테두리 추가 */
+.msgObjects {
+  /* msgFilter 바로 아래에 위치해야 하므로 여기에 새로운 스타일을 추가할 수 있습니다. */
 }
 </style>
 <!-- 작성 공간 -->
@@ -92,7 +93,6 @@ flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
 <div class="msglist">
   <div class="msgFilter">
     <!-- 필터 메뉴 -->
-
     <select name="filter" style=" padding: 10px; margin-right: 10px;">
       <option value="all">전체</option>
       <option value="rent">대여</option>
@@ -101,7 +101,6 @@ flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
     </select>
     
     <!-- 검색창 -->
-
     <form method="post" style="display: flex; align-items: center;"> <!-- action 속성 추가 예정 -->
   <input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;">
   <!-- 이미지 버튼 -->
@@ -122,10 +121,7 @@ flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
       </div>
       <div style="margin-left: 10px; color: #aaa;">10:56 AM</div>
     </div>
-  </div>
-    <input type="text" placeholder="검색" style="float: right; padding: 10px; margin-left: 10px; border-radius: 5px; border: 1px solid #ccc;">
-  </div>
-  <!-- 나머지 msglist 내용 -->
+    </div>
 </div>
 <div class="msgcontent">
  <div class="msgRecevierContent">
