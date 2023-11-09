@@ -1,6 +1,6 @@
 package web.dto;
 
-public class BoardFileTb {
+public class BoardFile {
 
 	private int fileNo;
 	private String originName;
@@ -8,11 +8,11 @@ public class BoardFileTb {
 	private int boardNo;
 	private int boardCate;
 	
-	public BoardFileTb() {
+	public BoardFile() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoardFileTb(int fileNo, String originName, String storedName, int boardNo, int boardCate) {
+	public BoardFile(int fileNo, String originName, String storedName, int boardNo, int boardCate) {
 		super();
 		this.fileNo = fileNo;
 		this.originName = originName;
