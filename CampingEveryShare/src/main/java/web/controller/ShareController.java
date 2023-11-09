@@ -11,9 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
-import web.dto.BoardTb;
+import web.dto.Board;
+import web.dto.BoardFile;
+import web.dto.Recom;
+import web.dto.User;
 import web.service.face.ShareService;
 import web.util.Paging;
 
@@ -27,36 +32,82 @@ public class ShareController {
 	@Autowired ShareService shareService;
 	
 	@GetMapping("list")
-	public void shareList(Paging param, Model model) {
+	public void shareList(Paging param, Model model, Board board) {
 		
-		//페이징 계산
+		
 		Paging paging = shareService.getPaging( param );
 		logger.info("paging : {}", paging);
+
+		logger.info("board : {}" + board.toString());
 		
-		//게시글 목록 조회
 		List<Map<String,Object>> list = shareService.list(paging);
 		logger.info("list : {}", list);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
+		model.addAttribute("board", board);
 		
 		logger.info("model {} :" + model.toString());
 	}
 	
 	@GetMapping("view")
-	public String shareView(BoardTb board, Model model, HttpSession session) {
+	public String shareView(Board board, BoardFile file, User user, Model model, HttpSession session) {
 	
-		List<Map<String,Object>> list = shareService.shareView(board);
+		board = shareService.shareView(board);
+		user.setUserId(board.getUserId());
+		user = shareService.getNick(user);
 		
-		model.addAttribute("list", list);
-		logger.info("list {} : " + list.toString());
-		logger.info("session {} : " + session.toString());
+		List<BoardFile> boardFile = shareService.fileView(board);
+		model.addAttribute("boardFile", boardFile);
+		logger.info("boarFile : {}", boardFile);
+		
+		Recom recom = new Recom();
+		
+		logger.info("user : {} " + user.toString());
+		logger.info("board : {} " + board.toString());
+		
+		model.addAttribute("board", board);
+		model.addAttribute("user", user);
 		return "/share/view";
 	}
 	
 	
 	@GetMapping("/write")
 	public void write() {
+	}
+	
+	@PostMapping("/write")
+	public String shareWrite(User user, Board board, List<MultipartFile> file, HttpSession session) {
+		user.setUserId((String) session.getAttribute("userId"));
+		user.setUserNick((String) session.getAttribute("userNick"));
+		
+		
+		shareService.shareWrite(board, file);
+		
+		return "redirect:./view?boardNo=" + board.getBoardNo();
+	}
+	
+	@GetMapping("/update")
+	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
+		
+		if(board.getBoardNo() < 1 ) {
+			return "redirect:./view";
+			
+		}
+		
+		//상세보기 페이지 아님 표시
+		board.setHit(-1);
+		
+		
+		//상세보기 게시글 조회
+		board = shareService.view(board);
+		model.addAttribute("board", board);
+
+		//첨부파일 정보 전달
+		List<BoardFile> boardfile = shareService.getAttachFile( board );
+		model.addAttribute("boardfile", boardfile);
+		
+		return "share/update";
 		
 	}
 	
