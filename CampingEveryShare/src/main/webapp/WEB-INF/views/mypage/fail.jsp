@@ -8,18 +8,21 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-<div class="pageTitle">
-<h3 id="pageTitle">이용 안내</h3>
-<hr>
-</div>
-
-<h3 style="color: red;">로그인 후 이용이 가능합니다</h2>
-
-<!-- <div class="text-center"> -->
-	<a href="/member/login" class="btn btn-info">로그인</a>
-	|
-	<a href="/member/join" class="btn btn-primary">회원가입</a>
+<!-- <div id="pageTitle"> -->
+<!-- <h3>이용 안내</h3> -->
+<!-- <hr> -->
 <!-- </div> -->
+
+<div class="text-center mt-5">
+<h4>로그인이 필요한 서비스입니다</h4>
+
+	<div class="mt-5 mb-5">
+	<a href="/user/login" class="btn btn-outline-success">로그인</a>
+	|
+	<a href="/user/join" class="btn btn-outline-success">회원가입</a>
+	</div>
+	
+</div>
 
 </div><!-- .container -->
 
