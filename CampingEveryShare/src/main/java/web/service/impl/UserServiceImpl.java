@@ -1,5 +1,8 @@
 package web.service.impl;
 
+import java.lang.reflect.Member;
+
+import org.aspectj.apache.bcel.generic.ReturnaddressType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +17,56 @@ public class UserServiceImpl implements UserService {
     // 로그 객체 생성
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private UserDao userDao;
+    @Autowired private UserDao userDao;
 
 	@Override
 	public boolean login(UserTb user) {
 		 int loginChk = userDao.selectCntUser(user);
 	        return loginChk > 0;
 	}
+
+	@Override
+	public UserTb findId(UserTb user) {
+		return userDao.findId(user);
+	}
+
+	@Override
+	public boolean joinIdCheck(String userId) {
+		int idCheck = userDao.selectCntUserId(userId);
+		return idCheck <= 0;
+	}
+
+	@Override
+	public boolean joinEmailCheck(String email) {
+		return userDao.selectCntEmail(email) == 0;
+	}
+
+	@Override
+	public boolean joinNickCheck(String userNick) {
+		int nickCheck = userDao.selectCntUserNick(userNick);
+		return nickCheck <= 0;
+	}
+
+	@Override
+	public boolean join(UserTb user) {
+		
+		String userId = user.getUserId();
+		
+		//중복 ID인지 확인
+		if (userDao.selectCntUserId(userId) >0 ) {
+			return false;
+		}
+		//회원 정보 삽입
+		userDao.insert(user);
+		
+		//가입 결과 확인
+		if(userDao.selectCntUserId(userId) > 0 ) {
+			
+			return true;
+		}
+		return false;
+	}
+	
 
 	
 
