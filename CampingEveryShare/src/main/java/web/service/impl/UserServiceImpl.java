@@ -23,6 +23,51 @@ public class UserServiceImpl implements UserService {
 	        return loginChk > 0;
 	}
 
-	
+	@Override
+	public User findId(User user) {
+		return userDao.findId(user);
+	}
+
+	@Override
+	public boolean joinIdCheck(String userId) {
+		int idCheck = userDao.selectCntUserId(userId);
+		return idCheck <= 0;
+	}
+
+	@Override
+	public boolean joinEmailCheck(String email) {
+		return userDao.selectCntEmail(email) == 0;
+	}
+
+	@Override
+	public boolean joinNickCheck(String userNick) {
+		int nickCheck = userDao.selectCntUserNick(userNick);
+		return nickCheck <= 0;
+	}
+
+	@Override
+	public boolean join(User user) {
+
+		String userId = user.getUserId();
+
+		//중복 ID인지 확인
+		if (userDao.selectCntUserId(userId) >0 ) {
+			return false;
+		}
+		//회원 정보 삽입
+		userDao.insert(user);
+
+		//가입 결과 확인
+		if(userDao.selectCntUserId(userId) > 0 ) {
+
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public User info(User user) {
+		return userDao.selectInfo(user);
+	}
 
 }
