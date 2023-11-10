@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import web.dto.Msg;
 
 @Controller
-@Slf4j
 public class ChatController {
 //	@MessageMapping("/chat.sendMessage")
 //	
@@ -26,25 +26,21 @@ public class ChatController {
 //	}
 	@MessageMapping("/chat/{msgNo}/sendMessage")
 	@SendTo("/topic/{msgNo}/public")
-	public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
+	public Msg sendMessage(@DestinationVariable String msgNo, @Payload Msg msg) {
 	    // 서비스 임플 부분 << db에 date를 insert 해주는 구문
 		//
 		//-------------------------------------------------
-		return chatMessage;
+		return msg;
 	}
 	
 	
 	
-	@MessageMapping("/chat.addUser")
-	@SendTo("/topic/public")
-	public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+	@MessageMapping("/chat{msgNo}/addUser")
+	@SendTo("/topic/{msgNo}/public")
+	public Msg addUser(@DestinationVariable String msgNo,@Payload Msg msg, SimpMessageHeaderAccessor headerAccessor) {
 	    // Add username in web socket session
-	    headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-	    return chatMessage;
+	    headerAccessor.getSessionAttributes().put("username", msg.getWriterId());
+	    return msg;
 	}
 	
-	@GetMapping("/layout/header")
-	public void dd() {
-		
-	}
 }
