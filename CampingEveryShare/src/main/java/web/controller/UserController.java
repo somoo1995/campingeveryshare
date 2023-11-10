@@ -114,23 +114,23 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String loginProc(User user, HttpSession session ) {
-		logger.info("loginParam : {}", user);
+	public String loginProc(User login, HttpSession session ) {
+		logger.info("loginParam : {}", login);
 		logger.info("login[POST]");
 		
 		//로그인 인증
-		boolean isLogin = userService.login( user );
-		User userInfo = userService.info(user);
+		boolean isLogin = userService.login( login );
+		User loginInfo = userService.info(login);
 		
 		//[세션] 로그인 인증 결과
 		
 		if( isLogin ) {
 			logger.info("로그인 성공");
 			session.setAttribute("isLogin", isLogin);
-			session.setAttribute("userId", userInfo.getUserId());
-			session.setAttribute("userNick", userInfo.getUserNick());
-	        logger.info("session : " + session.getAttribute("userId"));
-	        logger.info("session : " + session.getAttribute("userNick"));
+			session.setAttribute("loginId", loginInfo.getUserId());
+			session.setAttribute("loginNick", loginInfo.getUserNick());
+	        logger.info("session : " + session.getAttribute("loginId"));
+	        logger.info("session : " + session.getAttribute("loginNick"));
 
 			return "redirect:/";
 		

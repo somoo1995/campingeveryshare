@@ -54,7 +54,7 @@ public interface UserDao {
 
 	
 
-	public User selectInfo(User user);	
+	public User selectInfo(User login);	
 	
 
 }

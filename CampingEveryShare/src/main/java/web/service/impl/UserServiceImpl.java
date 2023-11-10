@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User info(User user) {
-	    return userDao.selectInfo(user);
+	public User info(User login) {
+	    return userDao.selectInfo(login);
 	}
 
 
