@@ -82,11 +82,15 @@ a:hover {
   -webkit-appearance: none; 
 }
 
+.container {
+	width: 1200px;
+}
+
 </style>
 
 
 
-<div class="container">
+<div class="container" >
 <h1 style="color:#2ECC71">모집게시판</h1>
 <h6 style="color: #A4A4A4">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6>
 
@@ -100,9 +104,9 @@ a:hover {
 </div>
 <hr>
 
-<button class="btn" style="margin-bottom: 10px;">글쓰기</button>
-<hr>
+<a href="./write"><button class="btn" style="margin-bottom: 10px;">글쓰기</button></a>
 
+<hr>
 <table>
 	<thead>
 	<tr>
@@ -125,21 +129,17 @@ a:hover {
 </colgroup>	
 
 	<tbody>
-    <c:forEach var="board" items="${list}">
+    <c:forEach var="board" items="${board}">
         <tr>
-            <td>${board.boardNo}</td>
-            <td><a href="./view?boardNo=${board.boardNo}">${board.title}</a></td>
-            <td>
-                <!-- 닉네임을 찾아서 출력 -->
-                <c:forEach var="user" items="${userNickList}">
-                <c:if test="">
-                  ${user.userNick}
-                  </c:if>
-                </c:forEach>
+            <td>${board.BOARD_NO}</td>
+            <td><a href="./view?boardNo=${board.BOARD_NO}">${board.TITLE}</a></td>
+            <td>${board.USER_NICK }
             </td>
-            <td><fmt:formatDate value="${board.postDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-            <td>${board.hit}</td>
-            <td>댓글수</td>
+            <td><fmt:parseDate value="${board.POST_DATE}" var="date" pattern="yyyy-MM-dd HH:mm"/>
+            <fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm"/>
+            </td>
+            <td>${board.HIT}</td>
+            <td>댓글test</td>
         </tr>
     </c:forEach>
 	</tbody>

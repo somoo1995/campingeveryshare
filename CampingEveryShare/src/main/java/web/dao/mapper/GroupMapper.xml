@@ -8,10 +8,8 @@
 	<!-- 사용하는 테이블 정리 -->
 	
 	<sql id="selectBoard">
-		SELECT 
-		board_no, title, location
-		, post_date, hit, content
-		, delete_status, user_id, board_cate, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)
+		SELECT
+		board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)
 		FROM boardtb
 		WHERE board_cate = 4
 	</sql>
@@ -80,30 +78,27 @@
 	</update>
 	
 	<select id="selectByBoardNo" resultType="BoardTb" parameterType="BoardTb">
-		<include refid="selectBoard" />
-		<where>
-			AND board_no = #{boardNo}
-		</where>
+		SELECT   board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)   
+		FROM boardtb   
+		WHERE board_cate = 4 AND board_no = #{boardNo}
 	</select>
-	
-<!-- 	 rnum에 해당하는 유저 닉네임 가져오기 -->
-	<select id="selectUserNick" resultType="UserTb" parameterType="web.util.Paging" >
-		SELECT * FROM (
-		  SELECT 
-		    ROWNUM AS rnum,
-		    user_nick
-		  FROM (
-		    SELECT 
-		      (SELECT user_nick FROM userTB WHERE user_id = boardTB.user_id) AS user_nick
-		    FROM 
-		      boardTB
-		    WHERE 
-		      board_cate = 4
-		    ORDER BY 
-		      board_no DESC
-		  )
-		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
-    </select>
+
+	<!-- 닉네임 안 가져와지는데 몰라!! -->
+	<select id="selectUserNick" resultType="Map" parameterType="web.util.Paging">
+	    SELECT * FROM (
+	        SELECT 
+	            ROWNUM AS rnum,
+	            user_nick
+	        FROM (
+	            SELECT 
+	                board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, 
+	                (SELECT user_nick FROM userTB WHERE user_id = boardtb.user_id) AS user_nick
+	            FROM boardTB
+	            WHERE board_cate = 4
+	            ORDER BY board_no DESC
+	        )
+	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
 
 
 

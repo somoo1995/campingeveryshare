@@ -36,49 +36,48 @@ public class GroupController {
 		//페이징 계산
 		Paging paging = groupService.getPaging( param );
 		logger.info("{}", paging);
-		
-		//게시글 목록 조회
 		logger.info("{}",paging.getStartNo());
-		logger.info("====================");
-		
-		Map<String,Object> map = groupService.list( paging );
-		
+		logger.info("===================");
 		model.addAttribute("paging", paging);
 		
-		model.addAttribute("list", map.get("list"));
-		
-		model.addAttribute("userNickList", map.get("usernickList"));
-		
-		}
+		//게시글 목록 가져오기
+		List<Map<String,Object>> map = groupService.list( paging );
+		logger.info(map.toString());
+		model.addAttribute("board", map);
 
+		logger.info("=====/group/list [FINISH]=====");
+
+		//------------------------------------------------------------------
+
+		}
+	
 	@GetMapping("/view")
-    public String groupView(Board board, User user, Model model, HttpSession httpSession) {
+    public String groupView( Board board, Model model, HttpSession httpSession ) {
 		
+		logger.info("=====/group/view [START]=====");
+		
+	
 		if( board.getBoardNo() < 1 ) {
 			return "redirect:./list";
 		}
 		
-		//1-1. 상세보기 게시글 조회
-		board = groupService.view(board);
+		//2-1. 상세보기 게시글 조회, 모델값 전달
+		groupService.viewHit( board );
 		
-		//1-2. 게시판 모델값 전달
-		model.addAttribute("board", board);
-
-		//2-1. 유저 정보 가져오기
-		user.setUserId(board.getUserId());
-//	    user = groupService.getNick(user);
+		//2-2. 맵을 사용해서 유저 정보 가져오기
+		Map<String,Object> map = groupService.view( board );
+		model.addAttribute("writerView", map);
 		
-		//2-2. 유저 모델값 전달
-		 model.addAttribute("user", user);
-	
+        logger.info("=====/group/view [FINISH]=====");
+        
         return "group/view"; 
+       
     }
 	
-	
-	
-	
-
-//	public void boardWrite(){}
+	@GetMapping("/write")
+	public void boardWrite(){
+		
+	}
 //	public String boardWriteProc(Board, BoardFile, MultipartFile, HttpSession){}
 //
 //	public void boardUpdate(Model, Board, BoardFile){}

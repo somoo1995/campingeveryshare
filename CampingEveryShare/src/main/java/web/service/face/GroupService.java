@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Board;
+import web.dto.User;
 import web.util.Paging;
 
 public interface GroupService {
@@ -15,22 +16,26 @@ public interface GroupService {
 	 */
 	public Paging getPaging(Paging param);
 
-	public Map<String, Object> list(Paging paging);
-	
 	/**
-	 * 여기부터 게시글 상세 조회
-	 * @param board
+	 * 
+	 * @param paging
 	 * @return
 	 */
-	public Board view(Board board);
+	public List<Map<String, Object>> list(Paging paging);
 
 	/**
-	 * 유저 닉네임 가져오기
-	 * @param user
+	 * 게시글 조회수
+	 * @param viewBoard
 	 * @return
 	 */
+	public int viewHit(Board board);
 
-
+	/**
+	 * 게시글 상세 조회
+	 * @param board 
+	 * @return
+	 */
+	public Map<String, Object> view(Board board);
 
 
 

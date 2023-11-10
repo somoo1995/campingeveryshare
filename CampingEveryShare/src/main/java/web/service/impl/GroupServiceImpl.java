@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import web.dao.face.GroupDao;
 import web.dto.Board;
+import web.dto.Group;
 import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
@@ -34,41 +35,42 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Map<String, Object> list(Paging paging) {
+	public List<Map<String, Object>> list(Paging paging) {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
 		
 		 // 1. 게시글 목록 조회
-	    List<Board> boardList = groupDao.selectBoardList(paging);
-	    
-	    List<User> userNickList = groupDao.selectUserNick(paging);
-	    
-
+		mapList = groupDao.selectBoardList(paging);
+	      
 	    // 2. 페이징 정보 계산
 	    Paging calculatedPaging = getPaging(paging);
 
-	    // 3. "list" 키에 게시글 목록 추가
-	    map.put("list", boardList);
-
-	    // "paging" 키에 페이징 정보 추가
-	    map.put("paging", calculatedPaging);
-	    
-	    map.put("usernickList", userNickList);
-
-//	    map.put("userNick", userNick);
-			
-		return map;
+		return mapList;
 	}
-
 
 	@Override
-	public Board view(Board board) {
-		
-		//조회수 증가
-		groupDao.updateHit(board);
-	
-		return groupDao.selectByBoardNo(board);
+	public int viewHit(Board board) {
+		return groupDao.updateHit(board);
 	}
+
+	@Override
+	public Map<String, Object> view(Board board) {
+		
+		Map<String, Object> mapView = new HashMap<>();
+		
+		 // 1. 게시글 목록 조회
+		mapView = groupDao.selectBoardView(board);
+		
+		return mapView;
+	      
+	}	
+
+
+	
+
+
+
+
 
 
 
