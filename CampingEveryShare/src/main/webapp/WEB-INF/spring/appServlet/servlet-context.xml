@@ -55,7 +55,7 @@
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>   
    
    <!-- 스프링 컴포넌트 탐색 패키지 -->
-   <context:component-scan base-package="**.controller, **.service, web.aop" />
+   <context:component-scan base-package="**.controller, **.service, web.aop,web.util" />
 
    <!-- 파일업로드(multipart/form-data)를 처리하는 스프링 빈 -->   
    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
