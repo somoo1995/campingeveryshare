@@ -73,7 +73,7 @@ public class GroupController {
         return "group/view"; 
        
     }
-	
+	//테스트
 	@GetMapping("/write")
 	public void boardWrite(){
 		
