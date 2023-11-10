@@ -1,4 +1,5 @@
 <%@page import="java.util.Date"%>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,7 +13,6 @@ pageEncoding="UTF-8"%>
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3 id=pageTitle>캠핑존 공유 게시판</h3>
-
 <form action="web.dao.face.ShareDao" method="get" >
 
 <table class="table table-striped table-hover table-sm" >
@@ -36,29 +36,23 @@ pageEncoding="UTF-8"%>
 	</tr>
 </thead>
 <tbody>
-<c:forEach var="boardtb" items="${list }">
+<c:forEach var="board" items="${list }">
 	<tr> 
-		<td>${boardtb.BOARD_NO }</td>
-		<td><a href="./view?boardNo=${boardtb.BOARD_NO }">${boardtb.TITLE }</a></td>
-		<td>${boardtb.USER_NICK }</td>
-		<td>${boardtb.HIT }</td>
-		<td>${boardtb.recommend }</td>
+		<td>${board.BOARD_NO }</td>
+		<td><a href="./view?boardNo=${board.BOARD_NO }">${board.TITLE }</a></td>
+		<td>${board.USER_NICK }</td>
+		<td>${board.HIT }</td>
+		<td>${board.RECOM }</td>
 		<td>
-<%--         <c:choose> --%>
-<%--             <c:when test="${boardtb.POST_DATE.TIME > (now - oneDay)}"> --%>
-<%--                 <fmt:formatDate value="${boardtb.POST_DATE}" pattern="yyyy-MM-dd HH:mm" /> --%>
-<%--             </c:when> --%>
-<%--             <c:otherwise> --%>
-<%--                 <fmt:formatDate value="${boardtb.POST_DATE.TIME}" pattern="yyyy-MM-dd" /> --%>
-<%--             </c:otherwise> --%>
-<%--         </c:choose> --%>
-		</td>
+      <fmt:parseDate value="${board.POST_DATE }" var="date" pattern="yyyy-MM-dd HH:mm"/>
+      <fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm"/>
+         </td>    
 	</tr>
 </c:forEach>
 </tbody>
 </table>
 </form>
-<a  href="/share/write?boardCate=${boardtb.BOARD_CATE }"><button>글쓰기</button></a>
+<a  href="/share/write?boardCate=${board.boardCate }"><button>글쓰기</button></a>
 
 
 

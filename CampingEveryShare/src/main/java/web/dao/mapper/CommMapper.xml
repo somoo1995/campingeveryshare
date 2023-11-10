@@ -8,11 +8,17 @@
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT
-					comm_no, board_no, user_id, content, post_date, delete_status, board_cate
+					comm_no
+					, board_no
+					, user_id
+					, content
+					, post_date
+					, delete_status
+					, board_cate
+					, (SELECT user_nick FROM usertb WHERE user_id = commtb.user_id) AS user_nick
 				FROM commTb
-				where board_cate = 2
-                AND board_no = #{boardNo }
-				ORDER BY post_date
+				WHERE board_no = #{boardNo }
+				ORDER BY post_date DESC
 			) B
 		)
 		ORDER BY rnum
@@ -20,7 +26,7 @@
   	 
   	<insert id="insertCommByShare" parameterType="comm">
 		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
-		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, 2 )
+		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
   	</insert>
   
 <!-- 	<select id="selectCntRecommend" resultType="int" parameterType="comm"> -->

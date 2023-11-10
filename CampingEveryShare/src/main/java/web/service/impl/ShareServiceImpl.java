@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,12 +26,13 @@ import web.util.Paging;
 
 @Service
 public class ShareServiceImpl implements ShareService {
+	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Autowired ShareDao shareDao;
 	@Autowired CommDao commDao;
 	@Autowired ServletContext context;
 	@Override
-	public List<Map<String, Object>> list(Paging paging) {
+	public List<Board> list(Paging paging) {
 		
 		return shareDao.selectShareAll(paging);
 	}
@@ -189,9 +192,17 @@ public class ShareServiceImpl implements ShareService {
 	}
 	 
 	@Override
-	public void insertComm(Comm comm) {
+	public int insertComm(Comm comm) {
 
-		commDao.insertCommByShare(comm);
+		int res = commDao.insertCommByShare(comm);
+		
+		if( res > 0 ) {
+			logger.info("졸려");
+		} else {
+			logger.info("안졸려");
+		}
+		
+		return res;
 	}
 	
 //	@Override

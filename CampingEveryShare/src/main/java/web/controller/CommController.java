@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -7,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import web.dto.Board;
 import web.dto.Comm;
+import web.dto.User;
 import web.service.face.ShareService;
  
 @Controller
@@ -19,12 +24,27 @@ public class CommController {
 
 	@Autowired ShareService shareService;
 	
-	@RequestMapping(value="/insert")
-	public String insert(Comm comm, Model model, HttpSession session) {
-
-		comm.setUserId( (String) session.getAttribute("userId") );
-		shareService.insertComm(comm);
+	@RequestMapping("/insert")
+	public String insert(Board board, User user, Comm comm, Model model, HttpSession session) {
 		logger.info("comm : " + comm.toString());
-		return "redirect:/board/view?boardNo="+comm.getBoardNo();
+		int res = shareService.insertComm(comm);
+		logger.info("comm : " + comm.toString());
+		
+		return "jsonView";
+	}
+
+	@GetMapping("/list")
+	public String getCommList(User user, Comm comm, Model model, HttpSession session) {
+
+		List<Comm> commList = shareService.getCommList(comm);
+		logger.info("user : " + user.toString());
+		shareService.getNick(user);
+		model.addAttribute("commList", commList);
+		model.addAttribute("user", user);
+		
+		
+		logger.info("commList : " + commList.toString());
+		
+		return "/comm/list";
 	}
 }

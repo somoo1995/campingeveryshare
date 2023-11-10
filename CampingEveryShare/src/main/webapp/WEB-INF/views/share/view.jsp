@@ -54,28 +54,55 @@ $(()=>{
 
 	// 댓글 입력
 	$("#btnCommInsert").click(function() {
-		console.log("나와라예")
-		$form = $("<form>").attr({
-			action: "/comm/insert",
-			method: "post"
-		}).append(
-			$("<input>").attr({
-				type:"hidden",
-				name:"userNick",
-				value:"${user.userNick }"
-			})
-		).append(
-			$("<textarea>")
-				.attr("name", "content")
-				.css("display", "none")
-				.text($("#commentContent").val())
-		);
-		$(document.body).append($form);
-		$form.submit();
+		
+		$.ajax({
+			type: "post"
+			, url: "/comm/insert"
+			, dataType: "json"
+			, data: {
+				userId : "${board.userId}",
+				boardNo : ${board.boardNo},
+				content : $("#commentContent").val(),
+				boardCate : ${board.boardCate}
+			}
+			, success: function(res){
+				console.log(res);
+				if(res) {
+					updateCommentList();
+				} else {
+					alert("댓글 등록 실패");
+				
+				}
+			}
+			, error: function() {
+				console.log("error");
+			}
+		});
+		
 		
 	}); //$("#btnCommInsert").click() end
 
 })
+
+function updateCommentList() {
+    $.ajax({
+        type: "get",
+        url: "/comm/list",
+        data: {
+            boardNo: ${board.boardNo},
+            boardCate: ${board.boardCate},
+            userNick : "${user.userNick}"
+        },
+        dataType: "html",
+        success: function (data) {
+            // 댓글 목록이 포함된 HTML을 해당 부분에 업데이트
+            $("#commentBody").html(data);
+        },
+        error: function () {
+            console.log("댓글 목록 업데이트 실패");
+        }
+    });
+}
 
 
 function deleteComment(commNo) {
@@ -128,7 +155,7 @@ function deleteComment(commNo) {
 		<th class="table-info">작성일</th>
 		<td>
         <c:choose>
-            <c:when test="${board.postDate.time > (now - oneDay)}">
+            <c:when test="${board.postDate.time lt (now - oneDay)}">
                 <fmt:formatDate value="${board.postDate}" pattern="yyyy-MM-dd HH:mm" />
             </c:when>
             <c:otherwise>
@@ -180,16 +207,19 @@ function deleteComment(commNo) {
 <div>
 
 	<!-- 비로그인상태 -->
-	<c:if test="${not login }">
+	<c:if test="${not isLogin }">
 	<strong>로그인이 필요합니다</strong><br>
 	<button onclick='location.href="/user/login";'>로그인</button>
 	<button onclick='location.href="/user/join";'>회원가입</button>
 	</c:if>
 	
 <!-- 	로그인상태  -->
-	<c:if test="${login }">
+	<c:if test="${isLogin }">
 <!-- 	댓글 입력 -->
 	<div class="row justify-content-around align-items-center">
+	<input type="hidden" value="${userId }" >
+	<input type="hidden" value="${board.boardCate }">
+	<input type="hidden" value="${board.boardNo }">
 		<div class="col-2">
 			<input type="text" class="form-control" id="commentWriter" value="${userNick }" readonly="readonly"/>
 		</div>
@@ -219,7 +249,7 @@ function deleteComment(commNo) {
 	<tbody id="commentBody">
 	<c:forEach items="${commList }" var="comm">
 	<tr data-commentNo="${comm.commNo }">
-		<td>${userNick }</td>
+		<td>${user.userNick }</td>
 		<td class="text-start">${comm.content }</td>
 		<td><fmt:formatDate value="${comm.postDate }" pattern="yy-MM-dd" /></td>
 		<td>

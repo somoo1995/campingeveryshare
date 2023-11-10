@@ -20,7 +20,7 @@ public interface ShareService {
 	 * @param paging - 페이징 객체
 	 * @return - 조회된 게시글 리스트
 	 */
-	public List<Map<String, Object>> list(Paging paging);
+	public List<Board> list(Paging paging);
 	
 	/**
 	 * 페이징 계산
@@ -110,8 +110,9 @@ public interface ShareService {
 	 * 댓글 삽입
 	 * 
 	 * @param comm - 등록된 댓글
+	 * @return 
 	 */
-	public void insertComm(Comm comm);
+	public int insertComm(Comm comm);
 	
 //	/**
 //	 * 추천상태 확인

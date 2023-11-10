@@ -17,7 +17,7 @@ public interface ShareDao {
 	 * @param board 
 	 * @return - 조회된 게시글 전체
 	 */
-	public List<Map<String, Object>> selectShareAll(Paging paging);
+	public List<Board> selectShareAll(Paging paging);
 	
 	/**
 	 * 조회된 게시글 수 조회 (페이징)

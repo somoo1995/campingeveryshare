@@ -15,14 +15,11 @@
 			, content
 			, delete_status
 			, board_cate
-			, (SELECT cate_name_en FROM board_category WHERE board_cate = 2) AS "cate_name_en" 
-			, (SELECT cate_name_ko FROM board_category WHERE board_cate = 2) AS "cate_name_ko" 
-			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "recommend"
-			, boardtb.user_id
-			, user_nick
-			, user_name
+			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
+			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
+			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "RECOM"
+			, user_id
 			FROM boardtb
-			JOIN usertb ON boardtb.user_id = usertb.user_id
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}

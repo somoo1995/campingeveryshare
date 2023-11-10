@@ -19,8 +19,9 @@ public interface CommDao {
 	 * 공유게시판 내에 댓글달기
 	 * 
 	 * @param comm - 입력한 댓글
+	 * @return 
 	 */
-	public void insertCommByShare(Comm comm);
+	public int insertCommByShare(Comm comm);
 
 //	/**
 //	 * 상세조회한 게시글의 추천을 눌렀는지 확인

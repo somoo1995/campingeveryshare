@@ -38,16 +38,18 @@ public class ShareController {
 		
 		Paging paging = shareService.getPaging( param );
 		logger.info("paging : {}", paging);
-
-		logger.info("board : {}" + board.toString());
 		
-		List<Map<String,Object>> list = shareService.list(paging);
-		logger.info("list : {}", list);
+		
+		
+		List<Board> list = shareService.list(paging);
+		
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		
+		logger.info("board : {}", board);
+		logger.info("list : {}", list);
 		logger.info("paging {} :" + paging.toString());
 		logger.info("model {} :" + model.toString());
 	}
@@ -98,7 +100,7 @@ public class ShareController {
 			, HttpSession session) {
 		user.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
-		
+		board.setBoardCate((int) session.getAttribute("boardCate"));
 		shareService.shareWrite(board, file);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
