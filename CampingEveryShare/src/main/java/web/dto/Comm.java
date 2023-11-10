@@ -4,51 +4,51 @@ import java.util.Date;
 
 public class Comm {
 
-	private int commentno;
-	private int boardno;
-	private String userid;
+	private int commNo;
+	private int boardNo;
+	private String userId;
 	private String content;
-	private Date writeDate;
+	private Date postDate;
 	
 	public Comm() {}
 
-	public Comm(int commentno, int boardno, String userid, String content, Date writeDate) {
+	public Comm(int commNo, int boardNo, String userId, String content, Date postDate) {
 		super();
-		this.commentno = commentno;
-		this.boardno = boardno;
-		this.userid = userid;
+		this.commNo = commNo;
+		this.boardNo = boardNo;
+		this.userId = userId;
 		this.content = content;
-		this.writeDate = writeDate;
+		this.postDate = postDate;
 	}
 
 	@Override
 	public String toString() {
-		return "CommentTb [commentno=" + commentno + ", boardno=" + boardno + ", userid=" + userid + ", content="
-				+ content + ", writeDate=" + writeDate + "]";
+		return "Comm [commNo=" + commNo + ", boardNo=" + boardNo + ", userId=" + userId + ", content=" + content
+				+ ", postDate=" + postDate + "]";
 	}
 
-	public int getCommentno() {
-		return commentno;
+	public int getCommNo() {
+		return commNo;
 	}
 
-	public void setCommentno(int commentno) {
-		this.commentno = commentno;
+	public void setCommNo(int commNo) {
+		this.commNo = commNo;
 	}
 
-	public int getBoardno() {
-		return boardno;
+	public int getBoardNo() {
+		return boardNo;
 	}
 
-	public void setBoardno(int boardno) {
-		this.boardno = boardno;
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
 	}
 
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getContent() {
@@ -59,13 +59,14 @@ public class Comm {
 		this.content = content;
 	}
 
-	public Date getWriteDate() {
-		return writeDate;
+	public Date getPostDate() {
+		return postDate;
 	}
 
-	public void setWriteDate(Date writeDate) {
-		this.writeDate = writeDate;
+	public void setPostDate(Date postDate) {
+		this.postDate = postDate;
 	}
+
 	
 	
 	
