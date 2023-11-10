@@ -1,10 +1,10 @@
 package web;
 
-import web.dto.Msg;
+import web.dto.MsgTb;
 
 public class TestClass {
 public static void main(String[] args) {
-	Msg msg = new Msg();
+	MsgTb msg = new MsgTb();
 	System.out.println(msg);
 }
 }
