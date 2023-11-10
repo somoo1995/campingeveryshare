@@ -184,10 +184,10 @@ public class ShareServiceImpl implements ShareService {
 	
 	@Override
 	public List<Comm> getCommList(Comm comm) {
-		
+		 
 		return commDao.selectComm(comm);
 	}
-	
+	 
 	@Override
 	public void insertComm(Comm comm) {
 

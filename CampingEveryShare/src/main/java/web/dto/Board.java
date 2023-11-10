@@ -3,7 +3,7 @@ package web.dto;
 import java.util.Date;
 
 public class Board {
-
+ 
 	private int boardNo;
 	private String title;
 	private int location;

@@ -17,7 +17,7 @@
 		)
 		ORDER BY rnum
   	</select>
-  	
+  	 
   	<insert id="insertCommByShare" parameterType="comm">
 		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
 		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, 2 )

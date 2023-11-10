@@ -32,7 +32,7 @@ $(() => {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">글 작성</h3>
+<h3 id="pageTitle">캠핑존 공유 글 작성</h3>
 <hr>
 
 
@@ -40,11 +40,26 @@ $(() => {
 
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
 
-<input type="hidden" name="writerId" value="${id }" >
+나와줘 부탁이야!  ${boardCate }<br>
 
+<select name="boardCate" id="boardCate">
+     <option value="1">대여</option>
+     <option value="2">캠핑존공유</option>
+     <option value="3">모집</option>
+     <option value="4">중고장터</option>
+     <option value="5">공지사항</option>
+     <option value="6">고객문의</option>
+ </select>
+
+<select name="location" id="location">
+     <option value="1">서울</option>
+     <option value="2">인천</option>
+ </select>
+ 
+<input type="hidden" name="userId" value="${userId }" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" value="${nick }">
+	<input type="text" class="form-control" name="userNick" readonly="readonly" value="${userNick }">
 </div>
 
 <div class="form-group mb-3">

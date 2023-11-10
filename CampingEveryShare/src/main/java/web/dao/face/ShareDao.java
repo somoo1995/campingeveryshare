@@ -86,7 +86,7 @@ public interface ShareDao {
 	 * @param updateParam - 수정할 내용이 담긴 객체
 	 */
 	public void updateProc(Board board);
-	
+	  
 	/**
 	 * 기존의 첨부파일을 삭제한다
 	 * 

@@ -6,7 +6,7 @@ import web.dto.Comm;
 import web.dto.Recom;
 
 public interface CommDao {
-
+ 
 	/**
 	 * 댓글 리스트 조회
 	 * 

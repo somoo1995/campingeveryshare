@@ -37,22 +37,29 @@ pageEncoding="UTF-8"%>
 </thead>
 <tbody>
 <c:forEach var="boardtb" items="${list }">
-	<tr>
+	<tr> 
 		<td>${boardtb.BOARD_NO }</td>
 		<td><a href="./view?boardNo=${boardtb.BOARD_NO }">${boardtb.TITLE }</a></td>
-		<td>${boardtb.USER_ID }</td>
+		<td>${boardtb.USER_NICK }</td>
 		<td>${boardtb.HIT }</td>
 		<td>${boardtb.recommend }</td>
 		<td>
-			<fmt:formatDate value="${boardtb.POST_DATE}" pattern="MM.dd(E)" />
+<%--         <c:choose> --%>
+<%--             <c:when test="${boardtb.POST_DATE.TIME > (now - oneDay)}"> --%>
+<%--                 <fmt:formatDate value="${boardtb.POST_DATE}" pattern="yyyy-MM-dd HH:mm" /> --%>
+<%--             </c:when> --%>
+<%--             <c:otherwise> --%>
+<%--                 <fmt:formatDate value="${boardtb.POST_DATE.TIME}" pattern="yyyy-MM-dd" /> --%>
+<%--             </c:otherwise> --%>
+<%--         </c:choose> --%>
 		</td>
 	</tr>
 </c:forEach>
 </tbody>
 </table>
 </form>
+<a  href="/share/write?boardCate=${boardtb.BOARD_CATE }"><button>글쓰기</button></a>
 
-<a href="/share/write"><button>글쓰기</button></a>
 
 
 

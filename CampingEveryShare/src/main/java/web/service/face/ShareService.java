@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
-
+  
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
