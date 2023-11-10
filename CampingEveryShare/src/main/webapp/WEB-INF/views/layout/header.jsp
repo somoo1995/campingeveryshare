@@ -97,6 +97,12 @@ $(function() {
 	width: 1300px;
 }
 
+.container {
+	width: 1300px;
+/* 	margin-left: -10px; */
+/* 	margin-right: 0px; */
+}
+
 .header-container {
     position: relative;
     display: inline-block;
@@ -126,7 +132,7 @@ $(function() {
 }
 
 #pageTitle {
-	color: green;
+	color: #2ECC71;
 	font-weight: bold;
 	font-size: 40px;
 }
@@ -217,73 +223,73 @@ $(function() {
 	
 	<div class="wrap-menu text-center">
 	
-	<div>
-	<c:choose>
-		<c:when test="${empty isLogin or not isLogin }">
-			<span onclick="location.href='/user/login'">로그인</span>
-			|
-			<span onclick="location.href='/user/join'">회원가입</span>
-		</c:when>
-		<c:when test="${not empty isLogin and isLogin }">
-			<span onclick="location.href='/user/view'">내 정보</span>
-			|
-			<span onclick="location.href='/user/logout'">로그아웃</span>
-		</c:when>
-	</c:choose>
-	
-	<!--     <ul> -->
-	<!--         <li><a href="#">로그인</a></li> -->
-	<!--         <li><a href="#">회원가입</a></li> -->
-	<!--     </ul> -->
-	
-	</div>
-	
-	<c:if test="${not empty isLogin and isLogin }">
-	<div class="mt-5"></div>
-	<div>
-		<span id="guest" class="userStatus">게스트</span>
-		<img alt="statusToggle" src="/resources/img/toggle-brown-left.png" width="100px" height="90px" class="tglStatus">
-		<span id="host" class="">호스트</span>
-	</div>
-	</c:if>
-	
-	<div class="mt-5">
-	<c:choose>
-		<c:when test="${empty isLogin or not isLogin }">
-			<span id="campStatus" camp-data="/mypage/fail">내 캠핑</span>
-		</c:when>
-		<c:when test="${not empty isLogin and isLogin }">
-			<span id="campStatus" camp-data="/booking/list">내 예약</span>
-		</c:when>
-	</c:choose>
-	|
-	<span onclick="location.href='/msg/list'">메시지</span>
-	|
-	<span>찜</span>
-	|
-	<c:if test="${not empty isLogin and isLogin }">
-	<span class="alert-open">알림</span>
-		<div id="alert" class="alert">
-			<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+		<div class="profile-info">
+		<c:choose>
+			<c:when test="${empty isLogin or not isLogin }">
+				<span onclick="location.href='/user/login'">로그인</span>
+				|
+				<span onclick="location.href='/user/join'">회원가입</span>
+			</c:when>
+			<c:when test="${not empty isLogin and isLogin }">
+				<span onclick="location.href='/user/view'">내 정보</span>
+				|
+				<span onclick="location.href='/user/logout'">로그아웃</span>
+			</c:when>
+		</c:choose>
+		
+		<!--     <ul> -->
+		<!--         <li><a href="#">로그인</a></li> -->
+		<!--         <li><a href="#">회원가입</a></li> -->
+		<!--     </ul> -->
+		
+		</div> <!-- .profile-info end -->
+		
+		<c:if test="${not empty isLogin and isLogin }">
+		<div class="mt-5"></div>
+		<div>
+			<span id="guest" class="userStatus">게스트</span>
+			<img alt="statusToggle" src="/resources/img/toggle-brown-left.png" width="100px" height="90px" class="tglStatus">
+			<span id="host" class="">호스트</span>
 		</div>
-	</c:if>
-	<c:if test="${empty isLogin or not isLogin }">
-	<span class="alert-open" onclick="location.href='/mypage/fail'">알림</span>
-	</c:if>
-	</div>
+		</c:if>
+		
+		<div class="mt-5">
+		<c:choose>
+			<c:when test="${empty isLogin or not isLogin }">
+				<span id="campStatus" camp-data="/mypage/fail">내 캠핑</span>
+			</c:when>
+			<c:when test="${not empty isLogin and isLogin }">
+				<span id="campStatus" camp-data="/booking/main">내 예약</span>
+			</c:when>
+		</c:choose>
+		|
+		<span onclick="location.href='/message/list'">메세지</span>
+		|
+		<span>찜</span>
+		|
+		<c:if test="${not empty isLogin and isLogin }">
+		<span class="alert-open">알림</span>
+			<div id="alert" class="alert">
+				<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+			</div>
+		</c:if>
+		<c:if test="${empty isLogin or not isLogin }">
+		<span class="alert-open" onclick="location.href='/mypage/fail'">알림</span>
+		</c:if>
+		</div>
+		
+		
+		<div class="mt-5">
+		<span>공지사항</span>
+		|
+		<span>고객문의</span>
+		</div>
 	
-	
-	<div class="mt-5">
-	<span>공지사항</span>
-	|
-	<span>고객문의</span>
-	</div>
-	
-	</div>
+	</div> <!-- .wrap-menu text-center end -->
 	
 	</aside> <!-- #all_mymenu end -->
 
-</div>
+</div> <!-- .menu end -->
 
 <div class="main-category-menu mt-3">
 <a>대여</a>

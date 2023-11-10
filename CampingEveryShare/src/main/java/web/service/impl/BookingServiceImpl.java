@@ -38,25 +38,21 @@ public class BookingServiceImpl implements BookingService {
 		logger.info("map : {}", map);
 		
 		int totalCount = rentDao.selectCntAll(map);
-		logger.info("totalCount : ", totalCount);
 		Paging paging = new Paging( totalCount, param.getCurPage() );
 		
 		return paging;
-		
 	}
 	
 	@Override
-	public List<Rent> getList(Paging paging) {
+	public List<Map<String, Object>> getList(Paging paging, Rent rent) {
 		
-		List<Rent> list = rentDao.selectRentByRentStatus(paging);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("paging", paging);
+		map.put("rent", rent);
+		
+		List<Map<String, Object>> list = rentDao.selectAllByRentStatus(map);
 		
 		return list;
-	}
-
-	@Override
-	public List<Map<String, Object>> getList(Paging paging, Rent rent) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
