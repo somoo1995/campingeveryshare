@@ -8,11 +8,9 @@ import web.util.Paging;
 
 public interface RentDao {
 	
-//	public int selectCntAll(Paging param, String loginId);
-
-	public List<Rent> selectRentByRentStatus(Paging paging);
-
 	public int selectCntAll(Map<String, Object> map);
+
+	public List<Map<String, Object>> selectAllByRentStatus(Map<String, Object> map);
 
 
 

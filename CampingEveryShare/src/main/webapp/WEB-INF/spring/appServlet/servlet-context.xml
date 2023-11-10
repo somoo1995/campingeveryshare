@@ -28,7 +28,11 @@
 			<mapping path="/mypage/**"/>
 			<exclude-mapping path="/mypage/main"/>
 			<exclude-mapping path="/mypage/fail"/>
-			<beans:bean class="web.interceptor.MypageInterceptor" />
+			<beans:bean class="web.interceptor.LoginInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/message/**"/>
+			<beans:bean class="web.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
    
