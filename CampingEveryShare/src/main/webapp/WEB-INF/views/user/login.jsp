@@ -14,9 +14,12 @@ $(function() {
 })
 </script>
 
+
 <div class="container">
-<h1>게스트 로그인</h1>
+<div class="pageTitle">
+<h3 id="pageTitle">로그인</h3>
 <hr>
+</div>
 
 <div class="row g-3 align-items-center">
 <form action="./login" method="post">

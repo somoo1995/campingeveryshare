@@ -1,5 +1,7 @@
 package web.dao.face;
 
+import org.apache.ibatis.annotations.Param;
+
 import web.dto.User;
 
 public interface UserDao {
@@ -50,13 +52,10 @@ public interface UserDao {
 	 */
 	public void insert(User user);
 
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public User selectInfo(User user);
 	
+
+	public User selectInfo(User user);	
 	
 
 }
+
