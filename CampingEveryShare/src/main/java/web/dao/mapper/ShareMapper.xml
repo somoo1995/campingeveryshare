@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+ 
   <mapper namespace="web.dao.face.ShareDao">
   	<select id="selectShareAll" parameterType="web.util.Paging" resultType="Map">
   		SELECT * FROM (
@@ -14,13 +14,12 @@
 			, hit 
 			, content
 			, delete_status
-			, board_cate 
-			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "recommend"
-			, boardtb.user_id
-			, user_nick
-			, user_name
+			, board_cate
+			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
+			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
+			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "RECOM"
+			, user_id
 			FROM boardtb
-			JOIN usertb ON boardtb.user_id = usertb.user_id
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
@@ -31,7 +30,7 @@
   		SELECT count(*) FROM boardtb
   	</select>
   
-  	<select id="selectBoardView" resultType="Map" parameterType="board">
+  	<select id="selectBoardView" resultType="board" parameterType="board">
 	SELECT
 	    board_no,
 	    title,
@@ -41,11 +40,15 @@
 	    content,
 	    delete_status,
 	    board_cate,
-	    user_id,
-	    (SELECT user_nick FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_nick,
-	    (SELECT user_name FROM usertb WHERE usertb.user_id = boardtb.user_id) AS user_name
+	    user_id
 	FROM boardtb
 	WHERE board_no = #{boardNo }
+  	</select>
+  	
+  	<select id="selectByUserNick" resultType="user" parameterType="user">
+  	SELECT user_nick
+  	FROM usertb
+  	WHERE user_id = #{userId }
   	</select>
   	
   	<update id="hit" parameterType="board">
@@ -53,5 +56,58 @@
   		SET hit = hit+1
   		WHERE board_no = #{boardNo}
   	</update>
+
+	<select id="selectGetFileByBoardNo" resultType="boardfile" parameterType="boardfile">
+		SELECT file_no, origin_name, stored_name, board_no, board_cate
+		FROM boardfiletb
+		WHERE board_no = #{boardNo}
+	</select>
+	
+  	<insert id="insertShareWrite" parameterType="board">
+		<selectKey order="BEFORE"  resultType="int" keyProperty="boardNo">
+			SELECT board_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO boardtb (board_no, title,content, user_id, board_cate, location)
+  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
+  	</insert>
+
+	<insert id="insertShareFile" parameterType="boardfile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT file_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO boardfiletb ( file_no, origin_name, stored_name , board_no, board_cate)
+		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
+	</insert>  
   
+  	<select id="selectShareFileByBoardNo" resultType="boardfile" parameterType="board">
+  		SELECT file_no, origin_name, stored_name, board_no, board_cate
+  		FROM boardfiletb
+  		WHERE board_no = #{boardNo }
+  	</select>
+  
+  	<update id="updateProc" parameterType="board">
+  		UPDATE boardtb
+  		SET title = #{title }
+  			, content = #{content }
+		WHERE board_no = #{boardNo } 
+  	</update>
+  
+  	<delete id="deleteFiles" parameterType="int[]">
+  		DELETE boardfiletb
+  		WHERE file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+  	</delete>
+  	
+  	<delete id="deleteFileByBoardNo" parameterType="boardfile">
+ 		DELETE boardfiletb
+ 		WHERE board_no = #{boardNo} 	
+  	</delete>
+
+  	<delete id="deleteByBoardNo" parameterType="board">
+ 		DELETE boardtb
+ 		WHERE board_no = #{boardNo} 	
+  	</delete>
+  	
   </mapper>

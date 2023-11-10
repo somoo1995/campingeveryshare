@@ -2,30 +2,30 @@ package web.dto;
 
 public class Recom {
 
-	private int userNo;
+	private String userId;
 	private int recoNo;
 	private int boardCate;
 	
 	public Recom() {}
 
-	public Recom(int userNo, int recoNo, int boardCate) {
+	public Recom(String userId, int recoNo, int boardCate) {
 		super();
-		this.userNo = userNo;
+		this.userId = userId;
 		this.recoNo = recoNo;
 		this.boardCate = boardCate;
 	}
 
 	@Override
 	public String toString() {
-		return "Recom [userNo=" + userNo + ", recoNo=" + recoNo + ", boardCate=" + boardCate + "]";
+		return "Recom [userId=" + userId + ", recoNo=" + recoNo + ", boardCate=" + boardCate + "]";
 	}
 
-	public int getUserNo() {
-		return userNo;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public int getRecoNo() {
@@ -43,6 +43,7 @@ public class Recom {
 	public void setBoardCate(int boardCate) {
 		this.boardCate = boardCate;
 	}
+
 	
 	
 	
