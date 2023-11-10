@@ -6,7 +6,7 @@ public class Paging {
 	
 	private int totalCount; // 총 게시글 수
 	private int listCount; //한 페이지 당 보여질 게시글 수
-	private int totalPage;// 총 페이지의 수
+	private int totalPage;// 총 페이지의 수ㅇㄴ
 	
 	private int pageCount; //한 화면에 출력될 페이지네이션의 개수
 	private int startPage; //화면에 보이는 시작 페이지네이션 번호
