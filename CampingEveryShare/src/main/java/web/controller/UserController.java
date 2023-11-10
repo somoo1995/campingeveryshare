@@ -29,7 +29,7 @@ import web.service.face.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
-	//로그 객체 생성	
+	//로그 객체 생성d	
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 		
 	@Autowired private UserService userService;
