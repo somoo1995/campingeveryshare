@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
@@ -58,21 +59,24 @@ public class UserController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 
         // int 형식의 필드에 빈 문자열이나 null 값이 들어올 경우 0으로 초기화
-        binder.registerCustomEditor(Integer.class, 
-//        binder.registerCustomEditor
-        new CustomNumberEditor(Integer.class, true));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true) {
+        	
+        });
     }
 
-	@GetMapping("/join")
+    @GetMapping("/join")
 	public void join() {}
 	
 	@Transactional
 	@PostMapping("/join")
-	public String joinProc(User user ) {
+	public String joinProc(User user,@RequestParam("selectedProfile") int selectedProfile, @RequestParam("userPwConfirm") String userPwConfirm) {
 		logger.info("joinParam : {}",user);
 		
+		// 프로필 번호 확인
+	    logger.info("Selected Profile: {}", selectedProfile);
+
 		//회원가입 처리
-		boolean joinResult = userService.join(user);
+		boolean joinResult = userService.join(user, selectedProfile, userPwConfirm);
 
 		if(joinResult) {
 			logger.info("회원가입 성공");
@@ -102,14 +106,17 @@ public class UserController {
 	public String userUpdate(User user) {
 		return null;
 	}
+	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
-		session.invalidate();
 		logger.info("login[GET]");
+		session.invalidate();
 	}
+	
 	@PostMapping("/login")
 	public String loginProc(User user, HttpSession session ) {
 		logger.info("loginParam : {}", user);
+		logger.info("login[POST]");
 		
 		//로그인 인증
 		boolean isLogin = userService.login( user );
@@ -119,20 +126,20 @@ public class UserController {
 		
 		if( isLogin ) {
 			logger.info("로그인 성공");
-			
 			session.setAttribute("isLogin", isLogin);
-			session.setAttribute("userId", user.getUserId());
-			session.setAttribute("userNick", user.getUserNick());
-			
-//			return "redirect:./main";
+			session.setAttribute("userId", userInfo.getUserId());
+			session.setAttribute("userNick", userInfo.getUserNick());
+	        logger.info("session : " + session.getAttribute("userId"));
+	        logger.info("session : " + session.getAttribute("userNick"));
+
 			return "redirect:/";
-			
-		} else {
-			logger.info("로그인 실패");
-			
-			return "redirect:/user/login";
-		}
+		
 	}
+		logger.info("로그인 실패");
+		session.invalidate();
+		return "redirect:/user/login";
+	}	
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();

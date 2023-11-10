@@ -7,142 +7,192 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/header.jsp" />
 
 <script type="text/javascript">
-	function idDupleCheck(input) {
-		var userId = input.value;
-		var idDupleBlock = $("#idDupleBlock");
-		
-		console.info("idDupleCheck::" + userId);
-		
-		idDupleBlock.show();      
-		
-	    if (userId.trim() == '') {
-	    	idDupleBlock.text("아이디를 입력해 주세요.");
-	    	console.log("아이디를 입력해 주세요.");
-	        return;
-	    }
-	
-	    $.ajax({
-	        type: "get",
-	        url: "/user/idCheck/" + userId,
-	        dataType: "text",
-	        success: function(response) {
-	            if (response == "true") {
-	//             	console.log("사용가능한 id 입니다.");
-	            	idDupleBlock.text("사용가능한 id 입니다.");
-	            } else {
-	//             	console.log("사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.");
-	            	idDupleBlock.text("사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.");
-	            }
-	        }
-	        
-	    });
-	}
-	
-	function passwordCheck () {
-		var password1 = $("#password1");
-		var password2 = $("#password2");
-		var pwDupleBlock = $("#pwDupleBlock");
-		
-		pwDupleBlock.show();            	
-		if (password1.val() != password2.val()) {
-			console.log("동일한 비밀번호가 아님") 
-			pwDupleBlock.text("동일한 비밀번호가 아님")
-			//TODO: ptag표시
-			return;
-		}
-		
-		console.log("동일한 비밀번호입니다.")
-		pwDupleBlock.text("동일한 비밀번호입니다.")
-		//TODO:ptag표시
-	}
-	
-	 function emailDupleCheck(input) {
-	        var email = input.value;
-	        var emailDupleBlock = $("#emailDupleBlock");
-	        console.info("emailDupleCheck::" + email);
-	        emailDupleBlock.show();
-	        if (email.trim() == '') {
-	            emailDupleBlock.text("이메일을 입력해 주세요.");
-	            console.log("이메일을 입력해 주세요.");
-	            return;
-	        }
-	        $.ajax({
-	            type: "get",
-	            url: "/user/emailCheck/" + email,
-	            dataType: "text",
-	            success: function(response) {
-	                if (response == "true") {
-	                    console.log("사용가능한 email 입니다.");
-	                    emailDupleBlock.text("사용가능한 email 입니다.");
-	                } else {
-	                    console.log("사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요.");
-	                    emailDupleBlock.text("사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요.");
-	                }
-	            }
-	        });
-	    }
-	
-	 function nameCheck() {
-	        var userName = $("#userName");
-	        var nameDupleBlock = $("#nameDupleBlock");
-	        console.info("nameCheck::" + userName.val());
-	        nameDupleBlock.show();
-	        if (userName.val().trim() === '') {
-	        	nameDupleBlock.text("이름을 입력해 주세요.");
-	            console.log("이름을 입력해 주세요.");
-	            return;
-	        }
-	    }
-	 
-	 function nickDupleCheck(input) {
-	        var userNick = input.value;
-	        var nickDupleBlock = $("#nickDupleBlock");
-	        console.info("nickDupleCheck::" + userNick);
-	        nickDupleBlock.show();
-	        if (userNick.trim() == '') {
-	            nickDupleBlock.text("닉네임을 입력해 주세요.");
-	            console.log("닉네임을 입력해 주세요.");
-	            return;
-	        }
-	        $.ajax({
-	            type: "get",
-	            url: "/user/nickCheck/" + userNick,
-	            dataType: "text",
-	            success: function(response) {
-	                if (response == "true") {
-	                    console.log("사용가능한 닉네임 입니다.");
-	                    nickDupleBlock.text("사용가능한 닉네임 입니다.");
-	                } else {
-	                    console.log("사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요.");
-	                    nickDupleBlock.text("사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요.");
-	                }
-	            }
-	        });
-	    }
-	
+    function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
+        var value = input.value;
+        var displayBlock = $("#" + displayBlock);
+
+        console.info("checkDuplicate::" + value);
+
+        displayBlock.show();
+
+        if (value.trim() == '') {
+            displayBlock.text(emptyMessage);
+            console.log(emptyMessage);
+            return;
+        }
+
+        $.ajax({
+            type: "get",
+            url: url + value,
+            dataType: "text",
+            success: function (response) {
+                if (response == "true") {
+                    console.log(successMessage);
+                    displayBlock.text(successMessage);
+                } else {
+                    console.log(failureMessage);
+                    displayBlock.text(failureMessage);
+                }
+            }
+        });
+    }
+
+    // id 중복 체크
+    function idDupleCheck(input) {
+        checkDuplicate(
+            input,
+            "/user/idCheck/",
+            "idDupleBlock",
+            "아이디를 입력해 주세요.",
+            "사용가능한 id 입니다.",
+            "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요."
+        );
+    }
+
+    // email 중복 체크
+    function emailDupleCheck(input) {
+        checkDuplicate(
+            input,
+            "/user/emailCheck/",
+            "emailDupleBlock",
+            "이메일을 입력해 주세요.",
+            "사용가능한 email 입니다.",
+            "사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요."
+        );
+    }
+
+    // 이름 체크
+    function nameCheck() {
+        var userName = $("#userName");
+        var nameDupleBlock = $("#nameDupleBlock");
+        console.info("nameCheck::" + userName.val().trim());
+
+        if (userName.val().trim() === '') {
+            nameDupleBlock.text("이름을 입력해 주세요.");
+            console.log("이름을 입력해 주세요.");
+            nameDupleBlock.show();
+        } else {
+            nameDupleBlock.hide();
+        }
+    }
+
+    // 닉네임 중복 체크
+    function nickDupleCheck(input) {
+        checkDuplicate(
+            input,
+            "/user/nickCheck/",
+            "nickDupleBlock",
+            "닉네임을 입력해 주세요.",
+            "사용가능한 닉네임 입니다.",
+            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요."
+        );
+    }
+
+    $(document).ready(function () {
+        // 회원가입 버튼 클릭 시 실행될 코드
+        $("#joinButton").click(function () {
+            // phone 인풋의 값이 비어있으면 0을 넣어줌
+            if ($("#phone").val().trim() === '') {
+                $("#phone").val('0');
+            }
+
+            // 선택한 프로필 번호를 hidden input에서 가져옴
+            var selectedProfile = $("#selectedProfile").val();
+
+            // 비밀번호 값을 가져오는 부분 수정
+            var userPw = $("#userPw").val();
+            var userPwConfirm = $("#userPwConfirm").val();
+
+            // 비밀번호가 서로 다를 경우
+            if (userPw !== userPwConfirm) {
+                console.log("동일한 비밀번호가 아님");
+                $("#pwDupleBlock").text("동일한 비밀번호가 아님");
+                // TODO: ptag 표시
+                return;
+            }
+
+            console.log("선택한 프로필 번호: " + selectedProfile);
+            console.log("동일한 비밀번호입니다.");
+            $("#pwDupleBlock").text("동일한 비밀번호입니다.");
+            // TODO: ptag 표시
+        });
+    });
+
+    function passwordCheck() {
+        var userPw = $("#userPw").val();
+        var userPwConfirm = $("#userPwConfirm").val();
+        var pwDupleBlock = $("#pwDupleBlock");
+
+        pwDupleBlock.show();
+
+        // 비밀번호가 입력되지 않았을 경우
+        if (!userPw || !userPwConfirm) {
+            console.log("비밀번호를 입력하세요.");
+            pwDupleBlock.text("비밀번호를 입력하세요.");
+            // TODO: ptag 표시
+            return;
+        }
+
+        // 비밀번호가 서로 다를 경우
+        if (userPw !== userPwConfirm) {
+            console.log("동일한 비밀번호가 아님");
+            pwDupleBlock.text("동일한 비밀번호가 아님");
+            // TODO: ptag 표시
+            return;
+        }
+
+        console.log("동일한 비밀번호입니다.");
+        pwDupleBlock.text("동일한 비밀번호입니다.");
+        // TODO: ptag 표시
+    }
+
+    function selectProfile(profileNumber) {
+        console.log("Selected profile number: " + profileNumber);
+
+        // 선택한 프로필 번호에 따라 이미지 경로를 가져옴
+        var imgSrc = "/resources/img/profile" + profileNumber + ".png";
+
+        // 이미지를 프로필 사진 미리보기에 설정
+        document.getElementById("selectedProfile").value = profileNumber;
+    }
+
 </script>
+
 
   
 <form action="/user/join" method="post">
-	<div class="container">
-	
-	<div class="row g-3 align-items-center">
-        <div class="col-2">
-            <label for="profile" class="col-form-label">프로필 사진</label>
-        </div>
-        <div class="col-10">
-            <!-- 갤러리 미리보기 -->
-            <div class="profilegallery">
-                <img src="path/to/profile1.jpg" alt="프로필1" class="profile-preview" onclick="selectProfile(1)">
-                <img src="path/to/profile2.jpg" alt="프로필2" class="profile-preview" onclick="selectProfile(2)">
-                <img src="path/to/profile3.jpg" alt="프로필3" class="profile-preview" onclick="selectProfile(3)">
-                <img src="path/to/profile4.jpg" alt="프로필4" class="profile-preview" onclick="selectProfile(4)">
-                <img src="path/to/profile5.jpg" alt="프로필5" class="profile-preview" onclick="selectProfile(5)">
-            </div>
-            <!-- 선택한 프로필을 저장할 hidden input -->
-            <input type="hidden" id="selectedProfile" name="selectedProfile" value="">
-        </div>
-    </div>
+<div class="container">
+	<div class="pageTitle">
+	<h3 id="pageTitle">회원가입</h3>
+	<hr>	
+	</div>
+<div class="row g-3 align-items-center">
+  <div class="col-2">
+    <label for="profile" class="col-form-label">프로필 사진</label>
+  </div>
+	<div class="col-8">
+	    <div>
+	        <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" onclick="selectProfile(1)" width="100" height="auto">
+	        <input type="radio" name="profile" value="1">
+	    </div>
+	    <div>
+	        <img src="/resources/img/profile2.png" alt="프로필" class="profile2" id="profile-img-2" onclick="selectProfile(2)" width="100" height="auto">
+	        <input type="radio" name="profile" value="2">
+	    </div>
+	    <div>
+	        <img src="/resources/img/profile3.png" alt="프로필3" class="profile3" id="profile-img-3" onclick="selectProfile(3)" width="100" height="auto">
+	        <input type="radio" name="profile" value="3">
+	    </div>
+	    <div>
+	        <img src="/resources/img/profile4.png" alt="프로필4" class="profile4" id="profile-img-4" onclick="selectProfile(4)" width="100" height="auto">
+	        <input type="radio" name="profile" value="4">
+	    </div>
+	    <div>
+	        <img src="/resources/img/profile5.png" alt="프로필5" class="profile5" id="profile-img-5" onclick="selectProfile(5)" width="100" height="auto">
+	        <input type="radio" name="profile" value="5">
+	    </div>
+	</div>
+
 	
 	<div class="row g-3 align-items-center">
 		<label for="userId" class="col-form-label"></label>
@@ -152,13 +202,13 @@ pageEncoding="UTF-8"%>
 	</div>
 	
 	<div class="row g-3 align-items-center">
-	  <div class="col-2">
-	    <label for="userPw" class="col-form-label"></label>
-	  </div>
-	  <div class="inputPassword6">
-	    <input type="password" id="password1" name="userPw" class="form-control" aria-describedby="passwordHelpInline" placeholder="비밀번호*">
-	    <input type="password" id="password2" name="userPw" class="form-control" aria-describedby="passwordHelpInline"  onblur="passwordCheck()" placeholder="비밀번호 확인*">
-	  </div>
+    <div class="col-2">
+        <label for="userPw" class="col-form-label"></label>
+    </div>
+    <div class="inputPassword">
+        <input type="password" id="userPw" name="userPw" placeholder="비밀번호*" onblur="passwordCheck()" required>
+        <input type="password" id="userPwConfirm" name="userPwConfirm" placeholder="비밀번호 확인*" onblur="passwordCheck()" required>
+    </div>
 	</div>
 	
 	<div class="row g-3 align-items-center">
@@ -193,15 +243,15 @@ pageEncoding="UTF-8"%>
 		<p id="idDupleText"></p>
 	</div>
 	<div id="pwDupleBlock" class="form-text"  style="display:none">
-		<p id="pwDupleText"></p>
+    <p id="pwDupleText"></p>
 	</div>
-	<div id="emailDupleBlock" class="form-text"  style="display:none">
-		<p id="emailDupleText"></p>
+	<div id="emailDupleBlock" class="form-text" style="display:none">
+  		<p id="emailDupleText"></p>
 	</div>
-	<div id="nameDupleBlock" class="form-text"  style="display:none">
-		<p id="nameDupleText"></p>
+	<div id="nameDupleBlock" class="form-text" style="display:none">
+  		<p id="nameDupleText"></p>
 	</div>
-	<div id="nickDupleBlock" class="form-text"  style="display:none">
+	<div id="nickDupleBlock" class="form-text" style="display:none">
 		<p id="nickDupleText"></p>
 	</div>
 	
@@ -247,7 +297,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	
 		<div class="row mb-3 justify-content-center">
-			<button type="submit" class="btn btn-outline-success">캠핑 시작하기</button>
+			<button id="joinButton" type="submit" class="btn btn-outline-success">캠핑 시작하기</button>
 		</div>	
 	
 	</div><!--  container -->
