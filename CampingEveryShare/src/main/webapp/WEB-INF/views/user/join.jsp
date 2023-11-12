@@ -5,7 +5,14 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
-
+<style>
+.hstack {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: flex-end;
+}
+</style>
 <script type="text/javascript">
     function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
         var value = input.value;
@@ -96,9 +103,6 @@ pageEncoding="UTF-8"%>
                 $("#phone").val('0');
             }
 
-            // 선택한 프로필 번호를 hidden input에서 가져옴
-            var selectedProfile = $("#selectedProfile").val();
-
             // 비밀번호 값을 가져오는 부분 수정
             var userPw = $("#userPw").val();
             var userPwConfirm = $("#userPwConfirm").val();
@@ -111,7 +115,6 @@ pageEncoding="UTF-8"%>
                 return;
             }
 
-            console.log("선택한 프로필 번호: " + selectedProfile);
             console.log("동일한 비밀번호입니다.");
             $("#pwDupleBlock").text("동일한 비밀번호입니다.");
             // TODO: ptag 표시
@@ -145,54 +148,45 @@ pageEncoding="UTF-8"%>
         pwDupleBlock.text("동일한 비밀번호입니다.");
         // TODO: ptag 표시
     }
-
-    function selectProfile(profileNumber) {
-        console.log("Selected profile number: " + profileNumber);
-
-        // 선택한 프로필 번호에 따라 이미지 경로를 가져옴
-        var imgSrc = "/resources/img/profile" + profileNumber + ".png";
-
-        // 이미지를 프로필 사진 미리보기에 설정
-        document.getElementById("selectedProfile").value = profileNumber;
-    }
-
 </script>
 
 
   
-<form action="/user/join" method="post">
+<form id="joinForm" action="/user/join" method="post">
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">회원가입</h3>
 	<hr>	
 	</div>
 <div class="row g-3 align-items-center">
-  <div class="col-2">
-    <label for="profile" class="col-form-label">프로필 사진</label>
-  </div>
-	<div class="col-8">
-	    <div>
-	        <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" onclick="selectProfile(1)" width="100" height="auto">
-	        <input type="radio" name="profile" value="1">
+	<div class="hstack gap-3 col-8">
+	    <div class="p-2">
+	    <label for="profile" class="col-form-label" width="100" height="100">프로필 사진선택</label>
+    	</div>
+	    <div class="p-2">
+	        <input type="radio" name="profile" value="1" checked="checked">
+	        <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" width="100" height="100">
 	    </div>
-	    <div>
-	        <img src="/resources/img/profile2.png" alt="프로필" class="profile2" id="profile-img-2" onclick="selectProfile(2)" width="100" height="auto">
+	    <div class="p-2">
 	        <input type="radio" name="profile" value="2">
+	        <img src="/resources/img/profile2.png" alt="프로필" class="profile2" id="profile-img-2" width="100" height="100">
 	    </div>
-	    <div>
-	        <img src="/resources/img/profile3.png" alt="프로필3" class="profile3" id="profile-img-3" onclick="selectProfile(3)" width="100" height="auto">
+    </div>
+
+	<div class="hstack gap-3 col-8">
+	    <div class="p-2">
 	        <input type="radio" name="profile" value="3">
+	        <img src="/resources/img/profile3.png" alt="프로필3" class="profile3" id="profile-img-3" width="100" height="100">
 	    </div>
-	    <div>
-	        <img src="/resources/img/profile4.png" alt="프로필4" class="profile4" id="profile-img-4" onclick="selectProfile(4)" width="100" height="auto">
+	    <div class="p-2">
 	        <input type="radio" name="profile" value="4">
+	        <img src="/resources/img/profile4.png" alt="프로필4" class="profile4" id="profile-img-4" width="100" height="100">
 	    </div>
-	    <div>
-	        <img src="/resources/img/profile5.png" alt="프로필5" class="profile5" id="profile-img-5" onclick="selectProfile(5)" width="100" height="auto">
+	    <div class="p-2">
 	        <input type="radio" name="profile" value="5">
+	        <img src="/resources/img/profile5.png" alt="프로필5" class="profile5" id="profile-img-5" width="100" height="100">
 	    </div>
 	</div>
-
 	
 	<div class="row g-3 align-items-center">
 		<label for="userId" class="col-form-label"></label>
@@ -299,7 +293,8 @@ pageEncoding="UTF-8"%>
 		<div class="row mb-3 justify-content-center">
 			<button id="joinButton" type="submit" class="btn btn-outline-success">캠핑 시작하기</button>
 		</div>	
-	
+		
+	</div> <!-- form -->
 	</div><!--  container -->
 </form>
 

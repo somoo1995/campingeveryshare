@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketEventListener {
 	
-	private final SimpMessageSendingOperations messageTemplate;
+	private final SimpMessageSendingOperations messageTemplate = null;
 	@EventListener
 	public void handleWebSocketDisconnectListener(
 			SessionDisconnectEvent event) {

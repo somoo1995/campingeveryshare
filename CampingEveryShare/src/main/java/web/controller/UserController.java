@@ -2,6 +2,7 @@ package web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import web.dto.User;
 import web.service.face.UserService;
@@ -29,7 +33,7 @@ import web.service.face.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
-	//로그 객체 생성d	
+	//로그 객체 생성	
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 		
 	@Autowired private UserService userService;
@@ -63,29 +67,36 @@ public class UserController {
         	
         });
     }
-
+    
     @GetMapping("/join")
 	public void join() {}
 	
-	@Transactional
-	@PostMapping("/join")
-	public String joinProc(User user,@RequestParam("selectedProfile") int selectedProfile, @RequestParam("userPwConfirm") String userPwConfirm) {
-		logger.info("joinParam : {}",user);
-		
-		// 프로필 번호 확인
-	    logger.info("Selected Profile: {}", selectedProfile);
+    @Transactional
+    @PostMapping("/join")
+    public String joinProc(User user, @RequestParam("profile") int selectedProfile, @RequestParam("userPwConfirm") String userPwConfirm, HttpSession session) {
+        logger.info("joinParam : {}", user);
 
-		//회원가입 처리
-		boolean joinResult = userService.join(user, selectedProfile, userPwConfirm);
+        // 프로필 번호 확인
+        logger.info("Selected Profile: {}", selectedProfile);
 
-		if(joinResult) {
-			logger.info("회원가입 성공");
-			return "redirect:/";
-		} else {
-			logger.info("회원가입 실패");
-			return "redirect:./join";
-		}
-	}
+        // 회원가입 처리
+        boolean joinResult = userService.join(user, selectedProfile, userPwConfirm);
+
+        if (joinResult) {
+            logger.info("회원가입 성공");
+
+            // 로그인 처리 (세션에 사용자 정보 저장)
+            session.setAttribute("isLogin", true);
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("userNick", user.getUserNick());
+
+            return "redirect:/";
+        } else {
+            logger.info("회원가입 실패");
+            return "redirect:./join";
+        }
+    }
+
 	
 	@GetMapping("/view")
 	public void userView(User user, Model model) {
