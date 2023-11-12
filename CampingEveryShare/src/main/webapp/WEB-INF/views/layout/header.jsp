@@ -14,83 +14,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-
-$(document).ready(function () {
-	
-    $(".menu-icon").css("cursor","pointer").click(function () {
-            $("#menu").css("left", "0px")
-            $("#alert").css("left", "0px")
-    });
-    
-    $(".menu-back").css("cursor", "pointer").click(function () {
-    	 $("#menu").css("left", "-362px")
-    	 $("#alert").css("left", "-362px")
-    	 $("#alert").attr("style", "visibility:hidden")
-    });
-    
-    $(".alert-open").css("cursor", "pointer").click(function () {
-    	
-    	if( $("#alert").css("left") === "362px" ){
-        	$("#alert").css("left", "0px")
-    		$("#alert").attr("style", "visibility:hidden")
-    	} else {
-			$("#alert").attr("style", "visibility:visible")
-	    	$("#alert").css("left", "362px")
-		}
-    	
-    });
-    
-    $(".alert-back").css("cursor","pointer").click(function () {
-    	$("#alert").css("left", "0px")
-		$("#alert").attr("style", "visibility:hidden")
-    	
-    });
-    
-    
-    	// div 외부 클릭 시 닫힘 처리
-    $(document).on("click", function (event) {
-        if (!$(event.target).closest("#alert, #menu, .menu-icon").length) {
-	       	 $("#menu").css("left", "-362px")
-	    	 $("#alert").css("left", "-362px")
-	    	 $("#alert").attr("style", "visibility:hidden")
-        }
-    });
-
-
-	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
-	    var currentSrc = $(".tglStatus").attr("src");
-	    
-	    if (currentSrc === "/resources/img/toggle-brown-right.png") {
-	    	
-	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-left.png");
-	        $("#host").removeClass("userStatus")
-	        $("#guest").addClass("userStatus")
-	        $("#campStatus").html("내 예약").attr("camp-data", "/booking/list")
-	        
-	    } else {
-	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-right.png");
-	        $("#guest").removeClass("userStatus")
-	        $("#host").addClass("userStatus")
-	        $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/list")
-	    }
-	})
-
-});
-
-$(function() {
-	$("#campStatus").click(function() {
-		var campData = $("#campStatus").attr("camp-data")
-		console.log(campData)
-		
-		location.href = campData
-		
-	})
-})
-
-</script>
-
-
 <style type="text/css">
 
 .wrap {
@@ -161,7 +84,7 @@ $(function() {
     top: 0;
     left: -362px; 
     width: 362px; 
-    height: 5000px;
+    height: 100%;
     background-color: #F6E2A2; 
 /*     color: #fff;  */
     transition: left 0.4s; 
@@ -173,13 +96,13 @@ $(function() {
     top: 0;
     left: -362px; 
     width: 362px; 
-    height: 5000px;
+    height: 100%;
     border-radius: 0px;
     background-color: green; 
     color: #fff; 
     transition: left 0.4s; 
     z-index: -1;
- 	visibility: hidden; 
+ 	visibility: hidden;
 }
 
 .userStatus {
@@ -193,7 +116,9 @@ $(function() {
 	cursor: pointer;
 }
 
-/* 폰트 설정 */
+ul {
+	list-style: none;
+}
 
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
@@ -202,6 +127,93 @@ $(function() {
 }
 
 </style>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+	
+    $(".menu-icon").css("cursor","pointer").click(function () {
+            $("#menu").css("left", "0px")
+            $("#alert").css("left", "0px")
+    });
+    
+    $(".menu-back").css("cursor", "pointer").click(function () {
+    	 $("#menu").css("left", "-362px")
+    	 $("#alert").css("left", "-362px")
+    	 $("#alert").attr("style", "visibility:hidden")
+    });
+    
+    $(".alert-open").css("cursor", "pointer").click(function () {
+    	
+    	if( $("#alert").css("left") === "362px" ){
+        	$("#alert").css("left", "0px")
+    		$("#alert").attr("style", "visibility:hidden")
+    	} else {
+			$("#alert").attr("style", "visibility:visible")
+	    	$("#alert").css("left", "362px")
+		}
+    	
+        $.ajax({
+            type: "get"
+            , url: "/mypage/alert"
+            , data: {
+				userId: "${loginId}"
+            }
+            , dataType: "html"
+            , success: function( res ) {
+               console.log("AJAX 성공")
+				$("#alert").html(res)
+            }
+            , error: function() {
+               console.log("AJAX 실패")
+
+            }
+         })
+    	
+    });
+    
+    $(document).on("click", function (event) {
+        if (!$(event.target).closest("#alert, #menu, .menu-icon").length) {
+	       	 $("#menu").css("left", "-362px")
+	    	 $("#alert").css("left", "-362px")
+	    	 $("#alert").attr("style", "visibility:hidden")
+        }
+    });
+
+
+	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
+	    var currentSrc = $(".tglStatus").attr("src");
+	    
+	    if (currentSrc === "/resources/img/toggle-brown-right.png") {
+	    	
+	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-left.png");
+	        $("#host").removeClass("userStatus")
+	        $("#guest").addClass("userStatus")
+	        $("#campStatus").html("내 예약").attr("camp-data", "/booking/list")
+	        
+	    } else {
+	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-right.png");
+	        $("#guest").removeClass("userStatus")
+	        $("#host").addClass("userStatus")
+	        $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/list")
+	    }
+	})
+
+});
+
+$(function() {
+	$("#campStatus").click(function() {
+		var campData = $("#campStatus").attr("camp-data")
+		console.log(campData)
+		
+		location.href = campData
+	})
+})
+
+</script>
+
+
+
 </head>
 <body>
 
@@ -270,7 +282,8 @@ $(function() {
 		<c:if test="${not empty isLogin and isLogin }">
 		<span class="alert-open">알림</span>
 			<div id="alert" class="alert">
-				<jsp:include page="/WEB-INF/views/mypage/alert.jsp" />
+			<img class="alert-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
+<%-- 				<jsp:include page="/WEB-INF/views/mypage/alert.jsp" /> --%>
 			</div>
 		</c:if>
 		<c:if test="${empty isLogin or not isLogin }">
