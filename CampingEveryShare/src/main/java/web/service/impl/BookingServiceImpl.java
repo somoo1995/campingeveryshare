@@ -50,7 +50,11 @@ public class BookingServiceImpl implements BookingService {
 		map.put("paging", paging);
 		map.put("rent", rent);
 		
+//		map.put("night", map);
+		
 		List<Map<String, Object>> list = rentDao.selectAllByRentStatus(map);
+		
+//		logger.info("date : {}", date);
 		
 		return list;
 	}

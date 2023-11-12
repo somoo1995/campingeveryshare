@@ -67,13 +67,47 @@
 
 <script type="text/javascript">
 
-$(function() {
-	
+$(document).ready(function () {
+	loadBooking()
+
 	$("#btnCurrent").click(function() {
-		
+		$(this).addClass("active")
+		$("#btnHistory").removeClass("active")
+		loadBooking()
+	})
+	
+	$("#btnHistory").click(function() {
+		$(this).addClass("active")
+		$("#btnCurrent").removeClass("active")
+		loadBooking()
 	})
 	
 })
+
+function loadBooking() {
+	
+	var dataBooking = $(".button.active").data("booking")
+	console.log(dataBooking)
+	
+    $.ajax({
+        type: "get"
+        , url: "/booking/list?status=" + dataBooking
+        , data: {
+			
+        }
+        , dataType: "html"
+        , success: function( res ) {
+           console.log("AJAX 성공")
+			$("#bookingList").html(res)
+			
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+     })
+}
+
 
 </script>
 
@@ -83,50 +117,48 @@ $(function() {
          <h3 id="pageTitle">내 예약</h3>
     </div >
     
-    ${hasData }
+<%--     ${hasData } --%>
     
     <div class="button-group mt-5">
         <!-- param.status가 now, history 또는 설정되지 않았을 때 now로 간주 -->
-	    <a href="./main?status=now" class="button ${empty param.status || param.status == 'now' ? 'active' : ''}" id="btnCurrent">진행 중</a>
-	    <a href="./main?status=history" class="button ${param.status == 'history' ? 'active' : ''}" id="btnHistory">이전 내역</a>
+<%-- 	    <a href="./main?status=now" class="button ${empty param.status || param.status == 'now' ? 'active' : ''}" id="btnCurrent" data-booking="now">진행 중</a> --%>
+<%-- 	    <a href="./main?status=history" class="button ${param.status == 'history' ? 'active' : ''}" id="btnHistory" data-booking="history">이전 내역</a> --%>
+	    <a class="button active" id="btnCurrent" data-booking="now">진행 중</a>
+	    <a class="button" id="btnHistory" data-booking="history">이전 내역</a>
 	</div>
 		
-	<div class="mt-5">
+	<div class="mt-5 mb-5">
 	
-	<c:forEach var="list" items="${list }">
-	<ul>
-		<li>${list.CARNAME }</li>
-		<li>${list.LOCATION } ${list.AREA }</li>
-		<li>호스트 : ${list.HOSTNICK }</li>
-		<li>
-		출발 : <fmt:formatDate value="${list.START_DATE }" pattern="yyyy-MM-dd"/>
-		</li>
-		<li>
-		도착 : <fmt:formatDate value="${list.END_DATE }" pattern="yyyy-MM-dd"/>
-		</li>
-		<li>
-		예약일 : 
-		<fmt:parseDate value="${list.BOOKING_DATE }" var="booking" pattern="yyyy-MM-dd HH:mm"/>
-		<fmt:formatDate value="${booking }" pattern="yyyy-MM-dd HH:mm"/>
-		</li>
-	</ul>
-	</c:forEach>
-
+	<c:if test="${not empty hasData and hasData }">
+		<div class="bookingList" id="bookingList"></div>
+	</c:if>
 	
-	<c:choose>
-		<c:when test="${param.status == 'now' || empty param.status}">
+	
+	<c:if test="${empty hasData or not hasData }">
 			<div class="rentList">
 				<strong>아직 예약된 캠핑카가 없습니다!</strong><br>
 				<span>캠핑카를 찾으시나요?</span><br>
 				<a href="링크URL" class="exploreButton">살펴보기</a>
 			</div>
-		</c:when>
-		<c:when test="${param.status == 'history' }">
-			<div class="rentList">
-				<h5>이전 진행내역</h5>
-			</div>
-		</c:when>
-	</c:choose>
+	
+<%-- 	<c:choose> --%>
+<%-- 		<c:when test="${param.status == 'now' || empty param.status}"> --%>
+<!-- 			<div class="rentList"> -->
+<!-- 				<strong>아직 예약된 캠핑카가 없습니다!</strong><br> -->
+<!-- 				<span>캠핑카를 찾으시나요?</span><br> -->
+<!-- 				<a href="링크URL" class="exploreButton">살펴보기</a> -->
+<!-- 			</div> -->
+<%-- 		</c:when> --%>
+<%-- 		<c:when test="${param.status == 'history' }"> --%>
+<!-- 			<div class="rentList"> -->
+<!-- 				<strong>아직 예약된 캠핑카가 없습니다!</strong><br> -->
+<!-- 				<span>캠핑카를 찾으시나요?</span><br> -->
+<!-- 				<a href="링크URL" class="exploreButton">살펴보기</a> -->
+<!-- 			</div> -->
+<%-- 		</c:when> --%>
+<%-- 	</c:choose> --%>
+	</c:if>
+	
 	</div>
 
 
