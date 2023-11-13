@@ -116,7 +116,7 @@ pageEncoding="UTF-8"%>
             }
 
             console.log("동일한 비밀번호입니다.");
-            $("#pwDupleBlock").text("동일한 비밀번호입니다.");
+            $("#pwDupleBlock").text("동일한 비밀번호입니다.");  
             // TODO: ptag 표시
         });
     });

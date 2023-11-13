@@ -29,7 +29,7 @@
         WHERE user_id = #{userId}
     </select>
 
-    <select id="selectCntEmail" resultType="int" parameterType="String">
+    <select id="selectCntEmail" resultType="int" parameterType="String">  
         SELECT count(*)
         FROM userTb
         WHERE email = #{email}

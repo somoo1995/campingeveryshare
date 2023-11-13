@@ -32,9 +32,9 @@ public interface UserService {
 	 * 회원가입 이메일 중복체크
 	 * 
 	 * @param email
-	 * @return
+	 * @return 왜안나와
 	 */
-	public boolean joinEmailCheck(String email);
+	public boolean joinEmailCheck(String email);  
 
 	/**
 	 * 

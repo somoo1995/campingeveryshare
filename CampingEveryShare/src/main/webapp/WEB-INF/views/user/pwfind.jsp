@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript">
 function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
     var value = input.value;
-    var displayBlock = $("#" + displayBlock);
+    var displayBlock = $("#" + displayBlock);  
 
     console.info("checkDuplicate::" + value);
 

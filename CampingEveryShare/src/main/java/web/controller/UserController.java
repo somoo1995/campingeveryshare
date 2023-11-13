@@ -151,13 +151,13 @@ public class UserController {
 	public void idFind() {}
 	@PostMapping("/idfind")
 	public String idFind(User user) {
-		return null;
+		return "redirect:/user/login";
 	}
 	@GetMapping("/pwfind")
 	public void pwFind() {}
 	@PostMapping("/pwfind")
 	public String pwFind(User user) {
-		return null;
+		return "redirect:/user/login";
 	}
 	
 
