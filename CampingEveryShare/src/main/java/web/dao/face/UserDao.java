@@ -28,7 +28,7 @@ public interface UserDao {
 	 * @param userId
 	 * @return
 	 */
-	public int selectCntUserId(String userId);
+	public int selectCntUserId(String userId);    
 
 	/**
 	 *조회된 사용자의 수를 반환
@@ -54,8 +54,14 @@ public interface UserDao {
 
 	
 
-	public User selectInfo(User login);	
+	public User selectInfo(User login);
+
+	/**
+	 * 비밀번호 찾기
+	 * @param findPw  
+	 * @return
+	 */
+	public User findPw(User findPw);
 	
 
 }
-

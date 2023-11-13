@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		return nickCheck <= 0;
 	}
 
-	@Override
+	@Override  
 	public boolean join(User user, int selectedProfile, String userPwConfirm) {
 
 	    String userId = user.getUserId();
@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User info(User login) {
 	    return userDao.selectInfo(login);
+	}
+
+	@Override
+	public User findPw(User findPw) {
+		return userDao.findPw(findPw);
 	}
 
 
