@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
 		logger.info("map : {}", map);
 		
 		int totalCount = rentDao.selectCntAll(map);
-		Paging paging = new Paging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( totalCount, param.getCurPage(), 9, 10 );
 		
 		return paging;
 	}
@@ -50,11 +50,7 @@ public class BookingServiceImpl implements BookingService {
 		map.put("paging", paging);
 		map.put("rent", rent);
 		
-//		map.put("night", map);
-		
 		List<Map<String, Object>> list = rentDao.selectAllByRentStatus(map);
-		
-//		logger.info("date : {}", date);
 		
 		return list;
 	}

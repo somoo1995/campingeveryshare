@@ -16,9 +16,6 @@
 		<li style="font-size: 20px;">호스트 : ${list.HOSTNICK } 님</li>
 		<li style="font-size: 20px;">
 		<fmt:formatDate value="${list.START_DATE }" pattern="yyyy년 MM월 dd일"/> ~ <fmt:formatDate value="${list.END_DATE }" pattern="yyyy년 MM월 dd일"/>
-<!-- 		</li> -->
-<!-- 		<li> -->
-        <%-- 날짜 차이 계산 --%>
         (
 		<fmt:parseDate value="${list.END_DATE }" var="endDate" pattern="yyyy-MM-dd"/>
 		<fmt:parseDate value="${list.START_DATE }" var="startDate" pattern="yyyy-MM-dd"/>
@@ -41,6 +38,9 @@
 			</c:when>
 		</c:choose>
 	</ul>
+	<hr>
 	</c:forEach>
 </div>
+
+<c:import url="../layout/pagination.jsp" />
 
