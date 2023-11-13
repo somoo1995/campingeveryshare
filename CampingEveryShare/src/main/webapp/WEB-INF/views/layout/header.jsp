@@ -105,6 +105,16 @@
  	visibility: hidden;
 }
 
+.search {
+    position: fixed;
+    top: -200px;
+    width: 1300px; 
+    height: 150px;
+    background-color: #F6E2A2;
+    transition: top 0.4s; 
+    z-index: 1000;
+}
+
 .userStatus {
 	color: green;
 	font-weight: bold;
@@ -141,6 +151,7 @@ $(document).ready(function () {
     	 $("#menu").css("left", "-362px")
     	 $("#alert").css("left", "-362px")
     	 $("#alert").attr("style", "visibility:hidden")
+    	 $("#search").css("top", "-200px")
     });
     
     $(".alert-open").css("cursor", "pointer").click(function () {
@@ -173,14 +184,42 @@ $(document).ready(function () {
     });
     
     $(document).on("click", function (event) {
-        if (!$(event.target).closest("#alert, #menu, .menu-icon").length) {
+        if (!$(event.target).closest("#alert, #menu, .menu-icon, .search-icon, #search-query, #btnSearch").length) {
 	       	 $("#menu").css("left", "-362px")
 	    	 $("#alert").css("left", "-362px")
 	    	 $("#alert").attr("style", "visibility:hidden")
+	    	 $("#search").css("top", "-200px")
         }
     });
+	
+	$(".search-icon").css("cursor", "pointer").click(function () {
+		 $("#search").css("top", "0px")
+	
+	});
+	
+	$("#btnSearch").click(function() {
+		console.log("btnSearch click")
+		console.log($("#search-query").val())
+		
+		$form = $("<form>").attr({
+			action: "/search",
+			method: "get"
+		}).append(
+			$("<input>")
+				.attr("name", "query")
+				.css("display", "none")
+				.attr("value", $("#search-query").val() )
+		)
+		$(document.body).append( $form )
+		$form.submit()
+				
+	})
+	
 
+});
 
+$(function() {
+	
 	$(".tglStatus, #host, #guest").css("cursor", "pointer").click(function() {
 	    var currentSrc = $(".tglStatus").attr("src");
 	    
@@ -198,10 +237,7 @@ $(document).ready(function () {
 	        $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/list")
 	    }
 	})
-
-});
-
-$(function() {
+	
 	$("#campStatus").click(function() {
 		var campData = $("#campStatus").attr("camp-data")
 		console.log(campData)
@@ -211,8 +247,6 @@ $(function() {
 })
 
 </script>
-
-
 
 </head>
 <body>
@@ -226,6 +260,22 @@ $(function() {
 	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
 </div>
 
+<div class="main-category-menu mt-3">
+	<a>대여</a>
+	|
+	<a href="/share/list">캠핑존공유</a>
+	|
+	<a>중고장터</a>
+	|
+	<a>모집</a>
+</div>
+
+<div class="search" id="search">
+	<img class="menu-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
+	<div class="mt-5"><input type="text" name="query" id="search-query" ><button class="btn btn-sm" id="btnSearch">검색</button> </div>
+</div>
+
+</header><!-- .header end -->
 
 <div id="menu" class="menu">
 
@@ -243,21 +293,17 @@ $(function() {
 				<span onclick="location.href='/user/join'">회원가입</span>
 			</c:when>
 			<c:when test="${not empty isLogin and isLogin }">
+				<div> ${loginNick } 님, 환영합니다 </div>
 				<span onclick="location.href='/user/view'">내 정보</span>
 				|
 				<span onclick="location.href='/user/logout'">로그아웃</span>
 			</c:when>
 		</c:choose>
-		
-		<!--     <ul> -->
-		<!--         <li><a href="#">로그인</a></li> -->
-		<!--         <li><a href="#">회원가입</a></li> -->
-		<!--     </ul> -->
-		
 		</div> <!-- .profile-info end -->
 		
 		<c:if test="${not empty isLogin and isLogin }">
 		<div class="mt-5"></div>
+
 		<div>
 			<span id="guest" class="userStatus">게스트</span>
 			<img alt="statusToggle" src="/resources/img/toggle-brown-left.png" width="100px" height="90px" class="tglStatus">
@@ -282,7 +328,6 @@ $(function() {
 		<c:if test="${not empty isLogin and isLogin }">
 		<span class="alert-open">알림</span>
 			<div id="alert" class="alert">
-			<img class="alert-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
 <%-- 				<jsp:include page="/WEB-INF/views/mypage/alert.jsp" /> --%>
 			</div>
 		</c:if>
@@ -297,24 +342,19 @@ $(function() {
 		|
 		<span>고객문의</span>
 		</div>
-	
-	</div> <!-- .wrap-menu text-center end -->
+		
+		<div class="mt-5">
+		<span>관리자 페이지로</span>
+		</div>
+		
+
+	</div> <!-- .wrap-menu end -->
 	
 	</aside> <!-- #all_mymenu end -->
 
+
 </div> <!-- .menu end -->
 
-<div class="main-category-menu mt-3">
-<a>대여</a>
-|
-<a href="/share/list">캠핑존공유</a>
-|
-<a>중고장터</a>
-|
-<a>모집</a>
-</div>
-
-</header>
 
 <hr>
 
