@@ -54,8 +54,14 @@ public interface UserDao {
 
 	
 
-	public User selectInfo(User login);	
+	public User selectInfo(User login);
+
+	/**
+	 * 비밀번호 찾기
+	 * @param findPw
+	 * @return
+	 */
+	public User findPw(User findPw);	
 	
 
 }
-

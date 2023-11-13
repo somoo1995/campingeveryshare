@@ -82,6 +82,11 @@ public class UserServiceImpl implements UserService {
 	    return userDao.selectInfo(login);
 	}
 
+	@Override
+	public User findPw(User findPw) {
+		return userDao.findPw(findPw);
+	}
+
 
 }
 

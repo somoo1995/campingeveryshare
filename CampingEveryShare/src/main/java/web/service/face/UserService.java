@@ -55,7 +55,19 @@ public interface UserService {
 	 */
 	public boolean join(User user, int selectedProfile, String userPwConfirm);
 
+	/**
+	 * 회원 정보
+	 * @param user
+	 * @return
+	 */
 	public User info(User user);
+
+	/**
+	 * 비밀번호 찾기
+	 * @param findPw
+	 * @return
+	 */
+	public User findPw(User findPw);
 	
 
 }

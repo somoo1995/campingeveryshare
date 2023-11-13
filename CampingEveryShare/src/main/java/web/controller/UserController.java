@@ -122,7 +122,7 @@ public class UserController {
 		boolean isLogin = userService.login( login );
 		User loginInfo = userService.info(login);
 		
-		//[세션] 로그인 인증 결과
+		//[세션] 로그인 인증 결과 왜 업뎃안떠
 		
 		if( isLogin ) {
 			logger.info("로그인 성공");
