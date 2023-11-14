@@ -5,7 +5,7 @@ import java.util.Date;
 public class Alert {
 
 	private int alertNo;
-	private int userNo;
+	private String userId;
 	private String content;
 	private Date postDate;
 	private int alertStatus;
@@ -14,10 +14,11 @@ public class Alert {
 	
 	public Alert() {}
 
-	public Alert(int alertNo, int userNo, String content, Date postDate, int alertStatus, int boardCate, int boardNo) {
+	public Alert(int alertNo, String userId, String content, Date postDate, int alertStatus, int boardCate,
+			int boardNo) {
 		super();
 		this.alertNo = alertNo;
-		this.userNo = userNo;
+		this.userId = userId;
 		this.content = content;
 		this.postDate = postDate;
 		this.alertStatus = alertStatus;
@@ -27,7 +28,7 @@ public class Alert {
 
 	@Override
 	public String toString() {
-		return "alert [alertNo=" + alertNo + ", userNo=" + userNo + ", content=" + content + ", postDate=" + postDate
+		return "Alert [alertNo=" + alertNo + ", userId=" + userId + ", content=" + content + ", postDate=" + postDate
 				+ ", alertStatus=" + alertStatus + ", boardCate=" + boardCate + ", boardNo=" + boardNo + "]";
 	}
 
@@ -39,12 +40,12 @@ public class Alert {
 		this.alertNo = alertNo;
 	}
 
-	public int getUserNo() {
-		return userNo;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getContent() {
@@ -86,8 +87,5 @@ public class Alert {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	
-	
-	
 	
 }

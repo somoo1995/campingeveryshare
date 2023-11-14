@@ -8,18 +8,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-public class MypageInterceptor implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.info("mypage interceptor");
+		logger.info("login interceptor");
 		
 		HttpSession session = request.getSession();
 		if( session.getAttribute("isLogin") == null ) {
 			logger.info(" >> 접속 불가 : 비로그인 상태");
-			response.sendRedirect("./fail");
+			response.sendRedirect("/mypage/fail");
 			return false;
 		}
 		

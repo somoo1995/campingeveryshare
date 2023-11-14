@@ -17,7 +17,6 @@ public class Paging {
 	
 	private int category;
 	private String search;
-	private int status;
 
 	public Paging() {}
 
@@ -72,7 +71,7 @@ public class Paging {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
 				+ ", startNo=" + startNo + ", endNo=" + endNo + ", category=" + category + ", search=" + search
-				+ ", status=" + status + "]";
+				+ "]";
 	}
 
 	public int getCurPage() {
@@ -163,13 +162,6 @@ public class Paging {
 		this.search = search;
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 }
 

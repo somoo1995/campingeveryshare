@@ -25,26 +25,55 @@ public class BookingController {
 	
 	@Autowired BookingService bookingService;
 	
-	@GetMapping("/list")
-	public void bookinglist( 
+	@GetMapping("/main")
+	public void bookingMain( 
 			Model model, 
 			HttpSession session,
-			@RequestParam(value="rentstatus", required = false) String status,
+			@RequestParam(required = false) String status,
 			Paging param
 			) {
-//		logger.info("param : {}", param);
-//		logger.info("status : {}", status);
 		
 		Rent rent = new Rent();
-		rent.setUserId((String) session.getAttribute("userId"));
-		logger.info("rent : {}", rent);
-		
+		rent.setUserId((String) session.getAttribute("loginId"));
+			
 		Paging paging = bookingService.getPaging(param, status, rent);
-	
-//		List<Rent> list = bookingService.getList(paging);
-//		logger.info("list {} : ", list);
 		
-		List<Map<String, Object>> list = bookingService.getList(paging, rent);
+		boolean hasData = false;
+		if( paging.getTotalCount() > 0 ) {
+			hasData = true; 
+		}
+	
+		model.addAttribute("hasData", hasData);
 		
 	}
+	
+	@RequestMapping("/list")
+	public String bookingList(
+			Model model, 
+			HttpSession session,
+			@RequestParam(required = false) String status,
+			Paging param
+			) {
+		
+		Rent rent = new Rent();
+		rent.setUserId((String) session.getAttribute("loginId"));
+			
+		Paging paging = bookingService.getPaging(param, status, rent);
+		logger.info("paging : {}", paging);
+		
+		boolean hasData = false;
+		if( paging.getTotalCount() > 0 ) {
+			hasData = true; 
+		}
+		
+		List<Map<String, Object>> list = bookingService.getList(paging, rent);
+		logger.info("list {} : ", list);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("hasData", hasData);
+		model.addAttribute("list", list);
+		return "booking/list";
+	}
+	
 }
