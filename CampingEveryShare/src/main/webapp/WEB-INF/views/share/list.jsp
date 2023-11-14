@@ -17,12 +17,12 @@ pageEncoding="UTF-8"%>
 
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
-	<col style="15%">
-	<col style="20%">
-	<col style="30%">
-	<col style="10%">
-	<col style="10%">
-	<col style="15%">
+	<col style="width : 15%">
+	<col style="width : 20%">
+	<col style="width : 30%">
+	<col style="width : 10%">
+	<col style="width : 10%">
+	<col style="width : 15%">
 </colgroup>
 
 <thead>

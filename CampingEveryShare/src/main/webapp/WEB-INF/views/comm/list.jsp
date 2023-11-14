@@ -20,22 +20,16 @@ pageEncoding="UTF-8"%>
 		<col style="width: 10%;">
 	</colgroup>
 	<thead>
-	<tr>
-		<th>작성자</th>
-		<th>댓글</th>
-		<th>작성일</th>
-		<th></th>
-	</tr>
 	</thead>
 	<tbody id="commentBody">
-	<c:forEach items="${commList }" var="comm">
-	<tr data-commentNo="${comm.commNo }">
-		<td>${user.userNick }</td>
-		<td class="text-start">${comm.content }</td>
-		<td><fmt:formatDate value="${comm.postDate }" pattern="yy-MM-dd" /></td>
+	<c:forEach items="${getCommList }" var="commList">
+	<tr data-commentNo="${commList.COMM_NO }">
+		<td>${commList.USER_NICK }</td>
+		<td class="text-start">${commList.CONTENT }</td>
+		<td><fmt:formatDate value="${commList.POST_NAME}" pattern="yy-MM-dd" /></td>
 		<td>
-			<c:if test="${sessionScope.userId eq comm.userId }">
-			<button class="btn btn-warning btn-xs" onclick="deleteComment(${comm.commNo });">삭제</button>
+			<c:if test="${sessionScope.loginId eq commList.USER_ID }">
+			<button class="btn btn-warning btn-xs" onclick="deleteComment(${commList.COMM_NO });">삭제</button>
 			</c:if>
 		</td>
 		

@@ -10,14 +10,14 @@
 			SELECT board_no
 			, title
 			, location
-			, post_date
+			, CAST(post_date AS DATE) AS post_date
 			, hit 
 			, content
 			, delete_status
 			, board_cate
 			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
 			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
-			, (SELECT COUNT(*) FROM recomtb WHERE board_no = boardtb.board_no) AS "RECOM"
+			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 2) AS "RECOM"
 			, user_id
 			FROM boardtb
 			ORDER BY board_no DESC
@@ -40,7 +40,9 @@
 	    content,
 	    delete_status,
 	    board_cate,
-	    user_id
+	    user_id,
+	    (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND user_id = #{userId} AND board_cate = 2) AS "RECOM"
+	    
 	FROM boardtb
 	WHERE board_no = #{boardNo }
   	</select>

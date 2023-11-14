@@ -1,9 +1,9 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Comm;
-import web.dto.Recom;
 
 public interface CommDao {
  
@@ -22,14 +22,39 @@ public interface CommDao {
 	 * @return 
 	 */
 	public int insertCommByShare(Comm comm);
+	
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param comm - 삭제할 댓글의 정보
+	 */
+	public void deleteComm(Comm comm);
+	
+	/**
+	 * 댓글 갯수 
+	 * 
+	 * @param comm - 게시글에 작성된 댓글 갯수 구하기
+	 * @return - 댓글 갯수
+	 */
+	public int countComm(Comm comm);
+	
+	/**
+	 * 댓글 리스트를 새로 불러올 때 필요한 유저닉을 가져오기 위한 저렴한 친구
+	 * 
+	 * @param comm - 댓글 리스트를 불러오기 위해 필요한 유저 아이디
+	 * @return - 유저 닉
+	 */
+	public List<Map<String,Object>> selectCommByUserId(Comm comm);
+	
+	/**
+	 * 유저닉을 가져오기 위한 저렴한 친구
+	 * 
+	 * @param comm - 댓글 정보가 담겨있는 comm객체
+	 * @return - 유저 닉네임
+	 */
+	public List<Map<String, Object>> getCommListByUserNick(Comm comm);
 
-//	/**
-//	 * 상세조회한 게시글의 추천을 눌렀는지 확인
-//	 * 
-//	 * @param comm - 사용자와 게시글 정보를 가지고 있는 객체
-//	 * @return - 1 : 추천한적 있음 / 0 : 추천한적 없음
-//	 */
-//	public int selectCntRecommend(Comm comm);
+	
 
 
 	

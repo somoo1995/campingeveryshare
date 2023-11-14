@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +28,8 @@ public class CommController {
 	@RequestMapping("/insert")
 	public String insert(Board board, User user, Comm comm, Model model, HttpSession session) {
 		logger.info("comm : " + comm.toString());
+		logger.info("session : {}" + session.getId());
+		
 		int res = shareService.insertComm(comm);
 		logger.info("comm : " + comm.toString());
 		
@@ -34,17 +37,18 @@ public class CommController {
 	}
 
 	@GetMapping("/list")
-	public String getCommList(User user, Comm comm, Model model, HttpSession session) {
-
-		List<Comm> commList = shareService.getCommList(comm);
-		logger.info("user : " + user.toString());
-		shareService.getNick(user);
-		model.addAttribute("commList", commList);
-		model.addAttribute("user", user);
+	public String getCommList(Board board, User user, Comm comm, Model model, HttpSession session) {
 		
+		List<Map<String,Object>> getCommList = shareService.getCommListByUserNick(comm);
 		
-		logger.info("commList : " + commList.toString());
+		model.addAttribute("getCommList", getCommList);
 		
 		return "/comm/list";
+	}
+	
+	@RequestMapping("/delete")
+	public void delete(Comm comm, Model model, User user) {
+		boolean success = shareService.deleteComm(comm);
+		
 	}
 }

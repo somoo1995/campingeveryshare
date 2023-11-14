@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.Board;
 import web.dto.BoardFile;
+import web.dto.Comm;
 import web.dto.User;
 import web.util.Paging;
 
@@ -17,7 +18,7 @@ public interface ShareDao {
 	 * @param board 
 	 * @return - 조회된 게시글 전체
 	 */
-	public List<Board> selectShareAll(Paging paging);
+	public List<Map<String, Object>> selectShareAll(Paging paging);
 	
 	/**
 	 * 조회된 게시글 수 조회 (페이징)
@@ -107,6 +108,7 @@ public interface ShareDao {
 	 * @param board - 게시글 번호를 가져가서 삭제
 	 */
 	public void deleteByBoardNo(Board board);
+
 	
 	
 

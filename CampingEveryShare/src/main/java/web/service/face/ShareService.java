@@ -20,7 +20,7 @@ public interface ShareService {
 	 * @param paging - 페이징 객체
 	 * @return - 조회된 게시글 리스트
 	 */
-	public List<Board> list(Paging paging);
+	public List<Map<String, Object>> list(Paging paging);
 	
 	/**
 	 * 페이징 계산
@@ -114,21 +114,49 @@ public interface ShareService {
 	 */
 	public int insertComm(Comm comm);
 	
-//	/**
-//	 * 추천상태 확인
-//	 * 
-//	 * @param comm - 추천 상태 확인용 게시글 정보
-//	 * @return - true : 추천 / false : 추천 안함
-//	 */
-//	public boolean isRecom(Comm comm);
-//
-//	/**
-//	 * 총 추천수 조회
-//	 * 
-//	 * @param comm - 추천 수를 파악해야하는 게시글 정보
-//	 * @return - 총 추천수
-//	 */
-//	public int getTotalCntRecom(Comm comm);
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param - 삭제할 댓글의 정보
+	 * @return - 삭제 성공 여부
+	 */
+	public boolean deleteComm(Comm comm);
+
+	/**
+	 * 유저닉을 가져오기 위한 저렴한 친구들
+	 * 
+	 * @param comm - 댓글 정보를 가져감
+	 * @return - 유저닉
+	 */
+	public List<Map<String, Object>> getCommListByUserNick(Comm comm);
+	
+	/**
+	 * 로그인 한 아이디가 추천 했는지 조회
+	 * 
+	 * @param recom - 유저 아이디
+	 * @return - 했으면 1 / 안했으면 0
+	 */
+	public boolean reComCnt(Recom recom);
+
+	/**
+	 * 추천 상태 확인 후 추천 토글 작업
+	 * 
+	 * @param recom - 추천 대상 정보
+	 * @return - true : 추천함, false : 추천 취소
+	 */
+	public boolean recom(Recom recom);
+	
+	/**
+	 * 총 추천수
+	 * 
+	 * @param recom - 추천수 파악할 게시글 정보
+	 * @return - 총 추천 수
+	 */
+	public int getTotalCntRecom(Recom recom);
+	
+	
+	
+
 	
 
 

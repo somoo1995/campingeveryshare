@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.CommDao;
+import web.dao.face.ReComDao;
 import web.dao.face.ShareDao;
 import web.dto.Board;
 import web.dto.BoardFile;
@@ -30,11 +31,15 @@ public class ShareServiceImpl implements ShareService {
 
 	@Autowired ShareDao shareDao;
 	@Autowired CommDao commDao;
+	@Autowired ReComDao recomDao;
+	
 	@Autowired ServletContext context;
 	@Override
-	public List<Board> list(Paging paging) {
+	public List<Map<String, Object>> list(Paging paging) {
 		
-		return shareDao.selectShareAll(paging);
+		List<Map<String, Object>> list = shareDao.selectShareAll(paging);
+		
+		return list;
 	}
 
 	@Override
@@ -197,28 +202,65 @@ public class ShareServiceImpl implements ShareService {
 		int res = commDao.insertCommByShare(comm);
 		
 		if( res > 0 ) {
-			logger.info("졸려");
+
 		} else {
-			logger.info("안졸려");
+
 		}
 		
 		return res;
 	}
 	
-//	@Override
-//	public boolean isRecom(Comm comm) {
-//		int cnt = commDao.selectCntRecommend(comm);
-//		
-//		if(cnt > 0) { //추천했음
-//			return true;
-//		} else { //추천하지 않았음
-//			return false;
-//		}
-//	}
-//
-//	@Override
-//	public int getTotalCntRecom(Comm comm) {
-//		return commDao.selectTotalComm;
-//	}
+	@Override
+	public boolean deleteComm(Comm comm) {
+		
+		commDao.deleteComm(comm);
+
+		if( commDao.countComm(comm) > 0 ) {
+			return false;
+		}
+			return true;
+	}
 	
+	@Override
+	public List<Map<String, Object>> getCommListByUserNick(Comm comm) {
+		
+		List<Map<String, Object>> commList = commDao.getCommListByUserNick(comm);
+		
+		return commList;
+	}
+	
+	@Override
+	public boolean reComCnt(Recom recom) {
+		
+		int cnt = recomDao.selectCntRecomByUserId(recom);
+		
+		if( cnt > 0) {
+			return true;
+		} 
+		
+		return false;
+	}
+
+	@Override
+	public boolean recom(Recom recom) {
+		if( reComCnt(recom) ) {
+			recomDao.deleteReCom(recom);
+			
+			return false;
+		} else {
+			recomDao.insertReCom(recom);
+			
+			return true;
+		}
+	}
+
+	@Override
+	public int getTotalCntRecom(Recom recom) {
+		return recomDao.selectTotalCntRecom(recom);
+	}
+
+
+
+
+
 }
