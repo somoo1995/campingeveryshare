@@ -28,6 +28,7 @@ import web.service.face.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
 	
 	//로그 객체 생성d	
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
@@ -52,6 +53,7 @@ public class UserController {
 		return userService.joinNickCheck(userNick);
 	}
 
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         // SimpleDateFormat을 이용하여 날짜 형식 지정
@@ -60,6 +62,7 @@ public class UserController {
 
         // int 형식의 필드에 빈 문자열이나 null 값이 들어올 경우 0으로 초기화
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true) {
+
         	
         });
     }

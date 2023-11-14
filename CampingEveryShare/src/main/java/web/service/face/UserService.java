@@ -4,6 +4,7 @@ import web.dto.User;
 
 public interface UserService {
 
+
 	/**
 	 * 로그인 인증 처리
 	 * 
@@ -68,6 +69,5 @@ public interface UserService {
 	 * @return
 	 */
 	public User findPw(User findPw);
-	
 
 }

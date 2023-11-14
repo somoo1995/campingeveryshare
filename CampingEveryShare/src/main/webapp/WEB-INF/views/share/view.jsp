@@ -7,50 +7,54 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/header.jsp" />
 <script type="text/javascript">
 $(()=>{
-// 	if(${isRecom}) {
-// 		$("#btnRecom")
-// 			.addClass("btn-warning")
-// 			.html('추천 취소');
-// 	} else {
-// 		$("#btnRecom")
-// 			.addClass("btn-primary")
-// 			.html('추천');
-// 	}
-
-// 	$("#btnRecom").click(()=>{
-		
-// 		$.ajax({
-// 			type: "get"
-// 			, url: "/share/recommend"
-// 			, data: { "boardNo": '${board.boardNo }' }
-// 			, dataType: "json"
-// 			, success: function( data ) {
-// 					console.log("성공");
+	if(${isRecom}) {
+		$("#btnRecom")
+			.addClass("btn-warning")
+			.html('추천 취소');
+	} else {
+		$("#btnRecom")
+			.addClass("btn-primary")
+			.html('추천');
+	}
 	
-// 				if( data.result ) { //추천 성공
-// 					$("#btnRecom")
-// 					.removeClass("btn-primary")
-// 					.addClass("btn-warning")
-// 					.html('추천 취소');
-				
-// 				} else { //추천 취소 성공
-// 					$("#btnRecom")
-// 					.removeClass("btn-warning")
-// 					.addClass("btn-primary")
-// 					.html('추천');
-				
-// 				}
-				
-// 				//추천수 적용
-// 				$("#recom").html(data.cnt);
-				
-// 			}
-// 			, error: function() {
-// 				console.log("실패");
-// 			}
-// 		}); //ajax end
+	$("#btnRecom").click(()=>{
 		
-// 	}); 
+		$.ajax({
+			type: "get"
+			, url: "/share/recom"
+			, data: { 
+				userId : "${loginId}",
+				recomNo : ${board.boardNo},
+				boardCate : ${board.boardCate}
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
+	
+				if( data.result ) { //추천 성공
+					$("#btnRecom")
+					.removeClass("btn-primary")
+					.addClass("btn-warning")
+					.html('추천 취소');
+				
+				} else { //추천 취소 성공
+					$("#btnRecom")
+					.removeClass("btn-warning")
+					.addClass("btn-primary")
+					.html('추천');
+				
+				}
+				
+				//추천수 적용
+				$("#recom").html(data.cnt);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+		
+	}); //$("#btnRecommend").click() end
 
 	// 댓글 입력
 	$("#btnCommInsert").click(function() {
@@ -60,7 +64,8 @@ $(()=>{
 			, url: "/comm/insert"
 			, dataType: "json"
 			, data: {
-				userId : "${board.userId}",
+				userId : "${loginId}",
+				userNick : "${loginNick}",
 				boardNo : ${board.boardNo},
 				content : $("#commentContent").val(),
 				boardCate : ${board.boardCate}
@@ -91,7 +96,7 @@ function updateCommentList() {
         data: {
             boardNo: ${board.boardNo},
             boardCate: ${board.boardCate},
-            userNick : "${user.userNick}"
+            loginNick : "${user.userNick}"
         },
         dataType: "html",
         success: function (data) {
@@ -111,12 +116,15 @@ function deleteComment(commNo) {
 		, url: "/comm/delete"
 		, dataType: "json"
 		, data: {
-			commNo: commNo
-		}
+            boardNo: ${board.boardNo},
+            boardCate: ${board.boardCate},
+            loginNick : "${user.userNick}"	
+        },
+		dataType: "html"
 		, success: function(data){
 			if(data.success) {
 				
-				$("[data-commentno='"+commentNo+"']").remove();
+	            $("#commentBody").html(data);
 				
 			} else {
 				alert("댓글 삭제 실패");
@@ -188,19 +196,15 @@ function deleteComment(commNo) {
 </table> 
 
 <div class="text-center">
-<!-- 	<a href="./list" class="btn btn-secondary">목록</a> -->
-<%-- 	<c:if test="${sessionScope.isLogin }"> --%>
-<%-- 	<c:if test="${recom }"> --%>
-<!-- 	<a id="recom" class="btn btn-secondary">추천하기</a> -->
-<%-- 	</c:if> --%>
-<%-- 	<c:if test="${recom eq false }"> --%>
-<!-- 	<a id="recommend" class="btn btn-secondary">추천취소</a> -->
-<%-- 	</c:if> --%>
-	
-<%-- 	<p>추천수</p> <p id=reco>${reconum }</p> --%>
+	<a href="./list" class="btn btn-secondary">목록</a>
+<div>
+	<button id="btnRecom" class="btn"></button>
+</div>
+	<p>추천수</p> <p id=recom>${totalCnt }</p>
+	<c:if test="${loginId eq board.userId}">
 	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
-<%-- 	</c:if> --%>
+	</c:if>
 </div>
 
 <hr>
@@ -217,11 +221,11 @@ function deleteComment(commNo) {
 	<c:if test="${isLogin }">
 <!-- 	댓글 입력 -->
 	<div class="row justify-content-around align-items-center">
-	<input type="hidden" value="${userId }" >
+	<input type="hidden" value="${loginId }" >
 	<input type="hidden" value="${board.boardCate }">
 	<input type="hidden" value="${board.boardNo }">
 		<div class="col-2">
-			<input type="text" class="form-control" id="commentWriter" value="${userNick }" readonly="readonly"/>
+			<input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
 		</div>
 		<div class="col-9">
 			<textarea class="form-control" id="commentContent"></textarea>
@@ -248,13 +252,13 @@ function deleteComment(commNo) {
 	</thead>
 	<tbody id="commentBody">
 	<c:forEach items="${commList }" var="comm">
-	<tr data-commentNo="${comm.commNo }">
-		<td>${user.userNick }</td>
-		<td class="text-start">${comm.content }</td>
-		<td><fmt:formatDate value="${comm.postDate }" pattern="yy-MM-dd" /></td>
+	<tr data-commentNo="${comm.COMM_NO }">
+		<td>${comm.USER_NICK}</td>
+		<td class="text-start">${comm.CONTENT }</td>
+		<td><fmt:formatDate value="${comm.POST_DATE }" pattern="yy-MM-dd" /></td>
 		<td>
-			<c:if test="${sessionScope.userId eq comm.userId }">
-			<button class="btn btn-warning btn-xs" onclick="deleteComment(${comm.commNo });">삭제</button>
+			<c:if test="${sessionScope.loginId eq comm.USER_ID }">
+			<button class="btn btn-warning btn-xs" onclick="deleteComment(${comm.COMM_NO });">삭제</button>
 			</c:if>
 		</td>
 		

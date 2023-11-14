@@ -40,7 +40,7 @@ $(() => {
 
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" value="${userNick }">
+	<input type="text" class="form-control" readonly="readonly" value="${loginNick }">
 </div>
 
 <div class="form-group mb-3">

@@ -40,7 +40,6 @@ $(() => {
 
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
 
-나와줘 부탁이야!  ${boardCate }<br>
 
 <select name="boardCate" id="boardCate">
      <option value="1">대여</option>
@@ -56,10 +55,10 @@ $(() => {
      <option value="2">인천</option>
  </select>
  
-<input type="hidden" name="userId" value="${userId }" >
+<input type="hidden" name="loginId" value="${loginId }" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" name="userNick" readonly="readonly" value="${userNick }">
+	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">
 </div>
 
 <div class="form-group mb-3">

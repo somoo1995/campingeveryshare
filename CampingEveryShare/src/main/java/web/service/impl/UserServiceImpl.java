@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+
 	@Override
 	public boolean login(User user) {
 		 int loginChk = userDao.selectCntUser(user);
@@ -86,6 +87,7 @@ public class UserServiceImpl implements UserService {
 	public User findPw(User findPw) {
 		return userDao.findPw(findPw);
 	}
+
 
 
 }
