@@ -14,7 +14,10 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
    
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+<!-- 	<annotation-driven/> -->
+	<annotation-driven>
+<!-- 		<async-support default-timeout="30000" /> -->
+	</annotation-driven>
 	
 	<!-- spring-tx 모듈의 어노테이션 활성화 태그 -->
 	<tx:annotation-driven/>   

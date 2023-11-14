@@ -110,7 +110,7 @@
     top: -200px;
     width: 1300px; 
     height: 150px;
-    background-color: #F6E2A2;
+    background-color: #FFFFFF;
     transition: top 0.4s; 
     z-index: 1000;
 }
@@ -272,14 +272,17 @@ $(function() {
 
 <div class="search" id="search">
 	<img class="menu-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
-	<div class="mt-5"><input type="text" name="query" id="search-query" ><button class="btn btn-sm" id="btnSearch">검색</button> </div>
+	<div class="input-group mt-5" style="flex: 0; width: 800px; margin-left: 239px;">
+	<input class="form-control col-1" type="text" name="query" id="search-query">
+	<button class="btn btn-outline-secondary" id="btnSearch">검색</button>
+	</div>
 </div>
 
 </header><!-- .header end -->
 
 <div id="menu" class="menu">
 
-	<aside id="all_mymenu" role="navigation" style="left: 0px;" >
+	<aside id="all_mymenu" role="navigation" style="left: 0px; margin: 0 auto;" >
 	
 	<img class="menu-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
 	
@@ -293,7 +296,7 @@ $(function() {
 				<span onclick="location.href='/user/join'">회원가입</span>
 			</c:when>
 			<c:when test="${not empty isLogin and isLogin }">
-				<div> ${loginNick } 님, 환영합니다 </div>
+				<div class="mb-5"> ${loginNick } 님, 환영합니다 </div>
 				<span onclick="location.href='/user/view'">내 정보</span>
 				|
 				<span onclick="location.href='/user/logout'">로그아웃</span>
