@@ -6,7 +6,7 @@ public class Alert {
 
 	private int alertNo;
 	private String userId;
-	private String content;
+	private int content;
 	private Date postDate;
 	private int alertStatus;
 	private int boardCate;
@@ -14,8 +14,7 @@ public class Alert {
 	
 	public Alert() {}
 
-	public Alert(int alertNo, String userId, String content, Date postDate, int alertStatus, int boardCate,
-			int boardNo) {
+	public Alert(int alertNo, String userId, int content, Date postDate, int alertStatus, int boardCate, int boardNo) {
 		super();
 		this.alertNo = alertNo;
 		this.userId = userId;
@@ -48,11 +47,11 @@ public class Alert {
 		this.userId = userId;
 	}
 
-	public String getContent() {
+	public int getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(int content) {
 		this.content = content;
 	}
 
@@ -87,5 +86,5 @@ public class Alert {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	
-}
+
+	}

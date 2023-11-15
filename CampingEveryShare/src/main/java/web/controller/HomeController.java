@@ -30,6 +30,9 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("/mypage/fail")
+	public void noLogin() {}
+	
 	@GetMapping("/search")
 	public String search( Paging param, @RequestParam(value = "query", required = false) String query ) {
 		logger.info("query : {}", query);

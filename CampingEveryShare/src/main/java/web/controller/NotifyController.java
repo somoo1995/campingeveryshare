@@ -4,48 +4,41 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import web.dto.Alert;
-import web.service.face.AlertService;
-
 @Controller
-@RequestMapping("/alert")
-public class AlertController {
+public class NotifyController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 	
 	public Map<String, SseEmitter> emitters = new HashMap<>();
 	
-	@Autowired AlertService alertService;
-	
-	@GetMapping("/alert")
-	public String alert( Model model, Alert alert ) {
-		logger.info("alert : {}", alert);
-		
-		List<Alert> list = alertService.getList(alert);
-		
-		model.addAttribute("list", list);
-		
-		return "mypage/alert";
-	}
-	
-    @RequestMapping(value = "/get", consumes = MediaType.ALL_VALUE)
+    @GetMapping("/get")
+    public String getindex() {
+        return "notify/getNotification";
+    }
+    
+    @GetMapping("/send")
+    public String sendindex() {
+        return "notify/sendNotification";
+    }
+
+    @RequestMapping(value = "/getnotification", consumes = MediaType.ALL_VALUE)
     @ResponseBody
     public SseEmitter getNotification( HttpSession session ) {
     	
@@ -105,6 +98,5 @@ public class AlertController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+    
 }
