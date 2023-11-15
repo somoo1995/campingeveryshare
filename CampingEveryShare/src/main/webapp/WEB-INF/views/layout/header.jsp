@@ -140,7 +140,21 @@ ul {
 
 <script type="text/javascript">
 
-$(document).ready(function () {
+$(function() {
+	
+	var urlEndPoint = "/alert/get?userId=" + "${loginId}"
+	var eventSource = new EventSource(urlEndPoint)
+	
+	eventSource.onmessage = function (event) {
+		console.log(event)
+	    var message = event.data;
+	    console.log(message)
+	    $("#notifications").append("<p>" + decodeURI(message) + "</p>");
+	}
+})
+
+
+$(function() {
 	
     $(".menu-icon").css("cursor","pointer").click(function () {
             $("#menu").css("left", "0px")
@@ -166,7 +180,7 @@ $(document).ready(function () {
     	
         $.ajax({
             type: "get"
-            , url: "/mypage/alert"
+            , url: "/alert"
             , data: {
 				userId: "${loginId}"
             }
