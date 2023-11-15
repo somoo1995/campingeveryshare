@@ -5,14 +5,18 @@
 
 
 <mapper namespace="web.dao.face.UserDao">
+
 	<select id="selectCntUser" resultType="int" parameterType="User">
+
     SELECT count(*)
     FROM userTb
     <where>
         <if test="userId != null and userId != ''"> AND user_id = #{userId} </if>
         <if test="userPw != null and userPw != ''"> AND user_pw = #{userPw} </if>
     </where>
+
 	</select>
+
 
     <select id="findId" resultType="User" parameterType="User">
     SELECT *
@@ -21,7 +25,9 @@
         <if test="email != null and email != ''"> AND email = #{email} </if>
         <if test="userName != null and userName != ''"> AND user_name = #{userName} </if>
     </where>
+
 	</select>
+
 
     <select id="selectCntUserId" resultType="int" parameterType="String">
         SELECT count(*)
@@ -41,10 +47,12 @@
         WHERE user_nick = #{userNick}
     </select>
 
+
 	<insert id="insert" parameterType="User">
     INSERT INTO userTb (user_id, user_pw, email, user_name, user_nick, birth, address, address_detail, phone, profile, join_date, user_status)
     VALUES (#{userId}, #{userPw}, #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, #{profile}, SYSDATE, #{userStatus})
 	</insert>
+
 
 
     <select id="selectInfo" resultType="User" parameterType="User">
@@ -52,6 +60,7 @@
     FROM userTb
     WHERE user_id = #{userId}
     AND user_pw = #{userPw, jdbcType=VARCHAR}
+
 	</select>
 	
 	<select id="findPw" resultType="User" parameterType="User">
@@ -63,5 +72,27 @@
         <if test="email != null and email != ''"> AND email = #{email} </if>
     </where>
 	</select>
+
+	<select id="selectById" resultType="User" parameterType="string">
+	SELECT * FROM userTb
+	<where>
+		user_id = #{userId}
+	</where>
+	</select>
 	
+	<update id="updateUser" parameterType="User">
+	    UPDATE userTb
+	    SET
+	        user_pw = #{userPw},
+	        birth = #{birth}, 
+	        address = #{address}, 
+	        address_detail = #{addressDetail},
+	        phone = #{phone}, 
+	        profile = #{profile}
+	    WHERE
+	        user_id = #{userId}
+	</update>
+
+
+
 </mapper>

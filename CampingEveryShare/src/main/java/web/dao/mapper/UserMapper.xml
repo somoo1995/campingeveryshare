@@ -73,4 +73,26 @@
     </where>
 	</select>
 
+	<select id="selectById" resultType="User" parameterType="string">
+	SELECT * FROM userTb
+	<where>
+		user_id = #{userId}
+	</where>
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+	    UPDATE userTb
+	    SET
+	        user_pw = #{userPw},
+	        birth = #{birth}, 
+	        address = #{address}, 
+	        address_detail = #{addressDetail},
+	        phone = #{phone}, 
+	        profile = #{profile}
+	    WHERE
+	        user_id = #{userId}
+	</update>
+
+
+
 </mapper>

@@ -75,9 +75,6 @@ public class UserServiceImpl implements UserService {
 	    }
 	}
 
-
-
-
 	@Override
 	public User info(User login) {
 	    return userDao.selectInfo(login);
@@ -87,6 +84,40 @@ public class UserServiceImpl implements UserService {
 	public User findPw(User findPw) {
 		return userDao.findPw(findPw);
 	}
+
+	@Override
+	public User info(String loginId) {
+		return userDao.selectById(loginId);
+	}
+
+	@Override
+	public boolean updateUser(User updateUser, String userPwConfirm) {
+
+	    String userId = updateUser.getUserId();
+	    String userPw = updateUser.getUserPw();
+
+	    // 중복 ID인지 확인
+	    if (userDao.selectCntUserId(userId) < 0 ) {
+	        return false;
+	    }
+
+	    // 비밀번호와 비밀번호 확인이 일치할 때만 회원 정보 삽입
+	    if (userPw.equals(userPwConfirm)) {
+	        // 프로필 번호 설정
+//	    	updateUser.setProfile(selectedProfile);
+
+	        // 회원 정보 삽입
+	        userDao.updateUser(updateUser);
+	        
+	        return true;
+
+	    } else {
+	        // 비밀번호가 일치하지 않는 경우 가입 실패
+	        return false;
+	    }
+	}
+
+
 
 
 

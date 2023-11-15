@@ -64,6 +64,20 @@ public interface UserDao {
 	 */
 	public User findPw(User findPw);
 	
+	/**
+	 * 마이페이지 아이디
+	 * 
+	 * @param loginId
+	 * @return
+	 */
+	public User selectById(String loginId);
 
+	/**
+	 * 회원정보 수정사항 업데이트
+	 * 
+	 * @param updateUser
+	 * @return
+	 */
+	public void updateUser(User updateUser);
 }
 
