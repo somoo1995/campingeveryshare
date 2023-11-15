@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Msg {
 
+	private int roomNo;
 	private int msgNo;
 	private String writerId;
 	private String receiverId;
@@ -15,9 +16,14 @@ public class Msg {
 	
 	public Msg() {}
 
-	public Msg(int msgNo, String writerId, String receiverId, Date postDate, String content, int msgStatus,
+	
+
+	
+
+	public Msg(int roomNo, int msgNo, String writerId, String receiverId, Date postDate, String content, int msgStatus,
 			int boardCate, int boardNo) {
 		super();
+		this.roomNo = roomNo;
 		this.msgNo = msgNo;
 		this.writerId = writerId;
 		this.receiverId = receiverId;
@@ -28,11 +34,15 @@ public class Msg {
 		this.boardNo = boardNo;
 	}
 
+
+
+
+
 	@Override
 	public String toString() {
-		return "Msg [msgNo=" + msgNo + ", writerId=" + writerId + ", receiverId=" + receiverId + ", postDate="
-				+ postDate + ", content=" + content + ", msgStatus=" + msgStatus + ", boardCate=" + boardCate
-				+ ", boardNo=" + boardNo + "]";
+		return "Msg [roomNo=" + roomNo + ", msgNo=" + msgNo + ", writerId=" + writerId + ", receiverId=" + receiverId
+				+ ", postDate=" + postDate + ", content=" + content + ", msgStatus=" + msgStatus + ", boardCate="
+				+ boardCate + ", boardNo=" + boardNo + "]";
 	}
 
 	public int getMsgNo() {
@@ -97,6 +107,14 @@ public class Msg {
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
+	}
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
 
 }

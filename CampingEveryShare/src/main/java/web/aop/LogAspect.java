@@ -18,9 +18,10 @@ public class LogAspect {
 	@Autowired HttpServletRequest req;
 	
 	@Before("execution(* *..controller..*.*(..))")
-//	@Before("execution(* a.b.c.HomeController.home(..))")
 	public void controllerLog() {
-		logger.info("{} [{}]", req.getRequestURI(), req.getMethod());
+	    if (req != null) {
+	        logger.info("{} [{}]", req.getRequestURI(), req.getMethod());
+	    }
 	}
 	
 	@Before("execution(* *..service..*.*(..))")
