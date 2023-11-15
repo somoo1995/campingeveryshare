@@ -69,5 +69,23 @@ public interface UserService {
 	 * @return
 	 */
 	public User findPw(User findPw);
+	
+	/**
+	 * 내정보확인 로그인 아이디
+	 * 
+	 * @param loginId
+	 * @return
+	 */
+	public User info(String loginId);
 
+
+	/**
+	 * 회원정보 수정 후 업데이트
+	 * 
+	 * @param updateUser
+	 * @param userPwConfirm 
+	 * @param selectedProfile 
+	 * @return
+	 */
+	public boolean updateUser(User updateUser, String userPwConfirm);
 }

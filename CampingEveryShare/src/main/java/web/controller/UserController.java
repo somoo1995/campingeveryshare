@@ -16,11 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import web.dto.User;
 import web.service.face.UserService;
@@ -91,7 +93,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/view")
-	public void userView(User user, Model model) {
+	public void userView(
+			@SessionAttribute("loginId") String loginId
+			, Model model) {
+		logger.info("view[GET]");
+		logger.info("loginId : {}",loginId);
+		User login = userService.info(loginId);
+		model.addAttribute("login",login);
 		
 	}
 	
@@ -106,9 +114,42 @@ public class UserController {
 	}
 	
 	@GetMapping("/update")
-	public String userUpdate(User user) {
-		return null;
+	public String userUpdate(
+	        @SessionAttribute("loginId") String loginId,
+	        Model model) {
+	    logger.info("update[GET]");
+	    logger.info("loginId: {}", loginId);
+	    User updateUser = userService.info(loginId); // Assuming there is a method to get the user
+	    model.addAttribute("updateUser", updateUser); // Add the user to the model
+	    return "/user/update"; // Return the view name (assuming "user/update" is the update page)
 	}
+
+	@PostMapping("/update")
+	public String userUpdateProc(
+	        @ModelAttribute User updateUser,
+	        @SessionAttribute("loginId") String loginId,
+	        @RequestParam(value = "userPwConfirm", required = false) String userPwConfirm,
+	        HttpSession session,
+	        Model model) {
+	    logger.info("update[POST]");
+	    logger.info("loginId: {}", loginId);
+
+	    // 올바른 user_id 설정
+	    updateUser.setUserId(loginId);
+
+	    boolean updateResult = userService.updateUser(updateUser, userPwConfirm);
+
+	    if (updateResult) {
+	        logger.info("정보수정 성공");
+	        model.addAttribute("message", "사용자 정보가 성공적으로 업데이트되었습니다.");
+	        return "redirect:/user/view";
+	    } else {
+	        logger.info("정보수정 실패");
+	        return "redirect:/user/update";
+	    }
+	}
+
+
 	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
