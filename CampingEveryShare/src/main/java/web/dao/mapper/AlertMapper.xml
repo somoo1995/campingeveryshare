@@ -15,6 +15,33 @@
 		<where>
 			AND user_id = #{userId }
 		</where>
+		ORDER BY alert_no DESC
+	</select>
+
+	<insert id="insertAlert" parameterType="Alert">
+		<selectKey order="BEFORE" keyProperty="alertNo" resultType="int">
+			SELECT alert_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO alerttb ( alert_no, user_id, content, board_cate, board_no )
+		VALUES ( #{alertNo }, #{userId }, #{content }, #{boardCate }, #{boardNo } )
+	</insert>
+
+	<update id="updateAlertStatus" parameterType="Alert">
+		UPDATE alerttb
+		<set>
+			alert_status = 1,
+		</set>
+		<where>
+			AND alert_no = #{alertNo }
+		</where>
+	</update>
+	
+	<select id="countStatus">
+		SELECT count(*) FROM alerttb
+		<where>
+			AND user_id = #{userId }
+			AND alert_status = 0
+		</where>
 	</select>
 
 </mapper>
