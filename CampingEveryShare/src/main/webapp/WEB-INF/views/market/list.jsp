@@ -73,19 +73,19 @@ pageEncoding="UTF-8"%>
     <h6>작성자 : ${board.USER_NICK }</h6>
     <c:if test="${not empty board.THUMBNAIL_NAME}">
       <div>
-        <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
+        <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
           <img class="preview" src="/upload/${board.THUMBNAIL_NAME}"/>
         </a>
       </div>
     </c:if>
     <c:if test="${empty board.THUMBNAIL_NAME}">
       <div>
-        <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
+        <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
           <img class="preview" src="/resources/img/noimg.png"/>
         </a>
       </div>
     </c:if>
-    <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
+    <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
       <h6 class="title">제목 : ${board.TITLE }</h6>
     </a>
     <h6>조회수 : ${board.HIT}</h6>
@@ -110,7 +110,7 @@ pageEncoding="UTF-8"%>
   </c:if>
 </c:forEach>
 
-<a  href="/share/write?boardCate=${board.boardCate }"><button>글쓰기</button></a>
+<a  href="/market/write?boardCate=${board.boardCate }"><button>글쓰기</button></a>
 
 
 

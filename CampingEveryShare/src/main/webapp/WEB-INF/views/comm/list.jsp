@@ -5,14 +5,12 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<div class="container">
 
 
 <!-- 작성 공간 -->
-<div class="pageTitle">
-</div>
+
 	<!-- 댓글 리스트 -->
-	<table class="table table-striped table-hover table-condensed text-center">
+	<table class="table table-striped table-hover table-condensed text-center" >
 	<colgroup>
 		<col style="width: 15%;">
 		<col style="width: 55%;">
@@ -26,13 +24,12 @@ pageEncoding="UTF-8"%>
 	<tr data-commentNo="${commList.COMM_NO }">
 		<td>${commList.USER_NICK }</td>
 		<td class="text-start">${commList.CONTENT }</td>
-		<td><fmt:formatDate value="${commList.POST_NAME}" pattern="yy-MM-dd" /></td>
+		<td><fmt:formatDate value="${commList.POST_DATE}" pattern="yy-MM-dd" /></td>
 		<td>
 			<c:if test="${sessionScope.loginId eq commList.USER_ID }">
 			<button class="btn btn-warning btn-xs" onclick="deleteComment(${commList.COMM_NO });">삭제</button>
 			</c:if>
 		</td>
-		
 	</tr>
 	</c:forEach>
 	</tbody>
@@ -40,6 +37,3 @@ pageEncoding="UTF-8"%>
 
 
 
-</div><!-- .container -->
-
-<c:import url="../layout/footer.jsp" />

@@ -15,21 +15,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.CommDao;
+import web.dao.face.MarketDao;
 import web.dao.face.ReComDao;
-import web.dao.face.ShareDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Recom;
 import web.dto.User;
-import web.service.face.ShareService;
+import web.service.face.MarketService;
 import web.util.Paging;
 
 @Service
-public class ShareServiceImpl implements ShareService {
+public class MarketServiceImpl implements MarketService {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
-	@Autowired ShareDao shareDao;
+	@Autowired MarketDao marketDao;
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
 	
@@ -37,7 +37,7 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public List<Map<String, Object>> list(Paging paging) {
 		
-		List<Map<String, Object>> list = shareDao.selectShareAll(paging);
+		List<Map<String, Object>> list = marketDao.selectMarketAll(paging);
 		
 		return list;
 	}
@@ -45,7 +45,7 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public Paging getPaging(Paging param) {
 
-		int totalCount = shareDao.selectCntAll();
+		int totalCount = marketDao.selectCntAll();
 
 		Paging paging = new Paging(totalCount, param.getCurPage());
 		
@@ -53,10 +53,10 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
-	public Board shareView(Board board) {
+	public Board marketView(Board board) {
 
-		Board boardtb = shareDao.selectBoardView(board);
-		shareDao.hit(board);
+		Board boardtb = marketDao.selectBoardView(board);
+		marketDao.hit(board);
 		
 		return boardtb;
 	}
@@ -64,7 +64,7 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public User getNick(User user) {
 		
-		User usertb = shareDao.selectByUserNick(user);
+		User usertb = marketDao.selectByUserNick(user);
 		
 		return usertb;
 	}
@@ -72,17 +72,17 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public List<BoardFile> fileView(Board board) {
 
-		return shareDao.selectGetFileByBoardNo(board);
+		return marketDao.selectGetFileByBoardNo(board);
 	}
 	
 	@Override
-	public void shareWrite(Board board, List<MultipartFile> file) {
+	public void marketWrite(Board board, List<MultipartFile> file) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle())) {
 			board.setTitle("(제목없음)");
 		}		
 	
-		shareDao.insertShareWrite(board);
+		marketDao.insertMarketWrite(board);
 		
 		//--------------------------------------------------------------------------------
 		
@@ -136,23 +136,23 @@ public class ShareServiceImpl implements ShareService {
 		boardFile.setOriginName(originName);
 		boardFile.setStoredName(storedName);
 		
-		shareDao.insertShareFile( boardFile );		
+		marketDao.insertMarketFile( boardFile );		
 	}
 	
 	@Override
 	public Board view(Board board) {
 
 		if( board.getHit() != -1 ) {
-			shareDao.hit(board);
+			marketDao.hit(board);
 		}
 		
-		return shareDao.selectBoardView(board);
+		return marketDao.selectBoardView(board);
 	}
 	
 	@Override
 	public List<BoardFile> getAttachFile(Board board) {
 		
-		return shareDao.selectShareFileByBoardNo(board);
+		return marketDao.selectMarketFileByBoardNo(board);
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class ShareServiceImpl implements ShareService {
 			board.setTitle("(제목없음)");
 		}
 		
-		shareDao.updateProc(board);
+		marketDao.updateProc(board);
 
 		//---------------------------------------------------------------------------
 		
@@ -179,15 +179,15 @@ public class ShareServiceImpl implements ShareService {
 
 		//삭제할 첨부 파일 처리
 		if( delFileNo != null ) {
-			shareDao.deleteFiles( delFileNo );
+			marketDao.deleteFiles( delFileNo );
 		}
 		
 	}
 
 	@Override
 	public void delete(Board board, BoardFile boardFile) {
-		shareDao.deleteFileByBoardNo( boardFile );
-		shareDao.deleteByBoardNo( board );	
+		marketDao.deleteFileByBoardNo( boardFile );
+		marketDao.deleteByBoardNo( board );	
 	}
 	
 	@Override
@@ -199,7 +199,7 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public int insertComm(Comm comm) {
 
-		int res = commDao.insertCommByShare(comm);
+		int res = commDao.insertCommByMarket(comm);
 		
 		if( res > 0 ) {
 

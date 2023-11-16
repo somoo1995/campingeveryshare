@@ -22,28 +22,28 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Recom;
 import web.dto.User;
-import web.service.face.ShareService;
+import web.service.face.MarketService;
 import web.util.Paging;
   
 @Controller
-@RequestMapping("/share")
-public class ShareController {
+@RequestMapping("/market")
+public class MarketController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	
 	
-	@Autowired ShareService shareService;
+	@Autowired MarketService marketService;
 	
 	@GetMapping("list")
-	public void shareList(Paging param, Model model, Board board) {
+	public void marketList(Paging param, Model model, Board board) {
 		
 		
-		Paging paging = shareService.getPaging( param );
+		Paging paging = marketService.getPaging( param );
 		logger.info("paging : {}", paging);
 		
 		
 		
-		List<Map<String, Object>> list = shareService.list(paging);
+		List<Map<String, Object>> list = marketService.list(paging);
 		
 		
 		model.addAttribute("paging", paging);
@@ -57,14 +57,14 @@ public class ShareController {
 	}
 	
 	@GetMapping("view")
-	public String shareView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session) {
+	public String marketView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session) {
 	
-		board = shareService.shareView(board);
+		board = marketService.marketView(board);
 		user.setUserId(board.getUserId());
-		user = shareService.getNick(user);
+		user = marketService.getNick(user);
 		logger.info("board : {}" + board.toString());
 		
-		List<BoardFile> boardFile = shareService.fileView(board);
+		List<BoardFile> boardFile = marketService.fileView(board);
 		model.addAttribute("boardFile", boardFile);
 		logger.info("boarFile : {}", boardFile);
 		
@@ -75,9 +75,9 @@ public class ShareController {
 		recom.setBoardCate(board.getBoardCate());
 		recom.setRecomNo(board.getBoardNo());
 		logger.info("recom : {} " + recom.toString());
-		boolean isRecom = shareService.reComCnt(recom);
+		boolean isRecom = marketService.reComCnt(recom);
 		model.addAttribute("isRecom", isRecom);
-		model.addAttribute("cntRecom", shareService.getTotalCntRecom(recom));
+		model.addAttribute("cntRecom", marketService.getTotalCntRecom(recom));
 		logger.info("isRecom : {} " + isRecom);
 //		logger.info("model : {} " + model.toString());
 		
@@ -85,11 +85,11 @@ public class ShareController {
 		recom.setUserId((String) session.getAttribute("loginId"));
 		recom.setRecomNo(board.getBoardNo());
 		recom.setBoardCate(board.getBoardCate());	
-		int totalCnt = shareService.getTotalCntRecom(recom);
+		int totalCnt = marketService.getTotalCntRecom(recom);
 		logger.info("totalCnt" + totalCnt);
 		
 		//댓글 리스트
-		List<Comm> commList = shareService.getCommList(comm);
+		List<Comm> commList = marketService.getCommList(comm);
 		logger.info("user : {} " + user.toString());
 		logger.info("board : {} " + board.toString());
 		logger.info("commList : {} " + commList.toString());
@@ -98,7 +98,7 @@ public class ShareController {
 		model.addAttribute("board", board);
 		model.addAttribute("user", user);
 		model.addAttribute("totalCnt", totalCnt);
-		return "/share/view";
+		return "/market/view";
 	}
 	
 	
@@ -107,7 +107,7 @@ public class ShareController {
 	}
 	
 	@PostMapping("/write")
-	public String shareWrite(
+	public String marketWrite(
 			User user
 			, Board board
 			, List<MultipartFile> file
@@ -120,7 +120,7 @@ public class ShareController {
 		user.setUserNick((String) session.getAttribute("loginNick"));
 		logger.info("board : {} " + board);
 		
-		shareService.shareWrite(board, file);
+		marketService.marketWrite(board, file);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -135,14 +135,14 @@ public class ShareController {
 		board.setHit(-1);
 		
 		//상세보기 게시글 조회
-		board = shareService.view(board);
+		board = marketService.view(board);
 		model.addAttribute("board", board);
 
 		//첨부파일 정보 전달
-		List<BoardFile> boardfile = shareService.getAttachFile( board );
+		List<BoardFile> boardfile = marketService.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
 		
-		return "share/update";
+		return "market/update";
 	}
 	
 	@PostMapping("/update")
@@ -160,7 +160,7 @@ public class ShareController {
 		board.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		shareService.updateProc(board, file, delFileNo);
+		marketService.updateProc(board, file, delFileNo);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -171,7 +171,7 @@ public class ShareController {
 			return "redirect:./list";
 		}
 
-		shareService.delete(board, boardFile);
+		marketService.delete(board, boardFile);
 		
 		return "redirect:./list";
 	}
@@ -185,12 +185,12 @@ public class ShareController {
 		logger.info("model : {}" + model.toString());
 		recom.setUserId((String) session.getAttribute("loginId"));
 		recom.setBoardCate(board.getBoardCate());
-		boolean result = shareService.recom(recom);
+		boolean result = marketService.recom(recom);
 		logger.info("recom : {} " + recom.toString());
 		mav.addObject("result", result);
 		
 		//추천 수
-		int cnt = shareService.getTotalCntRecom(recom);
+		int cnt = marketService.getTotalCntRecom(recom);
 		mav.addObject("cnt", cnt);
 		logger.info("cnt : {}" + cnt);
 		
