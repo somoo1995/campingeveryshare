@@ -8,11 +8,7 @@ pageEncoding="UTF-8"%>
 
 <div class="container">
 
-<div style="text-align: center;">
 
-<h2>메인 이미지 등록 필요</h2>
-
-</div>
 
 </div><!-- .container -->
 
