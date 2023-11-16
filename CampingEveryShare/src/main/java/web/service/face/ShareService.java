@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
-
+  
 import web.dto.Board;
 import web.dto.BoardFile;
+import web.dto.Comm;
+import web.dto.Recom;
 import web.dto.User;
 import web.util.Paging;
 
@@ -75,5 +77,89 @@ public interface ShareService {
 	 * @return 첨부파일 정보
 	 */
 	public List<BoardFile> getAttachFile(Board board);
+	
+	/**
+	 * 게시글 수정 처리
+	 *  + 첨부 파일을 처리한다
+	 *  (첨부 파일은 여러 개 가능)
+	 *  + 삭제할 첨부 파일을 처리한다
+	 * 
+	 * @param updateParam - 게시글 정보 객체
+	 * @param file - 첨부 파일 리스트
+	 * @param delFileno - 삭제할 첨부 파일 번호
+	 */
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo);
+	
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board - 삭제할 게시글 번호
+	 * @param boardFile - 삭제할 파일 번호
+	 */
+	public void delete(Board board, BoardFile boardFile);
+
+	/**
+	 * 댓글 리스트 조회
+	 * 
+	 * @param comm - 댓글 리스트를 받아올 comm 객체
+	 * @return - 받아온 댓글 리스트
+	 */
+	public List<Comm> getCommList(Comm comm);
+	
+	/**
+	 * 댓글 삽입
+	 * 
+	 * @param comm - 등록된 댓글
+	 * @return 
+	 */
+	public int insertComm(Comm comm);
+	
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param - 삭제할 댓글의 정보
+	 * @return - 삭제 성공 여부
+	 */
+	public void deleteComm(Comm comm);
+
+	/**
+	 * 유저닉을 가져오기 위한 저렴한 친구들
+	 * 
+	 * @param comm - 댓글 정보를 가져감
+	 * @return - 유저닉
+	 */
+	public List<Map<String, Object>> getCommListByUserNick(Comm comm);
+	
+	/**
+	 * 로그인 한 아이디가 추천 했는지 조회
+	 * 
+	 * @param recom - 유저 아이디
+	 * @return - 했으면 1 / 안했으면 0
+	 */
+	public boolean reComCnt(Recom recom);
+
+	/**
+	 * 추천 상태 확인 후 추천 토글 작업
+	 * 
+	 * @param recom - 추천 대상 정보
+	 * @return - true : 추천함, false : 추천 취소
+	 */
+	public boolean recom(Recom recom);
+	
+	/**
+	 * 총 추천수
+	 * 
+	 * @param recom - 추천수 파악할 게시글 정보
+	 * @return - 총 추천 수
+	 */
+	public int getTotalCntRecom(Recom recom);
+	
+	
+	
+
+	
+
+
+
 
 }

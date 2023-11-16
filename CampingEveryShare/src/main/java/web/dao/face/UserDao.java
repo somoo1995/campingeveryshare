@@ -1,8 +1,9 @@
 package web.dao.face;
 
-import web.dto.UserTb;
+import web.dto.User;
 
 public interface UserDao {
+
 
 	/**
 	 * id/pw로 조회된 사용자의 수를 반환
@@ -10,7 +11,7 @@ public interface UserDao {
 	 * @param user
 	 * @return
 	 */
-	public int selectCntUser(UserTb user);
+	public int selectCntUser(User user);
 
 	/**
 	 * 입력된 정보로 id찾기
@@ -18,7 +19,7 @@ public interface UserDao {
 	 * @param user
 	 * @return
 	 */
-	public UserTb findId(UserTb user);
+	public String findId(User user);
 
 	/**
 	 * 조회된 사용자의 수를 반환
@@ -26,7 +27,7 @@ public interface UserDao {
 	 * @param userId
 	 * @return
 	 */
-	public int selectCntUserId(String userId);
+	public int selectCntUserId(String userId);    
 
 	/**
 	 *조회된 사용자의 수를 반환
@@ -48,9 +49,33 @@ public interface UserDao {
 	 * 
 	 * @param user
 	 */
-	public void insert(UserTb user);
-
+	public void insert(User user);
 
 	
+
+	public User selectInfo(User login);
+
+	/**
+	 * 비밀번호 찾기
+	 * @param findPw  
+	 * @return
+	 */
+	public User findPw(User findPw);
 	
+	/**
+	 * 마이페이지 아이디
+	 * 
+	 * @param loginId
+	 * @return
+	 */
+	public User selectById(String loginId);
+
+	/**
+	 * 회원정보수정
+	 * 
+	 * @param updateUser
+	 */
+	public void updateUser(User updateUser);
+
 }
+

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import web.dao.face.GroupDao;
 import web.dto.Board;
@@ -63,7 +67,53 @@ public class GroupServiceImpl implements GroupService {
 		
 		return mapView;
 	      
-	}	
+	}
+
+	@Override
+	public Map<String, Object> content(Board board) {
+		
+		Map<String, Object> contentView = new HashMap<>();
+		
+		//게시글 내용 조회
+		contentView = groupDao.selectByContent(board);
+		
+		return contentView;
+	}
+
+	@Override
+	public Map<String, Object> recruit(Group group) {
+		
+		Map<String, Object> groupView = new HashMap<>();
+		
+		//모집현황 조회
+		groupView = groupDao.selectByRecruit(group);
+		
+		return groupView;
+	}
+	
+//	@Override
+//	public void write(Board writeParam) {
+//		
+//		if( writeParam.getTitle() == null || "".equals(writeParam.getTitle()) ) {
+//			writeParam.setTitle("(제목없음)");
+//		}
+//		
+//		groupDao.insert( writeParam );
+//	}	
+	
+	public void write(Board writeParam, Group groupParam) {
+	    writeParam.setTitle(writeParam.getTitle() == null || writeParam.getTitle().isEmpty() ? "(제목없음)" : writeParam.getTitle());
+	    writeParam.setContent(writeParam.getContent() == null || writeParam.getContent().isEmpty() ? "(내용없음)" : writeParam.getContent());
+	   
+	    groupDao.insert(writeParam);
+	    groupParam.setBoardNo(writeParam.getBoardNo());
+	    groupDao.insertGroup(groupParam);
+	}
+	
+
+
+
+
 
 
 	

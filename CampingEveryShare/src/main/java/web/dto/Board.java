@@ -3,18 +3,18 @@ package web.dto;
 import java.util.Date;
 
 public class Board {
-
-   private int boardNo;
-   private String title;
-   private int location;
-   private Date postDate;
-   private int hit;
-   private String content;
-   private int deleteStatus;
-   private String userId;
-   private int boardCate;
-   
-   public Board() {}
+ 
+	private int boardNo;
+	private String title;
+	private int location;
+	private Date postDate;
+	private int hit;
+	private String content;
+	private int deleteStatus;
+	private String userId;
+	private int boardCate;
+	
+	public Board() {}
 
 	public Board(int boardNo, String title, int location, Date postDate, int hit, String content, int deleteStatus,
 			String userId, int boardCate) {
@@ -109,7 +109,7 @@ public class Board {
 		this.boardCate = boardCate;
 	}
 	
-	  
-   
+	   
+	   
    
 }

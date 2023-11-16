@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.RentDao">
+	
+	<sql id="selectRent">
+		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status
+		, (SELECT user_nick FROM usertb U WHERE U.user_id = R.user_id ) AS guestnick
+		, (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no ) AS hostid
+		, (SELECT car_name FROM cartb C WHERE C.car_no = R.car_no ) AS carname
+		, (SELECT loc_name_ko FROM location_category L WHERE L.loc_cate = (SELECT location FROM cartb C WHERE C.car_no = R.car_no)) as location
+		, (SELECT area_name_ko FROM area_category A 
+			WHERE A.area_cate = (SELECT area FROM cartb C WHERE C.car_no = R.car_no)
+			AND A.loc_cate = (SELECT location FROM cartb C WHERE C.car_no = R.car_no)) as area
+		, (SELECT user_nick FROM usertb U WHERE U.user_id = (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no)) as hostnick
+		FROM renttb R
+	</sql>
+
+	
+	<select id="selectCntAll" resultType="int" parameterType="map">
+		SELECT count(*) FROM renttb
+		<where>
+			<if test="rent.rentStatus != null and !''.equals(rent.rentStatus)">
+				AND rent_status = #{rent.rentStatus }
+			</if>
+			<if test="rent.userId != null and !''.equals(rent.userId)">
+				AND user_id = #{rent.userId }
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAllByRentStatus" resultType="map" parameterType="map">
+		SELECT * FROM (
+		SELECT rownum rnum, R.* FROM (
+			<include refid="selectRent" />
+			<where>
+				<if test="rent.rentStatus != null and !''.equals(rent.rentStatus)">
+					AND rent_status = #{rent.rentStatus }
+				</if>
+				<if test="rent.userId != null and !''.equals(rent.userId)">
+					AND user_id = #{rent.userId }
+				</if>
+			</where>
+			ORDER BY rent_no DESC
+		) R )
+		<where>
+			AND rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+		</where>
+	</select>
+
+</mapper>

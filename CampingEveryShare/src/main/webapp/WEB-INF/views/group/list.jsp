@@ -7,6 +7,7 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+<!-- 예시 -->
 <style type="text/css">
 table, th {
 	text-align: center;

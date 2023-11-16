@@ -9,7 +9,8 @@
 	
 	<sql id="selectBoard">
 		SELECT
-		board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)
+		board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate
+		, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)
 		FROM boardtb
 		WHERE board_cate = 4
 	</sql>
@@ -34,8 +35,7 @@
 				,join_date, user_status
 		FROM usertb
 	</sql>
-	
-	
+		
 	<!-- 1. 게시판 목록 조회 -->
 	
 	<select id="selectCntAll" resultType="int" parameterType="int">
@@ -44,47 +44,31 @@
 	    WHERE board_cate = 4	
 	</select>
 
-	
-    <select id="selectBoardList" parameterType="web.util.Paging" >
+
+		<!-- boardtb에서만 가져오는 거 -->
+	<select id="selectBoardList" parameterType="web.util.Paging" resultType="Map">
 	  SELECT * FROM (
-	    SELECT 
+	    SELECT
 	      ROWNUM AS rnum,
-	      b.board_no, b.title, b.location, b.post_date, b.hit, b.content, b.delete_status, b.user_id, b.board_cate,
-	      u.user_nick 
-	    FROM (
-	      SELECT 
-	        board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate
-	      FROM boardTB
-	      WHERE board_cate = 4
-	      ORDER BY board_no DESC
-	    ) b
-	    INNER JOIN userTB u ON b.user_id = u.user_id 
+	      board_no,
+	      title,
+	      location,
+	      post_date,
+	      hit,
+	      content,
+	      delete_status,
+	      user_id,
+	      board_cate,
+	      (SELECT user_nick FROM userTB WHERE user_id = b.user_id) AS user_nick
+	    FROM boardTB b
+	    WHERE board_cate = 4
+	    ORDER BY board_no DESC
 	  ) subquery
 	  WHERE rnum BETWEEN #{startNo} AND #{endNo}
-</select>
-
-
-
-	<!-- 2. 게시판 상세 조회 -->
-
-	<update id="updateHit" parameterType="BoardTb">
-		UPDATE boardtb
-		<set>
-			hit = hit + 1,
-		</set>
-		<where>
-			AND board_no = #{boardNo}
-		</where>
-	</update>
-	
-	<select id="selectByBoardNo" resultType="BoardTb" parameterType="BoardTb">
-		SELECT   board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)   
-		FROM boardtb   
-		WHERE board_cate = 4 AND board_no = #{boardNo}
 	</select>
-
-	<!-- 닉네임 안 가져와지는데 몰라!! -->
-	<select id="selectUserNick" resultType="Map" parameterType="web.util.Paging">
+		
+		<!-- user + board -->
+		<select id="selectUserNick" resultType="Map" parameterType="web.util.Paging">
 	    SELECT * FROM (
 	        SELECT 
 	            ROWNUM AS rnum,
@@ -99,8 +83,76 @@
 	        )
 	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
+		
+
+	<!-- 2. 게시판 상세 조회 -->
+	<!-- 2-1. 조회수 -->
+	<update id="updateHit" parameterType="Board">
+		UPDATE boardtb
+		<set>
+			hit = hit + 1,
+		</set>
+		<where>
+			AND board_no = #{boardNo}
+		</where>
+	</update>
+	
+<!-- 	 /group/view 게시글 상세 조회 -->
+<!--    2-2. 게시글 및 유저 정보 가져오기(댓글 x) -->
+   <select id="selectBoardView" resultType="Map" parameterType="Map">
+      SELECT 
+          B.board_no, B.title, B.location, B.post_date, B.hit, B.content, B.delete_status, B.user_id, U.user_nick, U.profile, G.recruit_status
+      FROM (   <include refid="selectBoard" /> ) B
+      FULL OUTER JOIN ( <include refid="selectUser" />) U ON B.user_id = U.user_id
+      FULL OUTER JOIN (<include refid="selectGroup" />) G ON B.board_no = G.board_no
+      WHERE B.board_no = #{boardNo} AND B.board_cate = 4
+   </select>
+	
+	<select id="selectByContent" resultMap="contentView">
+		SELECT content
+		FROM boardtb
+		WHERE board_no = #{boardNo}
+		AND board_cate = 4
+	</select>
+	
+	<resultMap type="Map" id="contentView">
+		<id property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	
+	<select id="selectByRecruit" resultType="Map" parameterType="Map">
+		select recruit_status
+		FROM grouptb
+		WHERE board_no = #{boardNo}
+	</select>
+	
+
+	<insert id="insert" parameterType="Board">
+	    <!-- boardtb 테이블에 데이터 삽입 -->
+	    <selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
+	        SELECT board_seq.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO boardtb (board_no, title, location, user_id, content, board_cate)
+	    VALUES (#{boardNo}, #{title}, #{location}, #{userId}, #{content}, 4)
+	</insert>
+
+	<insert id="insertGroup" parameterType="Group">
+	INSERT INTO grouptb (board_no, recruit_status)
+	VALUES (#{boardNo}, #{recruitStatus})
+	</insert>
+
+	<update id="update" parameterType="Board">
+			UPDATE boardtb
+		<set>
+			, title = #{title }
+			, content = #{content }
+		</set>
+		<where>
+			board_no = #{boardNo }
+		</where>
+	</update>
 
 
 
 
 </mapper>
+

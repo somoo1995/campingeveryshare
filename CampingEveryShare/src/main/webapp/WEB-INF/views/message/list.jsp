@@ -77,10 +77,6 @@ flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
-
-.msgObjects {
-  /* msgFilter 바로 아래에 위치해야 하므로 여기에 새로운 스타일을 추가할 수 있습니다. */
-}
 </style>
 <!-- 작성 공간 -->
 <div class="container">

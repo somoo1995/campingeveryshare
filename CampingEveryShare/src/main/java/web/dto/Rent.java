@@ -6,35 +6,37 @@ public class Rent {
 
 	private int rentNo;
 	private int carNo;
+	private String userId;
 	private int rentStatus;
+	private Date bookingDate;
 	private Date startDate;
 	private Date endDate;
-	private Date submitDate;
-	private int reservPerson;
-	private int addoption;
+	private int reservPax;
+	private int addOption;
 	private int deleteStatus;
 	
 	public Rent() {}
 
-	public Rent(int rentNo, int carNo, int rentStatus, Date startDate, Date endDate, Date submitDate, int reservPerson,
-			int addoption, int deleteStatus) {
+	public Rent(int rentNo, int carNo, String userId, int rentStatus, Date bookingDate, Date startDate, Date endDate,
+			int reservPax, int addOption, int deleteStatus) {
 		super();
 		this.rentNo = rentNo;
 		this.carNo = carNo;
+		this.userId = userId;
 		this.rentStatus = rentStatus;
+		this.bookingDate = bookingDate;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.submitDate = submitDate;
-		this.reservPerson = reservPerson;
-		this.addoption = addoption;
+		this.reservPax = reservPax;
+		this.addOption = addOption;
 		this.deleteStatus = deleteStatus;
 	}
 
 	@Override
 	public String toString() {
-		return "Rent [rentNo=" + rentNo + ", carNo=" + carNo + ", rentStatus=" + rentStatus + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", submitDate=" + submitDate + ", reservPerson=" + reservPerson
-				+ ", addoption=" + addoption + ", deleteStatus=" + deleteStatus + "]";
+		return "Rent [rentNo=" + rentNo + ", carNo=" + carNo + ", userId=" + userId + ", rentStatus=" + rentStatus
+				+ ", bookingDate=" + bookingDate + ", startDate=" + startDate + ", endDate=" + endDate + ", reservPax="
+				+ reservPax + ", addOption=" + addOption + ", deleteStatus=" + deleteStatus + "]";
 	}
 
 	public int getRentNo() {
@@ -53,12 +55,28 @@ public class Rent {
 		this.carNo = carNo;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public int getRentStatus() {
 		return rentStatus;
 	}
 
 	public void setRentStatus(int rentStatus) {
 		this.rentStatus = rentStatus;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
+
+	public void setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
 	}
 
 	public Date getStartDate() {
@@ -77,28 +95,20 @@ public class Rent {
 		this.endDate = endDate;
 	}
 
-	public Date getSubmitDate() {
-		return submitDate;
+	public int getReservPax() {
+		return reservPax;
 	}
 
-	public void setSubmitDate(Date submitDate) {
-		this.submitDate = submitDate;
+	public void setReservPax(int reservPax) {
+		this.reservPax = reservPax;
 	}
 
-	public int getReservPerson() {
-		return reservPerson;
+	public int getAddOption() {
+		return addOption;
 	}
 
-	public void setReservPerson(int reservPerson) {
-		this.reservPerson = reservPerson;
-	}
-
-	public int getAddoption() {
-		return addoption;
-	}
-
-	public void setAddoption(int addoption) {
-		this.addoption = addoption;
+	public void setAddOption(int addOption) {
+		this.addOption = addOption;
 	}
 
 	public int getDeleteStatus() {
@@ -108,8 +118,5 @@ public class Rent {
 	public void setDeleteStatus(int deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
-	
-	
-	
-	
+
 }

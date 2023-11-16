@@ -12,6 +12,7 @@
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
+		<async-supported>true</async-supported>
 	</filter>
 
 	<filter-mapping>
@@ -39,6 +40,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
+		<async-supported>true</async-supported>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
@@ -46,5 +48,11 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+	
 
 </web-app>

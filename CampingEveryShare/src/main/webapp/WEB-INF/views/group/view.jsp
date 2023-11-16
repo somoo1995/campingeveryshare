@@ -88,7 +88,7 @@ clear: both; /* 이전 요소들과 무관하게 이어지는 요소를 지정 *
 <div class="title">
 
 <div>
-<h1>${boardView.TITLE}</h1>
+<h1>${writerView.TITLE}</h1>
 </div><!-- 글 제목 -->
 
 		<div class="writer-info" style="color: #A4A4A4">
@@ -101,7 +101,7 @@ clear: both; /* 이전 요소들과 무관하게 이어지는 요소를 지정 *
 		<hr>
 		<div>모집 지역 | ${writerView.LOCATION }</div>
 		<div>조회수| ${writerView.HIT }</div>
-		<div>모집 상태 | ${writerView.RECRUIT_STATUS }</div>
+		<div>모집 상태 | ${groupView.RECRUIT_STATUS }</div>
 		
 		
 		</div><!-- 작성자 정보 -->
@@ -112,15 +112,15 @@ clear: both; /* 이전 요소들과 무관하게 이어지는 요소를 지정 *
 
 <div style="padding-top: 20px;">
 
-${writerView.CONTENT }
+${contentView.content}
 
 </div><!-- .content -->
 </div><!-- .article -->
 
-<div class="buttons">
+<div class="buttons style=">
 <a href="./list"><button class="btn">목록</button></a>
-<a href="./edit"><button class="btn">수정</button></a>
-<a href="./delete"><button class="btn">삭제</button></a>
+<a href="./update"><button class="btn">수정</button></a>
+<a href="./delete"><button class="btn" style="margin-bottom: 20px;">삭제</button></a>
 </div>
 
 

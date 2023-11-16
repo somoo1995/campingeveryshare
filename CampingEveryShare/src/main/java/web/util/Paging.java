@@ -15,8 +15,10 @@ public class Paging {
 	private int startNo; ///화면에 보이는 게시글의 시작 번호 (rownum)
 	private int endNo; //화면에 보이는 게시글의 끝 번호 (rownum)
 	
-	private String category;
+	private int category;
 	private String search;
+	
+	private String type;
 
 	public Paging() {}
 
@@ -65,12 +67,13 @@ public class Paging {
 		endNo = curPage * listCount;
 		
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + ", category=" + category + ", search=" + search + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", category=" + category + ", search=" + search
+				+ ", type=" + type + "]";
 	}
 
 	public int getCurPage() {
@@ -145,11 +148,11 @@ public class Paging {
 		this.endNo = endNo;
 	}
 
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 
@@ -160,6 +163,15 @@ public class Paging {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 	
+
 }
 

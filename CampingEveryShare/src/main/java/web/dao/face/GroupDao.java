@@ -45,6 +45,32 @@ public interface GroupDao {
 	 */
 	public List<User> selectUserInfo();
 
+	/**
+	 * 게시글 내용 불러오기
+	 * @param board
+	 * @return
+	 */
+	public Map<String, Object> selectByContent(Board board);
+
+	/**
+	 * 게시글 정보 삽입
+	 * @param writeParam
+	 */
+	public int insert(Board writeParam);
+
+	/**
+	 * 모집 현황도 삽입
+	 */
+	public void insertGroup(Group groupParam);
+
+	/**
+	 * 게시글 상세보기 - 모집 현황
+	 * @param group
+	 * @return
+	 */
+	public Map<String, Object> selectByRecruit(Group group);
+
+
 
 
 }
