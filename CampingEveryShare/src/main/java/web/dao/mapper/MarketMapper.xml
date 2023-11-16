@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-  <mapper namespace="web.dao.face.ShareDao">
+  <mapper namespace="web.dao.face.MarketDao">
 	<resultMap type="Map" id="Map">
 		<result property="content" column="content" javaType="java.lang.String" jdbcType="CLOB"/>
 	</resultMap>
 
-  	<select id="selectShareAll" parameterType="web.util.Paging" resultType="Map">
+  	<select id="selectMarketAll" parameterType="web.util.Paging" resultType="Map">
       	SELECT * FROM (
 	  	SELECT ROWNUM rnum, B.* FROM (
 			SELECT board_no
@@ -21,12 +21,12 @@
 			, board_cate
 			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
 			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
-			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 2) AS "RECOM"
+			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 3) AS "RECOM"
             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
 			, user_id
 			FROM boardtb
-			WHERE board_cate = 2
+			WHERE board_cate = 3
 			AND delete_status = 0
 			ORDER BY board_no DESC
 	    ) B
@@ -49,7 +49,7 @@
 	    delete_status,
 	    board_cate,
 	    user_id,
-	    (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND user_id = #{userId} AND board_cate = 2) AS "RECOM"
+	    (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND user_id = #{userId} AND board_cate = 3) AS "RECOM"
 	    
 	FROM boardtb
 	WHERE board_no = #{boardNo }
@@ -73,7 +73,7 @@
 		WHERE board_no = #{boardNo}
 	</select>
 	
-  	<insert id="insertShareWrite" parameterType="board">
+  	<insert id="insertMarketWrite" parameterType="board">
 		<selectKey order="BEFORE"  resultType="int" keyProperty="boardNo">
 			SELECT board_seq.nextval FROM dual
 		</selectKey> 
@@ -81,7 +81,7 @@
   		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
   	</insert>
 
-	<insert id="insertShareFile" parameterType="boardfile">
+	<insert id="insertMarketFile" parameterType="boardfile">
 		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
 			SELECT file_seq.nextval FROM dual
 		</selectKey>
@@ -89,7 +89,7 @@
 		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
 	</insert>  
   
-  	<select id="selectShareFileByBoardNo" resultType="boardfile" parameterType="board">
+  	<select id="selectMarketFileByBoardNo" resultType="boardfile" parameterType="board">
   		SELECT file_no, origin_name, stored_name, board_no, board_cate
   		FROM boardfiletb
   		WHERE board_no = #{boardNo }

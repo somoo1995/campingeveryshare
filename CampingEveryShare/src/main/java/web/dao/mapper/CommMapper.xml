@@ -5,8 +5,12 @@
   
   
   <mapper namespace="web.dao.face.CommDao">
+  
+  	<resultMap type="Map" id="Map">
+		<result property="CONTENT" column="CONTENT" javaType="String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" />
+	</resultMap>
 
-  	<select id="selectComm" resultType="Map" parameterType="Map">
+  	<select id="selectComm"  parameterType="Map" resultMap="Map">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT
@@ -46,7 +50,7 @@
 		WHERE user_id = #{userId}  	
   	</select>
   	
-  	<select id="getCommListByUserNick" resultType="Map" parameterType="Map">
+  	<select id="getCommListByUserNick" parameterType="Map" resultMap="Map">
   			SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT
@@ -65,6 +69,13 @@
 		)
 		ORDER BY rnum
   	</select>
+  	
+  	
+  	<insert id="insertCommByMarket" parameterType="comm">
+		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
+		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
+  	</insert>
+  	
   	
   	
   </mapper>

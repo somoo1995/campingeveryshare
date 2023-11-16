@@ -53,6 +53,14 @@ public interface CommDao {
 	 * @return - 유저 닉네임
 	 */
 	public List<Map<String, Object>> getCommListByUserNick(Comm comm);
+	
+	/**
+	 * 중고게시판 내에 댓글달기
+	 * 
+	 * @param comm - 입력한 댓글
+	 * @return 
+	 */
+	public int insertCommByMarket(Comm comm);
 
 	
 

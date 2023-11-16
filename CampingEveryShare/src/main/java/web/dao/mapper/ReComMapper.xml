@@ -7,6 +7,8 @@
 	<select id="selectCntRecomByUserId" resultType="int" parameterType="recom">
 		SELECT COUNT(*) FROM recomtb
 		WHERE user_id = #{userId}
+		AND recom_no = #{recomNo}
+		AND board_cate = #{boardCate}
 	</select>  
   
   	<delete id="deleteReCom" parameterType="recom">
