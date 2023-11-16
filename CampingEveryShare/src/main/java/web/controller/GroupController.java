@@ -79,7 +79,7 @@ public class GroupController {
 		
 		logger.info("groupView:", map3);
         logger.info("=====/group/view [FINISH]=====");
-        
+        //커밋 다시
         return "group/view"; 
        
     }
