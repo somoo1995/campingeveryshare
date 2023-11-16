@@ -12,7 +12,13 @@ pageEncoding="UTF-8"%>
     align-self: stretch;
     justify-content: flex-end;
 }
+
+.form-check-input:checked {
+    background-color: #2ecc71;
+    border-color: #78cc71;
+}
 </style>
+
 <script type="text/javascript">
     function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
         var value = input.value;
@@ -51,8 +57,8 @@ pageEncoding="UTF-8"%>
             "/user/idCheck/",
             "idDupleBlock",
             "아이디를 입력해 주세요.",
-            "사용가능한 id 입니다.",
-            "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요."
+            "",
+            "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.",
         );
     }
 
@@ -63,8 +69,8 @@ pageEncoding="UTF-8"%>
             "/user/emailCheck/",
             "emailDupleBlock",
             "이메일을 입력해 주세요.",
-            "사용가능한 email 입니다.",
-            "사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요."
+            "",
+            "사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요.",
         );
     }
 
@@ -90,7 +96,7 @@ pageEncoding="UTF-8"%>
             "/user/nickCheck/",
             "nickDupleBlock",
             "닉네임을 입력해 주세요.",
-            "사용가능한 닉네임 입니다.",
+            "",
             "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요."
         );
     }
@@ -114,9 +120,6 @@ pageEncoding="UTF-8"%>
                 return;
             }
 
-            console.log("동일한 비밀번호입니다.");
-            $("#pwDupleBlock").text("동일한 비밀번호입니다.");  
-            // TODO: ptag 표시
         });
     });
 
@@ -142,10 +145,9 @@ pageEncoding="UTF-8"%>
             // TODO: ptag 표시
             return;
         }
-
         console.log("동일한 비밀번호입니다.");
-        pwDupleBlock.text("동일한 비밀번호입니다.");
-        // TODO: ptag 표시
+        pwDupleBlock.text("");
+
     }
     
 
@@ -176,7 +178,7 @@ pageEncoding="UTF-8"%>
                 <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" width="190" height="150" >
             </li>
             <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="1" >
+                <input class="form-check-input" type="radio" name="profile" id="profile" value="1" checked="checked">
             </li>
         </ul>
  
@@ -230,7 +232,7 @@ pageEncoding="UTF-8"%>
 			<input type="text" id="userId" name="userId" class="border border-success-subtle form-control" onblur="idDupleCheck(this)" required>
 		    <label for="floatingInputGroup2">아이디*</label>
 	  	</div>
-		<div id="idDupleBlock" class="valid-feedback"  style="display:none">
+		<div id="idDupleBlock" class="invalid-feedback"  style="display:none">
 			<p id="idDupleText"></p>
 		</div>
 	</div>
@@ -247,7 +249,7 @@ pageEncoding="UTF-8"%>
 		    <input type="password" id="userPw" name="userPw" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
 		    <label for="userPw" class="col-form-label">비밀번호*</label>
 	  	</div>
-	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
+	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>
@@ -263,7 +265,7 @@ pageEncoding="UTF-8"%>
 		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
 		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
 	  	</div>
-	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
+	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>
@@ -279,7 +281,7 @@ pageEncoding="UTF-8"%>
 			<input type="email" id="email" name="email" class="border border-success-subtle form-control" onblur="emailDupleCheck(this)" required>
 		    <label for="floatingInputGroup2">이메일*</label>
 	  	</div>
-		<div id="emailDupleBlock" class="valid-feedback"  style="display:none">
+		<div id="emailDupleBlock" class="invalid-feedback"  style="display:none">
 			<p id="emailDupleText"></p>
 		</div>
 	</div>
@@ -295,7 +297,7 @@ pageEncoding="UTF-8"%>
 			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck()" required>
 		    <label for="floatingInputGroup2">이름*</label>
 	  	</div>
-		<div id="nameDupleBlock" class="valid-feedback"  style="display:none">
+		<div id="nameDupleBlock" class="invalid-feedback"  style="display:none">
 			<p id="nameDupleText"></p>
 		</div>
 	</div>
@@ -310,7 +312,7 @@ pageEncoding="UTF-8"%>
 			<input  type="text" id="userNick" name="userNick" class="border border-success-subtle form-control" onblur="nickDupleCheck(this)" required>
 		    <label for="floatingInputGroup2">닉네임*</label>
 	  	</div>
-		<div id="nickDupleBlock" class="valid-feedback"  style="display:none">
+		<div id="nickDupleBlock" class="invalid-feedback"  style="display:none">
 			<p id="nickDupleText"></p>
 		</div>
 	</div>
