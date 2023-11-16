@@ -85,7 +85,7 @@
     z-index: 1000;
 }
 
-.alert {
+.alert-list {
     position: fixed; 
     top: 0;
     left: -362px; 
@@ -158,9 +158,10 @@ ul {
 }
 
 #new-icon-text {
-	display: inline-block;
+	vertical-align: middle;
 	margin-top: 1px;
 }
+
 
 /* 빨간 동그라미 알람 */
 /* 
@@ -200,7 +201,7 @@ ul {
 	position: fixed;
 	display: inline-block;
 	z-index: 2;
-	vertical-align: middle;
+/* 	vertical-align: middle; */
   	display: none;  
 }
 
@@ -217,14 +218,20 @@ $(function() {
 	
 	eventSource.onmessage = function (event) {
 		console.log(event)
-	    var data = JSON.parse(event.data);
+	    var data = JSON.parse(event.data)
 	    console.log(data)
 	    
-	    var hasNew = data.hasNew;
-	    var alert = data.alert;
-	    
+	    var hasNew = data.hasNew
+	    var alert = data.alert
+		
+	    console.log("hasNew :" + hasNew)
+	    console.log("alert :" + alert)
+
+
 	    $("#new-icon").show()
 	    $("#new-alert").html(hasNew).show()
+	    
+		loadAlert()
 	    
 	}
 })
@@ -326,6 +333,7 @@ function hasNew() {
 				$("#new-alert").hide()
 				$("#new-icon").hide()
 			} else {
+				
 				$("#new-alert").text(res.hasNew).show()
 				$("#new-icon").show()
 			}
@@ -389,13 +397,13 @@ $(function() {
 </div>
 
 <div class="main-category-menu mt-3">
-	<a>대여</a>
+	<a href="/rent/list">대여</a>
 	|
 	<a href="/share/list">캠핑존공유</a>
 	|
-	<a>중고장터</a>
+	<a href="/market/list">중고장터</a>
 	|
-	<a>모집</a>
+	<a href="/group/list">모집</a>
 </div>
 
 <div class="search" id="search">
@@ -457,20 +465,14 @@ $(function() {
 		<span>찜</span>
 		|
 		<c:if test="${not empty isLogin and isLogin }">
-		<span class="alert-open">알림
-			<span id="alertIcon">
-    		<span class="visually-hidden">New alerts</span></span>
-		</span>
-<!-- 		<div id="new-alert"><div id="new-alert-text">1</div></div> -->
-		<div id="new-alert"></div>
-			<div id="alert" class="alert"></div>
+		<span class="alert-open">알림</span><div id="new-alert"></div>
+		<!-- 알림 리스트 -->
+		<div id="alert" class="alert-list"></div>
 		</c:if>
 		<c:if test="${empty isLogin or not isLogin }">
 		<span class="alert-open" onclick="location.href='/mypage/fail'">알림</span>
 		</c:if>
 		</div>
-		
-		<div id="test"></div>
 		
 		<div class="mt-5">
 		<span>공지사항</span>
