@@ -14,12 +14,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.info("mypage interceptor");
+		logger.info("login interceptor");
 		
 		HttpSession session = request.getSession();
 		if( session.getAttribute("isLogin") == null ) {
 			logger.info(" >> 접속 불가 : 비로그인 상태");
-			response.sendRedirect("./fail");
+			response.sendRedirect("/mypage/fail");
 			return false;
 		}
 		

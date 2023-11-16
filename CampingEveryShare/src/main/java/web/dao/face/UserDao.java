@@ -6,6 +6,7 @@ import web.dto.User;
 
 public interface UserDao {
 
+
 	/**
 	 * id/pw로 조회된 사용자의 수를 반환
 	 * 
@@ -28,7 +29,7 @@ public interface UserDao {
 	 * @param userId
 	 * @return
 	 */
-	public int selectCntUserId(String userId);
+	public int selectCntUserId(String userId);    
 
 	/**
 	 *조회된 사용자의 수를 반환
@@ -54,8 +55,29 @@ public interface UserDao {
 
 	
 
-	public User selectInfo(User login);	
-	
+	public User selectInfo(User login);
 
+	/**
+	 * 비밀번호 찾기
+	 * @param findPw  
+	 * @return
+	 */
+	public User findPw(User findPw);
+	
+	/**
+	 * 마이페이지 아이디
+	 * 
+	 * @param loginId
+	 * @return
+	 */
+	public User selectById(String loginId);
+
+	/**
+	 * 회원정보 수정사항 업데이트
+	 * 
+	 * @param updateUser
+	 * @return
+	 */
+	public void updateUser(User updateUser);
 }
 

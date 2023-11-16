@@ -16,11 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import web.dto.User;
 import web.service.face.UserService;
@@ -28,6 +30,7 @@ import web.service.face.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
 	
 	//로그 객체 생성d	
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
@@ -52,6 +55,7 @@ public class UserController {
 		return userService.joinNickCheck(userNick);
 	}
 
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         // SimpleDateFormat을 이용하여 날짜 형식 지정
@@ -60,6 +64,7 @@ public class UserController {
 
         // int 형식의 필드에 빈 문자열이나 null 값이 들어올 경우 0으로 초기화
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true) {
+
         	
         });
     }
@@ -88,7 +93,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/view")
-	public void userView(User user, Model model) {
+	public void userView(
+			@SessionAttribute("loginId") String loginId
+			, Model model) {
+		logger.info("view[GET]");
+		logger.info("loginId : {}",loginId);
+		User login = userService.info(loginId);
+		model.addAttribute("login",login);
 		
 	}
 	
@@ -103,9 +114,42 @@ public class UserController {
 	}
 	
 	@GetMapping("/update")
-	public String userUpdate(User user) {
-		return null;
+	public String userUpdate(
+	        @SessionAttribute("loginId") String loginId,
+	        Model model) {
+	    logger.info("update[GET]");
+	    logger.info("loginId: {}", loginId);
+	    User updateUser = userService.info(loginId); // Assuming there is a method to get the user
+	    model.addAttribute("updateUser", updateUser); // Add the user to the model
+	    return "/user/update"; // Return the view name (assuming "user/update" is the update page)
 	}
+
+	@PostMapping("/update")
+	public String userUpdateProc(
+	        @ModelAttribute User updateUser,
+	        @SessionAttribute("loginId") String loginId,
+	        @RequestParam(value = "userPwConfirm", required = false) String userPwConfirm,
+	        HttpSession session,
+	        Model model) {
+	    logger.info("update[POST]");
+	    logger.info("loginId: {}", loginId);
+
+	    // 올바른 user_id 설정
+	    updateUser.setUserId(loginId);
+
+	    boolean updateResult = userService.updateUser(updateUser, userPwConfirm);
+
+	    if (updateResult) {
+	        logger.info("정보수정 성공");
+	        model.addAttribute("message", "사용자 정보가 성공적으로 업데이트되었습니다.");
+	        return "redirect:/user/view";
+	    } else {
+	        logger.info("정보수정 실패");
+	        return "redirect:/user/update";
+	    }
+	}
+
+
 	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
@@ -122,7 +166,7 @@ public class UserController {
 		boolean isLogin = userService.login( login );
 		User loginInfo = userService.info(login);
 		
-		//[세션] 로그인 인증 결과
+		//[세션] 로그인 인증 결과 왜 업뎃안떠
 		
 		if( isLogin ) {
 			logger.info("로그인 성공");
@@ -151,13 +195,13 @@ public class UserController {
 	public void idFind() {}
 	@PostMapping("/idfind")
 	public String idFind(User user) {
-		return null;
+		return "redirect:/user/login";
 	}
 	@GetMapping("/pwfind")
 	public void pwFind() {}
 	@PostMapping("/pwfind")
 	public String pwFind(User user) {
-		return null;
+		return "redirect:/user/login";
 	}
 	
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="web.dao.face.ReComDao">
+	<select id="selectCntRecomByUserId" resultType="int" parameterType="recom">
+		SELECT COUNT(*) FROM recomtb
+		WHERE user_id = #{userId}
+	</select>  
+  
+  	<delete id="deleteReCom" parameterType="recom">
+  		DELETE recomtb
+  		WHERE user_id = #{userId}
+  		AND recom_no = #{recomNo}
+  	</delete>
+
+	<insert id="insertReCom" parameterType="recom">
+		INSERT INTO recomtb
+		VALUES (#{userId}, #{recomNo}, #{boardCate})
+	</insert>
+  
+  	<select id="selectTotalCntRecom" resultType="int" parameterType="recom">
+  		SELECT COUNT(*) FROM recomtb
+  		WHERE recom_no = #{recomNo}
+  	</select>
+  
+  </mapper>

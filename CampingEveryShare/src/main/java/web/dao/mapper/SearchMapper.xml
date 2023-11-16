@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.SearchDao">
+	<sql id="selectBoard">
+		SELECT board_no, title, location, hit, content, delete_status, user_id, board_cate
+		, CAST(post_date AS DATE) AS post_date
+		, (SELECT user_nick FROM usertb U WHERE U.user_id = B.user_id ) AS writernick
+		FROM boardtb B
+	</sql>
+	
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM boardtb
+		<where>
+			AND board_cate = #{category }
+			AND title LIKE '%' || (#{search }) || '%'
+		</where>
+	</select>
+	
+	<select id="selectBySearch" resultType="map" parameterType="web.util.Paging">
+		SELECT * FROM (
+		SELECT rownum rnum, R.* FROM (
+			<include refid="selectBoard" />
+			<where>
+				AND board_cate = #{category }
+				AND title LIKE '%' || (#{search }) || '%'
+			</where>
+			ORDER BY board_no DESC
+		) R )
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+		
+	</select>
+	
+</mapper>

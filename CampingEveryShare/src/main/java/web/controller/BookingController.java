@@ -37,7 +37,30 @@ public class BookingController {
 		rent.setUserId((String) session.getAttribute("loginId"));
 			
 		Paging paging = bookingService.getPaging(param, status, rent);
+		
+		boolean hasData = false;
+		if( paging.getTotalCount() > 0 ) {
+			hasData = true; 
+		}
+	
+		model.addAttribute("hasData", hasData);
+		
+	}
+	
+	@RequestMapping("/list")
+	public String bookingList(
+			Model model, 
+			HttpSession session,
+			@RequestParam(required = false) String status,
+			Paging param
+			) {
+		
+		Rent rent = new Rent();
+		rent.setUserId((String) session.getAttribute("loginId"));
 			
+		Paging paging = bookingService.getPaging(param, status, rent);
+		logger.info("paging : {}", paging);
+		
 		boolean hasData = false;
 		if( paging.getTotalCount() > 0 ) {
 			hasData = true; 
@@ -46,19 +69,11 @@ public class BookingController {
 		List<Map<String, Object>> list = bookingService.getList(paging, rent);
 		logger.info("list {} : ", list);
 		
+		
+		model.addAttribute("paging", paging);
 		model.addAttribute("hasData", hasData);
 		model.addAttribute("list", list);
-		
-	}
-	
-	@RequestMapping("/list")
-	public void bookingList(
-			Model model, 
-			HttpSession session,
-			@RequestParam(value="rentstatus", required = false) String status,
-			Paging param
-			) {
-		
+		return "booking/list";
 	}
 	
 }
