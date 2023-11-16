@@ -1,46 +1,116 @@
 package web.util;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import lombok.extern.log4j.Log4j;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import web.dto.Msg;
+import web.service.face.MsgService;
 
 @Controller
 public class ChatController {
-//	@MessageMapping("/chat.sendMessage")
-//	
-//	public ChatMessage sendMessage(
-//			
-//			@Payload ChatMessage chatMessage
-//			) {
-//		log.info(chatMessage.toString());
-//		return chatMessage;
-//	}
-	@MessageMapping("/chat/{msgNo}/sendMessage")
-	@SendTo("/topic/{msgNo}/public")
-	public Msg sendMessage(@DestinationVariable String msgNo, @Payload Msg msg) {
-	    // 서비스 임플 부분 << db에 date를 insert 해주는 구문
-		//
-		//-------------------------------------------------
+	@Autowired MsgService msgService;
+	private final Map<String, String> userConnections = new ConcurrentHashMap<>();
+
+	@MessageMapping("/chat/{roomNo}/sendMessage")
+	@SendTo("/topic/{roomNo}/public")
+	public Msg sendMessage(@DestinationVariable String roomNo, @Payload Msg msg
+			,SimpMessageHeaderAccessor headerAccessor) {
+		System.out.println("여기 들릅니다");
+		System.out.println("-----------------------------------------------------");
+		msg = msgService.sendmessage(msg);
+		System.out.println("-----------------------------------------------------");
+		System.out.println(msg.toString());
+		System.out.println(userConnections);
+
+//
+		String receiverStatus = userConnections.get(msg.getReceiverId());
+		String receiverId = null;
+		if(receiverStatus != null) {
+			String[] parts = receiverStatus.split("#");
+			receiverId = parts[0];
+			roomNo = parts[1];
+		}
+		
+	    if (receiverStatus != null && msg.getReceiverId().equals(receiverId) && msg.getRoomNo() == Integer.parseInt(roomNo) ) {
+	        // 읽음 상태로 업데이트
+	    	Map<String,Object> map = new HashMap<String, Object>();
+	        System.out.println("여기서 이제 읽음상태 업데이트를 해줄거다!!");
+	        map.put("userId", receiverId);
+		    map.put("roomNo", msg.getRoomNo());
+		    msgService.updateStatus(map);
+	    }
+//		
+		
 		return msg;
 	}
 	
-	
-	
-	@MessageMapping("/chat{msgNo}/addUser")
-	@SendTo("/topic/{msgNo}/public")
-	public Msg addUser(@DestinationVariable String msgNo,@Payload Msg msg, SimpMessageHeaderAccessor headerAccessor) {
-	    // Add username in web socket session
-	    headerAccessor.getSessionAttributes().put("username", msg.getWriterId());
-	    return msg;
+	@MessageMapping("/chat/{Id}/sendStatus")
+	@SendTo("/topic/{Id}/public/g")
+	public Msg sendStatus(@DestinationVariable String Id, @Payload Msg msg) {
+		System.out.println("여기 들릅니다 룸상태에요");
+		System.out.println(msg.toString());
+		msg = msgService.getMessage(msg);
+		
+		return msg;
 	}
+	
+
+	@MessageMapping("/chat.addUser")
+	@SendTo("/topic/public")
+	public void addUser(@Payload Map<String,Object> userInfo, SimpMessageHeaderAccessor headerAccessor) {
+		System.out.println("addUserMethod start");
+		System.out.println(userInfo);
+		System.out.println("userId : " + userInfo.get("userId"));
+		String userId = (String) userInfo.get("userId");
+		System.out.println("roomNo : " + userInfo.get("roomNo"));
+		String roomNo = (String) userInfo.get("roomNo");
+		String status = userId + "#" +roomNo;
+		userConnections.put(userId, status);
+		headerAccessor.getSessionAttributes().put("currentUserId", status);
+		
+	}
+	
+	@MessageMapping("/chat.removeUser")
+	public void removeUser(String currentUserId) {
+	    userConnections.remove(currentUserId);
+	}
+	
+
+//	
+	@EventListener
+	public void handleWebSocketDisconnectListener(
+			SessionDisconnectEvent event) {
+		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+		String username = (String)headerAccessor.getSessionAttributes().get("currentUserId");	
+		System.out.println("handleWebSocketDisconnectListener start");
+		if (username != null) {
+			System.out.println(username + "방을 떠남");
+			userConnections.remove(username);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 }

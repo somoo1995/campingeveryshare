@@ -54,9 +54,9 @@ li {
 	z-index: 2;
 	vertical-align: middle;
 }
-#newIcon1{
+#newIcon1 {
 	display: inline-block;
-	margin-top: 2px;
+	margin-top: 1px;
 }
 
 </style>
@@ -94,8 +94,6 @@ $(function() {
 	
 })
 
-
-
 </script>
 
 <!-- <div class="container"> -->
@@ -105,7 +103,6 @@ $(function() {
 <img class="alert-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
 
 <div class="wrap-content">
-<!-- 	<div id="alerts"></div> -->
 	<c:forEach var="list" items="${list }">	
 	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
 		<li>
@@ -121,7 +118,6 @@ $(function() {
 			<c:if test="${list.content eq 4 }">캠핑카 신규 예약</c:if>
 			<c:if test="${list.content eq 5 }">캠핑카 예약 취소</c:if>
 		</li>
-
 	</ul>
 	</c:forEach>
 </div>
