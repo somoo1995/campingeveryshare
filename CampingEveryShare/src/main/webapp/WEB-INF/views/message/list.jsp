@@ -182,7 +182,7 @@ function connectToRoom(roomNumber) {
         stompClient.subscribe('/topic/' + roomNo + '/public', onMessageReceived);
 
         // 사용자 추가 메시지 보내기
-        stompClient.send("/app/chat.addUser", {}, JSON.stringify({ 'currentUserId': currentUserId, 'roomNo': roomNo }));
+        stompClient.send("/app/chat.addUser", {}, JSON.stringify({ 'currentUserId': currentUserId, 'userId':currentUserId, 'roomNo': roomNo }));
     }, onError);
 }
 function onError(){
@@ -247,7 +247,6 @@ function onMessageReceived(payload) {
 
 function disconnectWebSocket() {
     if (stompClient !== null) {
-    	stompClient.send("/app/chat.removeUser", {}, currentUserId);
         stompClient.disconnect();
     }
     console.log("Disconnected");
@@ -323,6 +322,7 @@ $(document).ready(function() {
 	console.log(statusTest);
 	select = 0;
 	connectWebSocket()
+
 	$('.msginput form').on('submit', function(event) {
         event.preventDefault(); // 기본 submit 동작 방지
         var message = $(this).find('input[name="message"]').val(); // input 필드의 값을 가져옴
@@ -406,7 +406,14 @@ $(document).ready(function() {
 	    var userId = '<c:out value="${sessionScope.loginId}"/>'
 	    
 	  });
-	  
+// 	var targetRoomNo = 1; // 테스트를 위해 하드코딩된 값
+// 	console.log("타겟룸넘버: ", targetRoomNo);
+// 	var targetElement = $(".msgObject[room_no='" + targetRoomNo + "']");
+// 	console.log("선택된 요소: ", targetElement);
+// 	if (targetElement.length > 0) {
+//         console.log("타겟룸넘버가 있어요");
+//         targetElement.click();
+//     }
 	 
 	});
 

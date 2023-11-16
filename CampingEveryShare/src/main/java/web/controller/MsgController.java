@@ -29,7 +29,7 @@ public class MsgController {
 	@Autowired MsgService msgService;
 	
 	@GetMapping("/list")
-	public void Msg(HttpSession session, Model model) {
+	public String Msg(HttpSession session, Model model) {
 		User user = new User();
 		user.setUserId(session.getAttribute("loginId").toString());
 //		logger.info(session.getAttribute("loginId").toString());
@@ -38,8 +38,9 @@ public class MsgController {
 		logger.info(list.toString());
 		
 		model.addAttribute("list",list);
-		
-		
+		int targetRoomNo = 1;
+		model.addAttribute("targetRoomNo", targetRoomNo);
+		return "/message/list";
 		
 	}
 	
