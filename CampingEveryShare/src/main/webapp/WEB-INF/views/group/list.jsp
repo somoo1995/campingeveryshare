@@ -26,7 +26,7 @@ table tbody tr {
 tr:hover {background-color: #F2F2F2;} 
 
 th {
-  background-color: #2ECC71;
+  background-color: #8D7944;
   color: white;
   font-weight: bold;
 }
@@ -40,7 +40,7 @@ font-weight: bold;
 }
 
 .btn {
-    background-color: #2ECC71;
+    background-color: #8D7944;
     color: white;
     border: none;
     cursor: pointer;
@@ -49,7 +49,7 @@ font-weight: bold;
 }
 
 .btn:hover {
-    background-color: #04883C; /* 마우스 호버 시 배경 색상 변경 */
+    background-color: #F6E2A2; /* 마우스 호버 시 배경 색상 변경 */
     color: white;
 }
 
@@ -92,7 +92,7 @@ a:hover {
 
 
 <div class="container" >
-<h1 style="color:#2ECC71">모집게시판</h1>
+<h1 style="color:#8D7944">모집게시판</h1>
 <h6 style="color: #A4A4A4">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6>
 
 <div class="selectLocation" style="float: right; margin-bottom: 10px;">
@@ -148,6 +148,7 @@ a:hover {
 <div ustify-content: space-between;">
 <small style="float: right">total: ${paging.totalCount }</small><br>
 </div>
+
 
 </div><!-- .container -->
 

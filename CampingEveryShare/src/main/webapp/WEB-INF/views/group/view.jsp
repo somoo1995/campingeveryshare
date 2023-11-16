@@ -119,8 +119,8 @@ ${contentView.content}
 
 <div class="buttons style=">
 <a href="./list"><button class="btn">목록</button></a>
-<a href="./update"><button class="btn">수정</button></a>
-<a href="./delete"><button class="btn" style="margin-bottom: 20px;">삭제</button></a>
+<a href="./update?boardNo=${writerView.boardNo }"><button class="btn">수정</button></a>
+<a href="./delete?boardNo=${writerView.boardNo }"><button class="btn" style="margin-bottom: 20px;">삭제</button></a>
 </div>
 
 
