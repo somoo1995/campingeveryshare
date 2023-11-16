@@ -1,79 +1,3 @@
-<<<<<<< HEAD
-<%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<c:import url="../layout/header.jsp" />
-
-<script>
-$(function() {
-	$("#userId").focus();
-
-	
-})
-</script>
-
-
-<div class="container">
-<div class="pageTitle">
-<h3 id="pageTitle">로그인</h3>
-<hr>
-</div>
-
-<div class="row g-3 align-items-center">
-<form action="./login" method="post">
-
-	
-	<div class="row g-3 align-items-center">
-	  <div class="col-auto">
-	    <label for="userId" class="col-form-label"></label>
-	    <input type="text" id="id" name="userId" class="form-control" placeholder="아이디를 입력해주세요.">
-	  </div>
-	</div>
-	
-	<div class="row g-3 align-items-center">
-	  <div class="col-auto">
-	    <label for="userPw" class="col-form-label"></label>
-	    <input type="password" id="pw" name="userPw" class="form-control" aria-describedby="passwordHelpInline" placeholder="비밀번호를 입력해주세요.">
-	  </div>
-	</div>
-	
-	
-
-	<div>
-		<a href="./idfind" type="button" class="btn btn-outline-success">아이디 찾기</a>
-		<a href="./pwfind" type="button" class="btn btn-outline-success">비밀번호 찾기</a>		
-	</div>
-	
-	<div class="row mb-3 justify-content-center">
-		<button class="btn btn-outline-success">로그인</button>
-	</div>	
-	
-	<div class="row mb-3 justify-content-center">
-		<a>Camping Every Share와 함께 하시겠어요? <a href="./join" type="button" class=" col-3 btn btn-outline-success">회원가입</a></a>
-	</div>	
-	<div class="row mb-3 justify-content-center">
-		<hr align="left">
-		<a>또는</a>
-		<hr align="right">
-	</div>	
-</form>
-	
-
-	<div>
-		<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=a75bad9d6cd43e60fa8e31d70d2b8625&redirect_uri=http://localhost:8088/user/login&response_type=code">
-		<img src="/resources/img/kakao_login_medium_narrow.png" style="height:60px">
-		</a>
-	</div>
-	
-		
-</div>
-
-</div><!-- .container -->
-
-=======
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
@@ -125,30 +49,7 @@ pageEncoding="UTF-8"%>
         );
     }
 
-
-    $(document).ready(function () {
-        // 회원가입 버튼 클릭 시 실행될 코드
-        $("#loginButton").click(function () {
-            // 비밀번호 값을 가져오는 부분 수정
-            var userPw = $("#userPw").val();
-
-            // 비밀번호가 입력되지 않은경우
-            if (userPw === '') {
-                console.log("비밀번호를 입력해주세요");
-                return;
-            }
-            if (userPw !== '') {
-            console.log("로그인버튼을 클릭해주세요");
-            $("#pwDupleBlock").text("로그인버튼을 클릭해주세요");
-            // TODO: ptag 표시
-            }
-           
-        });
-        
-        
-    });
-
-    function passwordCheck() {
+	    function passwordCheck() {
         var userPw = $("#userPw").val();
         var pwDupleBlock = $("#pwDupleBlock");
 
@@ -161,49 +62,40 @@ pageEncoding="UTF-8"%>
             // TODO: ptag 표시
             return;
         }
+        pwDupleBlock.text("");
     }
-    
-    --
- // Form submission event handler
-    $("form").submit(function (event) {
-        var userIdValue = $("#userId").val().trim();
-        var userPwValue = $("#userPw").val().trim();
+  
 
-        // Check if username and password are not empty
-        if (userIdValue.length === 0 || userPwValue.length === 0) {
-            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
-            event.preventDefault(); // Prevent form submission
-            console.log("아이디와 비밀번호를 입력해 주세요.");
-            displayBlock.show();
-            return;
-        } else {
-            if (userIdValue !== "correctUserId" || userPwValue !== "correctPassword") {
-                $("#loginFailureMessageText").text("아이디 또는 비밀번호가 잘못되었습니다.").show();
-                event.preventDefault(); // Prevent form submission
-                console.log("아이디 또는 비밀번호가 잘못되었습니다.");
-                displayBlock.show();
-                return;
-            } else {
-                // 아이디와 비밀번호가 올바른 경우에는 아무런 처리를 하지 않음
-                $("#loginFailureMessageText").hide();
-            }
-
-            // AJAX 요청
+    $(document).ready(function () {
+    	$("#loginButton").click(function () {
+  			var userIdValue = $("#userId").val().trim();
+	        var userPwValue = $("#userPw").val().trim();
+	        // Check if username and password are not empty
+	        if (userIdValue.length === 0 || userPwValue.length === 0) {
+	            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
+	            event.preventDefault(); // Prevent form submission
+	            console.log("아이디와 비밀번호를 입력해 주세요.");
+// 	            displayBlock.show();
+	            return;
+	        } 
             $.ajax({
                 type: "POST",
-                url: "/user/login/",
+                url: "/user/login",
                 data: {
-                    "Id": userIdValue,
-                    "Pw": userPwValue
+                    "userId": userIdValue,
+                    "userPw": userPwValue
                 },
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 success: function (response) {
                     console.log(response); // 서버 응답 확인
-                    if (response === "success") {
-                        // 이 부분이 수정되었습니다.
+                    if (response) {
                         // $(location).attr('href', '/'); -> 로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
                         console.log("로그인 성공");
+                        window.location.href = "/";
                     } else {
+						alert("아이디 또는 비밀번호가 잘못되었습니다.");                    	
+                        window.location.href = "/user/login";
+
                         console.log("서버 응답에 문제가 있습니다."); // 서버 응답이 다르게 올 경우
                         $("#loginFailureMessageText").text("아이디 또는 비밀번호가 잘못되었습니다.").show();
                     }
@@ -212,19 +104,11 @@ pageEncoding="UTF-8"%>
                     console.error("AJAX 요청 실패: " + textStatus);
                 }
             });
-        }
+    	})
     });
-
-    
     
     
 </script>
-
-
-    
-
-
-
 
 
 
@@ -306,5 +190,4 @@ pageEncoding="UTF-8"%>
 
 </div><!-- .container -->
 
->>>>>>> refs/remotes/origin/master
 <c:import url="../layout/footer.jsp" />

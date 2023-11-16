@@ -1,7 +1,5 @@
 package web.dao.face;
 
-import org.apache.ibatis.annotations.Param;
-
 import web.dto.User;
 
 public interface UserDao {
@@ -21,7 +19,7 @@ public interface UserDao {
 	 * @param user
 	 * @return
 	 */
-	public User findId(User user);
+	public String findId(User user);
 
 	/**
 	 * 조회된 사용자의 수를 반환
@@ -73,11 +71,11 @@ public interface UserDao {
 	public User selectById(String loginId);
 
 	/**
-	 * 회원정보 수정사항 업데이트
+	 * 회원정보수정
 	 * 
 	 * @param updateUser
-	 * @return
 	 */
 	public void updateUser(User updateUser);
+
 }
 

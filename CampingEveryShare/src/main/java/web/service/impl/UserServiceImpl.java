@@ -27,10 +27,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findId(User user) {
-		return userDao.findId(user);
+	public String findId(User user) {
+		String userId = userDao.findId(user);
+		if (userId == null) {
+			userId = "";
+		}
+		return userId;
 	}
-
+	
 	@Override
 	public boolean joinIdCheck(String userId) {
 		int idCheck = userDao.selectCntUserId(userId);
@@ -85,6 +89,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.findPw(findPw);
 	}
 
+	
 	@Override
 	public User info(String loginId) {
 		return userDao.selectById(loginId);
@@ -118,8 +123,4 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-
-
-
 }
-

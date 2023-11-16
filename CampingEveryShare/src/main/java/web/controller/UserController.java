@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -74,11 +76,11 @@ public class UserController {
 	
 	@Transactional
 	@PostMapping("/join")
-	public String joinProc(User user,@RequestParam("selectedProfile") int selectedProfile, @RequestParam("userPwConfirm") String userPwConfirm) {
+	public String joinProc(User user, @RequestParam("userPwConfirm") String userPwConfirm) {
 		logger.info("joinParam : {}",user);
-		
-		// 프로필 번호 확인
-	    logger.info("Selected Profile: {}", selectedProfile);
+		int selectedProfile;
+		selectedProfile = user.getProfile();
+	    
 
 		//회원가입 처리
 		boolean joinResult = userService.join(user, selectedProfile, userPwConfirm);
@@ -94,13 +96,12 @@ public class UserController {
 	
 	@GetMapping("/view")
 	public void userView(
-			@SessionAttribute("loginId") String loginId
-			, Model model) {
-		logger.info("view[GET]");
+		@SessionAttribute("loginId") String loginId
+		, Model model) {
 		logger.info("loginId : {}",loginId);
 		User login = userService.info(loginId);
 		model.addAttribute("login",login);
-		
+
 	}
 	
 	@GetMapping("/delete")
@@ -114,75 +115,69 @@ public class UserController {
 	}
 	
 	@GetMapping("/update")
-	public String userUpdate(
-	        @SessionAttribute("loginId") String loginId,
-	        Model model) {
-	    logger.info("update[GET]");
-	    logger.info("loginId: {}", loginId);
-	    User updateUser = userService.info(loginId); // Assuming there is a method to get the user
-	    model.addAttribute("updateUser", updateUser); // Add the user to the model
-	    return "/user/update"; // Return the view name (assuming "user/update" is the update page)
+	public String userUpdate(@SessionAttribute("loginId") String loginId, Model model) {
+		logger.info("update[GET]");
+		logger.info("loginId: {}", loginId);
+		User updateUser = userService.info(loginId); // Assuming there is a method to get the user
+		model.addAttribute("updateUser", updateUser); // Add the user to the model
+		return "/user/update"; // Return the view name (assuming "user/update" is the update page)
 	}
 
 	@PostMapping("/update")
-	public String userUpdateProc(
-	        @ModelAttribute User updateUser,
-	        @SessionAttribute("loginId") String loginId,
-	        @RequestParam(value = "userPwConfirm", required = false) String userPwConfirm,
-	        HttpSession session,
-	        Model model) {
-	    logger.info("update[POST]");
-	    logger.info("loginId: {}", loginId);
+	public String userUpdateProc(@ModelAttribute User updateUser, @SessionAttribute("loginId") String loginId,
+			@RequestParam(value = "userPwConfirm", required = false) String userPwConfirm, HttpSession session,
+			Model model) {
+		logger.info("update[POST]");
+		logger.info("loginId: {}", loginId);
 
-	    // 올바른 user_id 설정
-	    updateUser.setUserId(loginId);
+		// 올바른 user_id 설정
+		updateUser.setUserId(loginId);
 
-	    boolean updateResult = userService.updateUser(updateUser, userPwConfirm);
+		boolean updateResult = userService.updateUser(updateUser, userPwConfirm);
 
-	    if (updateResult) {
-	        logger.info("정보수정 성공");
-	        model.addAttribute("message", "사용자 정보가 성공적으로 업데이트되었습니다.");
-	        return "redirect:/user/view";
-	    } else {
-	        logger.info("정보수정 실패");
-	        return "redirect:/user/update";
-	    }
+		if (updateResult) {
+			logger.info("정보수정 성공");
+			model.addAttribute("message", "사용자 정보가 성공적으로 업데이트되었습니다.");
+			return "redirect:/user/view";
+		} else {
+			logger.info("정보수정 실패");
+			return "redirect:/user/update";
+		}
 	}
-
-
+	
 	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
 		logger.info("login[GET]");
 		session.invalidate();
 	}
+
 	
 	@PostMapping("/login")
-	public String loginProc(User login, HttpSession session ) {
+	@ResponseBody
+	public boolean loginProc(User login, HttpSession session) {
 		logger.info("loginParam : {}", login);
 		logger.info("login[POST]");
-		
-		//로그인 인증
-		boolean isLogin = userService.login( login );
-		User loginInfo = userService.info(login);
-		
-		//[세션] 로그인 인증 결과 왜 업뎃안떠
-		
-		if( isLogin ) {
-			logger.info("로그인 성공");
-			session.setAttribute("isLogin", isLogin);
-			session.setAttribute("loginId", loginInfo.getUserId());
-			session.setAttribute("loginNick", loginInfo.getUserNick());
-	        logger.info("session : " + session.getAttribute("loginId"));
-	        logger.info("session : " + session.getAttribute("loginNick"));
 
-			return "redirect:/";
+		// 로그인 인증
+		boolean isLogin = userService.login(login);
+		User loginInfo = userService.info(login);
+		// [세션] 로그인 인증 결과
+
+		if (!isLogin) {
+			session.invalidate();
+			return false;
+		}
 		
+		logger.info("로그인 성공");
+		session.setAttribute("isLogin", isLogin);
+		session.setAttribute("loginId", loginInfo.getUserId());
+		session.setAttribute("loginNick", loginInfo.getUserNick());
+		logger.info("session : " + session.getAttribute("loginId"));
+		logger.info("session : " + session.getAttribute("loginNick"));
+
+		return true;		
 	}
-		logger.info("로그인 실패");
-		session.invalidate();
-		return "redirect:/user/login";
-	}	
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -193,9 +188,19 @@ public class UserController {
 
 	@GetMapping("/idfind")
 	public void idFind() {}
+	
 	@PostMapping("/idfind")
-	public String idFind(User user) {
-		return "redirect:/user/login";
+	@ResponseBody
+	public String idFind(User idFind) {
+		logger.info("idFind:{}",idFind);
+		logger.info("idFind[POST]");
+		
+//		String idFind = userService.findId(idFind);
+//		
+//		if(!idFind)
+		return null;
+		
+		
 	}
 	@GetMapping("/pwfind")
 	public void pwFind() {}
