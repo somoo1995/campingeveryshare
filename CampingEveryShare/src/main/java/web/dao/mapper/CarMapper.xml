@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.CarDao">
+	
+	<sql id="selectCar">
+		SELECT car_no, user_id, car_name, car_number, location, area, area_detail, car_size, car_pax
+		, car_spax, price, car_elec, car_water, car_table, car_counter, car_kitchin, car_temp, car_shower
+		, car_toilet, car_pet, car_smoke, car_status, content, delete_status
+		FROM cartb
+	</sql>
+
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM cartb
+		<where>
+			AND car_status = 1
+			AND delete_status = 0
+		</where>
+
+	</select>
+
+</mapper>

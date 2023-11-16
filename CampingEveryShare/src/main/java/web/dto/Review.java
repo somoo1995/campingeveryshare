@@ -10,11 +10,11 @@ public class Review {
 	private String content;
 	private Date postDate;
 	private int rate;
-	private int status;
+	private int deleteStatus;
 	
 	public Review() {}
 
-	public Review(int reviewNo, int rentNo, int userNo, String content, Date postDate, int rate, int status) {
+	public Review(int reviewNo, int rentNo, int userNo, String content, Date postDate, int rate, int deleteStatus) {
 		super();
 		this.reviewNo = reviewNo;
 		this.rentNo = rentNo;
@@ -22,13 +22,13 @@ public class Review {
 		this.content = content;
 		this.postDate = postDate;
 		this.rate = rate;
-		this.status = status;
+		this.deleteStatus = deleteStatus;
 	}
 
 	@Override
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", rentNo=" + rentNo + ", userNo=" + userNo + ", content=" + content
-				+ ", postDate=" + postDate + ", rate=" + rate + ", status=" + status + "]";
+				+ ", postDate=" + postDate + ", rate=" + rate + ", deleteStatus=" + deleteStatus + "]";
 	}
 
 	public int getReviewNo() {
@@ -79,14 +79,12 @@ public class Review {
 		this.rate = rate;
 	}
 
-	public int getStatus() {
-		return status;
+	public int getDeleteStatus() {
+		return deleteStatus;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setDeleteStatus(int deleteStatus) {
+		this.deleteStatus = deleteStatus;
 	}
-	
-	
-	
+
 }

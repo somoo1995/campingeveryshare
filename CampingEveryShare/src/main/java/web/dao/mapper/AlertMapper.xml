@@ -7,6 +7,7 @@
 <mapper namespace="web.dao.face.AlertDao">
 	<sql id="selectAlert">
 		SELECT alert_no, user_id, content, alert_status, board_cate, board_no, post_date
+<!-- 		, (SELECT car_name FROM cartb C WHERE C.car_no = A.board_no) as carname -->
 		FROM alerttb
 	</sql>
 
