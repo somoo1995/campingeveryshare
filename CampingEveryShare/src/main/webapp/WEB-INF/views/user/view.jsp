@@ -12,7 +12,13 @@ pageEncoding="UTF-8"%>
     align-self: stretch;
     justify-content: flex-end;
 }
+
+.form-check-input:checked {
+    background-color: #2ecc71;
+    border-color: #78cc71;
+}
 </style>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -32,8 +38,8 @@ $(document).ready(function() {
 	<hr>	
 	</div>
 		
-<div class="col-md-6 input-group has-validation">
-    <span class="border border-success-subtle input-group-text" id="basic-addon1">
+	<div class="col-md-6 input-group has-validation">
+		<span class="border border-success-subtle input-group-text" id="basic-addon1">
         <div class="p-2">
             <ul>
                 <li>
@@ -43,52 +49,46 @@ $(document).ready(function() {
         </div>
         <ul>
             <li>
-                <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" width="190" height="150" >
+		   <img src="/resources/img/profile1.png" alt="프로필1" class="profile1" id="profile-img-1" width="190" height="150">
             </li>
-            <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="1" disabled>
+            <li>       
+		   <input class="form-check-input" type="radio" name="profile" value="1" disabled>
             </li>
         </ul>
- 
         <ul>
             <li>
-                <img src="/resources/img/profile2.png" alt="프로필2" class="profile2" id="profile-img-2" width="190" height="150" >
+		   <img src="/resources/img/profile2.png" alt="프로필2" class="profile2" id="profile-img-2" width="190" height="150">
             </li>
-            <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="2" disabled>
+            <li>       
+		   <input class="form-check-input" type="radio" name="profile" value="2" disabled>
             </li>
         </ul>
- 
         <ul>
             <li>
-                <img src="/resources/img/profile3.png" alt="프로필3" class="profile3" id="profile-img-3" width="190" height="150" >
+		   <img src="/resources/img/profile3.png" alt="프로필3" class="profile3" id="profile-img-3" width="190" height="150">
             </li>
-            <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="3" disabled>
+            <li>       
+		   <input class="form-check-input" type="radio" name="profile" value="3" disabled>
             </li>
         </ul>
- 
         <ul>
             <li>
-                <img src="/resources/img/profile4.png" alt="프로필4" class="profile4" id="profile-img-4" width="190" height="150" >
+		   <img src="/resources/img/profile4.png" alt="프로필4" class="profile4" id="profile-img-4" width="190" height="150">
             </li>
-            <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="4" disabled>
+            <li>       
+		   <input class="form-check-input" type="radio" name="profile" value="4" disabled>
             </li>
         </ul>
- 
         <ul>
             <li>
-                <img src="/resources/img/profile5.png" alt="프로필5" class="profile5" id="profile-img-5" width="190" height="150" >
+		   <img src="/resources/img/profile5.png" alt="프로필5" class="profile5" id="profile-img-5" width="190" height="150">
             </li>
-            <li>
-                <input class="form-check-input" type="radio" name="profile" id="profile" value="5" disabled>
+            <li>       
+		   <input class="form-check-input" type="radio" name="profile" value="5" disabled>
             </li>
         </ul>
- 
-    </span>
-</div>
-
+		</span>
+	</div>
 		
 	<div class="col-md-6 input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">

@@ -15,97 +15,91 @@ pageEncoding="UTF-8"%>
 </style>
 <script type="text/javascript">
 
-$(document).ready(function() {
-    // 사용자의 프로필 값을 가져옴
-    var userProfile = "${updateUser.profile}";
+	$(document).ready(function() {
+	    // 사용자의 프로필 값을 가져옴
+	    var userProfile = "${updateUser.profile}";
+	
+	    // 프로필 값을 가지는 라디오 버튼을 체크
+	    $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
+	});
+	
+	 function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
+	        var value = input.value;
+	        var displayBlock = $("#" + displayBlock);
 
-    // 프로필 값을 가지는 라디오 버튼을 체크
-    $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
-});
+	        console.info("checkDuplicate::" + value);
 
-function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
-    var value = input.value;
-    var displayBlock = $("#" + displayBlock);
+	        displayBlock.show();
 
-    console.info("checkDuplicate::" + value);
+	        if (value.trim() == '') {
+	            displayBlock.text(emptyMessage);
+	            console.log(emptyMessage);
+	            return;
+	        }
 
-    displayBlock.show();
+	        $.ajax({
+	            type: "get",
+	            url: url + value,
+	            dataType: "text",
+	            success: function (response) {
+	                if (response == "true") {
+	                    console.log(successMessage);
+	                    displayBlock.text(successMessage);
+	                } else {
+	                    console.log(failureMessage);
+	                    displayBlock.text(failureMessage);
+	                }
+	            }
+	        });
+	    }
 
-    if (value.trim() == '') {
-        displayBlock.text(emptyMessage);
-        console.log(emptyMessage);
-        return;
-    }
+	    $(document).ready(function () {
+			$("#joinButton").click(function () {
+	            // phone 인풋의 값이 비어있으면 0을 넣어줌
+	            if ($("#phone").val().trim() === '') {
+	                $("#phone").val('0');
+	            }
 
-    $.ajax({
-        type: "get",
-        url: url + value,
-        dataType: "text",
-        success: function (response) {
-            if (response == "true") {
-                console.log(successMessage);
-                displayBlock.text(successMessage);
-            } else {
-                console.log(failureMessage);
-                displayBlock.text(failureMessage);
-            }
-        }
-    });
-}
+	            // 비밀번호 값을 가져오는 부분 수정
+	            var userPw = $("#userPw").val();
+	            var userPwConfirm = $("#userPwConfirm").val();
+	            
+	            // 비밀번호가 서로 다를 경우
+	            if (userPw !== userPwConfirm) {
+	                console.log("동일한 비밀번호가 아님");
+	                $("#pwDupleBlock").text("동일한 비밀번호가 아님");
+	                // TODO: ptag 표시
+	                return;
+	            }
 
-$(document).ready(function () {
-	$("#joinButton").click(function () {
-        // phone 인풋의 값이 비어있으면 0을 넣어줌
-        if ($("#phone").val().trim() === '') {
-            $("#phone").val('0');
-        }
+	        });
+	    });
 
-        // 비밀번호 값을 가져오는 부분 수정
-        var userPw = $("#userPw").val();
-        var userPwConfirm = $("#userPwConfirm").val();
-        
-        // 비밀번호가 서로 다를 경우
-        if (userPw !== userPwConfirm) {
-            console.log("동일한 비밀번호가 아님");
-            $("#pwDupleBlock").text("동일한 비밀번호가 아님");
-            // TODO: ptag 표시
-            return;
-        }
+	    function passwordCheck() {
+	        var userPw = $("#userPw").val();
+	        var userPwConfirm = $("#userPwConfirm").val();
+	        var pwDupleBlock = $("#pwDupleBlock");
 
-        console.log("동일한 비밀번호입니다.");
-        $("#pwDupleBlock").text("동일한 비밀번호입니다.");  
-        // TODO: ptag 표시
-    });
-});
+	        pwDupleBlock.show();
 
-function passwordCheck() {
-    var userPw = $("#userPw").val();
-    var userPwConfirm = $("#userPwConfirm").val();
-    var pwDupleBlock = $("#pwDupleBlock");
+	        // 비밀번호가 입력되지 않았을 경우
+	        if (!userPw || !userPwConfirm) {
+	            console.log("비밀번호를 입력하세요.");
+	            pwDupleBlock.text("비밀번호를 입력하세요.");
+	            // TODO: ptag 표시
+	            return;
+	        }
 
-    pwDupleBlock.show();
-
-    // 비밀번호가 입력되지 않았을 경우
-    if (!userPw || !userPwConfirm) {
-        console.log("비밀번호를 입력하세요.");
-        pwDupleBlock.text("비밀번호를 입력하세요.");
-        // TODO: ptag 표시
-        return;
-    }
-
-    // 비밀번호가 서로 다를 경우
-    if (userPw !== userPwConfirm) {
-        console.log("동일한 비밀번호가 아님");
-        pwDupleBlock.text("동일한 비밀번호가 아님");
-        // TODO: ptag 표시
-        return;
-    }
-
-    console.log("동일한 비밀번호입니다.");
-    pwDupleBlock.text("동일한 비밀번호입니다.");
-    // TODO: ptag 표시
-}
-
+	        // 비밀번호가 서로 다를 경우
+	        if (userPw !== userPwConfirm) {
+	            console.log("동일한 비밀번호가 아님");
+	            pwDupleBlock.text("동일한 비밀번호가 아님");
+	            // TODO: ptag 표시
+	            return;
+	        }
+	        console.log("동일한 비밀번호입니다.");
+	        pwDupleBlock.text("");
+	    }
 </script>
 
 <form id="update" action="/user/update" method="post">
@@ -197,10 +191,10 @@ function passwordCheck() {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" aria-describedby="passwordHelpInline" >
+		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" value="${login.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
 		    <label for="userPw" class="col-form-label"> 비밀번호*</label>
 	  	</div>
-	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
+	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>
@@ -213,10 +207,10 @@ function passwordCheck() {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" >
+		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" value="${login.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required >
 		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
 	  	</div>
-	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
+	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>

@@ -18,8 +18,8 @@
 	</select>
 
 
-    <select id="findId" resultType="User" parameterType="User">
-    SELECT *
+    <select id="findId" resultType="String" parameterType="User">
+    SELECT user_id
     FROM userTb
     <where>
         <if test="email != null and email != ''"> AND email = #{email} </if>
@@ -72,12 +72,12 @@
         <if test="email != null and email != ''"> AND email = #{email} </if>
     </where>
 	</select>
-
+	
 	<select id="selectById" resultType="User" parameterType="string">
-	SELECT * FROM userTb
-	<where>
-		user_id = #{userId}
-	</where>
+		SELECT * FROM userTb
+		<where>
+			user_id = #{userId}
+		</where>
 	</select>
 	
 	<update id="updateUser" parameterType="User">
@@ -92,7 +92,6 @@
 	    WHERE
 	        user_id = #{userId}
 	</update>
-
 
 
 </mapper>
