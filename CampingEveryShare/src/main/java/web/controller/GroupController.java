@@ -87,7 +87,7 @@ public class GroupController {
 	@GetMapping("/write")
 	public void boardWrite(){}
 	
-	
+	//커밋 왜 안 됨????
 	@PostMapping("/write")
 	public String groupWriteProc(Board writeParam, Group groupParam, @RequestParam int recruitStatus, HttpSession session){
 		
@@ -100,6 +100,7 @@ public class GroupController {
 //			return "redirect:/login";	//아이디값이 null인 경우 로그인 페이지로 이동
 //		}
 		
+		//테스트
 		logger.info("====세션 테스트====");
 		logger.info("Session userId: {}", writeParam.getUserId());
 		
