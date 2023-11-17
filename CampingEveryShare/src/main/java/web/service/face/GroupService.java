@@ -10,6 +10,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+
 import web.dto.User;
 import web.util.Paging;
 
@@ -171,4 +172,5 @@ public interface GroupService {
 
 
 
-}
+
+

@@ -93,7 +93,6 @@ function loadBooking() {
         type: "get"
         , url: "/booking/list?status=" + dataBooking
         , data: {
-			
         }
         , dataType: "html"
         , success: function( res ) {
@@ -117,8 +116,6 @@ function loadBooking() {
          <h3 id="pageTitle">내 예약</h3>
     </div >
     
-<%--     ${hasData } --%>
-    
     <div class="button-group mt-5">
         <!-- param.status가 now, history 또는 설정되지 않았을 때 now로 간주 -->
 <%-- 	    <a href="./main?status=now" class="button ${empty param.status || param.status == 'now' ? 'active' : ''}" id="btnCurrent" data-booking="now">진행 중</a> --%>
@@ -140,32 +137,9 @@ function loadBooking() {
 				<span>캠핑카를 찾으시나요?</span><br>
 				<a href="링크URL" class="exploreButton">살펴보기</a>
 			</div>
-	
-<%-- 	<c:choose> --%>
-<%-- 		<c:when test="${param.status == 'now' || empty param.status}"> --%>
-<!-- 			<div class="rentList"> -->
-<!-- 				<strong>아직 예약된 캠핑카가 없습니다!</strong><br> -->
-<!-- 				<span>캠핑카를 찾으시나요?</span><br> -->
-<!-- 				<a href="링크URL" class="exploreButton">살펴보기</a> -->
-<!-- 			</div> -->
-<%-- 		</c:when> --%>
-<%-- 		<c:when test="${param.status == 'history' }"> --%>
-<!-- 			<div class="rentList"> -->
-<!-- 				<strong>아직 예약된 캠핑카가 없습니다!</strong><br> -->
-<!-- 				<span>캠핑카를 찾으시나요?</span><br> -->
-<!-- 				<a href="링크URL" class="exploreButton">살펴보기</a> -->
-<!-- 			</div> -->
-<%-- 		</c:when> --%>
-<%-- 	</c:choose> --%>
 	</c:if>
 	
 	</div>
-
-
-    <!-- 예약 목록을 여기에 추가하세요. -->
-
-    <!-- 페이지네이션 -->
-
 
 </div><!-- .container -->
 

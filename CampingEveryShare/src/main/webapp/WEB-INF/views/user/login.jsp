@@ -49,30 +49,7 @@ pageEncoding="UTF-8"%>
         );
     }
 
-
-    $(document).ready(function () {
-        // 회원가입 버튼 클릭 시 실행될 코드
-        $("#loginButton").click(function () {
-            // 비밀번호 값을 가져오는 부분 수정
-            var userPw = $("#userPw").val();
-
-            // 비밀번호가 입력되지 않은경우
-            if (userPw === '') {
-                console.log("비밀번호를 입력해주세요");
-                return;
-            }
-            if (userPw !== '') {
-            console.log("로그인버튼을 클릭해주세요");
-            $("#pwDupleBlock").text("로그인버튼을 클릭해주세요");
-            // TODO: ptag 표시
-            }
-           
-        });
-        
-        
-    });
-
-    function passwordCheck() {
+	    function passwordCheck() {
         var userPw = $("#userPw").val();
         var pwDupleBlock = $("#pwDupleBlock");
 
@@ -85,49 +62,40 @@ pageEncoding="UTF-8"%>
             // TODO: ptag 표시
             return;
         }
+        pwDupleBlock.text("");
     }
-    
-    --
- // Form submission event handler
-    $("form").submit(function (event) {
-        var userIdValue = $("#userId").val().trim();
-        var userPwValue = $("#userPw").val().trim();
+  
 
-        // Check if username and password are not empty
-        if (userIdValue.length === 0 || userPwValue.length === 0) {
-            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
-            event.preventDefault(); // Prevent form submission
-            console.log("아이디와 비밀번호를 입력해 주세요.");
-            displayBlock.show();
-            return;
-        } else {
-            if (userIdValue !== "correctUserId" || userPwValue !== "correctPassword") {
-                $("#loginFailureMessageText").text("아이디 또는 비밀번호가 잘못되었습니다.").show();
-                event.preventDefault(); // Prevent form submission
-                console.log("아이디 또는 비밀번호가 잘못되었습니다.");
-                displayBlock.show();
-                return;
-            } else {
-                // 아이디와 비밀번호가 올바른 경우에는 아무런 처리를 하지 않음
-                $("#loginFailureMessageText").hide();
-            }
-
-            // AJAX 요청
+    $(document).ready(function () {
+    	$("#loginButton").click(function () {
+  			var userIdValue = $("#userId").val().trim();
+	        var userPwValue = $("#userPw").val().trim();
+	        // Check if username and password are not empty
+	        if (userIdValue.length === 0 || userPwValue.length === 0) {
+	            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
+	            event.preventDefault(); // Prevent form submission
+	            console.log("아이디와 비밀번호를 입력해 주세요.");
+// 	            displayBlock.show();
+	            return;
+	        } 
             $.ajax({
                 type: "POST",
-                url: "/user/login/",
+                url: "/user/login",
                 data: {
-                    "Id": userIdValue,
-                    "Pw": userPwValue
+                    "userId": userIdValue,
+                    "userPw": userPwValue
                 },
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 success: function (response) {
                     console.log(response); // 서버 응답 확인
-                    if (response === "success") {
-                        // 이 부분이 수정되었습니다.
-                        // $(location).attr('href', '/'); -> 로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
+                    if (response) {
+                        // $(location).attr('href', '/'); ->  로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
                         console.log("로그인 성공");
+                        window.location.href = "/";
                     } else {
+						alert("아이디 또는 비밀번호가 잘못되었습니다.");                    	
+                        window.location.href = "/user/login";
+
                         console.log("서버 응답에 문제가 있습니다."); // 서버 응답이 다르게 올 경우
                         $("#loginFailureMessageText").text("아이디 또는 비밀번호가 잘못되었습니다.").show();
                     }
@@ -136,19 +104,11 @@ pageEncoding="UTF-8"%>
                     console.error("AJAX 요청 실패: " + textStatus);
                 }
             });
-        }
+    	})
     });
-
-    
     
     
 </script>
-
-
-    
-
-
-
 
 
 

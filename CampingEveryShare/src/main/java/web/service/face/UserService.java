@@ -19,7 +19,7 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	public User findId(User user);
+	public String findId(User user);
 
 	/**
 	 * 회원가입 아이디 중복체크
@@ -68,6 +68,24 @@ public interface UserService {
 	 * @param findPw
 	 * @return
 	 */
-	public User findPw(User findPw);
+	public String findPw(User findPw);
+	
+	/**
+	 * 내정보확인 로그인 아이디
+	 * 
+	 * @param loginId
+	 * @return
+	 */
+	public User info(String loginId);
 
+	/**
+	 * 회원정보 수정 후 업데이트
+	 * 
+	 * @param updateUser
+	 * @param userPwConfirm 
+	 * @param selectedProfile 
+	 * @return
+			 */
+	public boolean updateUser(User updateUser, String userPwConfirm);
 }
+

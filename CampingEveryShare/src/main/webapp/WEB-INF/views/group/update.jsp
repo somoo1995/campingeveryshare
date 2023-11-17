@@ -6,6 +6,7 @@ pageEncoding="UTF-8"%>
  
 <c:import url="../layout/header.jsp" />
 
+
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
@@ -19,6 +20,7 @@ $(() => {
 		$(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
 	})
 	
+
 	$("#content").summernote({
 		height: 300
 	})

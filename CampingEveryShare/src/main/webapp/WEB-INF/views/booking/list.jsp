@@ -42,5 +42,5 @@
 	</c:forEach>
 </div>
 
-<c:import url="../layout/pagination.jsp" />
+<c:import url="../layout/listpagination.jsp" />
 

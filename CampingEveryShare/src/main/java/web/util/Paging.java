@@ -17,6 +17,8 @@ public class Paging {
 	
 	private int category;
 	private String search;
+	
+	private String type;
 
 	public Paging() {}
 
@@ -71,7 +73,7 @@ public class Paging {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
 				+ ", startNo=" + startNo + ", endNo=" + endNo + ", category=" + category + ", search=" + search
-				+ "]";
+				+ ", type=" + type + "]";
 	}
 
 	public int getCurPage() {
@@ -162,6 +164,14 @@ public class Paging {
 		this.search = search;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 
 }
 

@@ -289,6 +289,7 @@ ${group.recruitStatus }
 	</table><!-- 댓글 리스트 end -->
 
 </div><!-- 댓글 처리 end -->
+
 </div>
 
 

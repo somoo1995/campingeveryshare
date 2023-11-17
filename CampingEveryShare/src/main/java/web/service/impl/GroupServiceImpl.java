@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+
 import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
@@ -50,6 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
 		
+
 		return paging;
 	}
 

@@ -21,5 +21,21 @@ public class AlertServiceImpl implements AlertService {
 		return alertDao.selectByUser(alert);
 	}
 
+	@Override
+	public int sendAlert(Alert alert) {
+		int res = alertDao.insertAlert(alert);
+		return res;
+	}
+
+	@Override
+	public void readAlert(Alert alert) {
+		alertDao.updateAlertStatus(alert);
+	}
+
+	@Override
+	public int hasNew(Alert alert) {
+		return alertDao.countStatus(alert);
+	}
+
 }
 
