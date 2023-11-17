@@ -12,5 +12,27 @@ public class CarController {
 	public void main() {
 		
 	}
+	
+	@GetMapping("/history")
+	public String history() {
+		return "/car/history";
+	}
+	
+	@GetMapping("/mycar")
+	public String mycar() {
+		return "/car/mycar";
+	}
+
+	
+	@GetMapping("/mysell")
+	public String mysell() {
+		return "/car/mysell";
+	}
+	
+	@GetMapping("/regi")
+	public void regi() {
+		
+	}
+
 
 }

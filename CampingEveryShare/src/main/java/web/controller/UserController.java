@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -191,22 +192,21 @@ public class UserController {
 	
 	@PostMapping("/idfind")
 	@ResponseBody
-	public String idFind(User idFind) {
-		logger.info("idFind:{}",idFind);
+	public String idFindProc(User user, Model model) {
+		logger.info("idFind:{}",user);
 		logger.info("idFind[POST]");
 		
-//		String idFind = userService.findId(idFind);
-//		
-//		if(!idFind)
-		return null;
-		
-		
+	    // 찾은 아이디를 클라이언트로 전송
+	    return userService.findId(user);
 	}
+
 	@GetMapping("/pwfind")
 	public void pwFind() {}
 	@PostMapping("/pwfind")
-	public String pwFind(User user) {
-		return "redirect:/user/login";
+	public String pwFind(User user,Model model) {
+		logger.info("pwFind:{}",user);
+		logger.info("idFind[POST]");
+		return userService.findPw(user);
 	}
 	
 
