@@ -118,39 +118,59 @@ public class GroupController {
 	}
 	
 	@GetMapping("/update")
-	public String groupUpdate(Map<Object, String> updateParam){
+	public String groupUpdate(Map<String, Object> updateView, Model model, @RequestParam("boardNo")int boardNo){
 		
 		logger.info("================update [START]================");
+		logger.info("updateView : {} " + updateView.toString());
 		
-		//board 객체를 선언한다
+		//board 객체를 선언하고, boardNo를 가져온다
+		Board board = new Board();
+		board.setBoardCate(boardNo);
 		
-		//맵을 가져온다
-		Map<String, Object> updateView = groupService.view(board);
-		//updateView에 해당하는 객체를 가져온 후 Board로 캐스팅
-		Board board = (Board) updateView.get("board");
+		//서비스에서 메소드를 가져오고, 한 객체에 저장해둔다
+		Map<String, Object> map = groupService.view(board);
+		map.get(board.getBoardNo());
 		
-		//게시판 번호 조회해서 없으면 목록으로 이동
-		if( updateParam.getBoardNo() < 1 ) {
-			return "redirect:./list";
-		}
+		logger.info("map: {}" + map);
 		
 		//상세보기 페이지 아님 표시
-		updateParam.setHit(-1);
+//		updateView.setHit(-1);
+		
+		//상세보기 게시글 조회
+//		updateView.getBoardNo();
+		
+		
+		//boardNo를 가져오고, 저장
+//		updateView = Board.this.getBoardNo();
+		
+		
+		
+		//updateView에 해당하는 객체를 가져온 후 Board로 캐스팅
+//		Board board = (Board) updateView.get("board");
+		
+		//게시판 번호 조회해서 없으면 목록으로 이동
+//		if( board.getBoardNo() < 1 ) {
+//			return "redirect:./list";
+//		}
+		
+		//상세보기 페이지 아님 표시
+//		board.setHit(-1);
                      				
 		//1. 상세보기 게시글 조회
-		updateParam = groupService.view(updateParam);
+//		updateView = groupService.view(board);
 		
 		//2. 수정할 데이터를 뷰에 전달
-		model.addAttribute("updateBoard", updateParam );
-		
+//		model.addAttribute("updateBoard", updateView );
+//		
 		return "group/update";
-		
 
-		
-		
-		
-		
 	}
+	
+	
+	
+	
+	
+	
 	
 //	@PostMapping("/update")
 //	public String groupUpdateProc(Board updateParam, HttpSession sesison) {

@@ -9,11 +9,23 @@
 <meta charset="UTF-8">
 <title>Camping Every Share</title>
 
+<!-- 제이쿼리 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
+<!-- Slick 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
+<!-- Line Awesome Icon 불러오기-->
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+
+<!-- css시작 -->
 <style type="text/css">
 
 .wrap {
@@ -124,6 +136,7 @@ ul {
 	list-style: none;
 }
 
+/* 폰트 */
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
  * {
@@ -207,6 +220,7 @@ ul {
 
 </style>
 
+<!-- 자바스크립트 시작 -->
 <script type="text/javascript">
 
 $(function() {
@@ -373,6 +387,18 @@ $(function() {
 		location.href = campData
 	})
 })
+
+// slick 슬라이드 가져오기
+
+$( document ).ready( function() {
+	$('.fade').slick({
+		  dots: true,
+		  infinite: true,
+		  speed: 500,
+		  fade: true,
+		  cssEase: 'linear'
+		});
+  } );
 
 </script>
 
