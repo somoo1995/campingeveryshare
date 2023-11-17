@@ -68,7 +68,7 @@ public interface UserService {
 	 * @param findPw
 	 * @return
 	 */
-	public User findPw(User findPw);
+	public String findPw(User findPw);
 	
 	/**
 	 * 내정보확인 로그인 아이디

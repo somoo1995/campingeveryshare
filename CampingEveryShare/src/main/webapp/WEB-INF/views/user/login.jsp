@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
                 success: function (response) {
                     console.log(response); // 서버 응답 확인
                     if (response) {
-                        // $(location).attr('href', '/'); -> 로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
+                        // $(location).attr('href', '/'); ->  로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
                         console.log("로그인 성공");
                         window.location.href = "/";
                     } else {

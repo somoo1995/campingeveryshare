@@ -28,12 +28,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String findId(User user) {
-		String userId = userDao.findId(user);
-		if (userId == null) {
-			userId = "";
+	    String userId = userDao.findId(user);
+	    if (userId == null) {
+	        return "";
+	    } else {
+	    	logger.info("userId:{}",userId);
+			
 		}
-		return userId;
+	    return userId; 
 	}
+
 	
 	@Override
 	public boolean joinIdCheck(String userId) {
@@ -85,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findPw(User findPw) {
+	public String findPw(User findPw) {
 		return userDao.findPw(findPw);
 	}
 
