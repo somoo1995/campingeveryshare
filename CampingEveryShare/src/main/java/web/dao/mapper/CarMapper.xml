@@ -19,7 +19,27 @@
 			AND car_status = 1
 			AND delete_status = 0
 		</where>
-
+	</select>
+	
+	<select id="selectAll" parameterType="web.util.Paging" resultType="Car">
+		SELECT * FROM (
+		SELECT rownum rnum, R.* FROM (
+			<include refid="selectCar" />
+			<where>
+				AND delete_status = 0
+			</where>
+			ORDER BY car_no DESC
+		) R )
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectByCarNo" parameterType="Car" resultType="Car">
+		<include refid="selectCar" />
+		<where>
+			AND car_no = #{carNo }
+		</where>
 	</select>
 
 </mapper>

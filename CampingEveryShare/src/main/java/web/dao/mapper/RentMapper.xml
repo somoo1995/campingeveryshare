@@ -51,4 +51,12 @@
 		</where>
 	</select>
 
+	<select id="selectAllByCarNo" resultType="Rent" parameterType="Car">
+		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status
+		FROM renttb
+		<where>
+			AND car_no = #{carNo }
+		</where>
+	</select>
+
 </mapper>
