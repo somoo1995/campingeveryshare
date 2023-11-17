@@ -27,22 +27,18 @@ $(() => {
 })
 </script>
 <style type="text/css">
-.marketselect {
+.select {
 	text-align: center;
     align-items: center; /* 수직 가운데 정렬 */
    	margin: 15px auto 15px auto;
    	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
- 	justify-content: space-between; /* 요소 간에 공간을 균등하게 배치 */
-   	
 }
 
-.price{
+.recruitStatus{
     text-align: center;
-    width: 55px;
+    width: 80px;
     border: none;
     font-weight: bold;
-   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-
 }
 .location{
     text-align: center;
@@ -71,20 +67,18 @@ select {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">중고장터 글 작성</h3>
+<h3 id="pageTitle">모집 글 작성</h3>
 <hr>
 
 <div>
 
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
-
-<div class="marketselect">
-
-<div class="price">
-<input type="text" style="font-size: 15px; font-weight: bold;" class="price"  readonly="readonly" value="금 액">
-<input type="number" placeholder="금액을 입력해 주세요." name="price" id="price" max="999999999"/> 원
-</div>
+<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 ">
 |
+<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집중</label>
+<label><input type="radio" name="recruitStatus" id="recruitStatus" value="1">모집 완료</label>
+</div>
+
 <div class="locationselect">
 <input type="text" class="location" readonly="readonly" value="위 치">
 |
@@ -109,11 +103,11 @@ select {
      <option value="11">충북</option>
  </select>
 </div> 
-</div>
 
+<hr>
  
 <input type="hidden" name="loginId" value="${loginId }" >
-<input type="hidden" name="boardCate" value="3" >
+<input type="hidden" name="boardCate" value="4" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
 	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">

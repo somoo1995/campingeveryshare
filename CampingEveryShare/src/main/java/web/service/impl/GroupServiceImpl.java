@@ -15,22 +15,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.CommDao;
-import web.dao.face.MarketDao;
+import web.dao.face.GroupDao;
 import web.dao.face.ReComDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
-import web.dto.Market;
+import web.dto.Group;
 import web.dto.Recom;
 import web.dto.User;
-import web.service.face.MarketService;
+import web.service.face.GroupService;
 import web.util.Paging;
 
 @Service
-public class MarketServiceImpl implements MarketService {
+public class GroupServiceImpl implements GroupService {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
-	@Autowired MarketDao marketDao;
+	@Autowired GroupDao groupDao;
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
 	
@@ -38,7 +38,7 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	public List<Map<String, Object>> list(Paging paging) {
 		
-		List<Map<String, Object>> list = marketDao.selectMarketAll(paging);
+		List<Map<String, Object>> list = groupDao.selectGroupAll(paging);
 		
 		return list;
 	}
@@ -46,18 +46,18 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	public Paging getPaging(Paging param) {
 
-		int totalCount = marketDao.selectCntAll();
+		int totalCount = groupDao.selectCntAll();
 
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
 		
 		return paging;
 	}
 
 	@Override
-	public Board marketView(Board board) {
+	public Board groupView(Board board) {
 
-		Board boardtb = marketDao.selectBoardView(board);
-		marketDao.hit(board);
+		Board boardtb = groupDao.selectBoardView(board);
+		groupDao.hit(board);
 		
 		return boardtb;
 	}
@@ -65,36 +65,36 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	public User getNick(User user) {
 		
-		User usertb = marketDao.selectByUserNick(user);
+		User usertb = groupDao.selectByUserNick(user);
 		
 		return usertb;
 	}
 	
 	@Override
-	public Market getPrice(Market market) {
+	public Group getStatus(Group group) {
 		
-		Market marketPrice = marketDao.selectPrice(market);
+		Group groupStatus = groupDao.selectSatus(group);
 		
-		return marketPrice;
+		return groupStatus;
 	}
 	
 	
 	@Override
 	public List<BoardFile> fileView(Board board) {
 
-		return marketDao.selectGetFileByBoardNo(board);
+		return groupDao.selectGetFileByBoardNo(board);
 	}
 	
 	@Override
-	public void marketWrite(Board board, List<MultipartFile> file, Market market) {
+	public void groupWrite(Board board, List<MultipartFile> file, Group group) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle())) {
 			board.setTitle("(제목없음)");
 		}		
 	
-		marketDao.insertMarketWrite(board);
-		market.setBoardNo(board.getBoardNo());
-		marketDao.insertMarketPrice(market);
+		groupDao.insertGroupWrite(board);
+		group.setBoardNo(board.getBoardNo());
+		groupDao.insertGroupStatus(group);
 		//--------------------------------------------------------------------------------
 		
 		
@@ -147,23 +147,23 @@ public class MarketServiceImpl implements MarketService {
 		boardFile.setOriginName(originName);
 		boardFile.setStoredName(storedName);
 		
-		marketDao.insertMarketFile( boardFile );		
+		groupDao.insertGroupFile( boardFile );		
 	}
 	
 	@Override
 	public Board view(Board board) {
 
 		if( board.getHit() != -1 ) {
-			marketDao.hit(board);
+			groupDao.hit(board);
 		}
 		
-		return marketDao.selectBoardView(board);
+		return groupDao.selectBoardView(board);
 	}
 	
 	@Override
 	public List<BoardFile> getAttachFile(Board board) {
 		
-		return marketDao.selectMarketFileByBoardNo(board);
+		return groupDao.selectGroupFileByBoardNo(board);
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class MarketServiceImpl implements MarketService {
 			board.setTitle("(제목없음)");
 		}
 		
-		marketDao.updateProc(board);
+		groupDao.updateProc(board);
 
 		//---------------------------------------------------------------------------
 		
@@ -190,15 +190,15 @@ public class MarketServiceImpl implements MarketService {
 
 		//삭제할 첨부 파일 처리
 		if( delFileNo != null ) {
-			marketDao.deleteFiles( delFileNo );
+			groupDao.deleteFiles( delFileNo );
 		}
 		
 	}
 
 	@Override
 	public void delete(Board board) {
-//		marketDao.deleteFileByBoardNo( boardFile );
-		marketDao.deleteByBoardNo( board );	
+//		groupDao.deleteFileByBoardNo( boardFile );
+		groupDao.deleteByBoardNo( board );	
 	}
 	
 	@Override
@@ -210,7 +210,7 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	public int insertComm(Comm comm) {
 
-		int res = commDao.insertCommByMarket(comm);
+		int res = commDao.insertCommByGroup(comm);
 		
 		if( res > 0 ) {
 

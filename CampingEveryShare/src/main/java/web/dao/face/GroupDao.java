@@ -6,11 +6,11 @@ import java.util.Map;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
-import web.dto.Market;
+import web.dto.Group;
 import web.dto.User;
 import web.util.Paging;
 
-public interface MarketDao {
+public interface GroupDao {
 
 	/**
 	 * 전체 리스트
@@ -19,7 +19,7 @@ public interface MarketDao {
 	 * @param board 
 	 * @return - 조회된 게시글 전체
 	 */
-	public List<Map<String, Object>> selectMarketAll(Paging paging);
+	public List<Map<String, Object>> selectGroupAll(Paging paging);
 	
 	/**
 	 * 조회된 게시글 수 조회 (페이징)
@@ -60,18 +60,18 @@ public interface MarketDao {
 	public List<BoardFile> selectGetFileByBoardNo(Board board);
 	
 	/**
-	 * Market테이블에 글 등록
+	 * Group테이블에 글 등록
 	 * 
 	 * @param board - 등록한 글을 담은 객체
 	 */
-	public void insertMarketWrite(Board board);
+	public void insertGroupWrite(Board board);
 	
 	/**
-	 * Market테이블에 파일 등록
+	 * Group테이블에 파일 등록
 	 * 
 	 * @param boardFile - 등록한 파일을 담은 객체
 	 */
-	public void insertMarketFile(BoardFile boardFile);
+	public void insertGroupFile(BoardFile boardFile);
 
 	/**
 	 * 게시글 번호를 이용하여 첨부파일 정보를 조회한다
@@ -79,7 +79,7 @@ public interface MarketDao {
 	 * @param viewBoard - 조회할 게시글 번호 객체
 	 * @return 조회된 첨부파일 정보
 	 */
-	public List<BoardFile> selectMarketFileByBoardNo(Board board);
+	public List<BoardFile> selectGroupFileByBoardNo(Board board);
 
 	/**
 	 * 게시글 내용을 수정한다
@@ -111,19 +111,19 @@ public interface MarketDao {
 	public void deleteByBoardNo(Board board);
 	
 	/**
-	 * 금액 입력
+	 * status 입력
 	 * 
-	 * @param market - 게시글번호, 금액
+	 * @param group - 게시글 번호, 글 상태
 	 */
-	public void insertMarketPrice(Market market);
+	public void insertGroupStatus(Group group);
 	
 	/**
-	 * board_no를 들고 가서 DB에 저장된 금액 들고오기
+	 * board_no 들고가서 DB에 저장된 글 상태 들고오기
 	 * 
-	 * @param market - board_no
-	 * @return - 입력되어 있는 금액
+	 * @param group - board_no
+	 * @return - 입력되어 있는 상태
 	 */
-	public Market selectPrice(Market market);
+	public Group selectSatus(Group group);
 
 	
 	

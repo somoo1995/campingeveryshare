@@ -144,7 +144,8 @@ function deleteComment(commNo) {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 
-<h3 id="pageTitle">중고 게시글 조회</h3>
+<h3 id="pageTitle">모집 게시글 조회</h3>
+${group.recruitStatus }
 <table class="table table-bordered">
 <colgroup>
 	<col style="width: 15%">
@@ -153,9 +154,16 @@ function deleteComment(commNo) {
 	<col style="width: 35%">
 </colgroup>
 	<tr>
-	    <c:set var="formattedPrice" value="${market.price}" />
-		<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />	
-		<th class="table-info">가 격</th><td >${price }원</td>
+		<th class="table-info">모집 현황</th>
+		<td >
+		    <c:choose>
+			    <c:when test="${group.recruitStatus eq 0}">
+			        모집중
+			    </c:when>
+			    <c:when test="${group.recruitStatus eq 1}">
+			        모집 완료
+			    </c:when>
+			</c:choose>				</td>
 		<th class="table-info">작성일</th>
 		<td>
 			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>

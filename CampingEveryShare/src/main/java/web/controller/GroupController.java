@@ -20,31 +20,31 @@ import org.springframework.web.servlet.ModelAndView;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Group;
 import web.dto.Recom;
-import web.dto.Share;
 import web.dto.User;
-import web.service.face.ShareService;
+import web.service.face.GroupService;
 import web.util.Paging;
   
 @Controller
-@RequestMapping("/share")
-public class ShareController {
+@RequestMapping("/group")
+public class GroupController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	
 	
-	@Autowired ShareService shareService;
+	@Autowired GroupService groupService;
 	
 	@GetMapping("list")
-	public void shareList(Paging param, Model model, Board board) {
+	public void groupList(Paging param, Model model, Board board) {
 		
 		
-		Paging paging = shareService.getPaging( param );
+		Paging paging = groupService.getPaging( param );
 		logger.info("paging : {}", paging);
 		
 		
 		
-		List<Map<String, Object>> list = shareService.list(paging);
+		List<Map<String, Object>> list = groupService.list(paging);
 		
 		
 		model.addAttribute("paging", paging);
@@ -59,24 +59,19 @@ public class ShareController {
 	}
 	
 	@GetMapping("view")
-	public String shareView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session, Share share) {
-		share = shareService.getPaid(share);
-
-		board = shareService.shareView(board);
-		
+	public String groupView( Board board, BoardFile file, User user, Comm comm, Group group, Model model, HttpSession session) {
+	
+		group = groupService.getStatus(group);
+		board = groupService.groupView(board);
 		user.setUserId(board.getUserId());
-		
-		user = shareService.getNick(user);
-		
-		List<BoardFile> boardFile = shareService.fileView(board);
-		
-		model.addAttribute("boardFile", boardFile);
-		model.addAttribute("share", share);
-		
+		user = groupService.getNick(user);
 		logger.info("board : {}" + board.toString());
-		logger.info("model : {}" + model.toString());
-		logger.info("share : {}" + share);
+		
+		List<BoardFile> boardFile = groupService.fileView(board);
+		model.addAttribute("boardFile", boardFile);
+		model.addAttribute("group", group);
 		logger.info("boarFile : {}", boardFile);
+		logger.info("group : {}", group);
 		
 		
 		//추천 상태 전달
@@ -85,9 +80,9 @@ public class ShareController {
 		recom.setBoardCate(board.getBoardCate());
 		recom.setRecomNo(board.getBoardNo());
 		logger.info("recom : {} " + recom.toString());
-		boolean isRecom = shareService.reComCnt(recom);
+		boolean isRecom = groupService.reComCnt(recom);
 		model.addAttribute("isRecom", isRecom);
-		model.addAttribute("cntRecom", shareService.getTotalCntRecom(recom));
+		model.addAttribute("cntRecom", groupService.getTotalCntRecom(recom));
 		logger.info("isRecom : {} " + isRecom);
 //		logger.info("model : {} " + model.toString());
 		
@@ -95,11 +90,11 @@ public class ShareController {
 		recom.setUserId((String) session.getAttribute("loginId"));
 		recom.setRecomNo(board.getBoardNo());
 		recom.setBoardCate(board.getBoardCate());	
-		int totalCnt = shareService.getTotalCntRecom(recom);
+		int totalCnt = groupService.getTotalCntRecom(recom);
 		logger.info("totalCnt" + totalCnt);
 		
 		//댓글 리스트
-		List<Comm> commList = shareService.getCommList(comm);
+		List<Comm> commList = groupService.getCommList(comm);
 		logger.info("user : {} " + user.toString());
 		logger.info("board : {} " + board.toString());
 		logger.info("commList : {} " + commList.toString());
@@ -108,7 +103,7 @@ public class ShareController {
 		model.addAttribute("board", board);
 		model.addAttribute("user", user);
 		model.addAttribute("totalCnt", totalCnt);
-		return "/share/view";
+		return "/group/view";
 	}
 	
 	
@@ -117,21 +112,21 @@ public class ShareController {
 	}
 	
 	@PostMapping("/write")
-	public String shareWrite(
+	public String groupWrite(
 			User user
 			, Board board
 			, List<MultipartFile> file
 			, HttpSession session
-			, Share share) {
+			, Group group) {
 		logger.info("user : {} " + user);
 		logger.info("board : {} " + board);
-		logger.info("share : {} " + share);
-		
+
 		board.setUserId((String) session.getAttribute("loginId"));
 		logger.info("sessionId : {}" + session.getAttribute("loginNick").toString());
 		user.setUserNick((String) session.getAttribute("loginNick"));
+		logger.info("board : {} " + board);
 		
-		shareService.shareWrite(board, file, share);
+		groupService.groupWrite(board, file, group);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -146,14 +141,14 @@ public class ShareController {
 		board.setHit(-1);
 		
 		//상세보기 게시글 조회
-		board = shareService.view(board);
+		board = groupService.view(board);
 		model.addAttribute("board", board);
 
 		//첨부파일 정보 전달
-		List<BoardFile> boardfile = shareService.getAttachFile( board );
+		List<BoardFile> boardfile = groupService.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
 		
-		return "share/update";
+		return "group/update";
 	}
 	
 	@PostMapping("/update")
@@ -171,19 +166,19 @@ public class ShareController {
 		board.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		shareService.updateProc(board, file, delFileNo);
+		groupService.updateProc(board, file, delFileNo);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(Board board, BoardFile boardFile, Model model) {
+	public String delete(Board board, Model model) {
 		if( board.getBoardNo() < 1 ) {
 			return "redirect:./list";
 		}
 
-//		shareService.delete(board, boardFile);
-		shareService.delete(board);
+//		groupService.delete(board, boardFile);
+		groupService.delete(board);
 		
 		return "redirect:./list";
 	}
@@ -197,12 +192,12 @@ public class ShareController {
 		logger.info("model : {}" + model.toString());
 		recom.setUserId((String) session.getAttribute("loginId"));
 		recom.setBoardCate(board.getBoardCate());
-		boolean result = shareService.recom(recom);
+		boolean result = groupService.recom(recom);
 		logger.info("recom : {} " + recom.toString());
 		mav.addObject("result", result);
 		
 		//추천 수
-		int cnt = shareService.getTotalCntRecom(recom);
+		int cnt = groupService.getTotalCntRecom(recom);
 		mav.addObject("cnt", cnt);
 		logger.info("cnt : {}" + cnt);
 		

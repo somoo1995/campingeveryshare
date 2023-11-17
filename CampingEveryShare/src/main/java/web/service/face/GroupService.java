@@ -8,12 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Group;
 import web.dto.Recom;
-import web.dto.Share;
 import web.dto.User;
 import web.util.Paging;
 
-public interface ShareService {
+public interface GroupService {
 
 	/**
 	 * 게시글 전체 리스트
@@ -32,12 +32,12 @@ public interface ShareService {
 	public Paging getPaging(Paging param);
 	
 	/**
-	 * shareList 글 제목 클릭시 게시글 상세 조회
+	 * groupList 글 제목 클릭시 게시글 상세 조회
 	 * 
 	 * @param board - 클릭한 게시글의 boardNo
 	 * @return - DB에서 가져온 게시글 정보
 	 */
-	public Board shareView(Board board);
+	public Board groupView(Board board);
 	
 	/**
 	 * 글 상세조회시 닉네임을 가져오기 위한 아주 저렴한 친구
@@ -60,9 +60,9 @@ public interface ShareService {
 	 * 
 	 * @param board - 입력된 글
 	 * @param file - 업로드한 파일
-	 * @param share 
+	 * @param group - 그룹 보드넘버
 	 */
-	public void shareWrite(Board board, List<MultipartFile> file, Share share);
+	public void groupWrite(Board board, List<MultipartFile> file, Group group);
 	
 	/**
 	 * 등록된 게시글 상세보기
@@ -156,12 +156,12 @@ public interface ShareService {
 	public int getTotalCntRecom(Recom recom);
 	
 	/**
-	 * paid를 가져오자
+	 * 글 상태 가져오자
 	 * 
-	 * @param share - board_no를 가져가자
-	 * @return 
+	 * @param group - board_no 를 가져가서 가져오자
+	 * @return - 가져온 글 상태다
 	 */
-	public Share getPaid(Share share);
+	public Group getStatus(Group group);
 	
 	
 	

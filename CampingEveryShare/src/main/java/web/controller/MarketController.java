@@ -14,12 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Market;
 import web.dto.Recom;
 import web.dto.User;
 import web.service.face.MarketService;
@@ -57,8 +59,9 @@ public class MarketController {
 	}
 	
 	@GetMapping("view")
-	public String marketView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session) {
+	public String marketView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session, Market market) {
 	
+		market = marketService.getPrice(market);
 		board = marketService.marketView(board);
 		user.setUserId(board.getUserId());
 		user = marketService.getNick(user);
@@ -66,7 +69,9 @@ public class MarketController {
 		
 		List<BoardFile> boardFile = marketService.fileView(board);
 		model.addAttribute("boardFile", boardFile);
+		model.addAttribute("market", market);
 		logger.info("boarFile : {}", boardFile);
+		logger.info("market : {}", market);
 		
 		
 		//추천 상태 전달
@@ -111,16 +116,17 @@ public class MarketController {
 			User user
 			, Board board
 			, List<MultipartFile> file
-			, HttpSession session) {
+			, HttpSession session
+			, Market market ) {
 		logger.info("user : {} " + user);
 		logger.info("board : {} " + board);
-
+		logger.info("market : {} " + market);
 		board.setUserId((String) session.getAttribute("loginId"));
 		logger.info("sessionId : {}" + session.getAttribute("loginNick").toString());
 		user.setUserNick((String) session.getAttribute("loginNick"));
 		logger.info("board : {} " + board);
 		
-		marketService.marketWrite(board, file);
+		marketService.marketWrite(board, file, market);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -171,7 +177,8 @@ public class MarketController {
 			return "redirect:./list";
 		}
 
-		marketService.delete(board, boardFile);
+//		marketService.delete(board, boardFile);
+		marketService.delete(board);
 		
 		return "redirect:./list";
 	}

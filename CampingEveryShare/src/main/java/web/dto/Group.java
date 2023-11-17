@@ -2,30 +2,20 @@ package web.dto;
 
 public class Group {
 
-	private int groupNo;
 	private int recruitStatus;
 	private int boardNo;
 	
 	public Group() {}
 
-	public Group(int groupNo, int recruitStatus, int boardNo) {
+	public Group(int recruitStatus, int boardNo) {
 		super();
-		this.groupNo = groupNo;
 		this.recruitStatus = recruitStatus;
 		this.boardNo = boardNo;
 	}
 
 	@Override
 	public String toString() {
-		return "GroupTb [groupNo=" + groupNo + ", recruitStatus=" + recruitStatus + ", boardNo=" + boardNo + "]";
-	}
-
-	public int getGroupNo() {
-		return groupNo;
-	}
-
-	public void setGroupNo(int groupNo) {
-		this.groupNo = groupNo;
+		return "Group [recruitStatus=" + recruitStatus + ", boardNo=" + boardNo + "]";
 	}
 
 	public int getRecruitStatus() {
@@ -43,6 +33,8 @@ public class Group {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
+
+
 	
 	
 	
