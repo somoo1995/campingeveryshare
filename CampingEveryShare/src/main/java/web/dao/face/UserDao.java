@@ -60,7 +60,7 @@ public interface UserDao {
 	 * @param findPw  
 	 * @return
 	 */
-	public User findPw(User findPw);
+	public String findPw(User findPw);
 	
 	/**
 	 * 마이페이지 아이디

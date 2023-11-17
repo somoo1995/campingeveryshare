@@ -14,76 +14,124 @@ pageEncoding="UTF-8"%>
 }
 </style>
 <script type="text/javascript">
-    function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
-        var value = input.value;
-        var displayBlock = $("#" + displayBlock);
-
-        console.info("checkDuplicate::" + value);
-
-        displayBlock.show();
-
-        if (value.trim() == '') {
-            displayBlock.text(emptyMessage);
-            console.log(emptyMessage);
-            return;
-        }
-
-        $.ajax({
-            type: "get",
-            url: url + value,
-            dataType: "text",
-            success: function (response) {
-                if (response == "true") {
-                    console.log(successMessage);
-                    displayBlock.text(successMessage);
-                } else {
-                    console.log(failureMessage);
-                    displayBlock.text(failureMessage);
-                }
-            }
-        });
-    }
+	function checkDuplicate(input, url, displayBlockId, emptyMessage, successMessage, failureMessage) {
+	    var value = input.value;
+	    var displayBlock = $("#" + displayBlockId);
 	
- // email 중복 체크
-    function emailDupleCheck(input) {
-        checkDuplicate(
-            input,
-            "/user/emailCheck/",
-            "emailDupleBlock",
-            "이메일을 입력해 주세요.",
-            "이메일을 찾을 수 없습니다 회원가입을 진행해주세요",
-            ""
-        );    
-    }
+	    console.info("checkDuplicate::" + value);
+	
+	    displayBlock.show();
+	
+	    if (value.trim() === '') {
+	        displayBlock.text(emptyMessage);
+	        console.log(emptyMessage);
+	        return;
+	    }
+	
+	    $.ajax({
+	        type: "get",
+	        url: url + value,
+	        dataType: "text",
+	        success: function (response) {
+	            if (response === "true") {
+	                console.log(successMessage);
+	                displayBlock.text(successMessage);
+	            } else {
+	                console.log(failureMessage);
+	                displayBlock.text(failureMessage);
+	            }
+	        }
+	    });
+	}
+	
+	// 이메일 중복 체크
+	function emailDupleCheck(input) {
+	    checkDuplicate(
+	        input,
+	        "/user/emailCheck/",
+	        "emailDupleBlock",
+	        "이메일을 입력해 주세요.",
+	        "이메일을 찾을 수 없습니다. 회원가입을 진행해주세요.",
+	        ""
+	    );
+	}
+	
+	// 이름 체크
+	function nameCheck() {
+	    var userName = $("#userName");
+	    var nameDupleBlock = $("#nameDupleBlock");
+	    console.info("nameCheck::" + userName.val().trim());
+	
+	    if (userName.val().trim() === '') {
+	        nameDupleBlock.text("이름을 입력해 주세요.");
+	        console.log("이름을 입력해 주세요.");
+	        nameDupleBlock.show();
+	    } else {
+	        nameDupleBlock.hide();
+	    }
+	}
 
-    // 이름 체크
-    function nameCheck() {
-        var userName = $("#userName");
-        var nameDupleBlock = $("#nameDupleBlock");
-        console.info("nameCheck::" + userName.val().trim());
 
-        if (userName.val().trim() === '') {
-            nameDupleBlock.text("이름을 입력해 주세요.");
-            console.log("이름을 입력해 주세요.");
-            nameDupleBlock.show();
-        } else {
-            nameDupleBlock.hide();
-        }
-    }
+	$(document).ready(function () {
+	    $("#idfind").on("click", function (event) {
+	        event.preventDefault(); // 기본 동작 방지
+
+	        // 이메일과 이름 입력값 가져오기
+	        var email = $("#email").val();
+	        var userName = $("#userName").val();
+
+	        // 간단한 유효성 검사
+	        if (email.trim() === '' || userName.trim() === '') {
+	            return; // 입력값이 비어 있으면 더 이상 진행하지 않음
+	        }
+
+	        // 서버에 아이디 찾기 요청 보내기
+	        $.ajax({
+	            type: "post",
+	            url: "./idfind",
+	            data: { "email": email, "userName": userName },
+	            dataType: "text",
+	            success: function (response) {
+	            	// 이전에 추가된 결과 삭제
+	            	
+	                // 응답이 비어 있지 않으면
+	                if (response.trim() !== "") {
+	                    // 이메일과 이름 입력창 숨기기
+	                    $("#idfind_email").hide();
+	                    $("#idfind_userName").hide();
+	                    $("#idfind_button").hide();
+
+	                    // 찾은 아이디를 보여주기
+	                    var resultHtml = "<h3>아이디는 " + response + "입니다</h3>";
+		                $("#idfindResult").empty();
+	                    $("#idfindResult").after(resultHtml);
+
+	                    // 결과 부분을 보여줌
+	                    $("#idfindResult").show();
+	                    console.log("찾은 아이디:" + response);
+	                } else {
+	                    // 응답이 비어 있으면 사용자에게 알림
+	                    alert("아이디를 찾을 수 없습니다. 다시 시도해주세요.");
+	                }
+	            },
+	        });
+	    });
+	});
+
 
 </script>
 
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">아이디 찾기</h3>
-	<a>아이디는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a>
+<!-- 	<a>아이디는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a> -->
 	<hr>	
 	</div>
 <div class="idfind-form col-6 mx-auto my-5">
-<form id="idfind" action="./idfindResult" method="post" name="idfind">
+<form id="idfind" action="./idfind" method="POST" name="idfind">
 
 
-	<div class="input-group has-validation">
+	<div class="input-group has-validation" id="idfind_email">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
 			  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
@@ -99,7 +147,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 	
-	<div class="input-group has-validation">
+	<div class="input-group has-validation" id="idfind_userName" >
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
 			<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
@@ -113,15 +161,21 @@ pageEncoding="UTF-8"%>
 			<p id="nameDupleText"></p>
 		</div>
 	</div>
-
 	
+	<div id="idfindResult">
+	</div>
 
-	<div class="row mb-3 justify-content-center">
+
+	<div class="row mb-3 justify-content-center" id="idfind_button">
 		<button class="btn btn-outline-success" id="idfind">아이디 찾기</button>
 	</div>	
 
-	<a>비밀번호를 분실 하셨나요? <a href="./pwfind">비밀번호 찾기</a> </a>	
-
+	<div>
+	<a class="btn btn-outline-success" href="/">메인 페이지로</a>
+	</div>	
+	<div>
+	<a id="pwfind">비밀번호를 분실 하셨나요? <a class="btn btn-outline-success" href="./pwfind">비밀번호 찾기</a> </a>	
+	</div>
 </form>
 </div>
 
