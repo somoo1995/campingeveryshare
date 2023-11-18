@@ -23,8 +23,8 @@ $(function(){
       vertical : false,        // 세로 방향 슬라이드 옵션
 //       prevArrow : "<button type='button' class='slick-prev'>Previous</button>",        // 이전 화살표 모양 설정
 //       nextArrow : "<button type='button' class='slick-next'>Next</button>",        // 다음 화살표 모양 설정
-      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left3.png'>",
-      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right3.png'>",
+      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left5.png'>",
+      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right5.png'>",
       dotsClass : "slick-dots",     //아래 나오는 페이지네이션(점) css class 지정
       draggable : true,     //드래그 가능 여부 
  
