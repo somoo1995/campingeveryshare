@@ -6,8 +6,9 @@ public class Car {
 	private int userNo;
 	private String carName;
 	private String carNumber;
+	private int location;
 	private int area;
-	private int country;
+	private String areaDetail;
 	private int carSize;
 	private int carPax;
 	private int carSpax;
@@ -28,17 +29,18 @@ public class Car {
 	
 	public Car() {}
 
-	public Car(int carNo, int userNo, String carName, String carNumber, int area, int country, int carSize, int carPax,
-			int carSpax, int price, int carElec, int carWater, int carTable, int carCounter, int carKitchin,
-			int carTemp, int carShower, int carToilet, int carPet, int carSmoke, int carStatus, String content,
-			int deleteStatus) {
+	public Car(int carNo, int userNo, String carName, String carNumber, int location, int area, String areaDetail,
+			int carSize, int carPax, int carSpax, int price, int carElec, int carWater, int carTable, int carCounter,
+			int carKitchin, int carTemp, int carShower, int carToilet, int carPet, int carSmoke, int carStatus,
+			String content, int deleteStatus) {
 		super();
 		this.carNo = carNo;
 		this.userNo = userNo;
 		this.carName = carName;
 		this.carNumber = carNumber;
+		this.location = location;
 		this.area = area;
-		this.country = country;
+		this.areaDetail = areaDetail;
 		this.carSize = carSize;
 		this.carPax = carPax;
 		this.carSpax = carSpax;
@@ -61,12 +63,12 @@ public class Car {
 	@Override
 	public String toString() {
 		return "Car [carNo=" + carNo + ", userNo=" + userNo + ", carName=" + carName + ", carNumber=" + carNumber
-				+ ", area=" + area + ", country=" + country + ", carSize=" + carSize + ", carPax=" + carPax
-				+ ", carSpax=" + carSpax + ", price=" + price + ", carElec=" + carElec + ", carWater=" + carWater
-				+ ", carTable=" + carTable + ", carCounter=" + carCounter + ", carKitchin=" + carKitchin + ", carTemp="
-				+ carTemp + ", carShower=" + carShower + ", carToilet=" + carToilet + ", carPet=" + carPet
-				+ ", carSmoke=" + carSmoke + ", carStatus=" + carStatus + ", content=" + content + ", deleteStatus="
-				+ deleteStatus + "]";
+				+ ", location=" + location + ", area=" + area + ", areaDetail=" + areaDetail + ", carSize=" + carSize
+				+ ", carPax=" + carPax + ", carSpax=" + carSpax + ", price=" + price + ", carElec=" + carElec
+				+ ", carWater=" + carWater + ", carTable=" + carTable + ", carCounter=" + carCounter + ", carKitchin="
+				+ carKitchin + ", carTemp=" + carTemp + ", carShower=" + carShower + ", carToilet=" + carToilet
+				+ ", carPet=" + carPet + ", carSmoke=" + carSmoke + ", carStatus=" + carStatus + ", content=" + content
+				+ ", deleteStatus=" + deleteStatus + "]";
 	}
 
 	public int getCarNo() {
@@ -101,6 +103,14 @@ public class Car {
 		this.carNumber = carNumber;
 	}
 
+	public int getLocation() {
+		return location;
+	}
+
+	public void setLocation(int location) {
+		this.location = location;
+	}
+
 	public int getArea() {
 		return area;
 	}
@@ -109,12 +119,12 @@ public class Car {
 		this.area = area;
 	}
 
-	public int getCountry() {
-		return country;
+	public String getAreaDetail() {
+		return areaDetail;
 	}
 
-	public void setCountry(int country) {
-		this.country = country;
+	public void setAreaDetail(String areaDetail) {
+		this.areaDetail = areaDetail;
 	}
 
 	public int getCarSize() {
@@ -252,7 +262,5 @@ public class Car {
 	public void setDeleteStatus(int deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
-	
-	
 	
 }
