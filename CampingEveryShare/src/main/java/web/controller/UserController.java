@@ -176,7 +176,7 @@ public class UserController {
 		User loginInfo = userService.info(login);
 		// [세션] 로그인 인증 결과
 
-		if (!isLogin) {
+		if (!isLogin|| (loginInfo.getUserStatus() == 1)) {
 			return false;
 		}
 		
