@@ -91,6 +91,17 @@ td {
     cursor: pointer;
 }
 
+.choiceDay {
+    background: #0A174E;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bookedDay {
+    color: lightgray;
+}
+
 </style>
 
 
@@ -141,19 +152,6 @@ function buildCalendar() {
             nowRow = tbodyCal.insertRow()
         }
     	
-    	// 각 Dto에서 startDate와 endDate 값을 추출하여 클래스를 적용
-        for (var i = 0; i < list.length; i++) {
-            var dtoStartDate = new Date(list[i].startDate);
-            var dtoEndDate = new Date(list[i].endDate);
-
-            if (isDateInRange(nowDay, dtoStartDate, dtoEndDate)) {
-            	newDIV.className = "choiceDay"
-//                 newDIV.classList.add("choiceDay")
-//                 break;  // 날짜가 한 번이라도 범위에 포함되면 나머지 Dto에 대한 체크는 중단
-            }
-        }
-    	
-
         if (nowDay < today) {
             newDIV.className = "pastDay"
         } else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) {
@@ -166,13 +164,26 @@ function buildCalendar() {
             newDIV.className = "futureDay"
             newDIV.onclick = function () { choiceDate(this) }
         }
+        
+    	// 각 Dto에서 startDate와 endDate 값을 추출하여 클래스를 적용
+        for (var i = 0; i < list.length; i++) {
+            var dtoStartDate = new Date(list[i].startDate);
+            var dtoEndDate = new Date(list[i].endDate);
+            
+            if (isDateInRange(nowDay, dtoStartDate, dtoEndDate)) {
+                newDIV.classList.add("bookedDay")
+                newDIV.classList.remove("futureDay")
+                break;
+            }
+        }
+        
     }
 } // buildCalendar() end
 
 
-//startDate와 endDate가 주어진 날짜를 포함하는지 확인하는 함수
+//startDate와 endDate가 주어진 날짜를 포함 여부 확인
 function isDateInRange(date, startDate, endDate) {
-    return date >= startDate && date <= endDate;
+    return date.getTime() >= startDate.getTime() && date.getTime() <= endDate.getTime();
 }
 
 function leftPad(value) {
@@ -184,6 +195,7 @@ function leftPad(value) {
 }
 
 var firstSelectedDate = null
+var secondSelectedDate = null
 var selectedDates = []
 var betweenDates = []
 
@@ -198,61 +210,106 @@ function choiceDate(newDIV) {
     var allDays = document.querySelectorAll(".tb-calendar tbody td p")
     console.log("선택 날짜 : " + date)
     
-	var index = selectedDates.findIndex(function(d) {
-        return d.getTime() === date.getTime()
-    });
-    
-    console.log("index : " + index)
-    
-    if( index !== -1 ) {
-    	betweenDates.splice(0, betweenDates.length)
-    	selectedDates.push(date)
-//     	selectedDates.splice(index, 1)
-//     	betweenDates.splice(index, betweenDates.length)
-    	newDIV.classList.remove("choiceDay")
-    	
-    	allDays.forEach(function(day) {
-		var dateDIV = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(day.innerText))
-		
-
-	})
-    	
-    	
-    } else {
-    	selectedDates.push(date)
+    if(newDIV.classList.contains("bookedDay")){
+    	return
+    }
+   
+	if(firstSelectedDate === null || firstSelectedDate > date) {
+		firstSelectedDate = date
+		betweenDates = []
+		betweenDates.push(firstSelectedDate)
 		newDIV.classList.add("choiceDay")
-	}
-    
-    selectedDates.sort(function (a, b) {
-		return a.getTime() - b.getTime()
-	})
-    
-	console.log("selectedDates - sort : " + selectedDates)
-    
-	if( selectedDates.length === 2 ) {
-		var startDate = new Date(selectedDates[0])
-		var endDate = new Date(selectedDates[1])
+		secondSelectedDate = null
 		
-		var currentDate = new Date(startDate)
+	} else if (secondSelectedDate !== null && secondSelectedDate < date) {
+		firstSelectedDate = date
+		newDIV.classList.add("choiceDay")
+		secondSelectedDate = null
+		betweenDates = []
+		betweenDates.push(firstSelectedDate)
 		
-        while (currentDate <= endDate) {
-            betweenDates.push(new Date(currentDate))
-            currentDate.setDate(currentDate.getDate() + 1)
-        }
+	} else {
+		secondSelectedDate = date
+		newDIV.classList.add("choiceDay")
+		var currentDate = new Date(firstSelectedDate)
 		
-	}
+		while (currentDate <= secondSelectedDate) {
+			betweenDates.push(new Date(currentDate))
+			currentDate.setDate(currentDate.getDate() + 1)
+       }
+	   
+   }
+   
+   console.log("첫 선택 날짜 : " + firstSelectedDate)
+   console.log("두번째 선택 날짜 : " + secondSelectedDate)
+   console.log("betweenDates 중간 : " + betweenDates)
+    
+// 	var index = selectedDates.findIndex(function(d) {
+//         return d.getTime() === date.getTime()
+//     });
+    
+//     console.log("index : " + index)
+    
+//    if (selectedDates.length === 0) {
+//         betweenDates = []
+//     }
+    
+//     //이미 선택된 숫자
+//     if( index !== -1 ) {
+//     	selectedDates.splice(0, selectedDates.length)
+//     	selectedDates.push(date)
+//     	newDIV.classList.add("choiceDay")
+// //     	newDIV.classList.remove("choiceDay")
+    	
+    	
+//     //새로 선택한 숫자
+//     } else {
+    	
+//     	if(betweenDates.length !== 0){
+//     		betweenDates = []
+//     		selectedDates.splice(0, selectedDates.length)
+//     		selectedDates.push(date)
+//     	} else {
+// 	    	selectedDates.push(date)
+// 	//     	betweenDates.push(date)
+// 			newDIV.classList.add("choiceDay")
+			
+// 		}
+		
+// 	}
+    
+//     selectedDates.sort(function (a, b) {
+// 		return a.getTime() - b.getTime()
+// 	})
+    
+// 	console.log("selectedDates - sort : " + selectedDates)
+    
+// 	if( selectedDates.length === 2 ) {
+// 		var startDate = new Date(selectedDates[0])
+// 		var endDate = new Date(selectedDates[1])
+		
+// 		var currentDate = new Date(startDate)
+		
+//         while (currentDate <= endDate) {
+//             betweenDates.push(new Date(currentDate))
+//             currentDate.setDate(currentDate.getDate() + 1)
+//         }
+		
+// 	}
 	
 	allDays.forEach(function(day) {
 		var dateDIV = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(day.innerText))
-		betweenDates.forEach(function(bDate) {
-			
-			if ( betweenDates.length > 0 && bDate.getTime() === dateDIV.getTime() ) {
-				day.classList.add("choiceDay")
-				selectedDates = betweenDates
-			}
-			
+		
+		var isDateInBetween = betweenDates.some(function(bDate) {
+			return bDate.getTime() === dateDIV.getTime()
 		})
-
+		
+		if (isDateInBetween) {
+			day.classList.add("choiceDay")
+		} else {
+			day.classList.remove("choiceDay")
+		}
+		
 	})
 	
 	
