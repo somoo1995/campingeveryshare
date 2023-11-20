@@ -52,21 +52,8 @@ $(() => {
 <div class="container">
 
 <div class="adminpageTitle">
-<h3 id=adminpageTitle>관리자 회원관리</h3>
+<h3 id=adminpageTitle>관리자 수익관리</h3>
 
-<input type="button" value="알림" class="btn btn-outline-primary" style="float: right;" onclick="insertAlert();"><br><br>
-
-<div id="searchDiv">
-	 <select id="typeCategory" class="form-select">
-        <option value="0">--전체--</option>
-        <option value="1">아이디</option>
-        <option value="2">이름</option>
-        <option value="3">이메일</option>
-    </select>
-    
-	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="조회"/>
-	<button id="btnSearch" class="btn btn-primary">검색</button>
-</div>
 
 <form action="web.dao.face.adminDao" method="get" >
 <table class="table table-striped table-hover table-sm" >
@@ -83,7 +70,7 @@ $(() => {
 
 <thead>
 	<tr>
-		<th><input type="checkbox" id="allCheck" name="allCheck"></th>
+		<th></th>
 		<th>No.</th>
 		<th>아이디</th>
 		<th>이름</th>
@@ -96,7 +83,7 @@ $(() => {
 <tbody>
 <c:forEach var="user" items="${list }">
 	<tr> 
-		<td><input type="checkbox" name="rowCheck" value="${user.USER_ID }"></td>
+		<td>${income.RNUM }</td>
 		<td>${user.RNUM }</td>
 		<td>${user.USER_ID }</td>
 		<td>${user.USER_NAME }</td>

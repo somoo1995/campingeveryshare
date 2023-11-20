@@ -38,10 +38,11 @@
 }
 
 
-#pageTitle {
-	color: #2ECC71;
+#adminpageTitle {
+	color: #2072d8;
 	font-weight: bold;
 	font-size: 40px;
+	margin-bottom: 35px;
 }
 
 
@@ -80,5 +81,4 @@
 </div>
 </header>
 
-<hr>
 </div>

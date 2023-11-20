@@ -30,14 +30,44 @@ pageEncoding="UTF-8"%>
 
 </style>
 
+<script type="text/javascript">
+function openReportDetailModal(reasonDetail) {
+    // JavaScript로 모달 내부에 값을 넣어줌
+    document.getElementById('reportDetailContent').innerText = reasonDetail;
+    // 모달 띄우기
+    $('#reportDetailModal').modal('show');
+}
+</script>
+
+<script type="text/javascript">
+$(() => {
+	//검색 버튼 클릭
+	$("#btnSearch").click(() => {
+	const searchValue = $("#searchInput").val();
+	const boardCategory = $("#boardCategory").val();
+	console.log("검색어:", searchValue, "게시판 카테고리:", boardCategory); // 확인용 로그
+	location.href = "./report?search=" + searchValue + "&category=" + boardCategory;
+	});
+})
+
+</script>
+
 
 <div class="container">
 
-<div class="pageTitle">
-<h3 id=pageTitle>관리자 신고 관리</h3>
+<div class="adminpageTitle">
+<h3 id=adminpageTitle>관리자 신고 관리</h3>
 
 <div id="searchDiv">
-	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="게시글 조회"/>
+	 <select id="boardCategory" class="form-select">
+        <option value="0">--전체--</option>
+        <option value="1">대여</option>
+        <option value="2">캠핑존 공유</option>
+        <option value="3">중고장터</option>
+        <option value="4">모집</option>
+    </select>
+    
+	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="신고받은 회원 조회"/>
 	<button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
@@ -49,9 +79,9 @@ pageEncoding="UTF-8"%>
 	<col width="15%">
 	<col width="10%">
 	<col width="25%">
-	<col width="10%">
-	<col width="10%">
-	<col width="10%">
+	<col width="16%">
+	<col width="7%">
+	<col width="7%">
 	<col width="15%">
 </colgroup>
 
@@ -91,7 +121,12 @@ pageEncoding="UTF-8"%>
 			<td>상업적 광고 홍보</td>
 		</c:when>
 		<c:when test="${report.REASON == 7 }">
-			<td>기타</td>
+			<td>
+			<!-- 버튼 트리거 모달 -->
+			<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportDetailModal" onclick="openReportDetailModal('${report.REASON_DETAIL}')">
+			<div>기타</div>
+			</button>
+			</td>
 		</c:when>
 		</c:choose>
 				<c:choose>
@@ -102,19 +137,25 @@ pageEncoding="UTF-8"%>
 			<td>캠핑존</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 3 }">
-			<td>모집</td>
-		</c:when>
-		<c:when test="${report.BOARD_CATE == 4 }">
 			<td>중고장터</td>
 		</c:when>
+		<c:when test="${report.BOARD_CATE == 4 }">
+			<td>모집</td>
+		</c:when>
 		</c:choose>
-		<td>${report.REPORT_TITLE }</td>
-		<td>${report.REPORT_DATE }</td>
+		<td>
+			<a href="./view?boardNo=${report.BOARD_NO }&boardCate=${report.BOARD_CATE }">${report.REPORT_TITLE }</a>
+		</td>
+		<td>
+		<fmt:parseDate value="${report.REPORT_DATE }" var="date" pattern="yyyy-MM-dd HH:mm"/>
+      	<fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm"/>
+		</td>
 		<td>${report.VUSER_ID }</td>
 		<td>${report.RUSER_ID }</td>
 		<td>
-		<button type="button" class="btn btn-warning">회원 탈퇴</button>
-		<button type="button" class="btn btn-danger">글 삭제</button>
+		<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-report-detail="${report.REASON_DETAIL}">
+		<div>회원 탈퇴</div></button>
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#deleteBoardModal">글 삭제</button>
 		</td>  
 	</tr>
 </c:forEach>
@@ -128,6 +169,26 @@ pageEncoding="UTF-8"%>
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/listpagination.jsp" />
+
+<c:import url="/WEB-INF/views/layout/reportpagination.jsp" />
+
+<c:import url="/WEB-INF/views/layout/modal.jsp" />
+
+<!--기타 사유 모달 -->
+<div class="modal fade" id="reportDetailModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportModalLabel">기타 사유</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="reportDetailContent">
+		<c:out value="${param.report-detail}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <c:import url="../layout/footer.jsp" />
