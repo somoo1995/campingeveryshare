@@ -177,7 +177,6 @@ public class UserController {
 		// [세션] 로그인 인증 결과
 
 		if (!isLogin) {
-			session.invalidate();
 			return false;
 		}
 		

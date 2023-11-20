@@ -107,6 +107,13 @@ function requestPay() {
 
 <hr>
 
+<div id="betweenDates">
+총 결제 금액 : 
+<span id="totalPrice"></span> 원
+</div>
+
+<hr>
+
 <button class="btn btn-success">문의하기</button> 
 <button class="btn btn-success" onclick="requestPay()">결제하기</button> 
 

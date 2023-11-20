@@ -89,8 +89,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String findPw(User findPw) {
-		return userDao.findPw(findPw);
+	public String findPw(User user) {
+	   //사용자 정보 가져오기
+		String foundUser = userDao.findPw(user);
+	    if (foundUser != null) {
+	    	logger.info("성공했니?");
+	    	//정보일치시 성공
+	        return "success";
+	    } else {
+	    	logger.info("실패래");
+	    	//불일치시 실패
+	    	return "fail"; 
+		}
 	}
 
 	

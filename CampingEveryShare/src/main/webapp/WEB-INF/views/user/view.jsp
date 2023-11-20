@@ -160,7 +160,7 @@ $(document).ready(function() {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" aria-describedby="passwordHelpInline" disabled>
+		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" value="${login.userPw }" aria-describedby="passwordHelpInline" disabled>
 		    <label for="userPw" class="col-form-label"> 비밀번호*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
@@ -176,7 +176,7 @@ $(document).ready(function() {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" disabled>
+		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" value="${login.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" disabled>
 		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="valid-feedback"  style="display:none">
