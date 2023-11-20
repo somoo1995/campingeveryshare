@@ -22,6 +22,8 @@ public interface MsgDao {
 
 	public void updateStatus(Map<String, Object> map);
 
+	public void makeNewRoom(Msg msg);
+
 
 
 }
