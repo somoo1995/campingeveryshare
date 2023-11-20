@@ -126,6 +126,28 @@ public class UserServiceImpl implements UserService {
 	    }
 	}
 
+	
+	@Override
+	public boolean updatePw(User pwupdate) {
+		
+		return userDao.updatePw(pwupdate);
+	}
+
+
+	@Override
+	public boolean  deleteUser(String userId, String password) {
+	    User user = userDao.selectById(userId);
+
+	 // 사용자가 존재하고 비밀번호가 일치하면 상태를 1로 업데이트
+	    if (user != null && password.equals(user.getUserPw())) {
+	        user.setUserStatus(1);
+	        userDao.deleteInfo(user);
+	        return true; // 삭제 성공
+	    }
+
+	    return false; // 비밀번호가 일치하지 않거나 사용자가 존재하지 않을 경우 삭제 실패
+	}
+
 
 }
 

@@ -87,5 +87,24 @@ public interface UserService {
 	 * @return
 			 */
 	public boolean updateUser(User updateUser, String userPwConfirm);
+
+	/**
+	 * 비밀번호 찾기 성공시 비밀번호만 변경
+	 * 
+	 * @param userId
+	 * @param userPw
+	 * @return
+	 */
+	public boolean updatePw(User pwupdate);
+
+	/**
+	 * 아이디와 비밀번호 일치시 상태1로 변경
+	 * 
+	 * @param userId
+	 * @param password
+	 * @return
+	 */
+	public boolean deleteUser(String userId, String password);
+
 }
 

@@ -92,5 +92,20 @@
 	        user_id = #{userId}
 	</update>
 
+	<update id="updatePw" parameterType="User">
+	    UPDATE userTb
+	    SET
+	        user_pw = #{userPw}
+	    WHERE
+	        user_id = #{userId}
+	</update>
+
+	<update id="deleteInfo" parameterType="User">
+        UPDATE userTb 
+        SET 
+        	USER_STATUS = #{userStatus} 
+        WHERE 
+        	user_id = #{userId}
+    </update>
 
 </mapper>

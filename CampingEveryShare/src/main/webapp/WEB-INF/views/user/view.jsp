@@ -27,11 +27,57 @@ $(document).ready(function() {
 
     // 프로필 값을 가지는 라디오 버튼을 체크
     $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
+    
+    $("#deleteInfoButton").click(function() {
+        // 확인 대화상자 표시
+        var isConfirmed = confirm("정말로 회원탈퇴하시겠습니까?");
+        
+        if (isConfirmed) {
+           // 탈퇴를 위한 AJAX 요청
+           var userId = "${login.userId}";
+           var userPw = prompt("비밀번호를 입력하세요."); // 사용자에게 비밀번호 입력받기
+          
+           $.ajax({
+              type: "post",
+              url: "/user/delete", // URL을 적절히 조정하세요.
+              data: {
+                  userId: userId,
+                  password: userPw
+              },
+              success: function(response) {
+            	    console.log("서버 응답:", response);
+
+            	    // 만약 응답이 JSON 문자열이라면 JSON으로 파싱
+
+            	    console.log("파싱된 응답:", response);  // 새로 추가한 부분
+
+            	    if (response === "done") {
+            	        console.log("회원탈퇴가 성공적으로 이루어졌습니다!");
+            	        alert("회원탈퇴가 성공적으로 이루어졌습니다!");
+
+            	        // 일정 시간 후에 로그아웃 페이지로 이동
+            	        setTimeout(function() {
+            	            window.location.href = "/";
+            	        }, 1000); // 1000ms(1초) 딜레이
+            	    }  
+            	    if (response === "undone"){
+            	        console.log("회원탈퇴 실패.");
+            	        // 회원탈퇴 실패 처리, 메시지 표시 등
+            	        alert("회원탈퇴 실패, 비밀번호를 확인해주세요");
+            	    }
+            	},error: function(error){
+            		console.log("AJAX실패")
+            	}
+
+
+           });
+        }	
+     });
 });
 
 </script>
 
-<form id="view" action="/user/view" method="post">
+<!-- <form id="view" action="/user/view" method="get"> -->
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">마이페이지</h3>
@@ -240,12 +286,13 @@ $(document).ready(function() {
 	<div class="form-floating is-invalid birth">
 		<a href="/"  class="border-success-subtle form-control btn btn-outline-success">메인페이지</a>
 		<a href="/user/update"  class="border-success-subtle form-control btn btn-outline-success">회원정보 수정</a>
+		<button id="deleteInfoButton" type="submit" class="border-success-subtle form-control btn btn-outline-success">회원탈퇴하기</button>
 	</div>
 		
 		
 	</div> <!-- form -->
 	</div><!--  container -->
-</form>
+<!-- </form> -->
 
 
 

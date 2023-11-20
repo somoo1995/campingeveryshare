@@ -105,15 +105,26 @@ public class UserController {
 
 	}
 	
-	@GetMapping("/delete")
-	public String userDelete(User user) {
-		return null;
+	@PostMapping("/delete")
+	@ResponseBody
+	public String userDelete(@RequestParam("userId") String userId, @RequestParam("password") String password, Model model) {
+	    logger.info("delete[GET]");
+	    logger.info("deleteId: {}", userId);
+	    logger.info("deleteId: {}", password);
+
+	    boolean isDeleted = userService.deleteUser(userId, password);
+
+	    if (isDeleted) {
+	        model.addAttribute("deleteUser", isDeleted);
+	        logger.info("회원상태1로변경");
+	        return "done";
+	    } else {
+	        model.addAttribute("error", "비밀번호를 확인해주세요");
+	        logger.info("회원상태 변경 실패");
+	        return "undone";
+	    }
 	}
 	
-	@RequestMapping("/loginduple")
-	public void loginDuplicateCheck(User user) {
-		
-	}
 	
 	@GetMapping("/update")
 	public String userUpdate(@SessionAttribute("loginId") String loginId, Model model) {
@@ -180,6 +191,7 @@ public class UserController {
 		return true;		
 	}
 	
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -202,12 +214,36 @@ public class UserController {
 
 	@GetMapping("/pwfind")
 	public void pwFind() {}
+	
 	@PostMapping("/pwfind")
-	public String pwFind(User user,Model model) {
-		logger.info("pwFind:{}",user);
-		logger.info("idFind[POST]");
-		return userService.findPw(user);
+	@ResponseBody
+	public String pwFind(User user, Model model,HttpSession session) {
+	    logger.info("pwFind:{}", user);
+	    logger.info("pwFind[POST]");
+
+	    String resetSuccess = userService.findPw(user);
+
+	    if (resetSuccess == "success") {
+	        return "success"; // 성공 시 문자열 "sucess" 반환
+	    } else {
+	        return "fail"; // 실패 시 문자열 "fail" 반환
+	    }
 	}
 	
+	@PostMapping("/pwReset")
+	@ResponseBody
+	public String pwUpdate (User pwupdate) {
+		System.out.println("userUpdate");
+		boolean success = userService.updatePw(pwupdate);
 
+		if(success) {
+			logger.info("패스워드업뎃성공했니?");
+			logger.info("아이디:{}",pwupdate.getUserId());
+			
+			return "success";
+		}else {
+			logger.info("또실패야????");
+			return "fail";
+		}
+	}
 }
