@@ -167,7 +167,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public boolean loginProc(User login, HttpSession session) {
+	public String loginProc(User login, HttpSession session) {
 		logger.info("loginParam : {}", login);
 		logger.info("login[POST]");
 
@@ -176,8 +176,11 @@ public class UserController {
 		User loginInfo = userService.info(login);
 		// [세션] 로그인 인증 결과
 
-		if (!isLogin|| (loginInfo.getUserStatus() == 1)) {
-			return false;
+		if (!isLogin) {
+			return "loginfalse";
+		}
+		else if (loginInfo.getUserStatus() == 1) {
+			return "false";
 		}
 		
 		logger.info("로그인 성공");
@@ -187,7 +190,7 @@ public class UserController {
 		logger.info("session : " + session.getAttribute("loginId"));
 		logger.info("session : " + session.getAttribute("loginNick"));
 
-		return true;		
+		return "true";		
 	}
 	
 	
