@@ -48,8 +48,8 @@
 
 
 	<insert id="insert" parameterType="User">
-    INSERT INTO userTb (user_id, user_pw, email, user_name, user_nick, birth, address, address_detail, phone, profile, join_date, user_status)
-    VALUES (#{userId}, #{userPw}, #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, #{profile}, SYSDATE, #{userStatus})
+    INSERT INTO userTb (user_id, user_pw, email, user_name, user_nick, birth, address, address_detail, phone, profile)
+    VALUES (#{userId}, #{userPw}, #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, #{profile})
 	</insert>
 
 
@@ -57,8 +57,10 @@
     <select id="selectInfo" resultType="User" parameterType="User">
     SELECT *
     FROM userTb
-    WHERE user_id = #{userId}
-    AND user_pw = #{userPw, jdbcType=VARCHAR}
+    WHERE 
+    user_id = #{userId}
+    AND 
+    user_pw = #{userPw}
 
 	</select>
 	

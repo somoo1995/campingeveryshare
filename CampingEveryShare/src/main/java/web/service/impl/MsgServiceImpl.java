@@ -1,5 +1,11 @@
 package web.service.impl;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,15 +18,9 @@ import org.springframework.stereotype.Service;
 import oracle.sql.TIMESTAMP;
 import web.dao.face.MsgDao;
 import web.dto.Msg;
+import web.dto.Room;
 import web.dto.User;
 import web.service.face.MsgService;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.ZoneId;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @Service
 public class MsgServiceImpl implements MsgService {
@@ -127,6 +127,14 @@ public class MsgServiceImpl implements MsgService {
 	@Override
 	public void updateStatus(Map<String, Object> map) {
 		msgDao.updateStatus(map);
+	}
+
+	@Override
+	public Msg getNewRoom(Msg msg) {
+		Room room = new Room();
+		msgDao.makeNewRoom(msg);
+		msgDao.insertmessage(msg);
+		return msgDao.selectByMsgNo(msg);
 	}
 
 

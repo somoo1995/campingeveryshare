@@ -32,7 +32,9 @@ public class ChatController {
 			,SimpMessageHeaderAccessor headerAccessor) {
 		System.out.println("여기 들릅니다");
 		System.out.println("-----------------------------------------------------");
-		msg = msgService.sendmessage(msg);
+		if(msg.getMsgStatus() !=3) {
+			msg = msgService.sendmessage(msg);			
+		}
 		System.out.println("-----------------------------------------------------");
 		System.out.println(msg.toString());
 		System.out.println(userConnections);
@@ -64,7 +66,13 @@ public class ChatController {
 	public Msg sendStatus(@DestinationVariable String Id, @Payload Msg msg) {
 		System.out.println("여기 들릅니다 룸상태에요");
 		System.out.println(msg.toString());
-		msg = msgService.getMessage(msg);
+		if(msg.getMsgStatus() == 3) {
+			msg = msgService.getNewRoom(msg);
+			msg.setMsgStatus(3);
+		}else {
+			msg = msgService.getMessage(msg);
+			
+		}
 		
 		return msg;
 	}
@@ -83,11 +91,6 @@ public class ChatController {
 		userConnections.put(userId, status);
 		headerAccessor.getSessionAttributes().put("currentUserId", status);
 		
-	}
-	
-	@MessageMapping("/chat.removeUser")
-	public void removeUser(String currentUserId) {
-	    userConnections.remove(currentUserId);
 	}
 	
 

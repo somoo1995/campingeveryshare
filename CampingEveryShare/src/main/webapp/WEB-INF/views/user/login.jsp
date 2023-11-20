@@ -66,46 +66,48 @@ pageEncoding="UTF-8"%>
     }
   
 
-    $(document).ready(function () {
-    	$("#loginButton").click(function () {
-  			var userIdValue = $("#userId").val().trim();
-	        var userPwValue = $("#userPw").val().trim();
-	        // Check if username and password are not empty
-	        if (userIdValue.length === 0 || userPwValue.length === 0) {
-	            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
-	            event.preventDefault(); // Prevent form submission
-	            console.log("아이디와 비밀번호를 입력해 주세요.");
-// 	            displayBlock.show();
-	            return;
-	        } 
-            $.ajax({
-                type: "POST",
-                url: "/user/login",
-                data: {
-                    "userId": userIdValue,
-                    "userPw": userPwValue
-                },
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                success: function (response) {
-                    console.log(response); // 서버 응답 확인
-                    if (response) {
-                        // $(location).attr('href', '/'); ->  로그인 성공 시, 서버에서 리다이렉션을 처리하므로 삭제
-                        console.log("로그인 성공");
-                        window.location.href = "/";
-                    } else {
-						alert("아이디 또는 비밀번호가 잘못되었습니다.");                    	
-                        window.location.href = "/user/login";
-
+	    $(document).ready(function () {
+	    	$("#loginButton").click(function() {
+	  			var userIdValue = $("#userId").val().trim();
+		        var userPwValue = $("#userPw").val().trim();
+		        if (userIdValue.length === 0 || userPwValue.length === 0) {
+		            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
+		            event.preventDefault(); // Prevent form submission
+		            console.log("아이디와 비밀번호를 입력해 주세요.");
+		            return;
+		        } 
+	            $.ajax({
+	                type: "POST",
+	                url: "/user/login",
+	                data: {
+	                    userId: userIdValue,
+	                    userPw: userPwValue
+	                },
+	                dataType: "text",
+	                success: function (response) {
+	                    console.log(response); // 서버 응답 확인
+	                    if (response ==="true") {
+	                        console.log("로그인 성공");
+	                        window.location.href = "/";
+	                    } 
+	                    else if(response ==="loginfalse") {
+	                        console.log("로그인 실패");
+							alert("아이디 또는 비밀번호가 잘못되었습니다.");                    	
+	                        window.location.href = "/user/login";
+	                    }
+	                    else if(response ==="false") {
+	                        console.log("탈퇴 회원");
+							alert("탈퇴한 회원으로 로그인 할 수 없습니다.");
+							window.location.href = "/user/join";
+	                    }
+	                },
+	                error: function (jqXHR, textStatus, errorThrown) {
                         console.log("서버 응답에 문제가 있습니다."); // 서버 응답이 다르게 올 경우
-                        $("#loginFailureMessageText").text("아이디 또는 비밀번호가 잘못되었습니다.").show();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX 요청 실패: " + textStatus);
-                }
-            });
-    	})
-    });
+	                    console.error("AJAX 요청 실패: " + textStatus);
+	                }
+	            });
+	    	})
+	    });
     
     
 </script>

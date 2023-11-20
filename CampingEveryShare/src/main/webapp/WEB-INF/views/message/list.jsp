@@ -134,12 +134,49 @@ pageEncoding="UTF-8"%>
   height: 800px;
   width: 800px;
 }
-
 .msgObject-unread {
-    background-color: #f7f7f7; /* 배경색을 변경하고 싶은 색상으로 설정하세요 */
+    background-color: #F3F781; /* 배경색을 변경하고 싶은 색상으로 설정하세요 */
+}
+  .msgObject-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+.msgObject-content {
+  flex-grow: 1; /* 나머지 공간을 채움 */
+  display: flex;
+  flex-direction: column; /* 내용을 세로로 쌓음 */
+  justify-content: center; /* 세로 방향 중앙 정렬 */
+  align-items: flex-start; /* 가로 방향 시작 부분 정렬 */
+}
+
+  .msgObject-username {
+    font-weight: bold;
+  }
+
+  .messagePreview {
+    color: #555;
+  }
+
+  .lastMessageTime {
+    margin-left: 10px;
+    color: #aaa;
+  }
+.msgObject {
+  display: flex; /* Flex container 설정 */
+  align-items: center; /* 세로 중앙 정렬 */
+  padding: 10px; /* 패딩 설정 */
+  /* 기타 스타일 */
+}
+
+.msgObject-username, .messagePreview {
+  white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
 }
 </style>
 
+User
 <script >
 var roomNo;
 var currentUserId;
@@ -151,28 +188,16 @@ var lastSentRoomNo;
 var stompClient = null; 
 var currentUserIdSubscription;
 var receiverIdSubscription;
-userId = '<c:out value="${sessionScope.loginId}"/>'
+var newRoom
+var makingRoom = false;
+var newChatMessage;
 function scrollToBottom() {
     var messagesContainer = $('.messages-container');
     messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
   }
-  
-
-// function connect(){
-// 	var userId = '<c:out value="${sessionScope.loginId}"/>'
-// 	socket = new SockJS('/ws')
-// 	stompClient = Stomp.over(socket);
-	
-// 	stompClient.connect({},onConnected, onError);
-// }
-// function onConnected(){
-// 	console.log("커넥트 하는중..")
-// 	console.log(roomNo)
-// 	stompClient.subscribe('/topic/' + roomNo + '/public', onMessageReceived);
-// }
 function connectToRoom(roomNumber) {
     disconnectWebSocket(); // 기존 연결 해제
-
+    console.log("connectToRoom-------------")
     roomNo = roomNumber;
     socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
@@ -180,7 +205,13 @@ function connectToRoom(roomNumber) {
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/' + roomNo + '/public', onMessageReceived);
-
+        if(makingRoom &&currentUserId == newChatMessage.writerId){
+            // 여기서 메시지 전송 로직을 수행
+    		stompClient.send("/app/chat/" + roomNo + "/sendMessage",{},JSON.stringify(newChatMessage))
+    		console.log("이게 바로 새 메세지 발송하는거다.")
+    		makingRoom=false;
+    		lastSentRoomNo = roomNo;
+        }
         // 사용자 추가 메시지 보내기
         stompClient.send("/app/chat.addUser", {}, JSON.stringify({ 'currentUserId': currentUserId, 'userId':currentUserId, 'roomNo': roomNo }));
     }, onError);
@@ -236,9 +267,6 @@ function onMessageReceived(payload) {
     // Append the wrapper element to the correct container
     $('.messages-container').append(wrapperElement);
       scrollToBottom()
-      
-    console.log(receiverId);
-	console.log("-여기가 아이디출력!-------------");
 	if(stompId && newMessage){
 		stompId.send("/app/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newMessage))
 	}
@@ -279,7 +307,49 @@ function onErrorId(){
 }
 function onReceivedId(payload){
 	console.log("onReceivedId function start...")
+	newChatMessage = JSON.parse(payload.body);
 	var testMsg = JSON.parse(payload.body)
+	if(testMsg.msgStatus === 3){
+		console.log("이건 아직 새로 만들거다.");
+		if(testMsg.writerId == currentUserId){
+		roomNo = testMsg.roomNo;
+		console.log("새로운 채팅방으로 구독 시작")
+		connectToRoom(roomNo);
+		lastSentRoomNo = roomNo;
+		console.log("이거 연결 됐다!!")
+		}
+		var messagePreview = testMsg.content.length > 10 ? testMsg.content.substring(0, 10) + '...' : testMsg.content;
+		var date = new Date(testMsg.postDate);
+	    var dateFormatter = new Intl.DateTimeFormat('ko-KR', { 
+	        hour: '2-digit', minute: '2-digit', hour12: false
+	    });
+	    console.log("룸넘버는!!!!!!")
+	    console.log(testMsg.roomNo)
+	    roomNo = testMsg.roomNo;
+	    if(currentUserId === testMsg.writerId){
+	    	var ID = testMsg.receiverId
+	    }else{
+	    	var ID = testMsg.writerId
+	    }
+	    var formattedDate = dateFormatter.format(date);
+	    var chatRoomDiv = $('<div>')
+        .addClass('msgObject')
+        .attr('room_no',  testMsg.roomNo.toString())
+        .append(
+            $('<img>').attr('src', '/resources/img/chunsic.png').addClass('msgObject-img'),
+            $('<div>').addClass('msgObject-content')
+                .append(
+                    $('<div>').addClass('msgObject-username').text(ID),
+                    $('<div>').addClass('messagePreview').text(messagePreview)
+                ),
+            $('<div>').addClass('lastMessageTime').text(formattedDate)
+        );
+	    $('.msgObjects').prepend(chatRoomDiv);
+	    if(currentUserId == testMsg.receiverId){
+	    	chatRoomDiv.css('background-color', '#F3F781');
+	    }
+	    return;
+	}
 	console.log(testMsg)
     var chatRoomDiv = $('.msgObject[room_no="' + testMsg.roomNo + '"]');
     var updatedContent = testMsg.content;
@@ -301,11 +371,11 @@ function onReceivedId(payload){
     chatRoomDiv.find('.lastMessageTime').text(formattedDate);
 
     // 채팅방 위치 이동
-    $('.msgFilter').after(chatRoomDiv);
+    $('.msgObjects').prepend(chatRoomDiv);
 
     // 배경색 변경
     if(testMsg.roomNo != lastSentRoomNo) {
-        chatRoomDiv.css('background-color', '#f7f7f7');
+        chatRoomDiv.css('background-color', '#F3F781');
     }
 }
 
@@ -317,25 +387,37 @@ function formatDate(timestamp) {
     return date.toLocaleString('ko-KR'); // This will use the Korean locale
 }
 $(document).ready(function() {
-	currentUserId = '<c:out value="${sessionScope.loginId}"/>';
-	var statusTest = '<c:out value="${list}"/>';
-	console.log(statusTest);
-	select = 0;
-	connectWebSocket()
-
 	$('.msginput form').on('submit', function(event) {
         event.preventDefault(); // 기본 submit 동작 방지
         var message = $(this).find('input[name="message"]').val(); // input 필드의 값을 가져옴
-        console.log(message); // 콘솔에 메시지 출력
+        if(makingRoom == false){
         sendMessage()
+        }else if(makingRoom ==true){
+        	console.log("makingNewRoom start")
+        	receiverId = newRoom.newReceiverId;
+        	subscribeToReceiverId(receiverId)
+        	var newChatMessage = {
+			writerId: currentUserId,
+			content: message,
+			receiverId: receiverId,
+			boardNo: newRoom.newBoardNo,
+			boardCate: newRoom.newBoardCate,
+			msgStatus: 3
+		}
+          if(stompId && newChatMessage && makingRoom){
+            stompId.send("/app/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newChatMessage))
+          }
+        }
 
         $(this).find('input[name="message"]').val(''); // input 필드를 지움
+        $('.msginput input').attr('placeholder', '메시지를 입력해 주세요.');
+        return;
         // 여기에 메시지 전송 로직을 추가할 수 있습니다.
     });
 	 
 	  currentUserId = '<c:out value="${sessionScope.loginId}"/>'; // JSP EL to get current user ID
 
-	  $('.msgObject').click(function() {
+		$('.msgObjects').on('click', '.msgObject', function() {
 	    roomNo = $(this).attr('room_no');
 	    
 	    lastSentRoomNo = $(this).attr('room_no');
@@ -362,12 +444,9 @@ $(document).ready(function() {
 // 	            console.log("여기서 확인해보자구요?")
 	            if(currentUserId === message.writerId){
 	            	receiverId = message.receiverId
+	            }else{
+	            	receiverId = message.writerId
 	            }
-	            // receiverId를 지정해준다.
-// 	            console.log(receiverId)
-// 	            console.log("--------------")
-	           
-	            //console.log(timestamp) // Outputs formatted date and time
 	            var timestamp = message.postDate;
 	            var date = new Date(timestamp);
 	            var dateFormatter = new Intl.DateTimeFormat('ko-KR', {
@@ -394,6 +473,7 @@ $(document).ready(function() {
 	              scrollToBottom()
 	        });
 	        select = 1
+	        
 		    console.log(receiverId)
 		    console.log("리시버 아이디로 접속을 할거야 이건 뜨면")
 		    subscribeToReceiverId(receiverId)
@@ -406,14 +486,28 @@ $(document).ready(function() {
 	    var userId = '<c:out value="${sessionScope.loginId}"/>'
 	    
 	  });
-// 	var targetRoomNo = 1; // 테스트를 위해 하드코딩된 값
-// 	console.log("타겟룸넘버: ", targetRoomNo);
-// 	var targetElement = $(".msgObject[room_no='" + targetRoomNo + "']");
-// 	console.log("선택된 요소: ", targetElement);
-// 	if (targetElement.length > 0) {
-//         console.log("타겟룸넘버가 있어요");
-//         targetElement.click();
-//     }
+//====================================================onfunction로직 시작 부분=====================================
+	console.log("onfunction 로직 시작")
+	currentUserId = '<c:out value="${sessionScope.loginId}"/>';
+	connectWebSocket()
+	console.log("현재 아이디로 구독 완료")
+    var newMaking = '<c:out value="${newMaking}" escapeXml="false"/>';
+    if(newMaking) {
+    	console.log("이부분이 문제야")
+        newRoom = JSON.parse(newMaking);
+        console.log(newRoom.newBoardCate);
+        console.log(newRoom.newBoardNo);
+        console.log(newRoom.newReceiverId);
+        makingRoom = true;
+        console.log(newRoom)
+        $('.msginput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.');
+        $('.msgPrompt').addClass('hidden');
+        $('.msgcontent, .msgprofile').removeClass('hidden');
+        // $(this).css('background-color','white'); // $(this)는 여기서 문맥에 맞지 않을 수 있습니다.
+    }
+	console.log("이것들이 나오나요?")
+	
+    
 	 
 	});
 
@@ -449,29 +543,27 @@ $(document).ready(function() {
    	
   </div>
   <!-- 나머지 msglist 내용 -->
-      <div class="msgObjects">
-      <c:forEach var="list" items="${list }" >
-      	<div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo }" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ccc;">
-      <img src="/resources/img/chunsic.png" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-      <div style="flex-grow: 1;">
-        <div style="font-weight: bold;">${list.otherUserId }</div>
-        <div style="color: #555;" class="messagePreview">
-         <c:choose>
-                <c:when test="${fn:length(list.messagePreview) > 10}">
-                    ${fn:substring(list.messagePreview, 0, 10)}...
-                </c:when>
-                <c:otherwise>
-                    ${list.messagePreview}
-                </c:otherwise>
-            </c:choose>
-        
+<div class="msgObjects">
+  <c:forEach var="list" items="${list}">
+    <div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}">
+      <img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
+      <div class="msgObject-content">
+        <div class="msgObject-username">${list.otherUserId}</div>
+        <div class="messagePreview">
+          <c:choose>
+            <c:when test="${fn:length(list.messagePreview) > 10}">
+              ${fn:substring(list.messagePreview, 0, 10)}...
+            </c:when>
+            <c:otherwise>
+              ${list.messagePreview}
+            </c:otherwise>
+          </c:choose>
         </div>
       </div>
-      <div style="margin-left: 10px; color: #aaa;" class="lastMessageTime">${list.lastMessageTime }</div>
+      <div class="lastMessageTime">${list.lastMessageTime}</div>
     </div>
-      </c:forEach>
-   
-    </div>
+  </c:forEach>
+</div>
 </div>
  <div class="msgPrompt" >
       <span>메시지 리스트를 선택해주세요.</span>
@@ -496,5 +588,4 @@ $(document).ready(function() {
 
 
 </div><!-- .container -->
-
 <c:import url="../layout/footer.jsp" />
