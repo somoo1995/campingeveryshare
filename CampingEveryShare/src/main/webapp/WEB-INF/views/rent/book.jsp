@@ -1,3 +1,4 @@
+<%@page import="web.dto.Car"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
@@ -8,8 +9,8 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
-    // 컨트롤러에서 전달받은 list 모델
     List<Rent> list = (List<Rent>) request.getAttribute("list");
+	Car car = (Car) request.getAttribute("car");
 %>
 
 <style type="text/css">
@@ -109,10 +110,12 @@ td {
 
 $(function() {
 	buildCalendar()
+
 })	
 
     // list 변수를 JavaScript에서 사용할 수 있도록 정의
-    var list = <%= new Gson().toJson(list) %>;
+    var list = <%= new Gson().toJson(list) %>
+    var car = <%= new Gson().toJson(car) %>
 
 // 달력 생성
 var today = new Date()
@@ -196,14 +199,14 @@ function leftPad(value) {
 
 var firstSelectedDate = null
 var secondSelectedDate = null
-var selectedDates = []
+// var selectedDates = []
 var betweenDates = []
 
 function choiceDate(newDIV) {
 	
 // 	betweenDates.splice(0, betweenDates.length)
 	
-    console.log("selectedDates st : " + selectedDates) // 선택된 날짜 확인
+//     console.log("selectedDates st : " + selectedDates) // 선택된 날짜 확인
     console.log("betweenDates st : " + betweenDates) // 두 날짜 사이의 모든 날짜 확인
 
     var date = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(newDIV.innerText))
@@ -221,7 +224,7 @@ function choiceDate(newDIV) {
 		newDIV.classList.add("choiceDay")
 		secondSelectedDate = null
 		
-	} else if (secondSelectedDate !== null && secondSelectedDate < date) {
+	} else if (secondSelectedDate !== null && (secondSelectedDate < date || secondSelectedDate > date)) {
 		firstSelectedDate = date
 		newDIV.classList.add("choiceDay")
 		secondSelectedDate = null
@@ -230,12 +233,13 @@ function choiceDate(newDIV) {
 		
 	} else {
 		secondSelectedDate = date
+		betweenDates = []
 		newDIV.classList.add("choiceDay")
 		var currentDate = new Date(firstSelectedDate)
 		
 		while (currentDate <= secondSelectedDate) {
 			betweenDates.push(new Date(currentDate))
-			currentDate.setDate(currentDate.getDate() + 1)
+			currentDate.setDate(currentDate.getDate()+1)
        }
 	   
    }
@@ -244,58 +248,6 @@ function choiceDate(newDIV) {
    console.log("두번째 선택 날짜 : " + secondSelectedDate)
    console.log("betweenDates 중간 : " + betweenDates)
     
-// 	var index = selectedDates.findIndex(function(d) {
-//         return d.getTime() === date.getTime()
-//     });
-    
-//     console.log("index : " + index)
-    
-//    if (selectedDates.length === 0) {
-//         betweenDates = []
-//     }
-    
-//     //이미 선택된 숫자
-//     if( index !== -1 ) {
-//     	selectedDates.splice(0, selectedDates.length)
-//     	selectedDates.push(date)
-//     	newDIV.classList.add("choiceDay")
-// //     	newDIV.classList.remove("choiceDay")
-    	
-    	
-//     //새로 선택한 숫자
-//     } else {
-    	
-//     	if(betweenDates.length !== 0){
-//     		betweenDates = []
-//     		selectedDates.splice(0, selectedDates.length)
-//     		selectedDates.push(date)
-//     	} else {
-// 	    	selectedDates.push(date)
-// 	//     	betweenDates.push(date)
-// 			newDIV.classList.add("choiceDay")
-			
-// 		}
-		
-// 	}
-    
-//     selectedDates.sort(function (a, b) {
-// 		return a.getTime() - b.getTime()
-// 	})
-    
-// 	console.log("selectedDates - sort : " + selectedDates)
-    
-// 	if( selectedDates.length === 2 ) {
-// 		var startDate = new Date(selectedDates[0])
-// 		var endDate = new Date(selectedDates[1])
-		
-// 		var currentDate = new Date(startDate)
-		
-//         while (currentDate <= endDate) {
-//             betweenDates.push(new Date(currentDate))
-//             currentDate.setDate(currentDate.getDate() + 1)
-//         }
-		
-// 	}
 	
 	allDays.forEach(function(day) {
 		var dateDIV = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(day.innerText))
@@ -312,8 +264,11 @@ function choiceDate(newDIV) {
 		
 	})
 	
+	var price = car.price * betweenDates.length
 	
-    console.log("selectedDates fin : " + selectedDates) // 선택된 날짜 확인
+	$("#totalPrice").html(price)
+	
+//     console.log("selectedDates fin : " + selectedDates) // 선택된 날짜 확인
     console.log("betweenDates fin : " + betweenDates) // 두 날짜 사이의 모든 날짜 확인
 }
 
