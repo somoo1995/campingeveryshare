@@ -6,6 +6,7 @@
   
 <mapper namespace="web.dao.face.AdminDao">
 
+
 <sql id="selectUser">
 	SELECT
 	user_id, user_pw, email, user_name, user_nick, birth, 
@@ -13,18 +14,69 @@
 	FROM usertb
 </sql>
 
+
 <sql id="searchUser">
-	<if test=" type != null and !''.equals(type) and search != null and !''.equals(search)">
-		<if test="type == 'I'.toString()"><where>user_id like '%' || #{search} || '%'</where></if>
-		<if test="type == 'N'.toString()"><where>user_name like '%' || #{search} || '%'</where></if>
-		<if test="type == 'E'.toString()"><where>email like '%' || #{search} || '%'</where></if>
+	<if test="search != null and !''.equals(search)">
+		 <choose>
+            <when test="category == 1">
+                <where> AND user_id like '%' || (#{search}) || '%'</where>
+            </when>
+            <when test="category == 2">
+                <where> AND user_name like '%' || (#{search}) || '%'</where>
+            </when>
+            <when test="category == 3">
+                <where> AND email like '%' || (#{search}) || '%'</where>
+            </when>
+            <when test="category == 0">
+            	<where>AND user_id like '%' || (#{search}) || '%'
+            	OR user_name like '%' || (#{search}) || '%'
+            	OR email like '%' || (#{search}) || '%'</where>
+			</when>
+		</choose>
 	</if>
 </sql>
 
+
+<sql id="searchReport">
+	<if test="search != null and !''.equals(search)">
+		<where>
+			AND vuser_id LIKE '%' || (#{search}) || '%'
+		</where>
+	</if>
+
+</sql>
+
+
 <sql id="selectReport">
 	SELECT report_no, board_no, reason, reason_detail, vuser_id,
-		ruser_id, board_cate, CAST(report_date AS DATE) AS report_date
+		ruser_id, board_cate, report_date
+		FROM reporttb
 </sql>
+
+
+<sql id="selectIncome">
+	SELECT income_no, rent_no, account, money, money_cate, money_date
+	FROM incometb
+</sql>
+
+
+<select id="selectCntAdmin" resultType="int" parameterType="Admin">
+	SELECT count(*)
+    FROM admintb
+    <where>
+        <if test="adminCode != null and adminCode != ''"> AND admin_code = #{adminCode } </if>
+        <if test="adminPw != null and adminPw != ''"> AND admin_pw = #{adminPw } </if>
+    </where>
+</select>
+
+
+<select id="selectInfo" resultType="Admin" parameterType="Admin">
+	SELECT *
+    FROM admintb
+    WHERE admin_code = #{adminCode }
+    AND admin_pw = #{adminPw, jdbcType=VARCHAR}
+</select>
+
 
 <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 	SELECT count(*) FROM (
@@ -33,32 +85,47 @@
 	)
 </select>
 
+
 <select id="selectAll" resultType="map" parameterType="web.util.Paging">
-	SELECT * FROM (
-	    SELECT rownum rnum, B.* FROM (
-			<include refid="selectUser" />
-			<include refid="searchUser" />
-			ORDER BY user_id DESC
-	    ) B
-	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	 SELECT * FROM (
+        SELECT rownum rnum, B.* FROM (
+            <include refid="selectUser" />
+            <include refid="searchUser" />
+            ORDER BY user_id DESC
+        ) B
+    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
+
+
+<select id="selectCntAllReport" resultType="int" parameterType="web.util.Paging">
+   SELECT count(*) FROM (
+	<include refid="selectReport" />
+	<include refid="searchReport" />
+	<if test="category != 0"> AND board_cate = #{category} </if>
+)
+</select>
+
 
 <select id="selectAllReport" resultType="map" parameterType="web.util.Paging">
 	SELECT * FROM (
 	    SELECT rownum rnum, B.* FROM (
-	    	<include refid="selectReport" />
-	    	, (SELECT title FROM boardtb WHERE board_cate = reporttb.board_cate AND board_no = reporttb.board_no) AS "REPORT_TITLE"
+	    	SELECT report_no, board_no, reason, reason_detail, vuser_id,
+			ruser_id, board_cate, report_date,
+	    	(SELECT title FROM boardtb WHERE board_cate = reporttb.board_cate AND board_no = reporttb.board_no) AS "REPORT_TITLE"
 	    	FROM reporttb
+	    	<include refid="searchReport" />
+	    	<if test="category != 0"> AND board_cate = #{category} </if>
 			ORDER BY report_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
+	
 
-<select id="selectCntAllReport" resultType="int" parameterType="web.util.Paging">
-	SELECT count(*) FROM (
-		<include refid="selectReport" />
-		FROM reporttb
-	)
+<select id="selectCntAllIncome" resultType="int" parameterType="web.util.Paging">
+   SELECT count(*) FROM (
+	<include refid="selectIncome" />
+)
 </select>
+
 
 </mapper>

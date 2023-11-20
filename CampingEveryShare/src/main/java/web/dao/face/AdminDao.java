@@ -3,9 +3,21 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Admin;
+import web.dto.User;
 import web.util.Paging;
 
 public interface AdminDao {
+	
+	/**
+	 * 관리자 접속코드/pw로 조회된 사용자의 수를 반환
+	 * 
+	 * @param admin
+	 * @return 
+	 */
+	public int selectCntAdmin(Admin admin);
+
+	public Admin selectInfo(Admin admin);
 
 	/**
 	 * 전체 게시글 수를 조회한다
@@ -32,7 +44,10 @@ public interface AdminDao {
 
 	public int selectCntAllReport(Paging param);
 
-//	public void insertAlertTb(String param);
+	public List<Map<String, Object>> selectAllIncome(Paging paging);
+
+	public int selectCntAllIncome(Paging param);
+
 
 
 }
