@@ -21,6 +21,7 @@ import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Recom;
+import web.dto.Share;
 import web.dto.User;
 import web.service.face.ShareService;
 import web.util.Paging;
@@ -47,7 +48,7 @@ public class ShareServiceImpl implements ShareService {
 
 		int totalCount = shareDao.selectCntAll();
 
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
 		
 		return paging;
 	}
@@ -70,19 +71,28 @@ public class ShareServiceImpl implements ShareService {
 	}
 	
 	@Override
+	public Share getPaid(Share share) {
+		Share sharePaid = shareDao.selectPaid(share);
+		
+		return sharePaid;
+	}
+	@Override
 	public List<BoardFile> fileView(Board board) {
 
 		return shareDao.selectGetFileByBoardNo(board);
 	}
 	
 	@Override
-	public void shareWrite(Board board, List<MultipartFile> file) {
+	public void shareWrite(Board board, List<MultipartFile> file, Share share) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle())) {
 			board.setTitle("(제목없음)");
 		}		
 	
 		shareDao.insertShareWrite(board);
+		share.setBoardNo(board.getBoardNo());
+		shareDao.insertSharePaid(share);
+		
 		
 		//--------------------------------------------------------------------------------
 		
@@ -185,8 +195,8 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
-	public void delete(Board board, BoardFile boardFile) {
-		shareDao.deleteFileByBoardNo( boardFile );
+	public void delete(Board board) {
+//		shareDao.deleteFileByBoardNo( boardFile );
 		shareDao.deleteByBoardNo( board );	
 	}
 	

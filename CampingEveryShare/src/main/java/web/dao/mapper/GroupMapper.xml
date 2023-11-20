@@ -2,158 +2,135 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="web.dao.face.GroupDao">
-	
-	<!-- 사용하는 테이블 정리 -->
-	
-	<sql id="selectBoard">
-		SELECT
-		board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate
-		, (SELECT user_nick FROM userTB WHERE user_id=boardtb.user_id)
-		FROM boardtb
-		WHERE board_cate = 4
-	</sql>
-	
-	<sql id="selectGroup">
-		SELECT
-			board_no, recruit_status
-		FROM grouptb
-	</sql>
-	
-	<sql id="selectRecom">
-		SELECT
-			userId, recoNo, boardCate
-		FROM recomtb
-	</sql>
-	
-	<sql id="selectUser">
-		SELECT
-			user_id, user_pw, email, user_name
-				,user_nick, birth, address
-				,address_detail, phone, profile
-				,join_date, user_status
-		FROM usertb
-	</sql>
-		
-	<!-- 1. 게시판 목록 조회 -->
-	
-	<select id="selectCntAll" resultType="int" parameterType="int">
-	    SELECT COUNT(*)
-	    FROM boardtb
-	    WHERE board_cate = 4	
-	</select>
-
-
-		<!-- boardtb에서만 가져오는 거 -->
-	<select id="selectBoardList" parameterType="web.util.Paging" resultType="Map">
-	  SELECT * FROM (
-	    SELECT
-	      ROWNUM AS rnum,
-	      board_no,
-	      title,
-	      location,
-	      post_date,
-	      hit,
-	      content,
-	      delete_status,
-	      user_id,
-	      board_cate,
-	      (SELECT user_nick FROM userTB WHERE user_id = b.user_id) AS user_nick
-	    FROM boardTB b
-	    WHERE board_cate = 4
-	    ORDER BY board_no DESC
-	  ) subquery
-	  WHERE rnum BETWEEN #{startNo} AND #{endNo}
-	</select>
-		
-		<!-- user + board -->
-		<select id="selectUserNick" resultType="Map" parameterType="web.util.Paging">
-	    SELECT * FROM (
-	        SELECT 
-	            ROWNUM AS rnum,
-	            user_nick
-	        FROM (
-	            SELECT 
-	                board_no, title, location, post_date, hit, content, delete_status, user_id, board_cate, 
-	                (SELECT user_nick FROM userTB WHERE user_id = boardtb.user_id) AS user_nick
-	            FROM boardTB
-	            WHERE board_cate = 4
-	            ORDER BY board_no DESC
-	        )
-	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
-	</select>
-		
-
-	<!-- 2. 게시판 상세 조회 -->
-	<!-- 2-1. 조회수 -->
-	<update id="updateHit" parameterType="Board">
-		UPDATE boardtb
-		<set>
-			hit = hit + 1,
-		</set>
-		<where>
-			AND board_no = #{boardNo}
-		</where>
-	</update>
-	
-<!-- 	 /group/view 게시글 상세 조회 -->
-<!--    2-2. 게시글 및 유저 정보 가져오기(댓글 x) -->
-   <select id="selectBoardView" resultType="Map" parameterType="Map">
-      SELECT 
-          B.board_no, B.title, B.location, B.post_date, B.hit, B.content, B.delete_status, B.user_id, U.user_nick, U.profile, G.recruit_status
-      FROM (   <include refid="selectBoard" /> ) B
-      FULL OUTER JOIN ( <include refid="selectUser" />) U ON B.user_id = U.user_id
-      FULL OUTER JOIN (<include refid="selectGroup" />) G ON B.board_no = G.board_no
-      WHERE B.board_no = #{boardNo} AND B.board_cate = 4
-   </select>
-	
-	<select id="selectByContent" resultMap="contentView">
-		SELECT content
-		FROM boardtb
-		WHERE board_no = #{boardNo}
-		AND board_cate = 4
-	</select>
-	
-	<resultMap type="Map" id="contentView">
-		<id property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
+ 
+  <mapper namespace="web.dao.face.GroupDao">
+	<resultMap type="Map" id="Map">
+		<result property="content" column="content" javaType="java.lang.String" jdbcType="CLOB"/>
 	</resultMap>
-	
-	<select id="selectByRecruit" resultType="Map" parameterType="Map">
-		select recruit_status
-		FROM grouptb
+
+  	<select id="selectGroupAll" parameterType="web.util.Paging" resultType="Map">
+      	SELECT * FROM (
+	  	SELECT ROWNUM rnum, B.* FROM (
+			SELECT board_no
+			, title
+			, location
+			, CAST(post_date AS DATE) AS post_date
+			, hit 
+			, content
+			, delete_status
+			, board_cate
+			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
+			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
+			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 4) AS "RECOM"
+            , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
+			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
+			, (SELECT recruit_status FROM grouptb WHERE board_no = boardtb.board_no) AS "RECRUIT_STATUS"
+			, user_id
+			FROM boardtb
+			WHERE board_cate = 4
+			AND delete_status = 0
+			ORDER BY board_no DESC
+	    ) B
+	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+
+  	</select>
+  
+  	<select id="selectCntAll">
+  		SELECT count(*) FROM boardtb
+  	</select>
+  
+  	<select id="selectBoardView" resultType="board" parameterType="board">
+	SELECT
+	    board_no,
+	    title,
+	    location,
+		CAST(post_date AS DATE) AS post_date,
+	    hit,
+	    content,
+	    delete_status,
+	    board_cate,
+	    user_id,
+	    (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND user_id = #{userId} AND board_cate = 4) AS "RECOM"
+	    
+	FROM boardtb
+	WHERE board_no = #{boardNo }
+  	</select>
+  	
+  	<select id="selectByUserNick" resultType="user" parameterType="user">
+  	SELECT user_nick
+  	FROM usertb
+  	WHERE user_id = #{userId }
+  	</select>
+  	
+  	<select id="selectSatus" resultType="group" parameterType="group">
+  		SELECT recruit_status
+  		FROM grouptb
+  		WHERE board_no = #{boardNo}
+  	</select>
+  	
+  	<update id="hit" parameterType="board">
+  		UPDATE boardtb
+  		SET hit = hit+1
+  		WHERE board_no = #{boardNo}
+  	</update>
+
+	<select id="selectGetFileByBoardNo" resultType="boardfile" parameterType="boardfile">
+		SELECT file_no, origin_name, stored_name, board_no, board_cate
+		FROM boardfiletb
 		WHERE board_no = #{boardNo}
 	</select>
 	
+  	<insert id="insertGroupWrite" parameterType="board">
+		<selectKey order="BEFORE"  resultType="int" keyProperty="boardNo">
+			SELECT board_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO boardtb (board_no, title,content, user_id, board_cate, location)
+  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
+  	</insert>
 
-	<insert id="insert" parameterType="Board">
-	    <!-- boardtb 테이블에 데이터 삽입 -->
-	    <selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
-	        SELECT board_seq.nextval FROM dual
-	    </selectKey>
-	    INSERT INTO boardtb (board_no, title, location, user_id, content, board_cate)
-	    VALUES (#{boardNo}, #{title}, #{location}, #{userId}, #{content}, 4)
-	</insert>
+	<insert id="insertGroupFile" parameterType="boardfile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT file_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO boardfiletb ( file_no, origin_name, stored_name , board_no, board_cate)
+		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
+	</insert>  
+  
+  	<insert id="insertGroupStatus" parameterType="group">
+  		INSERT INTO grouptb (board_no, recruit_status)
+  		VALUES (#{boardNo}, #{recruitStatus})
+  	</insert>
+  
+  	<select id="selectGroupFileByBoardNo" resultType="boardfile" parameterType="board">
+  		SELECT file_no, origin_name, stored_name, board_no, board_cate
+  		FROM boardfiletb
+  		WHERE board_no = #{boardNo }
+  	</select>
+  
+  	<update id="updateProc" parameterType="board">
+  		UPDATE boardtb
+  		SET title = #{title }
+  			, content = #{content }
+		WHERE board_no = #{boardNo } 
+  	</update>
+  
+<!--   	<delete id="deleteFiles" parameterType="int[]"> -->
+<!--   		DELETE boardfiletb -->
+<!--   		WHERE file_no IN -->
+<!-- 			<foreach collection="array" item="no" open="(" close=")" separator=","> -->
+<!-- 				#{no } -->
+<!-- 			</foreach> -->
+<!--   	</delete> -->
+  	
+<!--   	<delete id="deleteFileByBoardNo" parameterType="boardfile"> -->
+<!--  		DELETE boardfiletb -->
+<!--  		WHERE board_no = #{boardNo} 	 -->
+<!--   	</delete> -->
 
-	<insert id="insertGroup" parameterType="Group">
-	INSERT INTO grouptb (board_no, recruit_status)
-	VALUES (#{boardNo}, #{recruitStatus})
-	</insert>
-
-	<update id="update" parameterType="Board">
-			UPDATE boardtb
-		<set>
-			, title = #{title }
-			, content = #{content }
-		</set>
-		<where>
-			board_no = #{boardNo }
-		</where>
-	</update>
-
-
-
-
-
-</mapper>
-
+  	<update id="deleteByBoardNo" parameterType="board">
+ 		UPDATE boardtb
+ 		SET delete_status = 1
+ 		WHERE board_no = #{boardNo} 	
+  	</update>
+  	
+  </mapper>

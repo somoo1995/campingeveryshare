@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Market;
 import web.dto.Recom;
 import web.dto.User;
 import web.util.Paging;
@@ -59,8 +60,9 @@ public interface MarketService {
 	 * 
 	 * @param board - 입력된 글
 	 * @param file - 업로드한 파일
+	 * @param market - 입력한 금액
 	 */
-	public void marketWrite(Board board, List<MultipartFile> file);
+	public void marketWrite(Board board, List<MultipartFile> file, Market market);
 	
 	/**
 	 * 등록된 게시글 상세보기
@@ -94,9 +96,8 @@ public interface MarketService {
 	 * 게시글 삭제
 	 * 
 	 * @param board - 삭제할 게시글 번호
-	 * @param boardFile - 삭제할 파일 번호
 	 */
-	public void delete(Board board, BoardFile boardFile);
+	public void delete(Board board);
 
 	/**
 	 * 댓글 리스트 조회
@@ -153,6 +154,14 @@ public interface MarketService {
 	 * @return - 총 추천 수
 	 */
 	public int getTotalCntRecom(Recom recom);
+	
+	/**
+	 * 금액 가져오자
+	 * 
+	 * @param market - board_no를 가져가서 가져오자
+	 * @return - 가져온 금액이다
+	 */
+	public Market getPrice(Market market);
 	
 	
 	

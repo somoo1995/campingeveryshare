@@ -144,7 +144,7 @@ function deleteComment(commNo) {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 
-<h3 id="pageTitle">게시글 조회</h3>
+<h3 id="pageTitle">중고 게시글 조회</h3>
 <table class="table table-bordered">
 <colgroup>
 	<col style="width: 15%">
@@ -153,7 +153,9 @@ function deleteComment(commNo) {
 	<col style="width: 35%">
 </colgroup>
 	<tr>
-		<th class="table-info">글 번호</th><td >${board.boardNo }</td>
+	    <c:set var="formattedPrice" value="${market.price}" />
+		<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />	
+		<th class="table-info">가 격</th><td >${price }원</td>
 		<th class="table-info">작성일</th>
 		<td>
 			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>

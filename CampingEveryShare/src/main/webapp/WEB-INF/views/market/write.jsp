@@ -26,36 +26,94 @@ $(() => {
 	})
 })
 </script>
+<style type="text/css">
+.marketselect {
+	text-align: center;
+    align-items: center; /* 수직 가운데 정렬 */
+   	margin: 15px auto 15px auto;
+   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
+ 	justify-content: space-between; /* 요소 간에 공간을 균등하게 배치 */
+   	
+}
+
+.price{
+    text-align: center;
+    width: 55px;
+    border: none;
+    font-weight: bold;
+   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
+
+}
+.location{
+    text-align: center;
+    width: 55px;
+    border: none;
+    font-weight: bold;
+}
+
+label{
+	margin : 5px;
+}
+
+select {
+	width: 100px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.selectmoney{
+	text-align: center;
+}
+</style>
 
 <div class="container">
 
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">캠핑존 공유 글 작성</h3>
+<h3 id="pageTitle">중고장터 글 작성</h3>
 <hr>
-
 
 <div>
 
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
 
+<div class="marketselect">
 
-<select name="boardCate" id="boardCate">
-     <option value="1">대여</option>
-     <option value="2">캠핑존공유</option>
-     <option value="3">모집</option>
-     <option value="4">중고장터</option>
-     <option value="5">공지사항</option>
-     <option value="6">고객문의</option>
- </select>
-
+<div class="price">
+<input type="text" style="font-size: 15px; font-weight: bold;" class="price"  readonly="readonly" value="금 액">
+<input type="number" placeholder="금액을 입력해 주세요." name="price" id="price" max="999999999"/> 원
+</div>
+|
+<div class="locationselect">
+<input type="text" class="location" readonly="readonly" value="위 치">
+|
 <select name="location" id="location">
+     <option>선택</option>
+     <option value="10">강원</option>
+     <option value="9">경기</option>
+     <option value="16">경남</option>
+     <option value="15">경북</option>
+     <option value="5">광주</option>
+     <option value="6">대구</option>
+     <option value="3">대전</option>
+     <option value="4">부산</option>
      <option value="1">서울</option>
+     <option value="8">세종</option>
+     <option value="7">울산</option>
      <option value="2">인천</option>
+     <option value="14">전남</option>
+     <option value="13">전북</option>
+     <option value="17">제주</option>
+     <option value="12">충남</option>
+     <option value="11">충북</option>
  </select>
+</div> 
+</div>
+
  
 <input type="hidden" name="loginId" value="${loginId }" >
+<input type="hidden" name="boardCate" value="3" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
 	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">

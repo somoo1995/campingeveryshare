@@ -61,6 +61,14 @@ public interface CommDao {
 	 * @return 
 	 */
 	public int insertCommByMarket(Comm comm);
+	
+	/**
+	 * 모집게시판 내에 댓글달기
+	 * 
+	 * @param comm - 입력한 댓글
+	 * @return 
+	 */
+	public int insertCommByGroup(Comm comm);
 
 	
 

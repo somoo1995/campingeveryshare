@@ -21,6 +21,7 @@ import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Recom;
+import web.dto.Share;
 import web.dto.User;
 import web.service.face.ShareService;
 import web.util.Paging;
@@ -50,22 +51,31 @@ public class ShareController {
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		
-		logger.info("board : {}", board);
+//		logger.info("board : {}", board);
 		logger.info("list : {}", list);
-		logger.info("paging {} :" + paging.toString());
-		logger.info("model {} :" + model.toString());
+//		logger.info("paging {} :" + paging.toString());
+//		logger.info("model {} :" + model.toString());
+		
 	}
 	
 	@GetMapping("view")
-	public String shareView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session) {
-	
+	public String shareView( Board board, BoardFile file, User user, Comm comm,  Model model, HttpSession session, Share share) {
+		share = shareService.getPaid(share);
+
 		board = shareService.shareView(board);
+		
 		user.setUserId(board.getUserId());
+		
 		user = shareService.getNick(user);
-		logger.info("board : {}" + board.toString());
 		
 		List<BoardFile> boardFile = shareService.fileView(board);
+		
 		model.addAttribute("boardFile", boardFile);
+		model.addAttribute("share", share);
+		
+		logger.info("board : {}" + board.toString());
+		logger.info("model : {}" + model.toString());
+		logger.info("share : {}" + share);
 		logger.info("boarFile : {}", boardFile);
 		
 		
@@ -111,16 +121,17 @@ public class ShareController {
 			User user
 			, Board board
 			, List<MultipartFile> file
-			, HttpSession session) {
+			, HttpSession session
+			, Share share) {
 		logger.info("user : {} " + user);
 		logger.info("board : {} " + board);
-
+		logger.info("share : {} " + share);
+		
 		board.setUserId((String) session.getAttribute("loginId"));
 		logger.info("sessionId : {}" + session.getAttribute("loginNick").toString());
 		user.setUserNick((String) session.getAttribute("loginNick"));
-		logger.info("board : {} " + board);
 		
-		shareService.shareWrite(board, file);
+		shareService.shareWrite(board, file, share);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -171,7 +182,8 @@ public class ShareController {
 			return "redirect:./list";
 		}
 
-		shareService.delete(board, boardFile);
+//		shareService.delete(board, boardFile);
+		shareService.delete(board);
 		
 		return "redirect:./list";
 	}
