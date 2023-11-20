@@ -39,7 +39,7 @@ h1 {
 
 <div class="container">
 
-<h1>이용약관</h1>
+<h1>이용약관</h1> 
 <h6 style="color: #A4A4A4">이용약관입니다.</h6>
 <hr>
 <div class="article">

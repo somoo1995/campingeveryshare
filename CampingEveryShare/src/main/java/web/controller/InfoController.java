@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class InfoController {
 
-	@GetMapping("/userinfo")
+	@GetMapping("/userinfo") 
 	public void userInfo() {}
 	
 	@GetMapping("/usage")

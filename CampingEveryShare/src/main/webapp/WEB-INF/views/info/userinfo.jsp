@@ -37,7 +37,7 @@ h1 {
 }
 
 .span {
-font-weight: bold;
+font-weight: bold; 
 color: #8aad00;
 }
 
