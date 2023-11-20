@@ -35,14 +35,15 @@ $(function(){
 
 <!-- css 시작 -->
 <style type="text/css">
+
+/* 이미지 크기*/
 .image {
-width: 500px;
-height: 500px;
+	width: 1300px;
+	height: 800px;
+    max-width: 100%; /* 이미지가 부모 요소를 벗어나지 않도록 설정 */
+    height: auto;    /* 가로 세로 비율 유지 */
 }
-/* .slick-prev { */
-/* 	left: 25px; */
-/* } */
-/* 이전/이후 버튼*/
+
 .slick-prev {
 	left: 25px;
 	z-index: 1;
@@ -74,18 +75,32 @@ height: 500px;
 	opacity: 0.5; 
 	color: #E0E0E0;
 }
+
+.container {
+	background-color: skyblue;
+	margin-left: 0px;
+	margin-right: 0px;
+	
+}
+
+#slider-div {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 1300px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+}
+
 </style>
 <!-- css 끝 -->
 
-<div class="container">
+<div class="container" style="width: 1300px; padding: 0px;">
 
-	<div style="padding: 0px 50px;">
+	<div style="width: 1300px; padding: 0px;">
 		<div id="slider-div">
-		<div class="image"><img alt="camp1" src="/resources/img/camp1.jpg"></div>
-		<div class="image"><img alt="camp2" src="/resources/img/camp2.jpg"></div>
-		<div class="image"><img alt="camp3" src="/resources/img/camp3.jpg"></div>
-		<div class="image"><img alt="camp4" src="/resources/img/camp4.jpg"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/camp5.jpg"></div>
+		<div class="image"><img alt="camp1" src="/resources/img/camp.png"></div>
+		<div class="image"><img alt="camp2" src="/resources/img/camp.png"></div>
+		<div class="image"><img alt="camp3" src="/resources/img/camp.png"></div>
+		<div class="image"><img alt="camp4" src="/resources/img/camp.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/camp.png"></div>
 	</div><!-- slider-div -->
 	</div><!-- .slick -->
 
