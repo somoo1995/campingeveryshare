@@ -39,7 +39,7 @@ $(function(){
 /* 이미지 크기*/
 .image {
 	width: 1300px;
-	height: 800px;
+	height: 300px;
     max-width: 100%; /* 이미지가 부모 요소를 벗어나지 않도록 설정 */
     height: auto;    /* 가로 세로 비율 유지 */
 }
@@ -89,6 +89,22 @@ $(function(){
     margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
 }
 
+.car {
+background-color: pink;
+}
+
+.zone {
+	background-color: green;
+}
+
+.market {
+	background-color: yellow;
+}
+
+.recruit {
+	background-color: gray;
+}
+
 </style>
 <!-- css 끝 -->
 
@@ -96,26 +112,27 @@ $(function(){
 
 	<div style="width: 1300px; padding: 0px;">
 		<div id="slider-div">
-		<div class="image"><img alt="camp1" src="/resources/img/camp.png"></div>
-		<div class="image"><img alt="camp2" src="/resources/img/camp.png"></div>
-		<div class="image"><img alt="camp3" src="/resources/img/camp.png"></div>
-		<div class="image"><img alt="camp4" src="/resources/img/camp.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/camp.png"></div>
+		<div class="image"><img alt="camp1" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp2" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp3" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp4" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/300.png"></div>
 	</div><!-- slider-div -->
 	</div><!-- .slick -->
 
-	<div>
+	<div class="car">
 	<h1>1. 새로 등록된 캠핑카들을 만나보세요.</h1>
+	</div>
 
-	<div>
+	<div class="zone">
 	<h1>2. 이 달의 캠핑존</h1>
 	</div>
 
-	<div>
+	<div class="market">
 	<h1>3. 중고 장터</h1>
 	</div>
 
-	<div>
+	<div class="recruit">
 	<h1>4. 우리 모임 자랑</h1>
 	</div>	
 
