@@ -205,7 +205,7 @@ $(function() {
     </div>
     
     
-	<a href="/"><img alt="header" class="header-img" src="/resources/img/header_text.png" width="1300" height="300"></a>
+	<a href="/"><img alt="header" class="header-img" src="/resources/img/header_green.png" width="1300" height="250"></a>
 	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
 </div>
 
@@ -294,7 +294,7 @@ $(function() {
 		</div>
 		
 		<div class="mt-5">
-		<span>관리자 페이지로</span>
+		<span onclick="location.href='/admin/login'">관리자 페이지로</span>
 		</div>
 		
 
