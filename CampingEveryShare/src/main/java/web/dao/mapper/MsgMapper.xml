@@ -88,4 +88,12 @@ SET msg_status = 1
 WHERE receiver_id = #{userId}
 AND room_no = #{roomNo}
 </update>
+
+<insert id="makeNewRoom" parameterType="Msg" keyProperty="roomNo">
+<selectKey keyProperty="roomNo" resultType="int" order="BEFORE">
+    SELECT room_seq.nextval FROM dual
+  </selectKey>
+INSERT INTO roomTB(room_no,room_id1,room_id2)
+VALUES(#{roomNo},#{writerId},#{receiverId})
+</insert>
   </mapper>

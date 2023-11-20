@@ -19,6 +19,8 @@ public interface MsgService {
 	public Msg getMessage(Msg msg);
 	
 	public void updateStatus(Map<String,Object> map);
+
+	public Msg getNewRoom(Msg msg);
 	
 	
 

@@ -3,6 +3,7 @@ package web.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import web.dto.Msg;
 import web.dto.User;
 import web.service.face.MsgService;
@@ -29,15 +33,29 @@ public class MsgController {
 	@Autowired MsgService msgService;
 	
 	@GetMapping("/list")
-	public void Msg(HttpSession session, Model model) {
+	public String Msg(HttpSession session, Model model,
+			@RequestParam(value = "boardNo", required = false, defaultValue = "0") int boardNo,
+			@RequestParam(value = "boardCate", required = false, defaultValue = "0") int boardCate,
+			@RequestParam(value = "receiverId", required = false,defaultValue = "anonymous") String receiverId) throws JsonProcessingException {
 		User user = new User();
 		user.setUserId(session.getAttribute("loginId").toString());
 //		logger.info(session.getAttribute("loginId").toString());
 		List<Map<String,Object>> list  = new ArrayList<Map<String,Object>>();
 		list = msgService.getmsglist(user);
 		logger.info(list.toString());
+		Map<String,Object> map = new HashMap<String, Object>();
+		if(boardNo != 0) {
+			map.put("newBoardNo", boardNo);
+			map.put("newReceiverId", receiverId);
+			map.put("newBoardCate",boardCate);
+			ObjectMapper objectMapper = new ObjectMapper();
+			String newMakingJson = objectMapper.writeValueAsString(map);
+			model.addAttribute("newMaking",newMakingJson);
+		}
 		
 		model.addAttribute("list",list);
+		
+		return "/message/list";
 		
 		
 		
