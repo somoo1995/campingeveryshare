@@ -76,6 +76,20 @@ public interface UserDao {
 	 * @param updateUser
 	 */
 	public void updateUser(User updateUser);
-
+	/**
+	 * 비밀번호 찾기를 통한 비밀번호 재설정
+	 * 
+	 * @param userId
+	 * @param userPw
+	 * @return
+	 */
+	public boolean updatePw(User pwupdate);
+	
+	/**
+	 * 회원 상태 1로 변경
+	 * 
+	 * @param user
+	 */
+	public void deleteInfo(User user);
 }
 

@@ -30,10 +30,7 @@ pageEncoding="UTF-8"%>
 	                console.log(successMessage);
 	                displayBlock.text(successMessage);
 	                
-	            } else {
-	                console.log(failureMessage);
-	                displayBlock.text(failureMessage);
-	            }
+	            } 
 	        }
 	    });
 	}
@@ -45,7 +42,6 @@ pageEncoding="UTF-8"%>
 	        "/user/idCheck/",
 	        "idDupleBlock",
 	        "아이디를 입력해 주세요.",
-	        "아이디를 찾을 수 없습니다 회원가입을 진행해주세요",
 	        ""
 	    );
 	}
@@ -57,7 +53,6 @@ pageEncoding="UTF-8"%>
 	        "/user/emailCheck/",
 	        "emailDupleBlock",
 	        "이메일을 입력해 주세요.",
-	        "이메일을 찾을 수 없습니다 회원가입을 진행해주세요",
 	        ""
 	    );
 	}
@@ -77,61 +72,128 @@ pageEncoding="UTF-8"%>
 	    }
 	}
 	
-	$(function() {
-		$("#userId").focus();	
-	})
-	
-	$(document).ready(function () {
-	    $("#pwfind").on("click", function (event) {
-	        event.preventDefault(); // 기본 동작 방지
+	function pwFind() {
+        var userId = $("#userId").val();
+        var userName = $("#userName").val();
+        var email = $("#email").val();
 
-	        // 이메일과 이름 입력값 가져오기
-	        var userId = $("#userId").val();
-	        var userName = $("#userName").val();
-	        var email = $("#email").val();
+        if (email.trim() === '' || userName.trim() === ''|| userId.trim() === '') {
+            $("#pwfail").show();
+            return; // 입력값이 비어 있으면 더 이상 진행하지 않음
+        }else {
+            $("#pwfail").hide();
+		}
+        
+        // 서버에 아이디 찾기 요청 보내기
+        $.ajax({
+            type: "post",
+            url: "/user/pwfind",
+            data: { "email": email, "userName": userName, "userId": userId },
+            dataType: "text",
+            success: function (response) {
+                // 이전에 추가된 결과 삭제
+                $("#pwfindResult").empty();
+                $("#pwReset").hide();
 
-	        // 간단한 유효성 검사
-	        if (email.trim() === '' || userName.trim() === ''|| userId.trim() === '') {
-	            return; // 입력값이 비어 있으면 더 이상 진행하지 않음
-	        }
 
+                if (response === "success") {
+                    // 이메일과 이름 입력창 숨기기
+                    $("#pwfind_userId").hide();
+                    $("#pwfind_userName").hide();
+                    $("#pwfind_email").hide();
+                    $("#pwfind_button").hide();
 
-	        // 서버에 아이디 찾기 요청 보내기
-	        $.ajax({
-	            type: "post",
-	            url: "./pwfind",
-	            data: { "email": email, "userName": userName, "userId": userId },
-	            dataType: "text",
-	            success: function (response) {
-	            	// 이전에 추가된 결과 삭제
-	                $("#pwfindResult").empty();
+                    // 비밀번호 변경페이지로 이동
 	                $("#pwReset").show();
-	            	
-	                // 응답이 비어 있지 않으면
-	                if (response.trim() !== "") {
-	                    // 이메일과 이름 입력창 숨기기
-	                    $("#pwfind_userId").hide();
-	                    $("#pwfind_userName").hide();
-	                    $("#pwfind_email").hide();
-	                    $("#pwfind_button").hide();
 
-	                    // 비밀번호 변경페이지로 이동
-	                    var resultHtml = "<h3>비밀번호를 재설정 해주세요</h3>";
-	                    $("#pwReset").after(resultHtml);
+                    console.log("비밀번호 재설정 하세요")
+                } else if (response === "fail") {
+                	alert("아이디를 찾을 수 없습니다. 다시 시도해주세요.");
+                	console.log("id틀렸대")
+					
+				} 
+                else {
+                    // 응답이 비어 있으면 사용자에게 알림 
+                    alert("서버에서 알 수 없는 응답이 왔습니다.");
 
-	                    // 결과 부분을 보여줌
-// 	                    $("#pwReset").show();
-	                    console.log("비밀번호:" + response);
-	                } else {
-	                    // 응답이 비어 있으면 사용자에게 알림
-	                    alert("아이디를 찾을 수 없습니다. 다시 시도해주세요.");
-	                }
-	            },
-	        });
-	    });
-	});
+                }
+            },
+
+        });
+
+	}
+
+	function updatePassword () {
+
+		console.log("updatePass");
+		//         event.preventDefault();
+
+        // 새 비밀번호와 비밀번호 확인 값을 가져옵니다.
+		var userId = $("#userId").val();
+        var newPassword = $("#userPw").val();
+        var confirmPassword = $("#userPwConfirm").val();
+
+        // 간단한 유효성 검사
+        if (!newPassword || !confirmPassword || newPassword !== confirmPassword) {
+            return;
+        }
+
+		console.log("updatePass2222");
+
+        // 서버에 비밀번호 업데이트 요청을 보냅니다.
+        $.ajax({
+            type: "post",
+            url: "./pwReset", // 실제 서버 업데이트 처리 URL로 변경해야 합니다.
+            data: { "userId": userId, "userPw": newPassword },
+            dataType: "text",
+            success: function (response) {
+            	console.log("서버 응답:",response);
+
+                if (response === "success") {
+                    alert("비밀번호가 성공적으로 업데이트되었습니다.");
+                    window.location.href = "/user/login";
+
+                } else {
+                    alert("비밀번호 업데이트에 실패했습니다.");
+                }
+            },
+            error: function () {
+                alert("서버 요청 중 오류가 발생했습니다.");
+            }
+        });
+        
+		console.log("updatePass3333");
+		
+	}
 	
-	
+	function passwordCheck() {
+        var userPw = $("#userPw").val();
+        var userPwConfirm = $("#userPwConfirm").val();
+        var pwDupleBlock = $("#pwDupleBlock");
+
+        pwDupleBlock.show();
+
+        // 비밀번호가 입력되지 않았을 경우
+        if (!userPw || !userPwConfirm) {
+            console.log("비밀번호를 입력하세요.");
+            pwDupleBlock.text("비밀번호를 입력하세요.");
+            // TODO: ptag 표시
+            return;
+        }
+
+        // 비밀번호가 서로 다를 경우
+        if (userPw !== userPwConfirm) {
+            console.log("동일한 비밀번호가 아님");
+            pwDupleBlock.text("동일한 비밀번호가 아님");
+            // TODO: ptag 표시
+            return;
+        }
+        console.log("동일한 비밀번호입니다.");
+        pwDupleBlock.text("");
+
+    }
+
+
 </script>
 
 <div class="container">
@@ -142,7 +204,6 @@ pageEncoding="UTF-8"%>
 	</div>
 
 <div class="col-6 mx-auto my-5">
-<form id="pwfind" action="./pwfind" method="post" name="pwfind">
 
 <div class="col-md-6 input-group has-validation" id="pwfind_userId">
 	<span class="border border-success-subtle input-group-text" id="basic-addon1">
@@ -189,9 +250,28 @@ pageEncoding="UTF-8"%>
 		<p id="emailDupleText"></p>
 	</div>
 </div>
+
+	<div id="pwfail" style="display: none;">
+		<h5 style="color: red;">모든 정보를 입력해주세요</h5>
+	</div>
+	
+	
+	
+	<div class="row mb-3 justify-content-center">
+		<button class="btn btn-outline-success" onclick="pwFind()" id="pwfind_button">비밀번호 찾기</button>
+	</div>	
+	<div>
+	
+	<a class="btn btn-outline-success" href="./login">로그인 하러 가기</a>	
+	<a class="btn btn-outline-success" href="/">메인 페이지로</a>	
+	</div>
+
+</div>
+
 	
 	<div id="pwReset" style="display:none">
-	<div class="input-group has-validation">
+		<h3>비밀번호를 재설정 해주세요</h3>
+	<div class="input-group has-validation" >
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
 	  	<path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
@@ -207,7 +287,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 	
-	<div class="input-group has-validation">
+	<div class="input-group has-validation" id="updatePw_userPwConfirm">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
 	  	<path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
@@ -215,26 +295,19 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required >
+		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
 		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
 		</div>
-	</div>
+		<div>
+			<button onclick="updatePassword()" id="updatePw">비밀번호 수정하기</button>
+		</div>
 	</div>
 	
-	
-	<div class="row mb-3 justify-content-center" id="pwfind_button">
-		<button class="btn btn-outline-success" id="pwfind">비밀번호 찾기</button>
-	</div>	
-	<div>
-	<a class="btn btn-outline-success" href="./login">로그인 하러 가기</a>	
-	<a class="btn btn-outline-success" href="/">메인 페이지로</a>	
 	</div>
-
-</form>
-</div>
+	
 
 </div><!-- .container -->
 
