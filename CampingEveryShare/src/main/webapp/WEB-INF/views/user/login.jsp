@@ -119,7 +119,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <div class="row g-3 align-items-center">
-<form action="./login" id="loginForm" method="post">
+<!-- <form action="./login" id="loginForm" method="post"> -->
 
 	
 <div class="input-group has-validation">
@@ -176,7 +176,7 @@ pageEncoding="UTF-8"%>
 		<a>또는</a>
 	<hr>
 	</div>	
-</form>
+<!-- </form> -->
 	
 
 	<div>

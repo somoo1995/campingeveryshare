@@ -73,9 +73,14 @@ pageEncoding="UTF-8"%>
 
 
 	$(document).ready(function () {
-	    $("#idfind").on("click", function (event) {
+	    $("#idfind_button").on("click", function (event) {
+	    	//중복 클릭 방지
+	    	if($(this).prop("disabled")){
+	    		return;
+	    	}
+	    	
 	        event.preventDefault(); // 기본 동작 방지
-
+	        $(this).prop("disabled", true); // 버튼 비활성화
 	        // 이메일과 이름 입력값 가져오기
 	        var email = $("#email").val();
 	        var userName = $("#userName").val();
@@ -93,6 +98,7 @@ pageEncoding="UTF-8"%>
 	            dataType: "text",
 	            success: function (response) {
 	            	// 이전에 추가된 결과 삭제
+	                $("#idfindResult").empty();
 	            	
 	                // 응답이 비어 있지 않으면
 	                if (response.trim() !== "") {
@@ -103,7 +109,6 @@ pageEncoding="UTF-8"%>
 
 	                    // 찾은 아이디를 보여주기
 	                    var resultHtml = "<h3>아이디는 " + response + "입니다</h3>";
-		                $("#idfindResult").empty();
 	                    $("#idfindResult").after(resultHtml);
 
 	                    // 결과 부분을 보여줌
@@ -128,7 +133,7 @@ pageEncoding="UTF-8"%>
 	<hr>	
 	</div>
 <div class="idfind-form col-6 mx-auto my-5">
-<form id="idfind" action="./idfind" method="POST" name="idfind">
+<!-- <form id="idfind" action="./idfind" method="POST" name="idfind"> -->
 
 
 	<div class="input-group has-validation" id="idfind_email">
@@ -176,7 +181,7 @@ pageEncoding="UTF-8"%>
 	<div>
 	<a id="pwfind">비밀번호를 분실 하셨나요? <a class="btn btn-outline-success" href="./pwfind">비밀번호 찾기</a> </a>	
 	</div>
-</form>
+<!-- </form> -->
 </div>
 
 </div><!-- .container -->

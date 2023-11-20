@@ -191,7 +191,7 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" value="${login.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
+		    <input  class="border border-success-subtle form-control" type="password" id="userPw" name="userPw" value="${updateUser.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
 		    <label for="userPw" class="col-form-label"> 비밀번호*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
@@ -207,7 +207,7 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" value="${login.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required >
+		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" value="${updateUser.userPw }" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required >
 		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
