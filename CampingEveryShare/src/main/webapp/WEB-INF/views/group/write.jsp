@@ -1,78 +1,11 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<c:import url="/WEB-INF/views/layout/header.jsp" />
-
-<style type="text/css">
-h1 {
-font-weight: bold;
-}
-
-hr {
-clear: both; /* 이전 요소들과 무관하게 이어지는 요소를 지정 */
-
-}
-
-.view {
-	width: 100%;
-	border: solid;
-	border-radius: 5px;
- 	border-style: hidden;
-	box-shadow: 0 0 0 1px #C7C8C9;
-}
-
-.content {
-	width: 100%;
-	border: solid;
-	border-radius: 5px;
- 	border-style: hidden;
-	box-shadow: 0 0 0 1px #C7C8C9;
-}
-
-.btn {
-     background-color: #2ECC71; 
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    float: right;
-}
-
-.btn:hover {
-    background-color: #04883C; /* 마우스 호버 시 배경 색상 변경 */
-    color: white;
-}
-
-.btn:active {
-    background-color: #2ECC71; /* 버튼을 클릭할 때 배경 색상 변경 */
-    color: white;
-}
-
-.buttons .btn {
-	margin-top: 10px;
-	margin-right: 10px;
-}
-
-.article {
-	padding: 30px;
-	border: solid;
-	border-radius: 5px;
- 	border-style: hidden;
-	box-shadow: 0 0 0 1px #C7C8C9;	
-}
-
-.writer-info {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-}
-
-</style>
+<c:import url="../layout/header.jsp" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
@@ -82,65 +15,133 @@ clear: both; /* 이전 요소들과 무관하게 이어지는 요소를 지정 *
 $(() => {
 	$("#title").focus()
 	
+	$(".del").click(e => {
+		$(e.target).prev().toggleClass("text-decoration-line-through")
+		
+		$(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
+	})
+	
 	$("#content").summernote({
 		height: 300
 	})
 })
-
 </script>
+<style type="text/css">
+.select {
+	text-align: center;
+    align-items: center; /* 수직 가운데 정렬 */
+   	margin: 15px auto 15px auto;
+   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
+}
+
+.recruitStatus{
+    text-align: center;
+    width: 80px;
+    border: none;
+    font-weight: bold;
+}
+.location{
+    text-align: center;
+    width: 55px;
+    border: none;
+    font-weight: bold;
+}
+
+label{
+	margin : 5px;
+}
+
+select {
+	width: 100px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.selectmoney{
+	text-align: center;
+}
+</style>
 
 <div class="container">
-<h1 style="color:#2ECC71">모집 게시글 등록</h1>
-<h6 style="color: #A4A4A4">캠핑 모집 게시글을 작성합니다.</h6>
+
+
+<!-- 작성 공간 -->
+<div class="pageTitle">
+<h3 id="pageTitle">모집 글 작성</h3>
 <hr>
-
-<div class="article">
-<div class="title">
-
-<form action="./write" method="post" enctype="multipart/form-data"><!-- 제출하기 -->
 
 <div>
-<h5>상태 및 위치 |</h5>
-<label class="status">모집 현황</label>
-<select class="status" name="recruitStatus">
-<!-- 처음에 글 올릴 때는 모집 중만 보이도록 하는 것도 괜찮을듯 -->
-	<option value="1" selected="selected">모집 중</option>
-	<option value="2">모집 완료</option>
-</select><br>
 
-<label class="location">지역</label>
-<select class="location" name="location">
-	<option value="1">서울</option>
-	<option value="2">인천</option>
-</select><br>
-</div><!-- 선택 내역 -->
-<hr>
-
-<div><!-- 글제목 -->
-	<input type="text" name="title" class="title" style="width:1100px; height: 50px; margin-bottom: 20px;">
+<form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
+<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 ">
+|
+<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집중</label>
+<label><input type="radio" name="recruitStatus" id="recruitStatus" value="1">모집 완료</label>
 </div>
 
-</div><!-- 작성자 정보 -->
+<div class="locationselect">
+<input type="text" class="location" readonly="readonly" value="위 치">
+|
+<select name="location" id="location">
+     <option>선택</option>
+     <option value="10">강원</option>
+     <option value="9">경기</option>
+     <option value="16">경남</option>
+     <option value="15">경북</option>
+     <option value="5">광주</option>
+     <option value="6">대구</option>
+     <option value="3">대전</option>
+     <option value="4">부산</option>
+     <option value="1">서울</option>
+     <option value="8">세종</option>
+     <option value="7">울산</option>
+     <option value="2">인천</option>
+     <option value="14">전남</option>
+     <option value="13">전북</option>
+     <option value="17">제주</option>
+     <option value="12">충남</option>
+     <option value="11">충북</option>
+ </select>
+</div> 
 
-<div>
-	<textarea name="content" id="content"></textarea>
-</div><!-- 게시글 안 -->
+<hr>
+ 
+<input type="hidden" name="loginId" value="${loginId }" >
+<input type="hidden" name="boardCate" value="4" >
+<div class="form-group mb-3">
+	<label class="form-label">작성자</label>
+	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">
+</div>
 
-					
-</div><!-- 글 제목 + 유저 정보 -->
+<div class="form-group mb-3">
+	<label class="form-label" for="title">제목</label>
+	<input type="text" class="form-control" name="title" id="title">
+</div>
 
-<div class="buttons">
-<!-- alert [작성 중인 내용이 있습니다. 취소하시겠습니까?] -->
-<button class="btn">작성</button>
-<a href="./list"><button class="btn">취소</button></a>
-</div><!-- .buttons -->
+<div class="form-group mb-3">
+	<label class="form-label" for="content">본문</label>
+	<textarea class="form-control" name="content" id="content"></textarea>
+</div>
 
-</div><!-- .content -->
-</div><!-- .article -->
+<div class="form-group mb-3">
+	<label class="form-label" for="file">파일</label>
+	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+</div>
 
+<div class="text-center">
+	<button class="btn btn-primary" id="btnWrite">작성</button>
+	<a href="/share/list"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
+</div>
 
 </form>
+</div>
+
+
+</div>
+
+
+
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/footer.jsp" />
+<c:import url="../layout/footer.jsp" />

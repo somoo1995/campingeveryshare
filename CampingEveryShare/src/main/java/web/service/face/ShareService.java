@@ -9,6 +9,7 @@ import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Recom;
+import web.dto.Share;
 import web.dto.User;
 import web.util.Paging;
 
@@ -59,8 +60,9 @@ public interface ShareService {
 	 * 
 	 * @param board - 입력된 글
 	 * @param file - 업로드한 파일
+	 * @param share 
 	 */
-	public void shareWrite(Board board, List<MultipartFile> file);
+	public void shareWrite(Board board, List<MultipartFile> file, Share share);
 	
 	/**
 	 * 등록된 게시글 상세보기
@@ -94,9 +96,8 @@ public interface ShareService {
 	 * 게시글 삭제
 	 * 
 	 * @param board - 삭제할 게시글 번호
-	 * @param boardFile - 삭제할 파일 번호
 	 */
-	public void delete(Board board, BoardFile boardFile);
+	public void delete(Board board);
 
 	/**
 	 * 댓글 리스트 조회
@@ -153,6 +154,14 @@ public interface ShareService {
 	 * @return - 총 추천 수
 	 */
 	public int getTotalCntRecom(Recom recom);
+	
+	/**
+	 * paid를 가져오자
+	 * 
+	 * @param share - board_no를 가져가자
+	 * @return 
+	 */
+	public Share getPaid(Share share);
 	
 	
 	

@@ -35,10 +35,11 @@
 		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
   	</insert>
   
-  	<delete id="deleteComm" parameterType="comm">
-  		DELETE commTB
+  	<update id="deleteComm" parameterType="comm">
+  		UPDATE INTO commTB
+  		SET delete_status = 1
   		WHERE comm_no = #{commNo}
-  	</delete>
+  	</update>
 
 	<select id="countComm" resultType="int" parameterType="comm">
 		SELECT COUNT(*) FROM commTB
@@ -76,6 +77,9 @@
 		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
   	</insert>
   	
-  	
+	<insert id="insertCommByGroup" parameterType="comm">
+		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
+		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
+  	</insert>
   	
   </mapper>

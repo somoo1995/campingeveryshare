@@ -24,6 +24,7 @@
 			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 2) AS "RECOM"
             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
+			, (SELECT paid FROM sharetb WHERE board_no = boardtb.board_no) AS "PAID"
 			, user_id
 			FROM boardtb
 			WHERE board_cate = 2
@@ -49,6 +50,7 @@
 	    delete_status,
 	    board_cate,
 	    user_id,
+	    (SELECT paid FROM sharetb WHERE board_no = boardtb.board_no) AS "PAID" ,
 	    (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND user_id = #{userId} AND board_cate = 2) AS "RECOM"
 	    
 	FROM boardtb
@@ -56,9 +58,15 @@
   	</select>
   	
   	<select id="selectByUserNick" resultType="user" parameterType="user">
-  	SELECT user_nick
-  	FROM usertb
-  	WHERE user_id = #{userId }
+	  	SELECT user_nick
+	  	FROM usertb
+	  	WHERE user_id = #{userId }
+  	</select>
+  	
+  	<select id="selectPaid" resultType="share" parameterType="share">
+  		SELECT paid
+  		FROM sharetb
+  		WHERE board_no = #{boardNo}	
   	</select>
   	
   	<update id="hit" parameterType="board">
@@ -88,6 +96,12 @@
 		INSERT INTO boardfiletb ( file_no, origin_name, stored_name , board_no, board_cate)
 		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
 	</insert>  
+
+	<insert id="insertSharePaid" parameterType="share">
+		INSERT INTO sharetb (board_no, paid)
+		VALUES (#{boardNo}, #{paid})
+	</insert>
+
   
   	<select id="selectShareFileByBoardNo" resultType="boardfile" parameterType="board">
   		SELECT file_no, origin_name, stored_name, board_no, board_cate
@@ -102,21 +116,22 @@
 		WHERE board_no = #{boardNo } 
   	</update>
   
-  	<delete id="deleteFiles" parameterType="int[]">
-  		DELETE boardfiletb
-  		WHERE file_no IN
-			<foreach collection="array" item="no" open="(" close=")" separator=",">
-				#{no }
-			</foreach>
-  	</delete>
+<!--   	<delete id="deleteFiles" parameterType="int[]"> -->
+<!--   		DELETE boardfiletb -->
+<!--   		WHERE file_no IN -->
+<!-- 			<foreach collection="array" item="no" open="(" close=")" separator=","> -->
+<!-- 				#{no } -->
+<!-- 			</foreach> -->
+<!--   	</delete> -->
   	
-  	<delete id="deleteFileByBoardNo" parameterType="boardfile">
- 		DELETE boardfiletb
- 		WHERE board_no = #{boardNo} 	
-  	</delete>
+<!--   	<delete id="deleteFileByBoardNo" parameterType="boardfile"> -->
+<!--  		DELETE boardfiletb -->
+<!--  		WHERE board_no = #{boardNo} 	 -->
+<!--   	</delete> -->
 
   	<delete id="deleteByBoardNo" parameterType="board">
- 		DELETE boardtb
+ 		UPDATE boardtb
+ 		SET delete_status = 1
  		WHERE board_no = #{boardNo} 	
   	</delete>
   	

@@ -20,6 +20,7 @@ import web.dao.face.ReComDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Market;
 import web.dto.Recom;
 import web.dto.User;
 import web.service.face.MarketService;
@@ -70,20 +71,30 @@ public class MarketServiceImpl implements MarketService {
 	}
 	
 	@Override
+	public Market getPrice(Market market) {
+		
+		Market marketPrice = marketDao.selectPrice(market);
+		
+		return marketPrice;
+	}
+	
+	
+	@Override
 	public List<BoardFile> fileView(Board board) {
 
 		return marketDao.selectGetFileByBoardNo(board);
 	}
 	
 	@Override
-	public void marketWrite(Board board, List<MultipartFile> file) {
+	public void marketWrite(Board board, List<MultipartFile> file, Market market) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle())) {
 			board.setTitle("(제목없음)");
 		}		
 	
 		marketDao.insertMarketWrite(board);
-		
+		market.setBoardNo(board.getBoardNo());
+		marketDao.insertMarketPrice(market);
 		//--------------------------------------------------------------------------------
 		
 		
@@ -185,8 +196,8 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
-	public void delete(Board board, BoardFile boardFile) {
-		marketDao.deleteFileByBoardNo( boardFile );
+	public void delete(Board board) {
+//		marketDao.deleteFileByBoardNo( boardFile );
 		marketDao.deleteByBoardNo( board );	
 	}
 	

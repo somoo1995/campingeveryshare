@@ -6,6 +6,7 @@ import java.util.Map;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Share;
 import web.dto.User;
 import web.util.Paging;
 
@@ -95,12 +96,12 @@ public interface ShareDao {
 	 */
 	public void deleteFiles(int[] delFileNo);
 	
-	/**
-	 * 게시글 삭제
-	 * 파일 먼저 삭제하기
-	 * @param boardFile - 파일 번호를 가져가서 삭제
-	 */
-	public void deleteFileByBoardNo(BoardFile boardFile);
+//	/**
+//	 * 게시글 삭제
+//	 * 파일 먼저 삭제하기
+//	 * @param boardFile - 파일 번호를 가져가서 삭제
+//	 */
+//	public void deleteFileByBoardNo(BoardFile boardFile);
 	
 	/**
 	 * 게시글 삭제
@@ -108,6 +109,19 @@ public interface ShareDao {
 	 * @param board - 게시글 번호를 가져가서 삭제
 	 */
 	public void deleteByBoardNo(Board board);
+	
+	/**
+	 * 캠핑존 공유 유료 무료 판단
+	 * @param share - 2 무료 / 3 유료
+	 */
+	public void insertSharePaid(Share share);
+	
+	/**
+	 * Paid를 가져오자
+	 * @param share - board_no를 가져가자
+	 * @return - 꺼내온 paid를 갖다주자
+	 */
+	public Share selectPaid(Share share);
 
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Market;
 import web.dto.User;
 import web.util.Paging;
 
@@ -95,12 +96,12 @@ public interface MarketDao {
 	 */
 	public void deleteFiles(int[] delFileNo);
 	
-	/**
-	 * 게시글 삭제
-	 * 파일 먼저 삭제하기
-	 * @param boardFile - 파일 번호를 가져가서 삭제
-	 */
-	public void deleteFileByBoardNo(BoardFile boardFile);
+//	/**
+//	 * 게시글 삭제
+//	 * 파일 먼저 삭제하기
+//	 * @param boardFile - 파일 번호를 가져가서 삭제
+//	 */
+//	public void deleteFileByBoardNo(BoardFile boardFile);
 	
 	/**
 	 * 게시글 삭제
@@ -108,6 +109,21 @@ public interface MarketDao {
 	 * @param board - 게시글 번호를 가져가서 삭제
 	 */
 	public void deleteByBoardNo(Board board);
+	
+	/**
+	 * 금액 입력
+	 * 
+	 * @param market - 게시글번호, 금액
+	 */
+	public void insertMarketPrice(Market market);
+	
+	/**
+	 * board_no를 들고 가서 DB에 저장된 금액 들고오기
+	 * 
+	 * @param market - board_no
+	 * @return - 입력되어 있는 금액
+	 */
+	public Market selectPrice(Market market);
 
 	
 	
