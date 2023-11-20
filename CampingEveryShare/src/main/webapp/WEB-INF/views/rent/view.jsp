@@ -5,37 +5,51 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
+
 $(function() {
 	$("#btnCal").click(function() {
 		$(".calendar").show()
 	})
-	
-	$("#datepicker").datepicker('setDate','today')
-	
-	$("#datepicker").datepicker({
-        dateFormat: 'yy-mm-dd' //달력 날짜 형태
-            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-            ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-            ,changeYear: true //option값 년 선택 가능
-            ,changeMonth: true //option값  월 선택 가능                
-            ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-            ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-            ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
-            ,buttonText: "선택" //버튼 호버 텍스트              
-            ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
-            ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-            ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-            ,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
-	})
-	
 })
 
+IMP.init('imp83448842')
+
+function requestPay() {
+	
+	IMP.request_pay({
+		
+		pg: "html5_inicis",		//결제 pg 선택
+		pay_method: "card",	//결제 방식
+
+		merchant_uid: "ord0001",   // 고유 주문 번호
+	      
+		name: "노르웨이 회전 의자",	//주문 상품 이름
+		amount: 64900,				// 금액, 숫자 타입
+	      
+		//주문자 정보
+		buyer_email: "gildong@gmail.com",
+		buyer_name: "홍길동",
+		buyer_tel: "010-4242-4242",
+		buyer_addr: "서울특별시 강남구 신사동",
+		buyer_postcode: "01181"
+	      
+	    }, function (rsp) { // callback
+	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	      
+	      console.log(rsp)
+	      
+	      // 결제 정보를 이용하여 우리가 개발한
+	      //서버로 전송해주어야 한다
+	      //	-> 결제 후 처리
+	      
+	})
+}
 
 </script>
 
@@ -54,7 +68,7 @@ $(function() {
 지역 : ${car.location } ${car.area } ${car.areaDetail } <br>
 크기 : ${car.carSize } <br>
 인원 : ${car.carPax } (침대 : ${car.carSpax }) <br>
- <br>
+<br>
 전기 : ${car.carElec } <br>
 물 : ${car.carWater } <br>
 테이블 : ${car.carTable } <br>
@@ -63,12 +77,12 @@ $(function() {
 온도 : ${car.carTemp } <br>
 샤워 : ${car.carShower } <br>
 화장실 : ${car.carToilet } <br>
- <br>
+<br>
 애완동물 : ${car.carPet } <br>
 흡연 : ${car.carSmoke } <br>
 
 내용 : ${car.content } <br>
- <br>
+<br>
 
 <hr>
 
@@ -79,11 +93,6 @@ $(function() {
 <c:import url="./book.jsp"></c:import>
 </div>
 
-<div class="col-3 mt-3">
-<input type="date" class="form-control">
-</div>
-
-<input type="text" id="datepicker">
 
 <hr>
 
@@ -99,7 +108,7 @@ $(function() {
 <hr>
 
 <button class="btn btn-success">문의하기</button> 
-<button class="btn btn-success">결제하기</button> 
+<button class="btn btn-success" onclick="requestPay()">결제하기</button> 
 
 </div><!-- .container -->
 
