@@ -6,49 +6,164 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
-
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script type="text/javascript">
 
 $(function() {
 	$("#btnCal").click(function() {
 		$(".calendar").show()
+		
 	})
+		
 })
+
+function submitBook() {
+	$form = $("<form>").attr({
+		action: "/rent/book",
+		method: "post"
+	}).append(
+		$("<input>").attr({
+			type: "hidden",
+			name: "carNo",
+			value: "${car.carNo}"
+		})
+	).append(
+		$("<input>").attr({
+			type: "hidden",
+			name: "startDate",
+			value: firstSelectedDate
+		})
+	).append(
+		$("<input>").attr({
+			type: "hidden",
+			name: "endDate",
+			value: secondSelectedDate
+		})
+	).append(
+		$("<input>").attr({
+			type: "hidden",
+			name: "reservPax",
+			value: 2
+		})
+	).append(
+		$("<input>").attr({
+			type: "hidden",
+			name: "addOption",
+			value: 0
+		})
+	)
+	$(document.body).append( $form )
+	$form.submit()
+}
+
+
+function sendNotification() {
+	
+    $.ajax({
+        type: "post"
+        , url: "/alert/sendnotification"
+        , data: {
+        	userId: "${car.userId}",
+        	boardCate: 7,
+        	boardNo: ${car.carNo },
+        	content: 4
+        }
+        , dataType: "json"
+        , success: function(  ) {
+           console.log("send Notification - AJAX 성공")
+
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+     })
+	
+}
+
+function getBookedList() {
+	
+	$.ajax({
+        type: "post"
+        , url: "/rent/view"
+        , data: {
+			carNo: ${car.carNo},
+		}
+        , dataType: "json"
+        , success: function( res ) {
+			console.log("AJAX 성공")
+			buildCalendar()
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+	})
+	
+}
+
+function getGuestInfo(callback) {
+	
+	$.ajax({
+        type: "post"
+        , url: "/rent/user"
+        , data: {
+		}
+        , dataType: "json"
+        , success: function( res ) {
+			console.log("AJAX 성공")
+			callback(res)
+			
+			console.log(res)
+			console.log(res.user.userName)
+			
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+	})
+	
+}
+
+
 
 IMP.init('imp83448842')
 
 function requestPay() {
 	
-	IMP.request_pay({
+	getGuestInfo(function(user) {
 		
-		pg: "html5_inicis",		//결제 pg 선택
-		pay_method: "card",	//결제 방식
-
-		merchant_uid: "ord0001",   // 고유 주문 번호
-	      
-		name: "노르웨이 회전 의자",	//주문 상품 이름
-		amount: 64900,				// 금액, 숫자 타입
-	      
-		//주문자 정보
-		buyer_email: "gildong@gmail.com",
-		buyer_name: "홍길동",
-		buyer_tel: "010-4242-4242",
-		buyer_addr: "서울특별시 강남구 신사동",
-		buyer_postcode: "01181"
-	      
-	    }, function (rsp) { // callback
-	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-	      
-	      console.log(rsp)
-	      
-	      // 결제 정보를 이용하여 우리가 개발한
-	      //서버로 전송해주어야 한다
-	      //	-> 결제 후 처리
-	      
+		IMP.request_pay({
+			
+			pg: "html5_inicis",		//결제 pg 선택
+			pay_method: "card",	//결제 방식
+	
+			merchant_uid: "${car.carNo}" + 252,   // 고유 주문 번호
+		      
+			name: "${car.carName }",	//주문 상품 이름
+			amount: $("#totalPrice").text(),				// 금액, 숫자 타입
+// 			amount: 1000,				// 금액, 숫자 타입
+		      
+			//주문자 정보
+			buyer_email: user.user.email,
+			buyer_name: user.user.userName,
+			buyer_tel: user.user.phone,
+			buyer_addr: user.user.address + user.user.addressDetail,
+	// 		buyer_postcode: "01181"
+		      
+		    }, function (rsp) { // callback
+		      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+		      
+		    console.log(rsp)
+		      
+			sendNotification()
+			submitBook()
+			
+		})
 	})
+	
 }
 
 </script>
@@ -64,6 +179,7 @@ function requestPay() {
 
 게시글 번호 : ${car.carNo } <br>
 차이름 : ${car.carName } <br>
+호스트 : ${car.userId } <br>
 금액 : ${car.price } / 1박 <br>
 지역 : ${car.location } ${car.area } ${car.areaDetail } <br>
 크기 : ${car.carSize } <br>
@@ -88,28 +204,36 @@ function requestPay() {
 
 <!-- <table id="calendar" align="center"> -->
 <button id="btnCal" class="btn btn-outline-success">날짜 선택</button>
-<!-- <div class="calendar" style="display: none;"> -->
-<div class="calendar">
+<div class="calendar" style="display: none;">
+<!-- <div class="calendar"> -->
 <c:import url="./book.jsp"></c:import>
 </div>
 
 
+<!-- <hr> -->
+
+<%-- <c:forEach items="${list }" var="list"> --%>
+<!-- <ul> -->
+<%-- 	<li>대여 게시글 번호 : ${list.rentNo }</li> --%>
+<%-- 	<li>대여 상태 : ${list.rentStatus }</li> --%>
+<%-- 	<li>출발일 : ${list.startDate }</li> --%>
+<%-- 	<li>도착일 : ${list.endDate }</li> --%>
+<!-- </ul> -->
+<%-- </c:forEach> --%>
+
 <hr>
 
-<c:forEach items="${list }" var="list">
-<ul>
-	<li>대여 게시글 번호 : ${list.rentNo }</li>
-	<li>대여 상태 : ${list.rentStatus }</li>
-	<li>출발일 : ${list.startDate }</li>
-	<li>도착일 : ${list.endDate }</li>
-</ul>
-</c:forEach>
-
-<hr>
+출발일 : 
+<!-- <span id="fromDate"></span><br> -->
+<input type="text" id="fromDate" readonly="readonly" style="border: none;"></input><br>
+도착일 : 
+<!-- <span id="toDate"></span> -->
+<input type="text" id="toDate" readonly="readonly" style="border: none;"></input><br>
 
 <div id="betweenDates">
 총 결제 금액 : 
 <span id="totalPrice"></span> 원
+ ( <span id="totalNights"></span> 박 )
 </div>
 
 <hr>

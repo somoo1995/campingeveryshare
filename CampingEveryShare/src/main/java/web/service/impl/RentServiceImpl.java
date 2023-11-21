@@ -1,8 +1,6 @@
 package web.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +11,7 @@ import web.dao.face.CarDao;
 import web.dao.face.RentDao;
 import web.dto.Car;
 import web.dto.Rent;
+import web.dto.User;
 import web.service.face.RentService;
 import web.util.Paging;
 
@@ -51,6 +50,16 @@ public class RentServiceImpl implements RentService {
 		List<Rent> list = rentDao.selectAllByCarNo(car);
 		
 		return list;
+	}
+
+	@Override
+	public void book(Rent rent) {
+		rentDao.insertRent(rent);
+	}
+
+	@Override
+	public User getGuestInfo(User user) {
+		return rentDao.selectUserByUserId(user);
 	}
 
 }

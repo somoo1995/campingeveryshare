@@ -110,11 +110,11 @@ public class AlertController {
     		
     	}
     	
-        try {
-            resp.sendRedirect("/send");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            resp.sendRedirect("/send");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 	}
     
 	private void sendInitEvent( SseEmitter sseEmitter ) {
