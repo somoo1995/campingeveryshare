@@ -239,22 +239,23 @@ $(function(){
 	padding: 0px;
 /* 	width: 1300px; */
 	min-width: 1300px;
-	max-height: 1360px;
+	max-height: 1600px;
 	margin-bottom: 100px;
 	align-items: center;
 	justify-items: center;
 	
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(3, 1fr);
+	grid-template-rows: repeat(4, 1fr);
 /* 	column-gap: 25px; */
 }
 
 
 .main:nth-child(1) {
-	grid-column: 1 / 3;
-	grid-row: 1 / 2;
+ 	grid-column: 1 / 3; 
+ 	grid-row: 1 / 2; 
 }
+
 
 p {
 	font-size: 30px;
@@ -263,6 +264,17 @@ p {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	color: #3da903;
+}
+
+.middle {
+  grid-column: 1 / 3; /* 두 번째 행 전체를 차지하도록 설정 */
+  grid-row: 2 / 3; /* 두 번째 행에 해당하는 위치로 설정 */
+  background-color: #ffcc00; /* 배경색을 노란색으로 설정 (테스트용) */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  padding: 20px; /* 내부 여백 설정 */
+  box-shadow: 5px 5px 20px 0px #5e5e5e; /* 그림자 설정 */
+  margin-top: 40px;
+  min-width: 1300px;
 }
 
 </style>
@@ -280,6 +292,12 @@ p {
 	</div><!-- slider-div -->
 	</div><!-- .main -->
 
+	<div class="middle">
+	"Camping Every Share와 함께 하세요!"<br>
+	"Camping Every Share 화제의 게시글"<br>
+	뭐 적는게 좋을 것 같아?<br>
+	<img alt="profile1" src="/resources/img/profile1.png">
+	</div>
 
 	<div class="car">
 	<p>1. 새로 등록된 캠핑카</p>
@@ -287,8 +305,7 @@ p {
 			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
 			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
 			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
-		</div>
-	
+		</div><!-- .slider-car -->
 	</div><!-- .car -->
 
 	<div class="zone">
