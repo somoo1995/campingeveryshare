@@ -22,6 +22,7 @@
 			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
 			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
 			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 3) AS "RECOM"
+			, (SELECT COUNT(*) FROM hearttb WHERE heart_no = boardtb.board_no AND board_cate = 3) AS "HEART"
             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
 			, (SELECT price FROM markettb WHERE board_no = boardtb.board_no) AS "PRICE"
@@ -113,16 +114,23 @@
   		UPDATE boardtb
   		SET title = #{title }
   			, content = #{content }
+  			, location = #{location }
 		WHERE board_no = #{boardNo } 
   	</update>
+  	
+  	<update id="updateMarketPrice" parameterType="market">
+  		UPDATE markettb
+  		SET price = #{price }
+  		WHERE board_no = #{boardNo }
+  	</update>
   
-<!--   	<delete id="deleteFiles" parameterType="int[]"> -->
-<!--   		DELETE boardfiletb -->
-<!--   		WHERE file_no IN -->
-<!-- 			<foreach collection="array" item="no" open="(" close=")" separator=","> -->
-<!-- 				#{no } -->
-<!-- 			</foreach> -->
-<!--   	</delete> -->
+  	<delete id="deleteFiles" parameterType="int[]">
+  		DELETE boardfiletb
+  		WHERE file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+  	</delete>
   	
 <!--   	<delete id="deleteFileByBoardNo" parameterType="boardfile"> -->
 <!--  		DELETE boardfiletb -->

@@ -145,6 +145,8 @@ select {
 	</div>
 	<div class="info">
     <h6>👤 : ${board.USER_NICK }</h6>
+    <h6>❣️ : ${board.HEART }  </h6>
+    
     <c:set var="formattedPrice" value="${board.PRICE}" />
 	<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 	<h6 style="color:
@@ -188,7 +190,7 @@ select {
     </div>
     <div class="info">
     <h6 class="location">🗺️  ${board.LOCATION_NAME }</h6>
-    <h6 class="good">❣️  ${board.RECOM }</h6>
+    <h6 class="good">💬  메세지 자리</h6>
     <h6 class="view">🔭  ${board.HIT}</h6>
     <h6 class="write">✏️
       <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>

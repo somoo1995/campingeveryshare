@@ -29,6 +29,7 @@ public class RentController {
 		List<Car> list = rentService.getCarList(paging);
 		
 		model.addAttribute("list", list);
+		logger.info("list : {} " + list.toString());
 	}
 	
 	@RequestMapping("/view")

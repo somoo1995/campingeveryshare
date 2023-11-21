@@ -24,17 +24,87 @@ $(() => {
 	})
 })
 </script>
+<style type="text/css">
+.marketselect {
+	text-align: center;
+    align-items: center; /* 수직 가운데 정렬 */
+   	margin: 15px auto 15px auto;
+   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
+ 	justify-content: space-between; /* 요소 간에 공간을 균등하게 배치 */
+   	
+}
 
+.price{
+    text-align: center;
+    width: 55px;
+    border: none;
+    font-weight: bold;
+   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
+
+}
+.location{
+    text-align: center;
+    width: 55px;
+    border: none;
+    font-weight: bold;
+}
+
+label{
+	margin : 5px;
+}
+
+select {
+	width: 100px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.selectmoney{
+	text-align: center;
+}
+</style>
 <div class="container">
 
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">글 수정</h3>
+<h3 id="pageTitle">중고장터 글 수정</h3>
 <hr>
 </div>
 <div class="col-10 mx-auto">
 <form action="./update" method="post" enctype="multipart/form-data">
+<div class="marketselect">
+
+<div class="price">
+<input type="text" style="font-size: 15px; font-weight: bold;" class="price"  readonly="readonly" value="금 액">
+<input type="number" placeholder="금액을 입력해 주세요." name="price" id="price" max="999999999"/ value="${market.price }"> 원
+</div>
+|
+<div class="locationselect">
+<input type="text" class="location" readonly="readonly" value="위 치">
+|
+<select name="location" id="location">
+    <option>선택</option>
+    <option value="10" <c:if test="${board.location eq 10}">selected</c:if>>강원</option>
+    <option value="9" <c:if test="${board.location eq 9}">selected</c:if>>경기</option>
+    <option value="16" <c:if test="${board.location eq 16}">selected</c:if>>경남</option>
+    <option value="15" <c:if test="${board.location eq 15}">selected</c:if>>경북</option>
+    <option value="5" <c:if test="${board.location eq 5}">selected</c:if>>광주</option>
+    <option value="6" <c:if test="${board.location eq 6}">selected</c:if>>대구</option>
+    <option value="3" <c:if test="${board.location eq 3}">selected</c:if>>대전</option>
+    <option value="4" <c:if test="${board.location eq 4}">selected</c:if>>부산</option>
+    <option value="1" <c:if test="${board.location eq 1}">selected</c:if>>서울</option>
+    <option value="8" <c:if test="${board.location eq 8}">selected</c:if>>세종</option>
+    <option value="7" <c:if test="${board.location eq 7}">selected</c:if>>울산</option>
+    <option value="2" <c:if test="${board.location eq 2}">selected</c:if>>인천</option>
+    <option value="14" <c:if test="${board.location eq 14}">selected</c:if>>전남</option>
+    <option value="13" <c:if test="${board.location eq 13}">selected</c:if>>전북</option>
+    <option value="17" <c:if test="${board.location eq 17}">selected</c:if>>제주</option>
+    <option value="12" <c:if test="${board.location eq 12}">selected</c:if>>충남</option>
+    <option value="11" <c:if test="${board.location eq 11}">selected</c:if>>충북</option>
+ </select>
+</div> 
+</div>
 
 <input type="hidden" name="boardNo" value="${board.boardNo }" readonly="readonly">
 

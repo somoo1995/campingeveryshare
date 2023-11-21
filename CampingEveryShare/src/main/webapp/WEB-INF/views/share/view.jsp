@@ -3,8 +3,37 @@
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<div class="modal fade" id="reportModal" aria-hidden="true" aria-labelledby="reportModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <%@ include file="/WEB-INF/views/report/report.jsp" %>
+        <button form="reportForm" id="reportBtn" class="btn float-end" data-bs-target="#reportOkModal" data-bs-toggle="modal">신고하기</button>
+     </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id=reportOkModal aria-hidden="true" aria-labelledby="reportOkModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <%@ include file="/WEB-INF/views/report/report_ok.jsp" %>
+      <button id="footerReportOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 <c:import url="../layout/header.jsp" />
+
+
 <script type="text/javascript">
 $(()=>{
 	if(${isRecom}) {
@@ -56,6 +85,53 @@ $(()=>{
 		
 	}); //$("#btnRecommend").click() end
 
+	$(() => {
+	    if (${isHeart}) {
+	        $("#btnHeart")
+	            .addClass("btn-warning")
+	            .html('찜 취소');
+	    } else {
+	        $("#btnHeart")
+	            .addClass("btn-primary")
+	            .html('찜');
+	    }
+
+	    $("#btnHeart").click(() => {
+	        $.ajax({
+	            type: "get",
+	            url: "/share/heart",
+	            data: {
+	                userId: "${loginId}",
+	                heartNo: ${board.boardNo},
+	                boardCate: ${board.boardCate}
+	            },
+	            dataType: "json",
+	            success: function (data) {
+	                console.log("성공");
+
+	                if (data.hResult) { //찜 성공
+	                    $("#btnHeart")
+	                        .removeClass("btn-primary")
+	                        .addClass("btn-warning")
+	                        .html('찜 취소');
+
+	                } else { //찜 취소 성공
+	                    $("#btnHeart")
+	                        .removeClass("btn-warning")
+	                        .addClass("btn-primary")
+	                        .html('찜');
+
+	                }
+
+	            },
+	            error: function () {
+	                console.log("실패");
+	            }
+	        }); //ajax end
+	    }); //$("#btnHeart").click() end
+	});
+
+	
 	// 댓글 입력
 	$("#btnCommInsert").click(function() {
 		
@@ -132,6 +208,11 @@ function deleteComment(commNo) {
 
 </script>
 
+<script language="javascript">
+  function btnReport() { window.open("report.html", "report", "width=400, height=300, left=100, top=50"); }
+</script>
+
+
 <style type="text/css">
 .content {
 	min-height: 300px;
@@ -164,6 +245,44 @@ function deleteComment(commNo) {
 			    </c:when>
 			</c:choose>		
 		</td>
+		<th class="table-info">위 치</th>
+		<td>
+		<c:if test="${board.location eq 10}">강원</c:if>
+  		<c:if test="${board.location eq 9}">경기</c:if>
+	   	<c:if test="${board.location eq 16}">경남</c:if>
+	    <c:if test="${board.location eq 15}">경북</c:if>
+	    <c:if test="${board.location eq 5}">광주</c:if>
+	    <c:if test="${board.location eq 6}">대구</c:if>
+	    <c:if test="${board.location eq 3}">대전</c:if>
+	    <c:if test="${board.location eq 4}">부산</c:if>
+	    <c:if test="${board.location eq 1}">서울</c:if>
+	    <c:if test="${board.location eq 8}">세종</c:if>
+	    <c:if test="${board.location eq 7}">울산</c:if>
+	    <c:if test="${board.location eq 2}">인천</c:if>
+	    <c:if test="${board.location eq 14}">전남</c:if>
+	    <c:if test="${board.location eq 13}">전북</c:if>
+	    <c:if test="${board.location eq 17}">제주</c:if>
+	    <c:if test="${board.location eq 12}">충남</c:if>
+	    <c:if test="${board.location eq 11}">충북</c:if>
+		</td>
+	</tr>
+	<tr>
+		<th class="table-info">아이디</th><td>${board.userId }</td>
+		<th class="table-info">닉네임</th><td>${user.userNick }</td>
+	</tr>
+	<tr>
+		<th class="table-info">제목</th><td>${board.title }</td>
+		<th class="table-info">조회수</th><td>${board.hit }</td>
+	</tr>
+	<tr>
+		<th class="table-info">첨부파일</th>
+		<td>
+		<c:forEach var="boardFile" items="${boardFile }">
+		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
+		${boardFile.originName }<br>
+		</a>
+		</c:forEach>		
+		</td>
 		<th class="table-info">작성일</th>
 		<td>
 			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
@@ -177,24 +296,6 @@ function deleteComment(commNo) {
 				</c:when>
 			</c:choose>
         </td>
-	</tr>
-	<tr>
-		<th class="table-info">아이디</th><td>${board.userId }</td>
-		<th class="table-info">닉네임</th><td>${user.userNick }</td>
-	</tr>
-	<tr>
-		<th class="table-info">제목</th><td>${board.title }</td>
-		<th class="table-info">조회수</th><td>${board.hit }</td>
-	</tr>
-	<tr>
-		<th class="table-info">첨부파일</th>
-		<td colspan="3">
-		<c:forEach var="boardFile" items="${boardFile }">
-		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
-		${boardFile.originName }<br>
-		</a>
-		</c:forEach>		
-		</td>
 	</tr>
 	<tr>
 		<th class="table-info">내용</th><td colspan="3">${board.content }</td>
@@ -217,6 +318,12 @@ function deleteComment(commNo) {
 	</c:if>
 </div>
 
+<div>
+찜자리
+	<button id="btnHeart" class="btn"></button>
+<button type="button" style="width: 80px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<div style="width: 80px; height: 25px;">신고하기</div>
+</button></div>
 <hr>
 <div>
 

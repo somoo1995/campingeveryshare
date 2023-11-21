@@ -132,7 +132,7 @@ public class GroupController {
 	}
 	
 	@GetMapping("/update")
-	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
+	public String update(Board board, BoardFile file, User user, Group group, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
 			return "redirect:./view";
@@ -143,6 +143,8 @@ public class GroupController {
 		//상세보기 게시글 조회
 		board = groupService.view(board);
 		model.addAttribute("board", board);
+		group = groupService.getStatus(group);
+		model.addAttribute("group", group);
 
 		//첨부파일 정보 전달
 		List<BoardFile> boardfile = groupService.getAttachFile( board );
@@ -157,7 +159,8 @@ public class GroupController {
 			, Board board
 			, List<MultipartFile> file
 			, HttpSession session
-			, int[] delFileNo) {
+			, int[] delFileNo
+			, Group group) {
 		
 		logger.info("board {}", board);
 		logger.info("file {}", file);
@@ -166,7 +169,7 @@ public class GroupController {
 		board.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		groupService.updateProc(board, file, delFileNo);
+		groupService.updateProc(board, file, delFileNo, group);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}

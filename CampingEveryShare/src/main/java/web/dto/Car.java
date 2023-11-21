@@ -3,7 +3,7 @@ package web.dto;
 public class Car {
 	
 	private int carNo;
-	private int userNo;
+	private String userId;
 	private String carName;
 	private String carNumber;
 	private int location;
@@ -29,13 +29,13 @@ public class Car {
 	
 	public Car() {}
 
-	public Car(int carNo, int userNo, String carName, String carNumber, int location, int area, String areaDetail,
+	public Car(int carNo, String userId, String carName, String carNumber, int location, int area, String areaDetail,
 			int carSize, int carPax, int carSpax, int price, int carElec, int carWater, int carTable, int carCounter,
 			int carKitchin, int carTemp, int carShower, int carToilet, int carPet, int carSmoke, int carStatus,
 			String content, int deleteStatus) {
 		super();
 		this.carNo = carNo;
-		this.userNo = userNo;
+		this.userId = userId;
 		this.carName = carName;
 		this.carNumber = carNumber;
 		this.location = location;
@@ -62,7 +62,7 @@ public class Car {
 
 	@Override
 	public String toString() {
-		return "Car [carNo=" + carNo + ", userNo=" + userNo + ", carName=" + carName + ", carNumber=" + carNumber
+		return "Car [carNo=" + carNo + ", userId=" + userId + ", carName=" + carName + ", carNumber=" + carNumber
 				+ ", location=" + location + ", area=" + area + ", areaDetail=" + areaDetail + ", carSize=" + carSize
 				+ ", carPax=" + carPax + ", carSpax=" + carSpax + ", price=" + price + ", carElec=" + carElec
 				+ ", carWater=" + carWater + ", carTable=" + carTable + ", carCounter=" + carCounter + ", carKitchin="
@@ -79,12 +79,12 @@ public class Car {
 		this.carNo = carNo;
 	}
 
-	public int getUserNo() {
-		return userNo;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getCarName() {
@@ -262,5 +262,6 @@ public class Car {
 	public void setDeleteStatus(int deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
+
 	
 }
