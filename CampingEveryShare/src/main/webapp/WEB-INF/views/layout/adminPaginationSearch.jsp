@@ -7,14 +7,14 @@
 	<c:set var="searchParam" value="&search=${param.search }" />
 </c:if>
 <c:if test="${not empty param.category }">
-    <c:set var="categoryParam" value="&category=${param.category}" />
+    <c:set var="typeParam" value="&type=${param.category }" />
 </c:if>
 
 <div>
 	<ul class="pagination pagination-sm justify-content-center">
 		<c:if test="${paging.curPage ne 1 }">
 		<li class="page-item">
-			<a  class="page-link" href="./report?curPage=1${searchParam }${categoryParam}">&larr; 처음</a>
+			<a  class="page-link" href="${url}?curPage=1${searchParam }${typeParam}">&larr; 처음</a>
 		</li>
 		</c:if>
 	
@@ -22,12 +22,12 @@
 		<c:choose>
 			<c:when test="${paging.startPage ne 1 }">
 			<li class="page-item">
-				<a class="page-link" href="./report?curPage=${paging.startPage - paging.pageCount }${searchParam }${categoryParam}">&laquo;</a>
+				<a class="page-link" href="${url}?curPage=${paging.startPage - paging.pageCount }${searchParam }${typeParam}">&laquo;</a>
 			</li>
 			</c:when>
 			<c:when test="${paging.startPage eq 1 }">
 			<li class="page-item">
-				<a class="page-link disabled" href="./report?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
+				<a class="page-link disabled" href="${url}?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
 			</li>
 			</c:when>
 		</c:choose>
@@ -35,7 +35,7 @@
 		<!-- 이전 페이지로 이동 -->
 		<c:if test="${paging.curPage > 1 }">
 			<li>
-				<a class="page-link" href="./report?curPage=${paging.curPage -1 }${searchParam }${categoryParam}">&lt;</a>
+				<a class="page-link" href="${url}?curPage=${paging.curPage -1 }${searchParam }${typeParam}">&lt;</a>
 			</li>
 		</c:if>
 	
@@ -43,13 +43,13 @@
 		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 			<c:if test="${paging.curPage eq i }">
 			<li class="page-item">
-				<a class="page-link active" href="./report?curPage=${i }${searchParam }${categoryParam}">${i }</a>
+				<a class="page-link active" href="${url}?curPage=${i }${searchParam }${typeParam}">${i }</a>
 			</li>
 			</c:if>
 			
 			<c:if test="${paging.curPage ne i }">
 			<li class="page-item">
-				<a class="page-link" href="./report?curPage=${i }${searchParam }${categoryParam}">${i }</a>
+				<a class="page-link" href="${url}?curPage=${i }${searchParam }${typeParam}">${i }</a>
 			</li>
 			</c:if>
 		</c:forEach>
@@ -57,7 +57,7 @@
 		<%-- 다음 페이지로 이동 --%>
     	<c:if test="${paging.curPage < paging.totalPage }">
 	       <li class="page-item">
-	          <a class="page-link" href="./report?curPage=${paging.curPage + 1 }${searchParam }${categoryParam}">&gt;</a>
+	          <a class="page-link" href="${url}?curPage=${paging.curPage + 1 }${searchParam }${typeParam}">&gt;</a>
 	       </li>
     	</c:if>
     
@@ -66,7 +66,7 @@
 	    <c:choose>
 	       <c:when test="${paging.endPage ne paging.totalPage }">
 	       <li class="page-item">
-	          <a class="page-link" href="./report?curPage=${paging.endPage + paging.pageCount }${searchParam }${categoryParam}">&raquo;</a>
+	          <a class="page-link" href="${url}?curPage=${paging.endPage + paging.pageCount }${searchParam }${typeParam}">&raquo;</a>
 	       </li>
 	       </c:when>
 	       <c:when test="${paging.endPage eq paging.totalPage }">
@@ -78,7 +78,7 @@
 		
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li class="page-item">
-			<a  class="page-link" href="./report?curPage=${paging.totalPage }${searchParam }${categoryParam}">끝 &rarr;</a>
+			<a  class="page-link" href="${url}?curPage=${paging.totalPage }${searchParam }${typeParam}">끝 &rarr;</a>
 		</li>
 		</c:if>
 		

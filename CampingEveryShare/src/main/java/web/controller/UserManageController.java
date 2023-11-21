@@ -40,6 +40,7 @@ public class UserManageController {
 	@GetMapping("/login")
 	public void login(HttpSession session) {
 		logger.info("login[GET]");
+		session.invalidate();
 	}
 	
 	@PostMapping("/login")
@@ -66,6 +67,11 @@ public class UserManageController {
 		logger.info("session : " + session.getAttribute("adminPw"));
 
 		return true;		
+	}
+	
+	@RequestMapping("/loginfail")
+	public void loginFail() {
+		
 	}
 	
 	@RequestMapping("/list")

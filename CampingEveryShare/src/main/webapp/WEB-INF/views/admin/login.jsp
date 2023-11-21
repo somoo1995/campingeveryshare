@@ -112,12 +112,11 @@ pageEncoding="UTF-8"%>
 
 
 <div class="container">
-<div class="adminpageTitle">
+<div id="adminpageTitle" class="adminpageTitle">
 <h3 id="adminpageTitle">관리자 로그인</h3>
 </div>
 
 <div class="row g-3 align-items-center">
-<form action="./login" id="loginForm" method="post">
 
 	
 <div class="input-group has-validation">
@@ -154,14 +153,12 @@ pageEncoding="UTF-8"%>
 
 
 	<div>
-		<a href="./loginfail" type="button" class="btn btn-outline-success">접속코드/비밀번호 분실</a>
+		<a href="/admin/loginfail" type="button" class="btn btn-outline-success">접속코드/비밀번호 분실</a>
 	</div>
 	
 	<div class="row mb-3 justify-content-center">
 		<button id="loginButton" class="btn btn-outline-success">로그인</button>
 	</div>	
-	
-</form>
 	
 		
 </div>

@@ -46,6 +46,25 @@
 
 </sql>
 
+<sql id="searchIncome">
+	<if test="search != null and !''.equals(search)">
+		<choose>
+            <when test="category == 1">
+                <where> AND A.user_id like '%' || (#{search}) || '%'</where>
+            </when>
+            <when test="category == 2">
+                <where> AND A.bank_account like '%' || (#{search}) || '%'</where>
+            </when>
+            <when test="category == 0">
+            	<where>AND A.user_id like '%' || (#{search}) || '%'
+            	OR A.bank_account like '%' || (#{search}) || '%'
+            	</where>
+			</when>
+		</choose>
+	</if>
+
+</sql>
+
 
 <sql id="selectReport">
 	SELECT report_no, board_no, reason, reason_detail, vuser_id,
@@ -55,7 +74,7 @@
 
 
 <sql id="selectIncome">
-	SELECT income_no, rent_no, account, money, money_cate, money_date
+	SELECT income_no, rent_no, account_no, money, money_cate, money_date
 	FROM incometb
 </sql>
 
@@ -123,8 +142,27 @@
 
 <select id="selectCntAllIncome" resultType="int" parameterType="web.util.Paging">
    SELECT count(*) FROM (
-	<include refid="selectIncome" />
+	SELECT I.income_no, I.rent_no, I.account_no, I.money, I.money_cate, I.money_date
+	    	, A.user_id, A.bank_name, A.bank_account
+	  	 	FROM incometb I
+	  	 	JOIN accounttb A
+	  	 	ON I.account_no = A.account_no
+	  	 	<include refid="searchIncome" />
 )
+</select>
+
+<select id="selectAllIncome" resultType="map" parameterType="web.util.Paging">
+	SELECT * FROM (
+	    SELECT rownum rnum, B.* FROM (
+	    	SELECT I.income_no, I.rent_no, I.account_no, I.money, I.money_cate, I.money_date
+	    	, A.user_id, A.bank_name, A.bank_account
+	  	 	FROM incometb I
+	  	 	JOIN accounttb A
+	  	 	ON I.account_no = A.account_no
+	  	 	<include refid="searchIncome" />
+			ORDER BY I.income_no DESC
+	    ) B
+	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
 
 
