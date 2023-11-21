@@ -113,14 +113,20 @@
   			, content = #{content }
 		WHERE board_no = #{boardNo } 
   	</update>
+  	
+  	<update id="updateStatus" parameterType="group">
+  		UPDATE grouptb
+  		SET recruit_status = #{recruitStatus}
+  		WHERE board_no = #{boardNo }
+  	</update>
   
-<!--   	<delete id="deleteFiles" parameterType="int[]"> -->
-<!--   		DELETE boardfiletb -->
-<!--   		WHERE file_no IN -->
-<!-- 			<foreach collection="array" item="no" open="(" close=")" separator=","> -->
-<!-- 				#{no } -->
-<!-- 			</foreach> -->
-<!--   	</delete> -->
+  	<delete id="deleteFiles" parameterType="int[]">
+  		DELETE boardfiletb
+  		WHERE file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
+  	</delete>
   	
 <!--   	<delete id="deleteFileByBoardNo" parameterType="boardfile"> -->
 <!--  		DELETE boardfiletb -->

@@ -167,13 +167,14 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo) {
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Group group) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle()) ) {
 			board.setTitle("(제목없음)");
 		}
 		
 		groupDao.updateProc(board);
+		groupDao.updateStatus(group);
 
 		//---------------------------------------------------------------------------
 		

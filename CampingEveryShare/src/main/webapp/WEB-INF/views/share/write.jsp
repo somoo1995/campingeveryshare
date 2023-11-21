@@ -5,6 +5,17 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
+<script type="text/javascript" src="/dapi.kakao.com/v2/maps/sdk.js?appkey=2ec6f84de5d960701cb72fbd999974e9"></script>
+<script>
+	var container = document.getElementById('map');
+	var options = {
+		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		level: 3
+	};
+
+	var map = new kakao.maps.Map(container, options);
+</script>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- include summernote css/js -->
@@ -122,6 +133,11 @@ select {
 </div>
 
 <div class="form-group mb-3">
+	<label class="form-label" for="file">파일</label>
+	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+</div>
+
+<div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>
 	<input type="text" class="form-control" name="title" id="title">
 </div>
@@ -131,10 +147,8 @@ select {
 	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
 
-<div class="form-group mb-3">
-	<label class="form-label" for="file">파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
-</div>
+	<div id="map" style="width:500px;height:400px;"></div>
+
 
 <div class="text-center">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
@@ -143,8 +157,6 @@ select {
 
 </form>
 </div>
-
-
 </div>
 
 

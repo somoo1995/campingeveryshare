@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.CommDao;
+import web.dao.face.HeartDao;
 import web.dao.face.ReComDao;
 import web.dao.face.ShareDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Heart;
 import web.dto.Recom;
 import web.dto.Share;
 import web.dto.User;
@@ -33,6 +35,7 @@ public class ShareServiceImpl implements ShareService {
 	@Autowired ShareDao shareDao;
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
+	@Autowired HeartDao heartDao;
 	
 	@Autowired ServletContext context;
 	@Override
@@ -166,14 +169,14 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo) {
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Share share) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle()) ) {
 			board.setTitle("(제목없음)");
 		}
 		
 		shareDao.updateProc(board);
-
+		shareDao.updatePaid(share);
 		//---------------------------------------------------------------------------
 		
 		//첨부파일이 없을 경우 처리
@@ -263,7 +266,34 @@ public class ShareServiceImpl implements ShareService {
 		return recomDao.selectTotalCntRecom(recom);
 	}
 
+	@Override
+	public int getTotalCntHeart(Heart heart) {
+		return heartDao.selectTotalCntHeart(heart);
+	}
 
+	@Override
+	public boolean heartCnt(Heart heart) {
+		int hCnt = heartDao.selectCntHeartByUserId(heart);
+		
+		if( hCnt > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	
+	@Override
+	public boolean heart(Heart heart) {
+		if( heartCnt(heart) ) {
+			heartDao.deleteHeart(heart);
+			return false;
+		} else {
+			heartDao.insertHeart(heart);
+			return true;
+		}
+	}
+	
+	
 
 
 

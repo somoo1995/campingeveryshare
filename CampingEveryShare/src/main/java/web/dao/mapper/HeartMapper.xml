@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="web.dao.face.HeartDao">
+		<select id="selectTotalCntHeart" resultType="int" parameterType="heart">
+			SELECT COUNT(*) FROM hearttb
+			WHERE heart_no = #{heartNo}
+		</select>
+		
+		<select id="selectCntHeartByUserId" resultType="int" parameterType="heart">
+			SELECT COUNT (*) FROM hearttb
+			WHERE user_id = #{userId }
+			AND heart_no = #{heartNo }
+			AND board_cate = #{boardCate }
+		</select>
+		
+		<delete id="deleteHeart" parameterType="heart">
+			DELETE hearttb
+			WHERE user_id = #{userId}
+			AND heart_no = #{heartNo}
+		</delete>
+		
+		<insert id="insertHeart" parameterType="heart">
+			INSERT INTO hearttb
+			VALUES (#{userId}, #{heartNo}, #{boardCate})
+		</insert>
+	</mapper>  

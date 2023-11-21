@@ -88,9 +88,10 @@ public interface GroupService {
 	 * 
 	 * @param updateParam - 게시글 정보 객체
 	 * @param file - 첨부 파일 리스트
+	 * @param group 
 	 * @param delFileno - 삭제할 첨부 파일 번호
 	 */
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo);
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Group group);
 	
 	/**
 	 * 게시글 삭제

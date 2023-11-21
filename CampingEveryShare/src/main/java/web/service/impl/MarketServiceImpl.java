@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.CommDao;
+import web.dao.face.HeartDao;
 import web.dao.face.MarketDao;
 import web.dao.face.ReComDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Heart;
 import web.dto.Market;
 import web.dto.Recom;
 import web.dto.User;
@@ -33,6 +35,7 @@ public class MarketServiceImpl implements MarketService {
 	@Autowired MarketDao marketDao;
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
+	@Autowired HeartDao heartDao;
 	
 	@Autowired ServletContext context;
 	@Override
@@ -167,14 +170,15 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo) {
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Market market) {
 		
 		if( board.getTitle() == null || "".equals(board.getTitle()) ) {
 			board.setTitle("(제목없음)");
 		}
 		
 		marketDao.updateProc(board);
-
+		marketDao.updateMarketPrice(market);
+		
 		//---------------------------------------------------------------------------
 		
 		//첨부파일이 없을 경우 처리
@@ -264,8 +268,30 @@ public class MarketServiceImpl implements MarketService {
 		return recomDao.selectTotalCntRecom(recom);
 	}
 
+	@Override
+	public int getTotalCntHeart(Heart heart) {
+		return heartDao.selectTotalCntHeart(heart);
+	}
 
+	@Override
+	public boolean heartCnt(Heart heart) {
+		int hCnt = heartDao.selectCntHeartByUserId(heart);
+		
+		if( hCnt > 0 ) {
+			return true;
+		}
+		return false;
+	}
 
-
-
+	@Override
+	public boolean heart(Heart heart) {
+		if( heartCnt(heart) ) {
+			heartDao.deleteHeart(heart);
+			return false;
+		} else {
+			heartDao.insertHeart(heart);
+			return true;
+		}
+	}
+	
 }

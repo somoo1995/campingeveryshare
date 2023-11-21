@@ -2,6 +2,7 @@ package web.dao.face;
 
 import web.dto.Board;
 import web.dto.Comm;
+import web.dto.Heart;
 import web.dto.Recom;
 
 public interface ReComDao {
@@ -35,6 +36,7 @@ public interface ReComDao {
 	 * @return - 전체 추천 수
 	 */
 	public int selectTotalCntRecom(Recom recom);
+	
 	
 
 }
