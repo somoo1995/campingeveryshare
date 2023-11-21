@@ -24,42 +24,41 @@ pageEncoding="UTF-8"%>
 }
 </style>
 
+
 <script type="text/javascript">
 $(() => {
 	//검색 버튼 클릭
 	$("#btnSearch").click(() => {
 	const searchValue = $("#searchInput").val();
-	const typeCategory = $("#typeCategory").val();
-	
-	if(!typeCategory){
-		alert("검색 카테고리를 선택해주세요!");
-		return false;
-	}
-	
-	if(!searchValue){
-		alert("검색어를 입력해주세요!");
-		return false;
-	}
-	
-	console.log("검색어:", searchValue, "검색 카테고리:", typeCategory); // 확인용 로그
-	location.href = "./list?search=" + searchValue + "&category=" + typeCategory;
+	const incomeCategory = $("#incomeCategory").val();
+	console.log("검색어:", searchValue, "게시판 카테고리:", incomeCategory); // 확인용 로그
+	location.href = "./income?search=" + searchValue + "&category=" + incomeCategory;
 	});
 })
-
-
 </script>
+
 
 <div class="container">
 
 <div class="adminpageTitle">
 <h3 id=adminpageTitle>관리자 수익관리</h3>
 
+<div id="searchDiv">
+	 <select id="incomeCategory" class="form-select">
+        <option value="0">--아이디+계좌번호--</option>
+        <option value="1">아이디</option>
+        <option value="2">계좌번호</option>
+    </select>
+    
+	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="조회"/>
+	<button id="btnSearch" class="btn btn-primary">검색</button>
+</div>
+
 
 <form action="web.dao.face.adminDao" method="get" >
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
-	<col width="5%">
-	<col width="5%">
+	<col width="10%">
 	<col width="15%">
 	<col width="15%">
 	<col width="15%">
@@ -70,40 +69,26 @@ $(() => {
 
 <thead>
 	<tr>
-		<th></th>
 		<th>No.</th>
-		<th>아이디</th>
-		<th>이름</th>
-		<th>이메일</th>
-		<th>회원상태</th>
-		<th>수정</th>
-		<th>관리</th>
+		<th>신청자ID</th>
+		<th>은행명</th>
+		<th>계좌번호</th>
+		<th>신청금액</th>
+		<th>신청날짜</th>
+		<th>승인 확인</th>
 	</tr>
 </thead>
 <tbody>
-<c:forEach var="user" items="${list }">
+<c:forEach var="income" items="${incomeList }">
 	<tr> 
 		<td>${income.RNUM }</td>
-		<td>${user.RNUM }</td>
-		<td>${user.USER_ID }</td>
-		<td>${user.USER_NAME }</td>
-		<td>${user.EMAIL }</td>
-		<c:choose>
-		<c:when test="${user.USER_STATUS == 0 }">
-			<td>가입</td>
-		</c:when>
-		<c:when test="${user.USER_STATUS == 1 }">
-			<td>탈퇴</td>
-		</c:when>
-		</c:choose>
+		<td>${income.USER_ID }</td>
+		<td>${income.BANK_NAME }</td>
+		<td>${income.BANK_ACCOUNT }</td>
+		<td>${income.MONEY }</td>
+		<td>${income.MONEY_DATE }</td>
 		<td>
-			<a href="/user/update?userId=${user.USER_ID }">
-			<button type="button" class="btn btn-info">수정</button>
-			</a>
-		</td>
-		<td>
-		<button type="button" class="btn btn-warning">알림</button>
-		<button type="button" class="btn btn-danger">탈퇴</button>
+		<button type="button" id="basic_button" class="btn btn-info">승인</button>
 		</td>  
 	</tr>
 </c:forEach>
@@ -117,6 +102,8 @@ $(() => {
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/listpagination.jsp" />
+<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+    <c:param name="url" value="./income" />
+</c:import>
 
 <c:import url="../layout/footer.jsp" />

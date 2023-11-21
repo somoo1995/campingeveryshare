@@ -130,6 +130,8 @@ $(() => {
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/listpagination.jsp" />
+<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+    <c:param name="url" value="./list" />
+</c:import>
 
 <c:import url="../layout/footer.jsp" />

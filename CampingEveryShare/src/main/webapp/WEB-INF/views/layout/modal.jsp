@@ -95,3 +95,39 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- 회원 삭제 모달  -->
+<div class="modal fade" id="deleteModal" aria-hidden="true" aria-labelledby="deleteBoardModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteBoardModal">글 삭제</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div id="delete_board_body">
+      해당 글을 삭제하시겠습니까?
+      </div>
+      <div id="delete_board_button">
+        <button id="DeleteBoardOkBtn" class="btn" data-bs-target="#deleteBoardOkModal" data-bs-toggle="modal">응!</button>
+        <button id="DeleteBoardNoBtn" class="btn" data-bs-dismiss="modal">아니?</button>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteBoardOkModal" aria-hidden="true" aria-labelledby="deleteBoardOkModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      삭제되었습니다!<br><br>
+      <button id="footerDeleteOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -42,8 +42,11 @@
 	color: #2072d8;
 	font-weight: bold;
 	font-size: 40px;
-	margin-bottom: 35px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
 }
+
 
 
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
@@ -54,7 +57,17 @@
 
 </style>
 
+<script type="text/javascript">
+$(document).ready(function () {
+    // 서버에서 로그인 여부 확인
+    var isLogin = <%= session.getAttribute("isLogin") %>;
 
+    // 만약 로그인 상태라면 메뉴를 보이도록 설정
+    if (isLogin) {
+        $("#adminMenu").show();
+    }
+});
+</script>
 
 </head>
 <body>
@@ -68,7 +81,8 @@
 	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
 </div>
 
-<div class="main-category-menu mt-3">
+<!--  style="display: none;" -->
+<div id="adminMenu" class="main-category-menu mt-3">
 <a>캠핑카 관리</a>
 |
 <a href="/admin/list">회원 관리</a>
@@ -77,7 +91,7 @@
 |
 <a href="/admin/report">신고 관리</a>
 |
-<a>수익 관리</a>
+<a href="/admin/income">수익 관리</a>
 </div>
 </header>
 
