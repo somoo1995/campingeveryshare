@@ -14,12 +14,24 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="/resources/css/header.css">
+<link rel="stylesheet" href="../resources/css/header.css">
 
 <!-- Slick 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
+<!-- 어도비 본고딕 폰트 불러오기 -->
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'nhb2qxu',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
 
 <!-- Line Awesome Icon 불러오기-->
 <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
@@ -230,13 +242,13 @@ $(function() {
 </div>
 
 <div class="main-category-menu mt-3">
-	<a href="/rent/list">대여</a>
-	|
-	<a href="/share/list">캠핑존공유</a>
-	|
-	<a href="/market/list">중고장터</a>
-	|
-	<a href="/group/list">모집</a>
+	<a href="/rent/list">🌿캠핑카 대여</a>
+	
+	<a href="/share/list">🌿캠핑존 공유</a>
+	
+	<a href="/market/list">🌿중고장터</a>
+	
+	<a href="/group/list">🌿캠핑모집</a>
 </div>
 
 <div class="search" id="search">
@@ -326,5 +338,4 @@ $(function() {
 </div> <!-- .menu end -->
 
 
-<hr>
 
