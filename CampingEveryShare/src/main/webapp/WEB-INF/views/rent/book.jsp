@@ -161,6 +161,7 @@ function buildCalendar() {
     	
         if (nowDay < today) {
             newDIV.className = "pastDay"
+            newDIV.onclick = function () { alert("지난 날짜는 선택할 수 없습니다") } 
         } else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) {
             newDIV.className = "today"
             newDIV.onclick = function () { choiceDate(this) }
@@ -181,12 +182,12 @@ function buildCalendar() {
             var dtoEndDate = new Date(list[i].endDate);
 
             if (isDateInRange(nowDay, dtoStartDate, dtoEndDate)) {
-            	console.log(typeof dtoStartDate)
-            	console.log("nowDay : " + nowDay)
+//             	console.log(typeof dtoStartDate)
+//             	console.log("nowDay : " + nowDay)
 //             	excludedDates.push(new Date(nowDay.toString()))
 //             	excludedDates.push(new Date(nowDay))
             	excludedDates.push(nowDay.toString())
-            	console.log("excludedDates : " + excludedDates)
+//             	console.log("excludedDates : " + excludedDates)
             	
                 newDIV.classList.add("bookedDay")
                 newDIV.classList.remove("futureDay")
@@ -243,6 +244,9 @@ function choiceDate(newDIV) {
 		betweenDates.push(firstSelectedDate)
 		newDIV.classList.add("choiceDay")
 		secondSelectedDate = null
+		$("#toDate").val('')
+		$("#totalPrice").text('')
+		$("#totalNights").text('')
 		
 	} else if (secondSelectedDate != null && (secondSelectedDate <= date || secondSelectedDate >= date)) {
 		firstSelectedDate = date
@@ -250,6 +254,9 @@ function choiceDate(newDIV) {
 		secondSelectedDate = null
 		betweenDates = []
 		betweenDates.push(firstSelectedDate)
+		$("#toDate").val('')
+		$("#totalPrice").text('')
+		$("#totalNights").text('')
 		
 	} else {
 		secondSelectedDate = date
