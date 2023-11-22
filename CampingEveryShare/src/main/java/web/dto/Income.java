@@ -6,27 +6,25 @@ public class Income {
 
 	private int incomeNo;
 	private int rentNo;
-	private int account;
-	private int money;
-	private Date moneyDate;
-	private int moneyCate;
+	private int amount;
+	private int incomeStatus;
+	private Date postDate;
 	
 	public Income() {}
 
-	public Income(int incomeNo, int rentNo, int account, int money, Date moneyDate, int moneyCate) {
+	public Income(int incomeNo, int rentNo, int amount, int incomeStatus, Date postDate) {
 		super();
 		this.incomeNo = incomeNo;
 		this.rentNo = rentNo;
-		this.account = account;
-		this.money = money;
-		this.moneyDate = moneyDate;
-		this.moneyCate = moneyCate;
+		this.amount = amount;
+		this.incomeStatus = incomeStatus;
+		this.postDate = postDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Income [incomeNo=" + incomeNo + ", rentNo=" + rentNo + ", account=" + account + ", money=" + money
-				+ ", moneyDate=" + moneyDate + ", moneyCate=" + moneyCate + "]";
+		return "Income [incomeNo=" + incomeNo + ", rentNo=" + rentNo + ", amount=" + amount + ", incomeStatus="
+				+ incomeStatus + ", postDate=" + postDate + "]";
 	}
 
 	public int getIncomeNo() {
@@ -45,38 +43,28 @@ public class Income {
 		this.rentNo = rentNo;
 	}
 
-	public int getAccount() {
-		return account;
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setAccount(int account) {
-		this.account = account;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
-	public int getMoney() {
-		return money;
+	public int getIncomeStatus() {
+		return incomeStatus;
 	}
 
-	public void setMoney(int money) {
-		this.money = money;
+	public void setIncomeStatus(int incomeStatus) {
+		this.incomeStatus = incomeStatus;
 	}
 
-	public Date getMoneyDate() {
-		return moneyDate;
+	public Date getPostDate() {
+		return postDate;
 	}
 
-	public void setMoneyDate(Date moneyDate) {
-		this.moneyDate = moneyDate;
+	public void setPostDate(Date postDate) {
+		this.postDate = postDate;
 	}
 
-	public int getMoneyCate() {
-		return moneyCate;
-	}
-
-	public void setMoneyCate(int moneyCate) {
-		this.moneyCate = moneyCate;
-	}
-	
-	
-	
 }

@@ -63,8 +63,8 @@
 		<selectKey order="BEFORE" keyProperty="rentNo" resultType="int">
 			SELECT rent_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO renttb (rent_no, car_no, user_id, start_date, end_date, reserv_pax, add_option)
-		VALUES( #{rentNo}, #{carNo}, #{userId}, #{startDate }, #{endDate}, #{reservPax }, #{addOption } )
+		INSERT INTO renttb (rent_no, car_no, user_id, start_date, end_date, reserv_pax, add_option, merchant_uid)
+		VALUES( #{rentNo}, #{carNo}, #{userId}, #{startDate }, #{endDate}, #{reservPax }, #{addOption }, #{merchantUid } )
 	</insert>
 	
 	<select id="selectUserByUserId" parameterType="User" resultType="User">

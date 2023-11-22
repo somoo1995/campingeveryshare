@@ -14,11 +14,12 @@ public class Rent {
 	private int reservPax;
 	private int addOption;
 	private int deleteStatus;
+	private String merchantUid;
 	
 	public Rent() {}
 
 	public Rent(int rentNo, int carNo, String userId, int rentStatus, Date bookingDate, Date startDate, Date endDate,
-			int reservPax, int addOption, int deleteStatus) {
+			int reservPax, int addOption, int deleteStatus, String merchantUid) {
 		super();
 		this.rentNo = rentNo;
 		this.carNo = carNo;
@@ -30,13 +31,15 @@ public class Rent {
 		this.reservPax = reservPax;
 		this.addOption = addOption;
 		this.deleteStatus = deleteStatus;
+		this.merchantUid = merchantUid;
 	}
 
 	@Override
 	public String toString() {
 		return "Rent [rentNo=" + rentNo + ", carNo=" + carNo + ", userId=" + userId + ", rentStatus=" + rentStatus
 				+ ", bookingDate=" + bookingDate + ", startDate=" + startDate + ", endDate=" + endDate + ", reservPax="
-				+ reservPax + ", addOption=" + addOption + ", deleteStatus=" + deleteStatus + "]";
+				+ reservPax + ", addOption=" + addOption + ", deleteStatus=" + deleteStatus + ", merchantUid="
+				+ merchantUid + "]";
 	}
 
 	public int getRentNo() {
@@ -117,6 +120,14 @@ public class Rent {
 
 	public void setDeleteStatus(int deleteStatus) {
 		this.deleteStatus = deleteStatus;
+	}
+
+	public String getMerchantUid() {
+		return merchantUid;
+	}
+
+	public void setMerchantUid(String merchantUid) {
+		this.merchantUid = merchantUid;
 	}
 
 }

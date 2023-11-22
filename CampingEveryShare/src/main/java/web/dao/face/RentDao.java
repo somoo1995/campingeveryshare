@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.Car;
 import web.dto.Rent;
+import web.dto.Review;
 import web.dto.User;
 
 public interface RentDao {

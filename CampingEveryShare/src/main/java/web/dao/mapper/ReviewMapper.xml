@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.ReviewDao">
+	
+	<insert id="insertReview" parameterType="Review">
+		<selectKey order="BEFORE" keyProperty="reviewNo" resultType="int">
+			SELECT review_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO reviewtb ( review_no, car_no, content, rate )
+		VALUES ( #{reviewNo}, #{carNo }, #{content }, #{rate } )
+	</insert>
+</mapper>

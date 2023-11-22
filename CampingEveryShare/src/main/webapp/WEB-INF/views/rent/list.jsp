@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 }
 
 .list-container:hover {
-	cursor: #82EB5A;
+	cursor: pointer;
 }
 
 .preview {
