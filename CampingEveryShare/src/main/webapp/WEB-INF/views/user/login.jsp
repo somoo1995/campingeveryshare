@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
             "/user/idCheck/",
             "idDupleBlock",
             "아이디를 입력해 주세요.",
-            "존재하지 않는 아이디입니다. 회원가입 후 진행해주세요",
+            "존재하지 않는 아이디입니다. 회원가입 후 진행해주세요.",
             ""
         );
     }
@@ -107,88 +107,239 @@ pageEncoding="UTF-8"%>
 	                }
 	            });
 	    	})
-	    });
-    
-    
-</script>
+	    });  
+</script><!-- .script 끝 -->
+
+<style type="text/css">
+
+.container {
+	background-color: skyblue;
+	min-width: 1300px;
+	max-height: 700px;
+	display: grid;
+/* 	grid-template-columns: repeat(2, 1fr); */
+	grid-template-rows: repeat(5, 1fr);
+	justify-content: center;
+	align-items: center;
+	
+	/* 로그인 배경화면 넣기*/
+	background: url('/resources/img/login_background.jpg');
+    background-size: 1300px 700px; /* 이미지 크기 조절 */
+    background-repeat: no-repeat;
+    background-position: 20px;
+}
+
+.form {
+	background-color: rgb(255 255 255 / 40%);
+	min-width: 1000px;
+	min-height: 500px;
+	grid-row: 3;
+	box-shadow: 8px 6px 20px 0px #5e5e5e;
+}
+
+.input_form {
+/* 	background-color: purple; */
+}
+
+.pageTitle {
+/* 	background-color: pink; */
+	text-align: center;
+	padding: 30px;
+}
+
+.login {
+/* 	background-color: yellow; */
+	display: grid;
+	justify-content: center;
+ 	min-height: 140px; 
+ 	margin-top: 30px;
+}
+
+.find {
+/* 	background-color: #adadff; */
+	padding-left: 625px;
+}
+
+.login_btn {
+/* 	background-color: gray; */
+	text-align: center;
+/* 	margin-top: 30px; */
+/* 	margin-bottom: 30px; */
+}
+
+.join {
+/* 	background-color: #ff5c5c; */
+	text-align: center;
+	margin-top: -10px;
+}
+
+.kakao {
+	text-align: center;
+}
+
+.idpw {
+	min-width: 600px;
+	min-height: 40px;
+	margin-bottom: 10px;
+	padding-left: 60px;
+	border-radius: 5px;
+	border: 1px solid;
+	
+}
+
+.id {
+	/* 아이콘 넣기*/
+	background: url('/resources/img/id_icon.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 10px;
+    background-color: #F0EFF4;
+}
+
+.pw {
+	/* 아이콘 넣기*/
+	background: url('/resources/img/pw_icon.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 10px;
+    background-color: #F0EFF4;
+}
+
+.invalid-feedback {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 60px;
+	line-height: 0;
+}
+
+.id_space {
+	margin-bottom: 30px;
+/* 	background-color: lime; */
+	height: 60px;
+}
+
+.pw_space {
+	margin-top: -30px;
+	margin-bottom: 0px;
+/* 	background-color: lime; */
+	height: 60px;
+}
+
+/* 로그인 버튼*/
+.loginButton {
+	width: 600px;
+	height: 44px;
+	padding: 9px;
+	margin-top: 20px;
+	margin-bottom: -13px;
+	border: 1px solid;
+	border-color: #008000;
+	border-radius: 5px;
+	background-color: #008000;
+	color: #fff;
+	font-weight: 500;
+}
+
+.loginButton:active {
+	background: green;
+	border-style: none;
+}
+
+/* 카카오 로그인 버튼*/
+.kakao_href {
+/* 	border: 1px solid; */
+	border-radius: 5px;
+	border-color: #3E2723;
+	background-color: #FFEB02;
+	width: 600px;
+	padding: 5px;
+	margin-left: 200px;
+	color: #3E2723;
+	font-weight: 500;
+	margin-bottom: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+.kakao_icon {
+	margin-right: 10px;	
+}
+
+/*input 자동 완성시 색깔*/ 
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0 30px #F0EFF4 inset ; -webkit-text-fill-color: #000; }
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active { transition: background-color 5000s ease-in-out 0s; }
+
+p {
+	font-weight: 400;
+	color: #005400;
+}
 
 
+</style><!-- .css 끝 -->
 
 <div class="container">
+<div class="form">
 <div class="pageTitle">
-<h3 id="pageTitle">로그인</h3>
-<hr>
-</div>
+<h3 id="pageTitle" style="color: #0f7e3e;">로그인</h3>
+</div><!-- .pageTitle -->
 
-<div class="row g-3 align-items-center">
-<!-- <form action="./login" id="loginForm" method="post"> -->
+<div class="input_form">
 
-	
-<div class="input-group has-validation">
-	<span class="input-group-text" id="basic-addon1">
-	<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-		<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
-	</svg>
-	</span>
-	<div class="form-floating is-invalid">
-		<input type="text" id="userId" name="userId" class="form-control" onblur="idDupleCheck(this)">
-	    <label for="floatingInputGroup2">아이디*</label>
-  	</div>
-	<div id="idDupleBlock" class="invalid-feedback"  style="display:none">
+<div class="login">
+<!-- 아이디 -->
+<div class="id_space">
+
+	<div>
+		<input type="text" id="userId" class="idpw id" name="userId" onblur="idDupleCheck(this)" placeholder="아이디*">
+
+  	</div><!-- .form-floating is-invalid -->
+  	
+	<div id="idDupleBlock" class="invalid-feedback" style="display:none">
 		<p id="idDupleText"></p>
-	</div>
-</div>
+	</div><!-- .idDupleBlock -->
+</div><!-- .id_space -->
 
+<!-- 비밀번호 -->
+<div class="pw_space">
+	<div>
 
-<div class="input-group has-validation">
-	<span class="border border-success-subtle input-group-text" id="basic-addon1">
-	<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
-  	<path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
- 	<path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-	</svg>
-	</span>
-	<div class="form-floating is-invalid">
-	    <input type="password" id="userPw" name="userPw" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
-	    <label for="userPw" class="col-form-label">비밀번호*</label>
-  	</div>
-  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
+	    <input type="password" id="userPw" class="idpw pw" name="userPw" aria-describedby="passwordHelpInline" onblur="passwordCheck()" placeholder="비밀번호*" required>
+  	</div><!-- .form-floating is-invalid -->
+  	<div id="pwDupleBlock" class="invalid-feedback" style="display:none">
     <p id="pwDupleText"></p>
-	</div>
-</div>
-
-
+	</div><!-- .pwDupleBlock -->
 	
+</div><!-- .pw_space -->
+</div><!-- .login -->
 
-	<div>
-		<a href="./idfind" type="button" class="btn btn-outline-success">아이디 찾기</a>
-		<a href="./pwfind" type="button" class="btn btn-outline-success">비밀번호 찾기</a>		
-	</div>
+<!-- 아이디, 비밀번호 찾기 -->
+	<div class="find">
+		<a href="./idfind" type="button">아이디 찾기</a>
+		|
+		<a href="./pwfind" type="button">비밀번호 찾기</a>		
+	</div><!-- .find -->
 	
-	<div class="row mb-3 justify-content-center">
-		<button id="loginButton" class="btn btn-outline-success">로그인</button>
-	</div>	
+	<div class="login_btn">
+		<button id="loginButton" class="loginButton">일반 로그인</button>
+	</div><!-- .login_btn -->	
 	
-
-	
-	<div class="row mb-3 justify-content-center">
-		<a>Camping Every Share와 함께 하시겠어요? <a href="./join" type="button" class=" col-3 btn btn-outline-success">회원가입</a></a>
-	</div>	
-	<div class="row mb-3 justify-content-center">
-	<hr>
-		<a>또는</a>
-	<hr>
-	</div>	
-<!-- </form> -->
-	
-
-	<div>
+	<!-- 카카오 소셜 로그인 -->
+	<div class="kakao">
 		<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=a75bad9d6cd43e60fa8e31d70d2b8625&redirect_uri=http://localhost:8088/user/login&response_type=code">
-		<img src="/resources/img/kakao_login_medium_narrow.png" style="height:60px">
+		<p class="kakao_href">
+		<img alt="kakao_icon_2" src="/resources/img/kakao_icon_2.png" class="kakao_icon" width="30px" height="30px">
+		카카오 로그인</p>
 		</a>
-	</div>
+	</div><!-- .kakao -->
 	
+	<div class="join">
+	<p>Camping Every Share와 함께 하시겠어요? <a href="./join" type="button">회원가입</a></p>	
+	</div><!-- .join -->
 		
-</div>
+</div><!-- .input -->
+</div><!-- .form -->
 
 </div><!-- .container -->
 
