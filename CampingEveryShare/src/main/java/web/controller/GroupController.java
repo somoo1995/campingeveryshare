@@ -22,6 +22,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
@@ -73,6 +74,21 @@ public class GroupController {
 		logger.info("boarFile : {}", boardFile);
 		logger.info("group : {}", group);
 		
+		//신고 상태 조회
+		Report report = new Report();
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		int reportCnt = groupService.getTotalCntReport(report);
+		logger.info("totalHeart" + reportCnt);
+		
+		//신고 상태 전달
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		boolean isReport = groupService.reportCnt(report);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cntReport", groupService.getTotalCntReport(report));
 		
 		//추천 상태 전달
 		Recom recom = new Recom();
@@ -209,7 +225,18 @@ public class GroupController {
 		return mav;
 	}
 
-
+	@RequestMapping("/report")
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {}
+	
+	@PostMapping("/report")
+	public String reportProc(Board board, Model model, Report report, HttpSession session) {
+		
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setVuserId(board.getUserId());
+		
+		groupService.insertReport(report);
+		return"redirect:./view?boardNo=" + board.getBoardNo();
+	}
 
 
 

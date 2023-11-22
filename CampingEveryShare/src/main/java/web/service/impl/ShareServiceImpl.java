@@ -17,12 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.CommDao;
 import web.dao.face.HeartDao;
 import web.dao.face.ReComDao;
+import web.dao.face.ReportDao;
 import web.dao.face.ShareDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Heart;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.Share;
 import web.dto.User;
 import web.service.face.ShareService;
@@ -36,6 +38,7 @@ public class ShareServiceImpl implements ShareService {
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
 	@Autowired HeartDao heartDao;
+	@Autowired ReportDao reportDao;
 	
 	@Autowired ServletContext context;
 	@Override
@@ -292,9 +295,25 @@ public class ShareServiceImpl implements ShareService {
 			return true;
 		}
 	}
+
+	@Override
+	public void insertReport(Report report) {
+		reportDao.insertReport(report);
+	}
 	
+	@Override
+	public int getTotalCntReport(Report report) {
+		return reportDao.selectTotalCntReport(report);
+	}
+
+	@Override
+	public boolean reportCnt(Report report) {
+		int rCnt = reportDao.selectCntReportByUserId(report);
+		
+		if( rCnt > 0 ) {
+			return true;
+		}
+		return false;
+	}
 	
-
-
-
 }

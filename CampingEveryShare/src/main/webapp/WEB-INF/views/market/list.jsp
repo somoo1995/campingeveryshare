@@ -218,5 +218,5 @@ select {
 
 
 </div><!-- .container -->
-<c:import url="../layout/listpagination.jsp" />
+<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />
