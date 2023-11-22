@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="web.dao.face.ReportDao">
+  	<insert id="insertReport">
+  			<selectKey order="BEFORE"  resultType="int" keyProperty="reportNo">
+			SELECT report_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO reporttb (report_no, board_no, reason, reason_detail, vuser_id, ruser_id, board_cate)
+  		VALUES (#{reportNo}, #{boardNo}, #{reason}, #{reasonDetail}, #{vuserId}, #{ruserId}, #{boardCate} )
+  	</insert>
+  	
+  	<select id="selectTotalCntReport" resultType="int" parameterType="report">
+  		SELECT COUNT(*) FROM reporttb
+  		WHERE board_no = #{boardNo }
+  	</select>
+  	
+  	<select id="selectCntReportByUserId" resultType="int" parameterType="report">
+  		SELECT COUNT (*) FROM reporttb
+  		WHERE ruser_id = #{ruserId }
+  		AND board_no = #{boardNo }
+  		AND board_cate = #{boardCate }
+  	</select>
+  </mapper>

@@ -8,6 +8,29 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
+<script type="text/javascript">
+
+function cancel() {
+	$.ajax({
+	      "url": "https://api.iamport.kr/payments/cancel", // 예: http://www.myservice.com/payments/cancel
+	      "type": "POST",
+	      "contentType": "application/json",
+	      "data": JSON.stringify({
+	        "merchant_uid": "{결제건의 주문번호}", // 예: ORD20180131-0000011
+	        "cancel_request_amount": 2000, // 환불금액
+	        "reason": "테스트 결제 환불" // 환불사유
+	        "refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+	        "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+	        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+	      }),
+	      "dataType": "json"
+	    });
+}
+
+</script>
+
+
+<c:if test="${not empty hasData and hasData }">
 <div class="bookingList mb-5">
 	<c:forEach var="list" items="${list }">
 	<ul>
@@ -41,6 +64,13 @@
 	<hr>
 	</c:forEach>
 </div>
-
 <c:import url="../layout/listpagination.jsp" />
+</c:if>
 
+<c:if test="${empty hasData or not hasData }">
+		<div class="rentList">
+			<strong>아직 예약된 캠핑카가 없습니다!</strong><br>
+			<span>캠핑카를 찾으시나요?</span><br>
+			<a href="링크URL" class="exploreButton">살펴보기</a>
+		</div>
+</c:if>

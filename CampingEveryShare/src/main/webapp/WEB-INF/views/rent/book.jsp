@@ -66,6 +66,7 @@ td {
 
 .pastDay {
     color: lightgray;
+	cursor: default;
 }
 
 .today {
@@ -101,6 +102,7 @@ td {
 
 .bookedDay {
     color: lightgray;
+    cursor: default;
 }
 
 </style>
@@ -120,6 +122,8 @@ $(function() {
 // 달력 생성
 var today = new Date()
 var thisMonth = new Date()
+
+var excludedDates = []
 
 today.setHours(0, 0, 0, 0)
 
@@ -157,6 +161,7 @@ function buildCalendar() {
     	
         if (nowDay < today) {
             newDIV.className = "pastDay"
+            newDIV.onclick = function () { alert("지난 날짜는 선택할 수 없습니다") } 
         } else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) {
             newDIV.className = "today"
             newDIV.onclick = function () { choiceDate(this) }
@@ -168,18 +173,30 @@ function buildCalendar() {
             newDIV.onclick = function () { choiceDate(this) }
         }
         
+        var isBooked = false
+        
     	// 각 Dto에서 startDate와 endDate 값을 추출하여 클래스를 적용
+//     	console.log("list.length : " + list.length)
         for (var i = 0; i < list.length; i++) {
             var dtoStartDate = new Date(list[i].startDate);
             var dtoEndDate = new Date(list[i].endDate);
-            
+
             if (isDateInRange(nowDay, dtoStartDate, dtoEndDate)) {
+//             	console.log(typeof dtoStartDate)
+//             	console.log("nowDay : " + nowDay)
+//             	excludedDates.push(new Date(nowDay.toString()))
+//             	excludedDates.push(new Date(nowDay))
+            	excludedDates.push(nowDay.toString())
+//             	console.log("excludedDates : " + excludedDates)
+            	
                 newDIV.classList.add("bookedDay")
                 newDIV.classList.remove("futureDay")
-                break;
+
+                isBooked = true
+                break
             }
         }
-        
+                
     }
 } // buildCalendar() end
 
@@ -202,34 +219,44 @@ var secondSelectedDate = null
 // var selectedDates = []
 var betweenDates = []
 
+
 function choiceDate(newDIV) {
 	
 // 	betweenDates.splice(0, betweenDates.length)
 	
 //     console.log("selectedDates st : " + selectedDates) // 선택된 날짜 확인
     console.log("betweenDates st : " + betweenDates) // 두 날짜 사이의 모든 날짜 확인
+    console.log("excludedDates st : " + excludedDates) 
 
     var date = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(newDIV.innerText))
     var allDays = document.querySelectorAll(".tb-calendar tbody td p")
     console.log("선택 날짜 : " + date)
     
     if(newDIV.classList.contains("bookedDay")){
+    	alert("예약 가능한 날짜를 선택해주세요")
     	return
     }
-   
-	if(firstSelectedDate === null || firstSelectedDate > date) {
+
+	if(firstSelectedDate == null || firstSelectedDate > date) {
+// 	if(firstSelectedDate === null) {
 		firstSelectedDate = date
 		betweenDates = []
 		betweenDates.push(firstSelectedDate)
 		newDIV.classList.add("choiceDay")
 		secondSelectedDate = null
+		$("#toDate").val('')
+		$("#totalPrice").text('')
+		$("#totalNights").text('')
 		
-	} else if (secondSelectedDate !== null && (secondSelectedDate < date || secondSelectedDate > date)) {
+	} else if (secondSelectedDate != null && (secondSelectedDate <= date || secondSelectedDate >= date)) {
 		firstSelectedDate = date
 		newDIV.classList.add("choiceDay")
 		secondSelectedDate = null
 		betweenDates = []
 		betweenDates.push(firstSelectedDate)
+		$("#toDate").val('')
+		$("#totalPrice").text('')
+		$("#totalNights").text('')
 		
 	} else {
 		secondSelectedDate = date
@@ -238,17 +265,30 @@ function choiceDate(newDIV) {
 		var currentDate = new Date(firstSelectedDate)
 		
 		while (currentDate <= secondSelectedDate) {
-			betweenDates.push(new Date(currentDate))
-			currentDate.setDate(currentDate.getDate()+1)
-       }
+			console.log("currentDate : " + currentDate)
+			console.log(excludedDates.includes(currentDate.toString()))
+			
+			if(excludedDates.includes(currentDate.toString())) {
+				alert("예약 불가한 날짜가 포함되어 있습니다")
+				betweenDates = []
+				firstSelectedDate = null
+				secondSelectedDate = null
+				$("#fromDate").val('');
+				continue
+			} else {
+				betweenDates.push(new Date(currentDate))
+				currentDate.setDate(currentDate.getDate()+1)
+			}
+						
+		}
 	   
    }
    
    console.log("첫 선택 날짜 : " + firstSelectedDate)
    console.log("두번째 선택 날짜 : " + secondSelectedDate)
    console.log("betweenDates 중간 : " + betweenDates)
-    
-	
+
+   
 	allDays.forEach(function(day) {
 		var dateDIV = new Date(thisMonth.getFullYear(), thisMonth.getMonth(), parseInt(day.innerText))
 		
@@ -264,14 +304,31 @@ function choiceDate(newDIV) {
 		
 	})
 	
-	var price = car.price * betweenDates.length
-	
-	$("#totalPrice").html(price)
+	updateSelectedDatesInfo()
 	
 //     console.log("selectedDates fin : " + selectedDates) // 선택된 날짜 확인
     console.log("betweenDates fin : " + betweenDates) // 두 날짜 사이의 모든 날짜 확인
 }
 
+function updateSelectedDatesInfo() {
+	if (firstSelectedDate != null) {
+		var formatFromDate = firstSelectedDate.toLocaleDateString('ko-KR', { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit' })
+		$("#fromDate").val(formatFromDate);
+	}
+
+	if (secondSelectedDate != null) {
+        var formatToDate = secondSelectedDate.toLocaleDateString('ko-KR', { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit' })
+        $("#toDate").val(formatToDate);
+
+        var nights = betweenDates.length - 1;
+        var price = car.price * nights;
+
+        $("#totalPrice").html(price);
+        $("#totalNights").html(nights);
+    }
+}	
+	
+	
 function prevCalendar() {
 	thisMonth = new Date(thisMonth.getFullYear(), thisMonth.getMonth()-1, thisMonth.getDate())
 	buildCalendar()
@@ -310,3 +367,10 @@ function nextCalendar() {
 	</tbody>
 </table>
 </div><!-- .warp-calendar end -->
+
+<div>
+
+
+
+</div>
+

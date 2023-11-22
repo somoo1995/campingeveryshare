@@ -124,6 +124,13 @@ public interface GroupDao {
 	 * @return - 입력되어 있는 상태
 	 */
 	public Group selectSatus(Group group);
+	
+	/**
+	 * 글 수정시 status 업데이트
+	 * 
+	 * @param group - status 정보
+	 */
+	public void updateStatus(Group group);
 
 	
 	

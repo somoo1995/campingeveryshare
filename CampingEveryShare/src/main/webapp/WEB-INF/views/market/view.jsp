@@ -7,46 +7,43 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/header.jsp" />
 <script type="text/javascript">
 $(()=>{
-	if(${isRecom}) {
-		$("#btnRecom")
+	if(${isHeart}) {
+		$("#btnHeart")
 			.addClass("btn-warning")
-			.html('추천 취소');
+			.html('찜 취소');
 	} else {
-		$("#btnRecom")
+		$("#btnHeart")
 			.addClass("btn-primary")
-			.html('추천');
+			.html('찜');
 	}
 	
-	$("#btnRecom").click(()=>{
+	$("#btnHeart").click(()=>{
 		
 		$.ajax({
 			type: "get"
-			, url: "/share/recom"
+			, url: "/market/heart"
 			, data: { 
 				userId : "${loginId}",
-				recomNo : ${board.boardNo},
+				heartNo : ${board.boardNo},
 				boardCate : ${board.boardCate}
  			}
 			, dataType: "json"
 			, success: function( data ) {
 					console.log("성공");
 	
-				if( data.result ) { //추천 성공
-					$("#btnRecom")
+				if( data.hResult ) { //찜 성공
+					$("#btnHeart")
 					.removeClass("btn-primary")
 					.addClass("btn-warning")
-					.html('추천 취소');
+					.html('찜 취소');
 				
-				} else { //추천 취소 성공
-					$("#btnRecom")
+				} else { //찜 취소 성공
+					$("#btnHeart")
 					.removeClass("btn-warning")
 					.addClass("btn-primary")
-					.html('추천');
+					.html('찜');
 				
 				}
-				
-				//추천수 적용
-				$("#recom").html(data.cnt);
 				
 			}
 			, error: function() {
@@ -130,6 +127,41 @@ function deleteComment(commNo) {
 	});
 }
 
+$(() => {
+    if (${isReport}) {
+        $("#reportbtn")
+            .addClass("btn-danger")
+            .html('신고 완료')
+            .prop("disabled", true); // 버튼 비활성화
+    } else {
+        $("#reportbtn")
+            .addClass("btn-primary")
+            .html('신고 하기')
+            .click(() => { // 클릭 이벤트 추가
+                $.ajax({
+                    type: "get",
+                    url: "/market/report",
+                    data: {
+                        ruserId: "${loginId}",
+                        boardNo: ${board.boardNo},
+                        boardCate: ${board.boardCate}
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("성공");
+                        $("#reportbtn")
+                            .removeClass("btn-primary")
+                            .addClass("btn-warning")
+                            .html('신고 완료')
+                            .prop("disabled", true); // 버튼 비활성화
+                    },
+                    error: function () {
+                        console.log("실패");
+                    }
+                }); //ajax end
+            });
+    }
+});
 </script>
 
 <style type="text/css">
@@ -156,6 +188,44 @@ function deleteComment(commNo) {
 	    <c:set var="formattedPrice" value="${market.price}" />
 		<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />	
 		<th class="table-info">가 격</th><td >${price }원</td>
+		<th class="table-info">위 치</th>
+		<td>
+			<c:if test="${board.location eq 10}">강원</c:if>
+	  		<c:if test="${board.location eq 9}">경기</c:if>
+		   	<c:if test="${board.location eq 16}">경남</c:if>
+		    <c:if test="${board.location eq 15}">경북</c:if>
+		    <c:if test="${board.location eq 5}">광주</c:if>
+		    <c:if test="${board.location eq 6}">대구</c:if>
+		    <c:if test="${board.location eq 3}">대전</c:if>
+		    <c:if test="${board.location eq 4}">부산</c:if>
+		    <c:if test="${board.location eq 1}">서울</c:if>
+		    <c:if test="${board.location eq 8}">세종</c:if>
+		    <c:if test="${board.location eq 7}">울산</c:if>
+		    <c:if test="${board.location eq 2}">인천</c:if>
+		    <c:if test="${board.location eq 14}">전남</c:if>
+		    <c:if test="${board.location eq 13}">전북</c:if>
+		    <c:if test="${board.location eq 17}">제주</c:if>
+		    <c:if test="${board.location eq 12}">충남</c:if>
+		    <c:if test="${board.location eq 11}">충북</c:if>
+        </td>
+	</tr>
+	<tr>
+		<th class="table-info">아이디</th><td>${board.userId }</td>
+		<th class="table-info">닉네임</th><td>${user.userNick }</td>
+	</tr>
+	<tr>
+		<th class="table-info">제목</th><td>${board.title }</td>
+		<th class="table-info">조회수</th><td>${board.hit }</td>
+	</tr>
+	<tr>
+		<th class="table-info">첨부파일</th>
+		<td>
+		<c:forEach var="boardFile" items="${boardFile }">
+		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
+		${boardFile.originName }<br>
+		</a>
+		</c:forEach>		
+		</td>
 		<th class="table-info">작성일</th>
 		<td>
 			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
@@ -171,24 +241,6 @@ function deleteComment(commNo) {
         </td>
 	</tr>
 	<tr>
-		<th class="table-info">아이디</th><td>${board.userId }</td>
-		<th class="table-info">닉네임</th><td>${user.userNick }</td>
-	</tr>
-	<tr>
-		<th class="table-info">제목</th><td>${board.title }</td>
-		<th class="table-info">조회수</th><td>${board.hit }</td>
-	</tr>
-	<tr>
-		<th class="table-info">첨부파일</th>
-		<td colspan="3">
-		<c:forEach var="boardFile" items="${boardFile }">
-		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
-		${boardFile.originName }<br>
-		</a>
-		</c:forEach>		
-		</td>
-	</tr>
-	<tr>
 		<th class="table-info">내용</th><td colspan="3">${board.content }</td>
 	</tr>
 </table> 
@@ -200,12 +252,17 @@ function deleteComment(commNo) {
 <div class="text-center">
 	<a href="./list" class="btn btn-secondary">목록</a>
 <div>
-	<button id="btnRecom" class="btn"></button>
+	<button id="btnHeart" class="btn"></button>
 </div>
-	<p>추천수</p> <p id=recom>${totalCnt }</p>
 	<c:if test="${loginId eq board.userId}">
 	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
+	</c:if>
+</div>
+<div>
+	<!-- 신고 -->
+	<c:if test="${not (empty loginId or loginId eq board.userId)}">
+	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn" id="reportbtn"></button>
 	</c:if>
 </div>
 
@@ -285,5 +342,5 @@ function deleteComment(commNo) {
 
 
 </div><!-- .container -->
-
+<c:import url="../layout/modal.jsp" />
 <c:import url="../layout/footer.jsp" />

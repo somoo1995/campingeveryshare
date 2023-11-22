@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Heart;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.Share;
 import web.dto.User;
 import web.service.face.ShareService;
@@ -78,6 +80,38 @@ public class ShareController {
 		logger.info("share : {}" + share);
 		logger.info("boarFile : {}", boardFile);
 		
+		
+		//찜 상태 조회
+		Heart heart = new Heart();
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		int heartCnt = shareService.getTotalCntHeart(heart);
+		logger.info("totalHeart" + heartCnt);
+		
+		//찜 상태 전달
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		boolean isHeart = shareService.heartCnt(heart);
+		model.addAttribute("isHeart", isHeart);
+		model.addAttribute("cntHeart", shareService.getTotalCntHeart(heart));
+
+		//신고 상태 조회
+		Report report = new Report();
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		int reportCnt = shareService.getTotalCntReport(report);
+		logger.info("totalHeart" + reportCnt);
+		
+		//신고 상태 전달
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		boolean isReport = shareService.reportCnt(report);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cntReport", shareService.getTotalCntReport(report));
 		
 		//추천 상태 전달
 		Recom recom = new Recom();
@@ -137,22 +171,26 @@ public class ShareController {
 	}
 	
 	@GetMapping("/update")
-	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
+	public String update(Board board, BoardFile file, User user, Share share, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
 			return "redirect:./view";
 		}
+		
 		//상세보기 페이지 아님 표시
 		board.setHit(-1);
 		
 		//상세보기 게시글 조회
 		board = shareService.view(board);
 		model.addAttribute("board", board);
-
+		logger.info("board : {} " + board);
+		share = shareService.getPaid(share);
+		logger.info("share : {} " + share);
+		model.addAttribute("share", share);
+		
 		//첨부파일 정보 전달
 		List<BoardFile> boardfile = shareService.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
-		
 		return "share/update";
 	}
 	
@@ -162,16 +200,18 @@ public class ShareController {
 			, Board board
 			, List<MultipartFile> file
 			, HttpSession session
-			, int[] delFileNo) {
+			, int[] delFileNo
+			, Share share) {
 		
 		logger.info("board {}", board);
 		logger.info("file {}", file);
 		logger.info("delFileno {}", Arrays.toString(delFileNo));
-
+		logger.info("share : {} : " + share);
+		
 		board.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		shareService.updateProc(board, file, delFileNo);
+		shareService.updateProc(board, file, delFileNo, share);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -211,10 +251,37 @@ public class ShareController {
 		return mav;
 	}
 
+	@RequestMapping("/heart")
+	public ModelAndView heart(Model model, Heart heart, Board board, ModelAndView mav, HttpSession session) {
+		
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setBoardCate(board.getBoardCate());
+		boolean hResult = shareService.heart(heart);
 
+		mav.addObject("hResult", hResult);
+		
+		int hCnt = shareService.getTotalCntHeart(heart);
+		mav.addObject("hCnt", hCnt);
+		
+		mav.setViewName("jsonView");
+		return mav;
+	}
 
-
-
-
+	@RequestMapping("/report")
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {
+		logger.info("board : {} " + board.toString());
+		logger.info("model : {} " + model.toString());
+		logger.info("report : {} " + report.toString());
+	}
+	
+	@PostMapping("/report")
+	public String reportProc(Board board, Model model, Report report, HttpSession session) {
+		
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setVuserId(board.getUserId());
+		
+		shareService.insertReport(report);
+		return"redirect:./view?boardNo=" + board.getBoardNo();
+	}
 } 
 

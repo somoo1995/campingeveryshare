@@ -2,38 +2,38 @@ package web.dto;
 
 public class Heart {
 
-	private int userNo;
-	private int boardNo;
+	private String userId;
+	private int heartNo;
 	private int boardCate;
 	
 	public Heart() {}
 
-	public Heart(int userNo, int boardNo, int boardCate) {
+	public Heart(String userId, int heartNo, int boardCate) {
 		super();
-		this.userNo = userNo;
-		this.boardNo = boardNo;
+		this.userId = userId;
+		this.heartNo = heartNo;
 		this.boardCate = boardCate;
 	}
 
 	@Override
 	public String toString() {
-		return "Heart [userNo=" + userNo + ", boardNo=" + boardNo + ", boardCate=" + boardCate + "]";
+		return "Heart [userId=" + userId + ", heartNo=" + heartNo + ", boardCate=" + boardCate + "]";
 	}
 
-	public int getUserNo() {
-		return userNo;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public int getBoardNo() {
-		return boardNo;
+	public int getHeartNo() {
+		return heartNo;
 	}
 
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+	public void setHeartNo(int heartNo) {
+		this.heartNo = heartNo;
 	}
 
 	public int getBoardCate() {
@@ -43,7 +43,7 @@ public class Heart {
 	public void setBoardCate(int boardCate) {
 		this.boardCate = boardCate;
 	}
-	
 
+	
 	
 }
