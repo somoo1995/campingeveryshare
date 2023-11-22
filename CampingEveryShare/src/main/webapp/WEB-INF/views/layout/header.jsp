@@ -57,6 +57,7 @@ $(function() {
 $(function() {
 	
 	hasNew()
+
 	
 	var urlEndPoint = "/alert/get?userId=" + "${loginId}"
 	var eventSource = new EventSource(urlEndPoint)
@@ -201,7 +202,7 @@ $(function() {
 	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-left.png");
 	        $("#host").removeClass("userStatus")
 	        $("#guest").addClass("userStatus")
-	        $("#campStatus").html("내 예약").attr("camp-data", "/booking/list")
+	        $("#campStatus").html("내 예약").attr("camp-data", "/booking/main")
 	        
 	    } else {
 	        $(".tglStatus").attr("src", "/resources/img/toggle-brown-right.png");
