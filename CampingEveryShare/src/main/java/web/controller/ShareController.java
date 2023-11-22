@@ -22,6 +22,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Heart;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.Share;
 import web.dto.User;
 import web.service.face.ShareService;
@@ -95,6 +96,22 @@ public class ShareController {
 		boolean isHeart = shareService.heartCnt(heart);
 		model.addAttribute("isHeart", isHeart);
 		model.addAttribute("cntHeart", shareService.getTotalCntHeart(heart));
+
+		//신고 상태 조회
+		Report report = new Report();
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		int reportCnt = shareService.getTotalCntReport(report);
+		logger.info("totalHeart" + reportCnt);
+		
+		//신고 상태 전달
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		boolean isReport = shareService.reportCnt(report);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cntReport", shareService.getTotalCntReport(report));
 		
 		//추천 상태 전달
 		Recom recom = new Recom();
@@ -250,5 +267,21 @@ public class ShareController {
 		return mav;
 	}
 
+	@RequestMapping("/report")
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {
+		logger.info("board : {} " + board.toString());
+		logger.info("model : {} " + model.toString());
+		logger.info("report : {} " + report.toString());
+	}
+	
+	@PostMapping("/report")
+	public String reportProc(Board board, Model model, Report report, HttpSession session) {
+		
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setVuserId(board.getUserId());
+		
+		shareService.insertReport(report);
+		return"redirect:./view?boardNo=" + board.getBoardNo();
+	}
 } 
 

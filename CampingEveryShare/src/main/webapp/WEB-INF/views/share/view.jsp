@@ -3,34 +3,7 @@
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="modal fade" id="reportModal" aria-hidden="true" aria-labelledby="reportModalLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <%@ include file="/WEB-INF/views/report/report.jsp" %>
-        <button form="reportForm" id="reportBtn" class="btn float-end" data-bs-target="#reportOkModal" data-bs-toggle="modal">신고하기</button>
-     </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id=reportOkModal aria-hidden="true" aria-labelledby="reportOkModalLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <%@ include file="/WEB-INF/views/report/report_ok.jsp" %>
-      <button id="footerReportOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 <c:import url="../layout/header.jsp" />
 
 
@@ -206,11 +179,46 @@ function deleteComment(commNo) {
 	});
 }
 
+$(() => {
+    if (${isReport}) {
+        $("#reportbtn")
+            .addClass("btn-danger")
+            .html('신고 완료')
+            .prop("disabled", true); // 버튼 비활성화
+    } else {
+        $("#reportbtn")
+            .addClass("btn-primary")
+            .html('신고 하기')
+            .click(() => { // 클릭 이벤트 추가
+                $.ajax({
+                    type: "get",
+                    url: "/share/report",
+                    data: {
+                        ruserId: "${loginId}",
+                        boardNo: ${board.boardNo},
+                        boardCate: ${board.boardCate}
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("성공");
+                        $("#reportbtn")
+                            .removeClass("btn-primary")
+                            .addClass("btn-warning")
+                            .html('신고 완료')
+                            .prop("disabled", true); // 버튼 비활성화
+                    },
+                    error: function () {
+                        console.log("실패");
+                    }
+                }); //ajax end
+            });
+    }
+});
+
+
+
 </script>
 
-<script language="javascript">
-  function btnReport() { window.open("report.html", "report", "width=400, height=300, left=100, top=50"); }
-</script>
 
 
 <style type="text/css">
@@ -309,21 +317,27 @@ function deleteComment(commNo) {
 <div class="text-center">
 	<a href="./list" class="btn btn-secondary">목록</a>
 <div>
+<!-- 	찜 -->
 	<button id="btnRecom" class="btn"></button>
 </div>
 	<p>추천수</p> <p id=recom>${totalCnt }</p>
+	
 	<c:if test="${loginId eq board.userId}">
 	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 	</c:if>
+
+	<!-- 신고 -->
+	<c:if test="${not (empty loginId or loginId eq board.userId)}">
+	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn" id="reportbtn"></button>
+	</c:if>
+
 </div>
 
 <div>
-찜자리
+<!-- 찜 구역 -->
 	<button id="btnHeart" class="btn"></button>
-<button type="button" style="width: 80px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
-<div style="width: 80px; height: 25px;">신고하기</div>
-</button></div>
+</div>
 <hr>
 <div>
 
@@ -401,4 +415,6 @@ function deleteComment(commNo) {
 
 </div><!-- .container -->
 
+<c:import url="../layout/modal.jsp" />
 <c:import url="../layout/footer.jsp" />
+

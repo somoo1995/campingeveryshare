@@ -24,6 +24,7 @@ import web.dto.Comm;
 import web.dto.Heart;
 import web.dto.Market;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.MarketService;
 import web.util.Paging;
@@ -90,6 +91,22 @@ public class MarketController {
 		boolean isHeart = marketService.heartCnt(heart);
 		model.addAttribute("isHeart", isHeart);
 		model.addAttribute("cntHeart", marketService.getTotalCntHeart(heart));
+		
+		//신고 상태 조회
+		Report report = new Report();
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		int reportCnt = marketService.getTotalCntReport(report);
+		logger.info("totalHeart" + reportCnt);
+		
+		//신고 상태 전달
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		boolean isReport = marketService.reportCnt(report);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cntReport", marketService.getTotalCntReport(report));
 		
 //		//추천 상태 전달
 //		Recom recom = new Recom();
@@ -242,7 +259,20 @@ public class MarketController {
 		return mav;
 	}
 
-
+	@RequestMapping("/report")
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {
+		
+	}
+	
+	@PostMapping("/report")
+	public String reportProc(Board board, Model model, Report report, HttpSession session) {
+		
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setVuserId(board.getUserId());
+		
+		marketService.insertReport(report);
+		return"redirect:./view?boardNo=" + board.getBoardNo();
+	}
 
 
 } 

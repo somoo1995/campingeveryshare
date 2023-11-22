@@ -127,6 +127,41 @@ function deleteComment(commNo) {
 	});
 }
 
+$(() => {
+    if (${isReport}) {
+        $("#reportbtn")
+            .addClass("btn-danger")
+            .html('신고 완료')
+            .prop("disabled", true); // 버튼 비활성화
+    } else {
+        $("#reportbtn")
+            .addClass("btn-primary")
+            .html('신고 하기')
+            .click(() => { // 클릭 이벤트 추가
+                $.ajax({
+                    type: "get",
+                    url: "/market/report",
+                    data: {
+                        ruserId: "${loginId}",
+                        boardNo: ${board.boardNo},
+                        boardCate: ${board.boardCate}
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("성공");
+                        $("#reportbtn")
+                            .removeClass("btn-primary")
+                            .addClass("btn-warning")
+                            .html('신고 완료')
+                            .prop("disabled", true); // 버튼 비활성화
+                    },
+                    error: function () {
+                        console.log("실패");
+                    }
+                }); //ajax end
+            });
+    }
+});
 </script>
 
 <style type="text/css">
@@ -224,6 +259,12 @@ function deleteComment(commNo) {
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 	</c:if>
 </div>
+<div>
+	<!-- 신고 -->
+	<c:if test="${not (empty loginId or loginId eq board.userId)}">
+	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn" id="reportbtn"></button>
+	</c:if>
+</div>
 
 <hr>
 <div>
@@ -301,5 +342,5 @@ function deleteComment(commNo) {
 
 
 </div><!-- .container -->
-
+<c:import url="../layout/modal.jsp" />
 <c:import url="../layout/footer.jsp" />

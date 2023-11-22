@@ -18,12 +18,14 @@ import web.dao.face.CommDao;
 import web.dao.face.HeartDao;
 import web.dao.face.MarketDao;
 import web.dao.face.ReComDao;
+import web.dao.face.ReportDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Heart;
 import web.dto.Market;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.MarketService;
 import web.util.Paging;
@@ -36,6 +38,7 @@ public class MarketServiceImpl implements MarketService {
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
 	@Autowired HeartDao heartDao;
+	@Autowired ReportDao reportDao;
 	
 	@Autowired ServletContext context;
 	@Override
@@ -51,7 +54,7 @@ public class MarketServiceImpl implements MarketService {
 
 		int totalCount = marketDao.selectCntAll();
 
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
 		
 		return paging;
 	}
@@ -294,4 +297,23 @@ public class MarketServiceImpl implements MarketService {
 		}
 	}
 	
+	@Override
+	public void insertReport(Report report) {
+		reportDao.insertReport(report);
+	}
+	
+	@Override
+	public int getTotalCntReport(Report report) {
+		return reportDao.selectTotalCntReport(report);
+	}
+	
+	@Override
+	public boolean reportCnt(Report report) {
+		int rCnt = reportDao.selectCntReportByUserId(report);
+		
+		if( rCnt > 0 ) {
+			return true;
+		}
+		return false;
+	}
 }

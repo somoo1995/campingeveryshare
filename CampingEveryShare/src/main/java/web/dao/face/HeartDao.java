@@ -1,6 +1,11 @@
 package web.dao.face;
 
+import java.util.List;
+import java.util.Map;
+
+import web.dto.Board;
 import web.dto.Heart;
+import web.util.Paging;
 
 public interface HeartDao {
 	
@@ -33,5 +38,21 @@ public interface HeartDao {
 	 * @param heart - 찜 정보 객체
 	 */
 	public void insertHeart(Heart heart);
+	
+	
+	/**
+	 * 조회된 게시글 수 조회 (페이징)
+	 * @param map 
+	 * 
+	 * @return - 총 게시글 수
+	 */
+	public int selectCntAll();
+	
+	/**
+	 * 조회된 게시글 리스트
+	 * @param paging
+	 * @return - 받아온 리스트
+	 */
+	public List<Board> selectShareAll(Paging paging);
 
 }

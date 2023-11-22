@@ -17,11 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.CommDao;
 import web.dao.face.GroupDao;
 import web.dao.face.ReComDao;
+import web.dao.face.ReportDao;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
@@ -33,6 +35,7 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired GroupDao groupDao;
 	@Autowired CommDao commDao;
 	@Autowired ReComDao recomDao;
+	@Autowired ReportDao reportDao;
 	
 	@Autowired ServletContext context;
 	@Override
@@ -265,8 +268,23 @@ public class GroupServiceImpl implements GroupService {
 		return recomDao.selectTotalCntRecom(recom);
 	}
 
+	@Override
+	public void insertReport(Report report) {
+		reportDao.insertReport(report);
+	}
 
+	@Override
+	public int getTotalCntReport(Report report) {
+		return reportDao.selectTotalCntReport(report);
+	}
 
-
-
+	@Override
+	public boolean reportCnt(Report report) {
+		int rCnt = reportDao.selectCntReportByUserId(report);
+		
+		if( rCnt > 0 ) {
+			return true;
+		}
+		return false;
+	}
 }
