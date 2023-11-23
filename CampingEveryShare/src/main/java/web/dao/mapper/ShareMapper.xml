@@ -36,8 +36,9 @@
 
   	</select>
   
-  	<select id="selectCntAll">
+  	<select id="selectCntAll" parameterType="int">
   		SELECT count(*) FROM boardtb
+  		WHERE board_cate = 2
   	</select>
   
   	<select id="selectBoardView" resultType="board" parameterType="board">
