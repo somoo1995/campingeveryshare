@@ -24,6 +24,8 @@ public interface MsgDao {
 
 	public void makeNewRoom(Msg msg);
 
+	public Integer selectNewRoomByMap(Map<String, Object> map);
+
 
 
 }

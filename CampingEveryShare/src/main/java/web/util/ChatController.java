@@ -34,6 +34,8 @@ public class ChatController {
 		System.out.println("-----------------------------------------------------");
 		if(msg.getMsgStatus() !=3) {
 			msg = msgService.sendmessage(msg);			
+		}else {
+			msg.setMsgStatus(1);
 		}
 		System.out.println("-----------------------------------------------------");
 		System.out.println(msg.toString());
