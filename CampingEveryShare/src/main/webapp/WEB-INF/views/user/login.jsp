@@ -107,8 +107,27 @@ pageEncoding="UTF-8"%>
 	                }
 	            });
 	    	})
-	    });  
-</script><!-- .script 끝 -->
+	    });
+	    
+</script>
+
+<!-- 카카오 로그인 -->
+<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        Kakao.init('8dbde9a5763083fbca31c3f1098a1682');
+        Kakao.isInitialized();
+    });
+
+    function loginWithKakao() {
+        Kakao.Auth.authorize({ 
+        redirectUri: 'http://localhost:8088/user/login' 
+        }); // 등록한 리다이렉트uri 입력
+    }
+</script>
+
+
+<!-- .script 끝 -->
 
 <style type="text/css">
 
