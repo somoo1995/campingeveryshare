@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+ * {
+  	font-family: "source-han-sans-korean", sans-serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+.wrap {
+	width: 1300px;
+}
+
+.container {
+	width: 1300px;
+/* 	margin-left: -10px; */
+/* 	margin-right: 0px; */
+}
+
+.header-container {
+    position: relative;
+    display: inline-block;
+    width: 1300px;
+    height: 240px;
+}
+
+.header-image {
+    z-index: -1; 
+}
+
+
+#adminpageTitle {
+	color: #2072d8;
+	font-weight: bold;
+	font-size: 40px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+.main-category-menu {
+	text-align: center;
+	font-size: 24px;
+/* 	background-color: #defdd1; */
+	border: 1px solid;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-color: #d0d0d0;
+	padding-bottom: 10px;
+/* 	border-style: none; */
+}
+
+.main-category-menu a {
+	text-decoration: none;
+	color: #4f82cd;
+	transition: color 0.3s ease;
+	font-weight: bold;
+	width: 210px;
+	display: inline-block;
+/* 	text-align: center; */
+/* 	box-sizing: border-box;  */
+}
+
+.main-category-menu a:hover {
+	text-decoration: none;
+	color: #1f5fbe;
+}
+
+
