@@ -31,6 +31,9 @@ pageEncoding="UTF-8"%>
 	                displayBlock.text(successMessage);
 	                
 	            } 
+	        },
+	        error: function (xhr, status, error) {
+	            console.error("AJAX Error: " + status + " - " + error);
 	        }
 	    });
 	}
@@ -53,8 +56,15 @@ pageEncoding="UTF-8"%>
 	        "/user/emailCheck/",
 	        "emailDupleBlock",
 	        "이메일을 입력해 주세요.",
+	        "", 
 	        ""
 	    );
+	 	// 이메일이 사용 가능한 경우에만 인증 코드 발송 버튼 활성화
+	    if ($("#emailDupleBlock").text() === "사용 가능한 이메일입니다.") {
+	        $("#sendEmailButton").prop("disabled", true);
+	    } else {
+	        $("#sendEmailButton").prop("disabled", false);
+	    }
 	}
 	
 	// 이름 체크
@@ -76,8 +86,9 @@ pageEncoding="UTF-8"%>
         var userId = $("#userId").val();
         var userName = $("#userName").val();
         var email = $("#email").val();
+        var codeInput = $("#codeInput").val();
 
-        if (email.trim() === '' || userName.trim() === ''|| userId.trim() === '') {
+        if (codeInput.trim() === '' || email.trim() === '' || userName.trim() === ''|| userId.trim() === '') {
             $("#pwfail").show();
             return; // 입력값이 비어 있으면 더 이상 진행하지 않음
         }else {
@@ -192,6 +203,67 @@ pageEncoding="UTF-8"%>
         pwDupleBlock.text("");
 
     }
+	
+	//이메일 인증
+	let code = ""; // 이메일 인증 저장위한 코드
+	let emailPatternCheck = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+	
+	function sendEmail() {
+	    if (!emailPatternCheck.test($("#email").val())) {
+	        alert("이메일 형식에 맞추어 작성하세요");
+	    } else {
+	        let email = $("#email").val(); // 입력한 이메일
+	
+	        $.ajax({
+	            url: "mailSender.do",
+	            type: "get",
+	            data: { 'm_email': email },
+	            success: function (rnum) {
+	                alert("기입하신 이메일로 인증번호를 전송했습니다.");
+	
+	                $("#codeInput").attr("disabled", false); // 입력칸 활성화
+	                code = rnum;
+	            },
+	            error: function () {
+	                alert("에러 발생");
+	            }
+	        });
+	    }
+	}
+	
+	function emailVerifyCheck() {
+	    let enteredCode = $("#codeInput").val();
+	    let pwfind_button = $("#pwfind_button"); // 비밀번호찾기 버튼
+	
+	    if (code === enteredCode) {
+	        // 올바른 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "green");
+	        $("#codecheck_blank").text("인증되었습니다.");
+	        pwfind_button.prop("disabled", false); // 회원가입 버튼 활성화
+	    } else {
+	        // 잘못된 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "red");
+	        $("#codecheck_blank").text("인증번호를 다시 입력해주세요.");
+	        pwfind_button.prop("disabled", true); // 회원가입 버튼 비활성화
+	    }
+	}
+	
+	// 회원가입 버튼 클릭 시 실행되는 함수
+	function pwfind() {
+	    // 이메일 인증 코드 확인
+	    let enteredCode = $("#codeInput").val();
+	
+	    if (enteredCode === code) {
+	        // 올바른 인증 코드인 경우 회원가입 처리를 진행
+	        alert("인증되었습니다 새로운 비밀번호를 입력해주세요");
+	        // 여기에 회원가입 처리 로직을 추가하세요.
+	    } else {
+	        // 잘못된 인증 코드인 경우 사용자에게 알림
+	        alert("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
+	        // 회원가입 처리를 진행하지 않음
+	    }
+	}
+
 
 
 </script>
@@ -235,21 +307,29 @@ pageEncoding="UTF-8"%>
 	</div>
 </div>
 
-<div class="input-group has-validation"id="pwfind_email">
-	<span class="border border-success-subtle input-group-text" id="basic-addon1">
-	   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
-		  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
-		  <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z"/>
-	   </svg>
-	 </span>
-	<div class="form-floating is-invalid" >
-		<input type="email" id="email" name="email" class="border border-success-subtle form-control" onblur="emailDupleCheck(this)" required>
-	    <label for="floatingInputGroup2">이메일*</label>
-  	</div>
-	<div id="emailDupleBlock" class="invalid-feedback"  style="display:none">
-		<p id="emailDupleText"></p>
+
+
+	<div class="input-group has-validation" id="pwfind_email">
+		<span class="border border-success-subtle input-group-text" id="basic-addon1">
+		   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
+			  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
+			  <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z"/>
+		   </svg>
+		 </span>
+		<div class="form-floating is-invalid">
+          <input type="email" class="border border-success-subtle form-control" name="email" id="email" onblur="emailDupleCheck(this)" required="required">
+          <label class="floatingInputGroup2">이메일*</label> 
+          <button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()" disabled="disabled">인증코드 발송</button>
+	  	</div>
+        <div class="border border-success-subtle form-control">
+           <label class="floatingInputGroup2">인증번호*</label>
+         <input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
+         <span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+          </div>
+	<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
+	    <p id="emailDupleText"></p>
 	</div>
-</div>
+	</div>
 
 	<div id="pwfail" style="display: none;">
 		<h5 style="color: red;">모든 정보를 입력해주세요</h5>
@@ -261,6 +341,7 @@ pageEncoding="UTF-8"%>
 		<button class="btn btn-outline-success" onclick="pwFind()" id="pwfind_button">비밀번호 찾기</button>
 	</div>	
 	<div>
+	
 	
 	<a class="btn btn-outline-success" href="./login">로그인 하러 가기</a>	
 	<a class="btn btn-outline-success" href="/">메인 페이지로</a>	
@@ -296,7 +377,7 @@ pageEncoding="UTF-8"%>
 		</span>
 		<div class="form-floating is-invalid">
 		    <input type="password" id="userPwConfirm" name="userPwConfirm" class="border border-success-subtle form-control" aria-describedby="passwordHelpInline" onblur="passwordCheck()" required>
-		    <label for="userPw" class="col-form-label">비밀번호 확인*</label>
+		    <label for="userPw" class="col-form-label"> 비밀번호 확인*</label>
 	  	</div>
 	  	<div id="pwDupleBlock" class="invalid-feedback"  style="display:none">
 	    <p id="pwDupleText"></p>
