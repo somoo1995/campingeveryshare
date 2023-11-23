@@ -48,9 +48,21 @@ public class MsgController {
 			map.put("newBoardNo", boardNo);
 			map.put("newReceiverId", receiverId);
 			map.put("newBoardCate",boardCate);
-			ObjectMapper objectMapper = new ObjectMapper();
-			String newMakingJson = objectMapper.writeValueAsString(map);
-			model.addAttribute("newMaking",newMakingJson);
+			map.put("newWriterId", user.getUserId());
+			Integer checkRoom = 0;
+			logger.info("이부분 나오냐?");
+			if(msgService.checkNewRoom(map) != null) {
+				checkRoom = msgService.checkNewRoom(map);
+				model.addAttribute("targetRoomNo",checkRoom);
+				logger.info("이부분은 새로운 채팅방이 있을때");
+			}else {
+				logger.info("이부분은 새로운 채팅방이 없을때");
+				ObjectMapper objectMapper = new ObjectMapper();
+				String newMakingJson = objectMapper.writeValueAsString(map);
+				model.addAttribute("newMaking",newMakingJson);
+			}
+			
+			
 		}
 		
 		model.addAttribute("list",list);

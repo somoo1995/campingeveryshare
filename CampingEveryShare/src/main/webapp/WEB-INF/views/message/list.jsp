@@ -191,6 +191,7 @@ var receiverIdSubscription;
 var newRoom
 var makingRoom = false;
 var newChatMessage;
+var sendNewFlag = 0;
 function scrollToBottom() {
     var messagesContainer = $('.messages-container');
     messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
@@ -207,10 +208,13 @@ function connectToRoom(roomNumber) {
         stompClient.subscribe('/topic/' + roomNo + '/public', onMessageReceived);
         if(makingRoom &&currentUserId == newChatMessage.writerId){
             // 여기서 메시지 전송 로직을 수행
+            sendNewFlag = 1;
     		stompClient.send("/app/chat/" + roomNo + "/sendMessage",{},JSON.stringify(newChatMessage))
     		console.log("이게 바로 새 메세지 발송하는거다.")
     		makingRoom=false;
+    		sendNewFlag = 0;
     		lastSentRoomNo = roomNo;
+    		
         }
         // 사용자 추가 메시지 보내기
         stompClient.send("/app/chat.addUser", {}, JSON.stringify({ 'currentUserId': currentUserId, 'userId':currentUserId, 'roomNo': roomNo }));
@@ -267,7 +271,7 @@ function onMessageReceived(payload) {
     // Append the wrapper element to the correct container
     $('.messages-container').append(wrapperElement);
       scrollToBottom()
-	if(stompId && newMessage){
+	if(stompId && newMessage && sendNewFlag == 0){
 		stompId.send("/app/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newMessage))
 	}
 }
@@ -504,6 +508,11 @@ $(document).ready(function() {
         $('.msgPrompt').addClass('hidden');
         $('.msgcontent, .msgprofile').removeClass('hidden');
         // $(this).css('background-color','white'); // $(this)는 여기서 문맥에 맞지 않을 수 있습니다.
+    }
+    var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'
+    if(targetRoomNo){
+    	console.log("이것 지나오나요?")
+    	 $(".msgObject[room_no='" + targetRoomNo + "']").click();
     }
 	console.log("이것들이 나오나요?")
 	
