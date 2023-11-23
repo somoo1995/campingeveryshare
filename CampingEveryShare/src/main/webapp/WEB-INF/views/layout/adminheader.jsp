@@ -16,7 +16,7 @@
 
 <link rel="stylesheet" href="../resources/css/adminheader.css">
 
-<!-- 어도비 본고딕 폰트 불러오기 -->
+<!-- 어도비 본고딕 폰트 불러오기! -->
 <script>
   (function(d) {
     var config = {
