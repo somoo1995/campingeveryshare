@@ -124,6 +124,13 @@ public interface MarketDao {
 	 * @return - 입력되어 있는 금액
 	 */
 	public Market selectPrice(Market market);
+	
+	/**
+	 * 글 수정시 price 업데이트
+	 * 
+	 * @param market - price 정보
+	 */
+	public void updateMarketPrice(Market market);
 
 	
 	

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="web.dao.face.HeartDao">
+		<select id="selectTotalCntHeart" resultType="int" parameterType="heart">
+			SELECT COUNT(*) FROM hearttb
+			WHERE heart_no = #{heartNo}
+		</select>
+		
+		<select id="selectCntHeartByUserId" resultType="int" parameterType="heart">
+			SELECT COUNT (*) FROM hearttb
+			WHERE user_id = #{userId }
+			AND heart_no = #{heartNo }
+			AND board_cate = #{boardCate }
+		</select>
+		
+		<delete id="deleteHeart" parameterType="heart">
+			DELETE hearttb
+			WHERE user_id = #{userId}
+			AND heart_no = #{heartNo}
+		</delete>
+		
+		<insert id="insertHeart" parameterType="heart">
+			INSERT INTO hearttb
+			VALUES (#{userId}, #{heartNo}, #{boardCate})
+		</insert>
+		
+		<!-- ======================================== -->
+		
+		<select id="selectShareAll" parameterType="web.util.Paging" resultType="Map">
+	      	SELECT * FROM (
+		  	SELECT ROWNUM rnum, B.* FROM (
+				SELECT board_no
+				, title
+				, location
+				, CAST(post_date AS DATE) AS post_date
+				, hit 
+				, content
+				, delete_status
+				, board_cate
+				, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME" 
+				, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
+				, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 2) AS "RECOM"
+				, (SELECT COUNT(*) FROM hearttb WHERE heart_no = boardtb.board_no AND board_cate = 2) AS "HEART"
+	            , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
+				, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
+				, (SELECT paid FROM sharetb WHERE board_no = boardtb.board_no) AS "PAID"
+				, user_id
+				FROM boardtb
+				WHERE board_cate = 2
+				AND delete_status = 0
+				ORDER BY board_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	
+	  	</select>
+  
+	  	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+	  		SELECT count(*) FROM boardtb
+	  		WHERE boardCate = #{category}
+	  	</select>
+	</mapper>  

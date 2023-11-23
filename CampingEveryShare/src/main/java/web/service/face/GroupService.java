@@ -10,6 +10,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.util.Paging;
 
@@ -88,9 +89,10 @@ public interface GroupService {
 	 * 
 	 * @param updateParam - 게시글 정보 객체
 	 * @param file - 첨부 파일 리스트
+	 * @param group 
 	 * @param delFileno - 삭제할 첨부 파일 번호
 	 */
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo);
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Group group);
 	
 	/**
 	 * 게시글 삭제
@@ -162,6 +164,27 @@ public interface GroupService {
 	 * @return - 가져온 글 상태다
 	 */
 	public Group getStatus(Group group);
+	
+	/**
+	 * 모집 게시글 신고
+	 * 
+	 * @param report - 신고 정보
+	 */
+	public void insertReport(Report report);
+
+	/**
+	 * 총 신고 수
+	 * @param report - 신고 수 파악할 게시글 정보
+	 * @return - 총 신고수
+	 */
+	public int getTotalCntReport(Report report);
+	
+	/**
+	 * 신고 상태 확인 후 토글 작업
+	 * @param report - 신고 대상 정보
+	 * @return - true : 신고함 / false : 신고 안함
+	 */
+	public boolean reportCnt(Report report);
 	
 	
 	

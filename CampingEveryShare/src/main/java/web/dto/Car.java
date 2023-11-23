@@ -26,12 +26,6 @@ public class Car {
 	carToilet,carPet,carSmoke;
 	private int carStatus;
 	private int deleteStatus;
-	
-	
-	
-	
-
-
 
 	
 }

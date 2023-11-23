@@ -85,7 +85,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User info(User login) {
+//	    User loginInfo = userDao.selectInfo(login);
+//	    
+//	    logger.info("회원정보 조회 결과: {}", loginInfo);
+//	    return loginInfo;
 	    return userDao.selectInfo(login);
+
 	}
 
 	@Override

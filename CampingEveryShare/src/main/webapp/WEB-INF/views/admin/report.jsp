@@ -170,7 +170,9 @@ $(() => {
 </div><!-- .container -->
 
 
-<c:import url="/WEB-INF/views/layout/reportpagination.jsp" />
+<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+    <c:param name="url" value="./report" />
+</c:import>
 
 <c:import url="/WEB-INF/views/layout/modal.jsp" />
 

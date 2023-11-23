@@ -6,10 +6,8 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
-<script type="text/javascript">
 
 
-</script>
 <style type="text/css">
 
 .row {
@@ -149,7 +147,8 @@ select {
 	<div style="margin-bottom : 10px;">
 	</div>
 	<div class="info">
-    <h6>👤 : ${board.USER_NICK }</h6>
+    <h6>👤 : ${board.USER_NICK } </h6>
+    <h6>❣️ : ${board.HEART }  </h6>
     <h6>
     <c:choose>
 	    <c:when test="${board.PAID eq 2}">
@@ -183,7 +182,7 @@ select {
     </div>
     <div class="info">
     <h6 class="location">🗺️  ${board.LOCATION_NAME }</h6>
-    <h6 class="good">❣️  ${board.RECOM }</h6>
+    <h6 class="good">🎖️  ${board.RECOM }</h6>
     <h6 class="view">🔭  ${board.HIT}</h6>
     <h6 class="write">✏️
       <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
@@ -211,5 +210,5 @@ select {
 
 
 </div><!-- .container -->
-<c:import url="../layout/listpagination.jsp" />
+<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />

@@ -20,7 +20,8 @@ pageEncoding="UTF-8"%>
 </style>
 
 <script type="text/javascript">
-    function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
+
+	    function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
         var value = input.value;
         var displayBlock = $("#" + displayBlock);
 
@@ -46,7 +47,10 @@ pageEncoding="UTF-8"%>
                     console.log(failureMessage);
                     displayBlock.text(failureMessage);
                 }
-            }
+            },
+	error: function (xhr, status, error) {
+	        console.error("AJAX Error: " + status + " - " + error);
+	 }
         });
     }
 
@@ -75,6 +79,7 @@ pageEncoding="UTF-8"%>
     }
 
     // 이름 체크
+    
     function nameCheck() {
         var userName = $("#userName");
         var nameDupleBlock = $("#nameDupleBlock");
@@ -151,7 +156,10 @@ pageEncoding="UTF-8"%>
     }
     
 
+
 </script>
+
+    
 
 
   
@@ -278,15 +286,21 @@ pageEncoding="UTF-8"%>
 		   </svg>
 		 </span>
 		<div class="form-floating is-invalid">
-			<input type="email" id="email" name="email" class="border border-success-subtle form-control" onblur="emailDupleCheck(this)" required>
-		    <label for="floatingInputGroup2">이메일*</label>
+          <input type="email" class="border border-success-subtle form-control" name="email" id="email" onblur="emailDupleCheck(this)" required="required">
+          <label class="floatingInputGroup2">이메일*</label> 
+<!--           <button id="sendEmailButton" type="button" class="btn btn-primary" disabled="disabled" onclick="sendEmail()">인증 코드 발송</button> -->
+          <button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()" disabled="disabled">인증코드 발송</button>
 	  	</div>
-		<div id="emailDupleBlock" class="invalid-feedback"  style="display:none">
-			<p id="emailDupleText"></p>
-		</div>
+        <div class="border border-success-subtle form-control">
+           <label class="floatingInputGroup2">인증번호*</label>
+         <input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
+         <span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+          </div>
+	<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
+	    <p id="emailDupleText"></p>
 	</div>
-	
-		
+	</div>
+
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -294,7 +308,7 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck()" required>
+			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck(this)" required>
 		    <label for="floatingInputGroup2">이름*</label>
 	  	</div>
 		<div id="nameDupleBlock" class="invalid-feedback"  style="display:none">

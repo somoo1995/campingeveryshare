@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
+import web.dto.Heart;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.Share;
 import web.dto.User;
 import web.util.Paging;
@@ -88,9 +90,10 @@ public interface ShareService {
 	 * 
 	 * @param updateParam - 게시글 정보 객체
 	 * @param file - 첨부 파일 리스트
+	 * @param share 
 	 * @param delFileno - 삭제할 첨부 파일 번호
 	 */
-	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo);
+	public void updateProc(Board board, List<MultipartFile> file, int[] delFileNo, Share share);
 	
 	/**
 	 * 게시글 삭제
@@ -162,6 +165,53 @@ public interface ShareService {
 	 * @return 
 	 */
 	public Share getPaid(Share share);
+	
+	/**
+	 * 총 찜 수
+	 * 
+	 * @param heart - 찜 수 파악할 게시글 정보
+	 * @return - 총 찜 수
+	 */
+	public int getTotalCntHeart(Heart heart);
+	
+	/**
+	 * 로그인 한 아이디가 찜 했는지 조회
+	 * 
+	 * @param heart - 유저 ID
+	 * @return - 했으면 1 / 안했으면 0
+	 */
+	public boolean heartCnt(Heart heart);
+	
+	/**
+	 * 찜 상태 확인 후 토글작업
+	 * 
+	 * @param heart - 찜 대상 정보
+	 * @return - true : 찜함 / false : 찜 취소
+	 */
+	public boolean heart(Heart heart);
+	
+	/**
+	 * 공유 게시글 신고
+	 * 
+	 * @param report - 신고 정보
+	 */
+	public void insertReport(Report report);
+	
+	/**
+	 * 총 신고수
+	 * 
+	 * @param report - 신고 수 파악할 게시글 정보
+	 * @return - 총 신고 수
+	 */
+	public int getTotalCntReport(Report report);
+	
+	/**
+	 * 신고 상태 확인 후 토글작업
+	 * 
+	 * @param report - 신고 대상 정보
+	 * @return - true : 신고 함 / false : 신고 안함
+	 */
+	public boolean reportCnt(Report report);
 	
 	
 	

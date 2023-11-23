@@ -66,6 +66,8 @@ public class BookingController {
 			hasData = true; 
 		}
 		
+		logger.info("hasData : {}", hasData);
+		
 		List<Map<String, Object>> list = bookingService.getList(paging, rent);
 		logger.info("list {} : ", list);
 		
@@ -75,5 +77,8 @@ public class BookingController {
 		model.addAttribute("list", list);
 		return "booking/list";
 	}
+	
+
+	
 	
 }

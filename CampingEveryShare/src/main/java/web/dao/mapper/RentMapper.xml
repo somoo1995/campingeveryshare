@@ -58,5 +58,23 @@
 			AND car_no = #{carNo }
 		</where>
 	</select>
+	
+	<insert id="insertRent" parameterType="Rent">
+		<selectKey order="BEFORE" keyProperty="rentNo" resultType="int">
+			SELECT rent_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO renttb (rent_no, car_no, user_id, start_date, end_date, reserv_pax, add_option, merchant_uid)
+		VALUES( #{rentNo}, #{carNo}, #{userId}, #{startDate }, #{endDate}, #{reservPax }, #{addOption }, #{merchantUid } )
+	</insert>
+	
+	<select id="selectUserByUserId" parameterType="User" resultType="User">
+		SELECT user_id, user_pw, email, user_name, user_nick, birth, address
+		, address_detail, phone, profile, join_date, user_status 
+		FROM usertb
+		<where>
+			AND user_id = #{userId }
+		</where>
+	</select>
+	
 
 </mapper>

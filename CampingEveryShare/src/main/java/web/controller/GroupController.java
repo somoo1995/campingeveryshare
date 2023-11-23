@@ -22,6 +22,7 @@ import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.Group;
 import web.dto.Recom;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.GroupService;
 import web.util.Paging;
@@ -73,6 +74,21 @@ public class GroupController {
 		logger.info("boarFile : {}", boardFile);
 		logger.info("group : {}", group);
 		
+		//신고 상태 조회
+		Report report = new Report();
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		int reportCnt = groupService.getTotalCntReport(report);
+		logger.info("totalHeart" + reportCnt);
+		
+		//신고 상태 전달
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setBoardNo(board.getBoardNo());
+		report.setBoardCate(board.getBoardCate());
+		boolean isReport = groupService.reportCnt(report);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cntReport", groupService.getTotalCntReport(report));
 		
 		//추천 상태 전달
 		Recom recom = new Recom();
@@ -132,7 +148,7 @@ public class GroupController {
 	}
 	
 	@GetMapping("/update")
-	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
+	public String update(Board board, BoardFile file, User user, Group group, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
 			return "redirect:./view";
@@ -143,6 +159,8 @@ public class GroupController {
 		//상세보기 게시글 조회
 		board = groupService.view(board);
 		model.addAttribute("board", board);
+		group = groupService.getStatus(group);
+		model.addAttribute("group", group);
 
 		//첨부파일 정보 전달
 		List<BoardFile> boardfile = groupService.getAttachFile( board );
@@ -157,7 +175,8 @@ public class GroupController {
 			, Board board
 			, List<MultipartFile> file
 			, HttpSession session
-			, int[] delFileNo) {
+			, int[] delFileNo
+			, Group group) {
 		
 		logger.info("board {}", board);
 		logger.info("file {}", file);
@@ -166,7 +185,7 @@ public class GroupController {
 		board.setUserId((String) session.getAttribute("userId"));
 		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		groupService.updateProc(board, file, delFileNo);
+		groupService.updateProc(board, file, delFileNo, group);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -206,7 +225,18 @@ public class GroupController {
 		return mav;
 	}
 
-
+	@RequestMapping("/report")
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {}
+	
+	@PostMapping("/report")
+	public String reportProc(Board board, Model model, Report report, HttpSession session) {
+		
+		report.setRuserId((String) session.getAttribute("loginId"));
+		report.setVuserId(board.getUserId());
+		
+		groupService.insertReport(report);
+		return"redirect:./view?boardNo=" + board.getBoardNo();
+	}
 
 
 

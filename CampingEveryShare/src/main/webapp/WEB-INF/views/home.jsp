@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 <!-- js 시작 -->
 <script type="text/javascript">
 $(function(){
-  $('#slider-div').slick({
+  $('#slider-main').slick({
       slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
       infinite : true,     //무한 반복 옵션     
       slidesToShow : 1,        // 한 화면에 보여질 컨텐츠 개수
@@ -30,19 +30,103 @@ $(function(){
  
   });
 })
+
+$(function(){
+  $('#slider-car').slick({
+      slide: 'div',        
+      infinite : true,        
+      slidesToShow : 1,       
+      slidesToScroll : 1,        
+      speed : 100,     
+      arrows : true,         
+      dots : false,         //페이지네이션 제외
+      autoplay : true,            
+      autoplaySpeed : 10000,        
+      pauseOnHover : true, 
+      vertical : false,
+      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left.png'>",
+      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right.png'>",
+      draggable : true,     //드래그 가능 여부 
+  });
+})
+
+$(function(){
+  $('#slider-zone').slick({
+      slide: 'div',        
+      infinite : true,        
+      slidesToShow : 1,       
+      slidesToScroll : 1,        
+      speed : 100,     
+      arrows : true,         
+      dots : false,         //페이지네이션 제외
+      autoplay : true,            
+      autoplaySpeed : 10000,        
+      pauseOnHover : true, 
+      vertical : false,
+      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left.png'>",
+      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right.png'>",
+      draggable : true,     //드래그 가능 여부 
+  });
+})
+
+$(function(){
+  $('#slider-market').slick({
+      slide: 'div',        
+      infinite : true,        
+      slidesToShow : 1,       
+      slidesToScroll : 1,        
+      speed : 100,     
+      arrows : true,         
+      dots : false,         //페이지네이션 제외
+      autoplay : true,            
+      autoplaySpeed : 10000,        
+      pauseOnHover : true, 
+      vertical : false,
+      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left.png'>",
+      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right.png'>",
+      draggable : true,     //드래그 가능 여부 
+  });
+})
+
+$(function(){
+  $('#slider-recruit').slick({
+      slide: 'div',        
+      infinite : true,        
+      slidesToShow : 1,       
+      slidesToScroll : 1,        
+      speed : 100,     
+      arrows : true,         
+      dots : false,         //페이지네이션 제외
+      autoplay : true,            
+      autoplaySpeed : 10000,        
+      pauseOnHover : true, 
+      vertical : false,
+      prevArrow:"<img class='a-left control-c prev slick-prev' src='/resources/img/left.png'>",
+      nextArrow:"<img class='a-right control-c next slick-next' src='/resources/img/right.png'>",
+      draggable : true,     //드래그 가능 여부 
+  });
+})
 </script>
 <!-- js 끝 -->
 
 <!-- css 시작 -->
 <style type="text/css">
+
+/* 이미지 크기*/
 .image {
-width: 500px;
-height: 500px;
+	width: 1300px;
+	height: 300px;
+    max-width: 100%; /* 이미지가 부모 요소를 벗어나지 않도록 설정 */
+    height: auto;    /* 가로 세로 비율 유지 */
 }
-/* .slick-prev { */
-/* 	left: 25px; */
-/* } */
-/* 이전/이후 버튼*/
+
+.image_sm {
+	width: 600px;
+	height: 400px;
+    max-width: 100%; /* 이미지가 부모 요소를 벗어나지 않도록 설정 */
+    height: auto;    /* 가로 세로 비율 유지 */
+}
+
 .slick-prev {
 	left: 25px;
 	z-index: 1;
@@ -57,6 +141,7 @@ height: 500px;
 	height: 40px;
 	opacity: 0.5;
 }
+
 /* 슬라이드 페이지네이션*/
 .slick-dots {
         bottom: 25px;
@@ -74,36 +159,183 @@ height: 500px;
 	opacity: 0.5; 
 	color: #E0E0E0;
 }
+
+#slider-main {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 1300px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+   	width: 1300px;
+}
+
+#slider-car {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 600px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+   	width: 600px;
+}
+
+#slider-zone {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 600px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+   	width: 600px;
+}
+
+#slider-market {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 600px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+   	width: 600px;
+}
+
+#slider-recruit {
+    width: 100%; /* 슬라이드의 고정된 너비 */
+    max-width: 600px; /* 화면이 작아질 때 슬라이드가 가로로 축소되지 않도록 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+   	width: 600px;
+}
+
+.car {
+	background-color: #fff;
+	min-height: 500px;
+	min-width: 400px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	box-shadow: 5px 5px 20px 0px #5e5e5e;
+}
+
+.zone {
+	background-color: #fff;
+	min-height: 500px;
+	min-width: 400px;
+	box-shadow: 5px 5px 20px 0px #5e5e5e;
+	
+}
+
+.market {
+	background-color: #fff;
+	min-height: 500px;
+	min-width: 400px;
+	box-shadow: 5px 5px 20px 0px #5e5e5e;
+}
+
+.recruit {
+	background-color: #fff;
+	min-height: 500px;
+	min-width: 400px;
+	box-shadow: 5px 5px 20px 0px #5e5e5e;
+}
+
+.main {
+	padding: 0px;
+	width: 1300px;
+	max-height: 300px;
+}
+
+.container {
+	background-color: #fff;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 0px;
+/* 	width: 1300px; */
+	min-width: 1300px;
+	max-height: 1600px;
+	margin-bottom: 100px;
+	align-items: center;
+	justify-items: center;
+	
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+/* 	column-gap: 25px; */
+}
+
+
+.main:nth-child(1) {
+ 	grid-column: 1 / 3; 
+ 	grid-row: 1 / 2; 
+}
+
+
+p {
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #3da903;
+}
+
+.middle {
+  grid-column: 1 / 3; /* 두 번째 행 전체를 차지하도록 설정 */
+  grid-row: 2 / 3; /* 두 번째 행에 해당하는 위치로 설정 */
+  background-color: #ffcc00; /* 배경색을 노란색으로 설정 (테스트용) */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  padding: 20px; /* 내부 여백 설정 */
+  box-shadow: 5px 5px 20px 0px #5e5e5e; /* 그림자 설정 */
+  margin-top: 40px;
+  min-width: 1300px;
+}
+
 </style>
 <!-- css 끝 -->
 
 <div class="container">
 
-	<div style="padding: 0px 50px;">
-		<div id="slider-div">
-		<div class="image"><img alt="camp1" src="/resources/img/camp1.jpg"></div>
-		<div class="image"><img alt="camp2" src="/resources/img/camp2.jpg"></div>
-		<div class="image"><img alt="camp3" src="/resources/img/camp3.jpg"></div>
-		<div class="image"><img alt="camp4" src="/resources/img/camp4.jpg"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/camp5.jpg"></div>
+	<div class="main">
+		<div class="slider-main" id="slider-main">
+		<div class="image"><img alt="camp1" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp2" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp3" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp4" src="/resources/img/300.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/300.png"></div>
 	</div><!-- slider-div -->
-	</div><!-- .slick -->
+	</div><!-- .main -->
 
-	<div>
-	<h1>1. 새로 등록된 캠핑카들을 만나보세요.</h1>
-
-	<div>
-	<h1>2. 이 달의 캠핑존</h1>
+	<div class="middle">
+	"Camping Every Share와 함께 하세요!"<br>
+	"Camping Every Share 화제의 게시글"<br>
+	뭐 적는게 좋을 것 같아?<br>
+	<img alt="profile1" src="/resources/img/profile1.png">
 	</div>
 
-	<div>
-	<h1>3. 중고 장터</h1>
-	</div>
+	<div class="car">
+	<p>1. 새로 등록된 캠핑카</p>
+		<div class="slider-car" id="slider-car">
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+		</div><!-- .slider-car -->
+	</div><!-- .car -->
 
-	<div>
-	<h1>4. 우리 모임 자랑</h1>
-	</div>	
+	<div class="zone">
+	<p>2. 이 달의 캠핑존</p>
+		<div class="slider-zone" id="slider-zone">
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+		</div>
+	</div><!-- .zone -->
 
+	<div class="market">
+	<p>3. 중고 장터</p>
+		<div class="slider-market" id="slider-market">
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+		</div>
+	</div><!-- .market -->
+
+	<div class="recruit">
+	<p>4. 우리 모임 자랑</p>
+		<div class="slider-recruit" id="slider-recruit">
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+			<div class="image_sm"><img alt="camp1" src="/resources/img/b400.png"></div>
+		</div>
+	</div><!-- .recruit -->
+
+	
 </div> <!-- .container -->
 
 

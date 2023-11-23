@@ -98,6 +98,8 @@ public class AdminServiceImpl implements AdminService {
 		int totalCount = adminDao.selectCntAllIncome(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage());
+		paging.setSearch(param.getSearch());
+		paging.setCategory(param.getCategory());
 
 		return paging;
 	}

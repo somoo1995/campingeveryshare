@@ -122,6 +122,13 @@ public interface ShareDao {
 	 * @return - 꺼내온 paid를 갖다주자
 	 */
 	public Share selectPaid(Share share);
+	
+	/**
+	 * 글 수정시 paid 업데이트
+	 * 
+	 * @param share - paid정보
+	 */
+	public void updatePaid(Share share);
 
 	
 	
