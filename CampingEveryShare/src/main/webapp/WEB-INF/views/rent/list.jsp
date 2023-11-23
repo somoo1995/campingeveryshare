@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.carNo }'">
 		<div class="info">
 	    <h6>👤 : ${car.userId}</h6>
-		    <c:set var="formattedPrice" value="${car.price }" />
+		    <c:set var="formattedPrice" value="${car.maxPrice }" />
 			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 			<h6 style="color:
 			    <c:choose>
@@ -169,5 +169,5 @@ pageEncoding="UTF-8"%>
 </c:forEach>
 
 </div><!-- .container end -->
-
+<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />

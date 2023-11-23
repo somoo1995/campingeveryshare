@@ -14,7 +14,7 @@
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM cartb
 		<where>
-			AND car_status = 1
+			AND car_status = 0
 			AND delete_status = 0
 		</where>
 	</select>

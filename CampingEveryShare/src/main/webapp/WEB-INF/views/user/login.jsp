@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
         });
     }
 
-    // id 중복 체크
+    // id 중복 체크dd
     function idDupleCheck(input) {
         checkDuplicate(
             input,
