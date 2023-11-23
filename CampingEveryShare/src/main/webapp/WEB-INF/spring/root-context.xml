@@ -35,7 +35,7 @@
 		<property name="basePackage" value="**.dao" />
 	</bean>
 	
-<!-- 메일 접속 정보 -->
+	<!-- 메일 접속 정보 -->
 	
 	<bean id="mailSender"
 			class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -55,6 +55,7 @@
 			</props>
 		</property>
 	</bean>
+	
 	
 	<!-- 트랜잭션 매니저 -->
 	<bean id="transactionManager"
