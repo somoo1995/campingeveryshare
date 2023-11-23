@@ -137,6 +137,12 @@ public class MsgServiceImpl implements MsgService {
 		return msgDao.selectByMsgNo(msg);
 	}
 
+	@Override
+	public Integer checkNewRoom(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return msgDao.selectNewRoomByMap(map);
+	}
+
 
 	
 

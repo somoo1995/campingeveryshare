@@ -107,10 +107,26 @@ pageEncoding="UTF-8"%>
 	                }
 	            });
 	    	})
-	    });  
-</script><!-- .script 끝 -->
 
-<style type="text/css">
+	    });
+	    
+</script>
+
+<!-- 카카오 로그인 -->
+<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        Kakao.init('8dbde9a5763083fbca31c3f1098a1682');
+        Kakao.isInitialized();
+    });
+
+    function loginWithKakao() {
+        Kakao.Auth.authorize({ 
+        redirectUri: 'http://localhost:8088/user/login' 
+        }); // 등록한 리다이렉트uri 입력
+    }
+</script>
+
 
 .container {
 	background-color: skyblue;
@@ -279,19 +295,11 @@ p {
 
 </style><!-- .css 끝 -->
 
-<div class="container">
-<div class="form">
-<div class="pageTitle">
-<h3 id="pageTitle" style="color: #0f7e3e;">로그인</h3>
-</div><!-- .pageTitle -->
 
-<div class="input_form">
-
-<div class="login">
-<!-- 아이디 -->
-<div class="id_space">
-
+<!-- 비밀번호 -->
+<div class="pw_space">
 	<div>
+
 		<input type="text" id="userId" class="idpw id" name="userId" onblur="idDupleCheck(this)" placeholder="아이디*">
 
   	</div><!-- .form-floating is-invalid -->

@@ -96,4 +96,13 @@ AND room_no = #{roomNo}
 INSERT INTO roomTB(room_no,room_id1,room_id2)
 VALUES(#{roomNo},#{writerId},#{receiverId})
 </insert>
+
+<select id="selectNewRoomByMap" parameterType="map">
+SELECT room_no FROM msgtb
+WHERE board_no = #{newBoardNo} 
+AND board_cate = #{newBoardCate}
+AND writer_id = #{newWriterId}
+AND receiver_id = #{newReceiverId}
+GROUP BY room_no
+</select>
   </mapper>

@@ -21,6 +21,8 @@ public interface MsgService {
 	public void updateStatus(Map<String,Object> map);
 
 	public Msg getNewRoom(Msg msg);
+
+	public Integer checkNewRoom(Map<String, Object> map);
 	
 	
 
