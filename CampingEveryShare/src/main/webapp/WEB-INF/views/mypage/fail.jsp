@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 <!-- </div> -->
 
 <div class="text-center mt-5">
-<h4>로그인이 필요한 서비스입니다</h4>
+<h4>로그인이 필요한 서비스입니다.</h4>
 
 	<div class="mt-5 mb-5">
 	<a href="/user/login" class="btn btn-outline-success">로그인</a>
