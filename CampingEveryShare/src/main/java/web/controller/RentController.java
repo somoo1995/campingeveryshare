@@ -27,14 +27,17 @@ public class RentController {
 	
 	
 	@RequestMapping("/list")
-	public void rentList( Model model, Paging param  ) {
+	public String rentList( Model model, Paging param  ) {
 		
 		Paging paging = rentService.getPaging(param);
 		logger.info("paging : {}", paging);
 		
-		List<Car> list = rentService.getCarList(paging);
+		List<Map<String, Object>> list = rentService.getCarList(paging);
+		logger.info("list : {}", list);
 		
 		model.addAttribute("list", list);
+		
+		return "rent/main";
 	}
 	
 	@RequestMapping("/view")
@@ -86,24 +89,5 @@ public class RentController {
 		logger.info("merchantUid : {} ", merchantUid);
 	}
 	
-	@RequestMapping("/review")
-	public String review( Model model, Car car ) {
-		
-//		List<Map<String, Object>> list = rentService.getReview(car);
-//		model.addAttribute("list", list);
-		
-		return "rent/review";
-	}
-	
-	@PostMapping("/review/write")
-	public String reviewWrite( Review review, @SessionAttribute("loginId") String userId ) {
-		review.setUserId(userId);
-		
-		logger.info("review : {}", review);
-		rentService.writeReview(review);
-		
-		return "jsonView";
-	}
-	
-	
+
 }

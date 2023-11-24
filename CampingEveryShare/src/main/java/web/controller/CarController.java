@@ -58,8 +58,7 @@ public class CarController {
             @RequestParam("carPax") int carPax,
             @RequestParam("carSpax") int carSpax,
             @RequestParam("carBeds") int carBeds,
-            @RequestParam("maxPrice") int maxPrice,
-            @RequestParam("minPrice") int minPrice,
+            @RequestParam("price") int price,
             @RequestParam("extraPrice") int extraPrice,
             @RequestParam("pickupTimeStart") String pickupTimeStart,
             @RequestParam("pickupTimeEnd") String pickupTimeEnd,
@@ -87,10 +86,8 @@ public class CarController {
 	   car.setCarSpax(carSpax);
 	   log.info("{}",carBeds);
 	   car.setCarBeds(carBeds);
-	   log.info("{}",maxPrice);
-	   car.setMaxPrice(maxPrice);
-	   log.info("{}",minPrice);
-	   car.setMinPrice(minPrice);
+	   log.info("{}",price);
+	   car.setPrice(price);
 	   log.info("{}",extraPrice);
 	   car.setExtraPrice(extraPrice);
 	   log.info(pickupTimeStart);

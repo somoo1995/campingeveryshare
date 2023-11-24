@@ -12,7 +12,7 @@
 
 <style>
 #pageTitle{
-	color: black;
+   color: black;
 }
 .form-row {
   display: flex;
@@ -273,58 +273,58 @@ $(document).ready(function() {
   });
   
   $('.btn.btn-success.save-button').click(function(event) {
-	    event.preventDefault();
+       event.preventDefault();
 
-	    // FormData 객체를 생성하고 폼 데이터를 추가합니다.
-	  	// 여기부분 추가해줘 gpt야
-	  	
-	  	var formData = new FormData();
-	  	$('input[type="text"], input[type="number"], input[type="file"], select, textarea').each(function() {
-	  	    var input = $(this);
-	  	    if (input.attr('type') == 'file') {
-	  	        if (input[0].files.length > 0) {
-	  	            formData.append(input.attr('name'), input[0].files[0]);
-	  	        }
-	  	    } else {
-	  	        formData.append(input.attr('name'), input.val());
-	  	    }
-	  	});
+       // FormData 객체를 생성하고 폼 데이터를 추가합니다.
+        // 여기부분 추가해줘 gpt야
+        
+        var formData = new FormData();
+        $('input[type="text"], input[type="number"], input[type="file"], select, textarea').each(function() {
+            var input = $(this);
+            if (input.attr('type') == 'file') {
+                if (input[0].files.length > 0) {
+                    formData.append(input.attr('name'), input[0].files[0]);
+                }
+            } else {
+                formData.append(input.attr('name'), input.val());
+            }
+        });
 
-	  	// 라디오 버튼 값 추가
-	  	$('input[type="radio"]:checked').each(function() {
-	  	    formData.append($(this).attr('name'), $(this).val());
-	  	});
+        // 라디오 버튼 값 추가
+        $('input[type="radio"]:checked').each(function() {
+            formData.append($(this).attr('name'), $(this).val());
+        });
 
-	  	// Summernote 내용 추가
-	  	formData.append('content', $('#summernote').summernote('code'));
+        // Summernote 내용 추가
+        formData.append('content', $('#summernote').summernote('code'));
 
-	  	// 선택된 옵션 버튼 값 수집 및 추가
-	  	var selectedOptions = getSelectedOptions();
-	  	formData.append('selectedOptions', selectedOptions);
+        // 선택된 옵션 버튼 값 수집 및 추가
+        var selectedOptions = getSelectedOptions();
+        formData.append('selectedOptions', selectedOptions);
 
-	    // AJAX 요청을 보냅니다.
-	    $.ajax({
-	        url: '/car/save', // 서버의 엔드포인트 URL
-	        type: 'POST', // 데이터를 보내는 HTTP 메소드
-	        data: formData, // 보낼 데이터
-	        processData: false, // 데이터를 쿼리 스트링으로 변환하지 않도록 설정
-	        contentType: false, // multipart/form-data로 보내기 위해 컨텐트 타입 설정을 false로 설정
-	        success: function(response) {
-	            console.log("서버로부터의 응답:", response);
-	        },
-	        error: function(xhr, status, error) {
-	            console.error("에러 발생:", error);
-	        }
-	    });
-	});
+       // AJAX 요청을 보냅니다.
+       $.ajax({
+           url: '/car/save', // 서버의 엔드포인트 URL
+           type: 'POST', // 데이터를 보내는 HTTP 메소드
+           data: formData, // 보낼 데이터
+           processData: false, // 데이터를 쿼리 스트링으로 변환하지 않도록 설정
+           contentType: false, // multipart/form-data로 보내기 위해 컨텐트 타입 설정을 false로 설정
+           success: function(response) {
+               console.log("서버로부터의 응답:", response);
+           },
+           error: function(xhr, status, error) {
+               console.error("에러 발생:", error);
+           }
+       });
+   });
 
   $(".btn.btn-primary.approve-button").click(function(event){
-	  event.preventDefault();
-	  console.log("승인요청 버튼 클릭됨");
+     event.preventDefault();
+     console.log("승인요청 버튼 클릭됨");
   })
   
   $('#summernote').summernote({
-	  height: 400
+     height: 400
   });
 });
 </script>
@@ -384,15 +384,9 @@ $(document).ready(function() {
 </div>
 <div class="form-wrap">
   <div class="form-wrap">
-    <div class="form-Label">성수기가격</div>
+    <div class="form-Label">가격</div>
     <div class="form">
-      <input type="number" name="maxPrice" min="0" step="10000" value="0">
-    </div>
-  </div>
-    <div class="form-wrap">
-    <div class="form-Label">비수기가격</div>
-    <div class="form">
-      <input type="number" name="minPrice" min="0" step="10000" value="0" >
+      <input type="number" name="price" min="0" step="10000" value="0">
     </div>
   </div>
     <div class="form-wrap">
@@ -412,11 +406,11 @@ $(document).ready(function() {
   <div class="form-Label">연결</div>
   <div class="options">
    <button type="button" class="option-button" data-value="carElec">
-  		<img src="/resources/img/elec.png" alt="" class="icon" name="carElec"> 전기
-	</button>
+        <img src="/resources/img/elec.png" alt="" class="icon" name="carElec"> 전기
+   </button>
      <button type="button" class="option-button" data-value="carWater">
-  		<img src="/resources/img/water.png" alt="" class="icon" name="carWater"> 물
-	</button>
+        <img src="/resources/img/water.png" alt="" class="icon" name="carWater"> 물
+   </button>
   </div>
 </div>
 <hr>
@@ -424,14 +418,14 @@ $(document).ready(function() {
   <div class="form-Label">요리</div>
   <div class="options">
     <button type="button" class="option-button" data-value="carTable">
-  		<img src="/resources/img/table.png" alt="" class="icon" name="carTable">  식탁
-	</button>
-	     <button type="button" class="option-button" data-value="carSink">
-  		<img src="/resources/img/sink.png" alt="" class="icon" name="carSink"> 싱크대
-	</button>
+        <img src="/resources/img/table.png" alt="" class="icon" name="carTable">  식탁
+   </button>
+        <button type="button" class="option-button" data-value="carSink">
+        <img src="/resources/img/sink.png" alt="" class="icon" name="carSink"> 싱크대
+   </button>
      <button type="button" class="option-button" data-value="carkitchen">
-  		<img src="/resources/img/kitchen.png" alt="" class="icon" name="carkitchen"> 주방가전
-	</button>
+        <img src="/resources/img/kitchen.png" alt="" class="icon" name="carkitchen"> 주방가전
+   </button>
   </div>
 </div>
 <hr>
@@ -439,9 +433,9 @@ $(document).ready(function() {
 <div class="form-wrap options-section">
   <div class="form-Label">온도</div>
   <div class="options">
-	<button type="button" class="option-button" data-value="carTemp">
-  		<img src="/resources/img/hitCool.png" alt="" class="icon" name="carTemp"> 냉/난방
-	</button>
+   <button type="button" class="option-button" data-value="carTemp">
+        <img src="/resources/img/hitCool.png" alt="" class="icon" name="carTemp"> 냉/난방
+   </button>
   </div>
 </div>
 <hr>
@@ -449,23 +443,23 @@ $(document).ready(function() {
   <div class="form-Label">편의</div>
   <div class="options">
      <button type="button" class="option-button" data-value="carShower">
-  		<img src="/resources/img/shower.png" alt="" class="icon" name="carShower"> 샤워실
-	</button>    
+        <img src="/resources/img/shower.png" alt="" class="icon" name="carShower"> 샤워실
+   </button>    
      <button type="button" class="option-button" data-value="carToilet">
-  		<img src="/resources/img/toilet.png" alt="" class="icon" name="carToilet"> 화장실
-	</button>
-	  </div>
+        <img src="/resources/img/toilet.png" alt="" class="icon" name="carToilet"> 화장실
+   </button>
+     </div>
 </div>
 <hr>
 <div class="form-wrap options-section">
   <div class="form-Label">기타</div>
   <div class="options">
      <button type="button" class="option-button" data-value="carPet">
-  		<img src="/resources/img/pet.png" alt="" class="icon" name="carPet"> 반려동물
-	</button>
+        <img src="/resources/img/pet.png" alt="" class="icon" name="carPet"> 반려동물
+   </button>
      <button type="button" class="option-button" data-value="carSmoke">
-  		<img src="/resources/img/smoke.png" alt="" class="icon" name="carSmoke"> 흡연가능
-	</button>  </div>
+        <img src="/resources/img/smoke.png" alt="" class="icon" name="carSmoke"> 흡연가능
+   </button>  </div>
 </div>
 <hr>
 <div class="form-wrap">
@@ -531,11 +525,11 @@ $(document).ready(function() {
   <div class="form-wrap">
     <div class="form-Label">픽업 위치</div>
     <div class="form">
-	    <input type="text" id="sample6_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" placeholder="주소"  name="location"><br>
-		<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="areaDetail">
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+       <input type="text" id="sample6_postcode" placeholder="우편번호">
+      <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+      <input type="text" id="sample6_address" placeholder="주소"  name="location"><br>
+      <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="areaDetail">
+      <input type="text" id="sample6_extraAddress" placeholder="참고항목">
     </div>
   </div>
 <hr>

@@ -51,7 +51,7 @@ public class GroupServiceImpl implements GroupService {
 
 		int totalCount = groupDao.selectCntAll();
 
-		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 15, param.getPageCount());
 		
 		return paging;
 	}

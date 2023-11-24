@@ -97,7 +97,8 @@ function loadBooking() {
         , dataType: "html"
         , success: function( res ) {
            console.log("AJAX 성공")
-			$("#bookingList").html(res)
+          $("#bookingList").html(res)
+			
         }
         , error: function() {
            console.log("AJAX 실패")

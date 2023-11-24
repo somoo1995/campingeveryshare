@@ -1,15 +1,19 @@
 <%@page import="java.util.Date"%>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:import url="../layout/header.jsp" />
+
 <style type="text/css">
+
 .row {
     text-align: center;
 }
 
-.list-container {
+.write-container {
     height: 440px;
     width: 380px;
     margin: 1em auto; 
@@ -20,9 +24,8 @@
     border-right: 1px solid #D3D3D3;
 }
 
-.list-container:hover {
+.write-container:hover {
     border-color: #82EB5A;
-    cursor: pointer;
 }
 
 .col-md-4 {
@@ -91,51 +94,52 @@ select {
 	width: 100px;
 	text-align: center;
 }
-
-
 </style>
 
-<div class="mt-5 mb-5">
-
-<%-- ${paging.category } --%>
-
-<c:choose>
-	<c:when test="${empty hasData or not hasData }">
-		<div class="wrap-result text-center mb-5">
-			<strong style="color: #ccc;">검색 결과가 없습니다</strong><br>
-		</div>
-	</c:when>
 
 
-	<c:when test="${paging.category eq 1 }">
-		<c:import url="/WEB-INF/views/rent/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationSearch.jsp" />
-		</c:if>
-	</c:when>
-	
-	<c:when test="${paging.category eq 2 }">
-		<c:import url="/WEB-INF/views/share/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationSearch.jsp" />
-		</c:if>
-	</c:when>
-	
-	<c:when test="${paging.category eq 3 }">
-		<c:import url="/WEB-INF/views/market/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationSearch.jsp" />
-		</c:if>
-	</c:when>
-	
-	<c:when test="${paging.category eq 4 }">
-		<c:import url="/WEB-INF/views/group/list.jsp" />
-		<c:if test="${paging.totalCount gt 20 }">
-			<c:import url="../layout/paginationSearch.jsp" />
-		</c:if>
-	</c:when>
 
-</c:choose>
+<div class="container">
 
+
+<!-- 작성 공간 -->
+<div class="pageTitle">
+<h3 id=pageTitle>중고장터 게시판</h3>
+<hr>
+<div class="select">
+<select name="locCate" id="locCate">
+     <option>지역</option>
+     <option value="10">강원</option>
+     <option value="9">경기</option>
+     <option value="16">경남</option>
+     <option value="15">경북</option>
+     <option value="5">광주</option>
+     <option value="6">대구</option>
+     <option value="3">대전</option>
+     <option value="4">부산</option>
+     <option value="1">서울</option>
+     <option value="8">세종</option>
+     <option value="7">울산</option>
+     <option value="2">인천</option>
+     <option value="14">전남</option>
+     <option value="13">전북</option>
+     <option value="17">제주</option>
+     <option value="12">충남</option>
+     <option value="11">충북</option>
+ </select>
+</div>
+<hr>
+
+<div style="text-align: right; margin-bottom: 10px;">
+<a  href="/market/write?boardCate=3"><button>글쓰기</button></a>
 </div>
 
+<c:import url="./list.jsp" />
+
+
+
+
+
+</div><!-- .container -->
+<c:import url="../layout/pagination.jsp" />
+<c:import url="../layout/footer.jsp" />

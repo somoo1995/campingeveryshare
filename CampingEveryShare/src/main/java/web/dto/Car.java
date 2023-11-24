@@ -19,8 +19,7 @@ public class Car {
 	private int carPax;
 	private int carSpax;
 	private int carBeds;
-	private int maxPrice;
-	private int minPrice;
+	private int price;
 	private int extraPrice;
 	private int carElec,carWater,carTable,carSink,carKitchen,carTemp,carShower,
 	carToilet,carPet,carSmoke;
