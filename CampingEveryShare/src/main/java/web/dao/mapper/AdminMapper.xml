@@ -74,17 +74,23 @@
 
 
 <sql id="selectIncome">
-	SELECT income_no, rent_no, account_no, money, money_cate, money_date
-	FROM incometb
+	SELECT income_no, rent_no, amount, income_status, post_date
 </sql>
 
+
+<select id="selectCntUserId" resultType="int" parameterType="User">
+	SELECT count(*)
+    FROM usertb
+    <where>
+        <if test="userId != null and userId != ''"> AND user_id = #{userId } </if>
+    </where>
+</select>
 
 <select id="selectCntAdmin" resultType="int" parameterType="Admin">
 	SELECT count(*)
     FROM admintb
     <where>
         <if test="adminCode != null and adminCode != ''"> AND admin_code = #{adminCode } </if>
-        <if test="adminPw != null and adminPw != ''"> AND admin_pw = #{adminPw } </if>
     </where>
 </select>
 
@@ -141,29 +147,55 @@
 	
 
 <select id="selectCntAllIncome" resultType="int" parameterType="web.util.Paging">
-   SELECT count(*) FROM (
-	SELECT I.income_no, I.rent_no, I.account_no, I.money, I.money_cate, I.money_date
-	    	, A.user_id, A.bank_name, A.bank_account
-	  	 	FROM incometb I
-	  	 	JOIN accounttb A
-	  	 	ON I.account_no = A.account_no
-	  	 	<include refid="searchIncome" />
+SELECT count(*) FROM (
+	SELECT income_no, rent_no, amount, income_status, post_date,
+        (SELECT user_id FROM renttb WHERE rent_no = I.rent_no) AS user_id,
+        (SELECT bank_name FROM accounttb A WHERE A.user_id = 
+            (SELECT user_id FROM usertb U WHERE U.user_id = 
+                (SELECT user_id FROM cartb C WHERE C.user_id = 
+                    (SELECT user_id FROM renttb R WHERE R.rent_no = 
+                        (SELECT rent_no FROM incometb WHERE rent_no = R.rent_no)
+                    )
+                )
+            )
+        ) AS bank_name,
+     	 (SELECT bank_account FROM accounttb A WHERE A.user_id = 
+            (SELECT user_id FROM usertb U WHERE U.user_id = 
+                (SELECT user_id FROM cartb C WHERE C.user_id = 
+                    (SELECT user_id FROM renttb R WHERE R.rent_no = 
+                        (SELECT rent_no FROM incometb WHERE rent_no = R.rent_no)
+                    )
+                )
+            )
+  		 ) AS bank_account
+	FROM incometb I
+	<include refid="searchIncome" />
 )
 </select>
 
 <select id="selectAllIncome" resultType="map" parameterType="web.util.Paging">
 	SELECT * FROM (
 	    SELECT rownum rnum, B.* FROM (
-	    	SELECT I.income_no, I.rent_no, I.account_no, I.money, I.money_cate, I.money_date
-	    	, A.user_id, A.bank_name, A.bank_account
-	  	 	FROM incometb I
-	  	 	JOIN accounttb A
-	  	 	ON I.account_no = A.account_no
+	    	<include refid="selectIncome" />
+	    	, user_id, bank_name
+	  	 	FROM incometb
 	  	 	<include refid="searchIncome" />
-			ORDER BY I.income_no DESC
+			ORDER BY income_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
 
+<select id="selectById" resultType="User" parameterType="string">
+	SELECT * FROM usertb
+	<where>
+		user_id = #{userId}
+	</where>
+</select>
+ 
+<update id="updateUserStatus" parameterType="User">
+	UPDATE usertb
+	SET user_status = 1
+	WHERE user_id = #{userId }
+</update>
 
 </mapper>

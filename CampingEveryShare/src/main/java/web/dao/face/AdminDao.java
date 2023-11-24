@@ -48,6 +48,14 @@ public interface AdminDao {
 
 	public int selectCntAllIncome(Paging param);
 
+	/**
+	 * 회원 상태 0:활성 -> 1:탈퇴로 변경
+	 * 
+	 * @param user - user 객체
+	 */
+	public void updateUserStatus(User user);
 
+	public User selectById(String userId);
 
+	public int selectCntUserId(String userId);
 }

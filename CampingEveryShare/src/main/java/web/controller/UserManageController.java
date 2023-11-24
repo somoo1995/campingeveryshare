@@ -151,6 +151,8 @@ public class UserManageController {
 	@ResponseBody
 	public String deleteuser(@RequestParam("userId") String userId, Model model) {
 		
+		//무언가 단단히 잘못되었다.
+		
 		boolean isDeleted = adminService.updateUserStatus(userId);
 
 	    if (isDeleted) {
@@ -162,6 +164,7 @@ public class UserManageController {
 	       logger.info("회원상태 변경 실패");
 	       return "undone";
 	       }
+	    
 	    
 	}
 		

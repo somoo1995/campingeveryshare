@@ -104,15 +104,32 @@ public class AdminServiceImpl implements AdminService {
 		return paging;
 	}
 
-
 	@Override
 	public boolean adminIdCheck(String adminCode) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
+	public boolean updateUserStatus(String userId) {
+		
+	    User user = adminDao.selectById(userId);
+
+		 // 사용자가 존재하고 일치하면 상태를 1로 업데이트
+		    if (user != null) {
+		        user.setUserStatus(1);
+		        adminDao.updateUserStatus(user);
+		        return true; // 삭제 성공
+		    }
+
+		    return false; // 사용자가 존재하지 않을 경우 삭제 실패
+		}
 
 
-
+	@Override
+	public boolean joinIdCheck(String userId) {
+		int idCheck = adminDao.selectCntUserId(userId);
+		return idCheck <= 0;
+	}
 
 }
