@@ -446,7 +446,7 @@ $(function() {
             <div class="alarm">
             <img class="alert-open alarm_icon" alt="alarm_icon" src="/resources/img/alarm_1.png" width="100px" height="100px">
             </div><!-- .alarm -->
-       </c:when>
+       </c:when> 
       </c:choose>
          
       <c:if test="${not empty isLogin and isLogin }">
