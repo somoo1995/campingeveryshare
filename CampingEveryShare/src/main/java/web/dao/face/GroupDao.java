@@ -16,7 +16,6 @@ public interface GroupDao {
 	 * 전체 리스트
 	 * 
 	 * @param paging - 페이징 객체
-	 * @param board 
 	 * @return - 조회된 게시글 전체
 	 */
 	public List<Map<String, Object>> selectGroupAll(Paging paging);

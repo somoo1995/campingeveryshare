@@ -20,60 +20,88 @@ pageEncoding="UTF-8"%>
 </style>
 
 <script type="text/javascript">
-    function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, ) {
-        var value = input.value;
-        var displayBlock = $("#" + displayBlock);
 
-        console.info("checkDuplicate::" + value);
+function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, errorMessage) {
+    var value = input.value;
+    var displayBlock = $("#" + displayBlock);
 
-        displayBlock.show();
+    console.info("checkDuplicate::" + value);
 
-        if (value.trim() == '') {
-            displayBlock.text(emptyMessage);
-            console.log(emptyMessage);
-            return;
-        }
+    displayBlock.show();
 
-        $.ajax({
-            type: "get",
-            url: url + value,
-            dataType: "text",
-            success: function (response) {
-                if (response == "true") {
-                    console.log(successMessage);
-                    displayBlock.text(successMessage);
-                } else {
-                    console.log(failureMessage);
-                    displayBlock.text(failureMessage);
-                }
-            }
-        });
+    if (value.trim() == '') {
+        displayBlock.text(emptyMessage);
+        console.log(emptyMessage);
+        return;
     }
 
-    // id 중복 체크
-    function idDupleCheck(input) {
+    $.ajax({
+        type: "get",
+        url: url + value,
+        dataType: "text",
+        success: function (response) {
+            console.log(response);
+            if (response == "false") {
+                console.log(failureMessage);
+                displayBlock.text(errorMessage);
+            } else {
+                console.log(successMessage);
+                // 변경된 부분: errorMessage 사용
+                displayBlock.text(successMessage);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: " + status + " - " + error);
+        }
+    });
+}
+
+// id 중복 체크
+function idDupleCheck(input) {
+    // 정규식
+    var idRegex = /^[a-zA-Z0-9_]{4,8}$/;
+
+ // 입력된 아이디가 정규식과 일치하는지 확인
+    if (!idRegex.test(input.value)) {
+        // 정규식과 일치하지 않을 때 처리 (예: 메시지 출력, 기타 로직 수행)
+        var displayBlock = $("#" + "idDupleBlock"); // 여기에서 displayBlock을 가져옵니다.
+        displayBlock.show();
+        displayBlock.text("아이디는 4글자 이상 8글자 이하이어야 합니다.");
+        return;
+    } else {
+        // 정규식과 일치할 때 처리 (예: 중복 체크 계속 진행)
         checkDuplicate(
             input,
             "/user/idCheck/",
             "idDupleBlock",
             "아이디를 입력해 주세요.",
-            "",
-            "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.",
+            "사용가능한 아이디 입니다",
+            "사용가능한 아이디 입니다",
+            "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요."
         );
     }
 
-    // email 중복 체크
-    function emailDupleCheck(input) {
-        checkDuplicate(
-            input,
-            "/user/emailCheck/",
-            "emailDupleBlock",
-            "이메일을 입력해 주세요.",
-            "",
-            "사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요.",
-        );
-    }
 
+}
+	// email 중복 체크
+	function emailDupleCheck(input) {
+	    checkDuplicate(
+	        input,
+	        "/user/emailCheck/",
+	        "emailDupleBlock",
+	        "이메일을 입력해 주세요.",
+	        "사용 가능한 이메일입니다.", 
+	        "사용할 수 없는 이메일입니다. 다른 이메일을 입력해 주세요."
+	    );
+	 	// 이메일이 사용 가능한 경우에만 인증 코드 발송 버튼 활성화
+	    if ($("#emailDupleBlock").text() === "사용 가능한 이메일입니다.") {
+	        $("#sendEmailButton").prop("disabled", false);
+	    } else {
+	        $("#sendEmailButton").prop("disabled", true);
+	    }
+	}
+
+    
     // 이름 체크
     function nameCheck() {
         var userName = $("#userName");
@@ -89,17 +117,22 @@ pageEncoding="UTF-8"%>
         }
     }
 
-    // 닉네임 중복 체크
+ // 닉네임 중복 체크
     function nickDupleCheck(input) {
+        // 정규식: 최대 8글자
+        var nickRegex = /^.{1,8}$/;
+
         checkDuplicate(
             input,
             "/user/nickCheck/",
             "nickDupleBlock",
             "닉네임을 입력해 주세요.",
             "",
-            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요."
+            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요.",
+            "닉네임은 8글자 이하이어야 합니다."
         );
     }
+
 
     $(document).ready(function () {
 		$("#joinButton").click(function () {
@@ -124,6 +157,9 @@ pageEncoding="UTF-8"%>
     });
 
     function passwordCheck() {
+    	// 최소 8자 이상, 최소 하나의 숫자와 특수 문자를 포함하는 비밀번호 정규식
+    	var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
+
         var userPw = $("#userPw").val();
         var userPwConfirm = $("#userPwConfirm").val();
         var pwDupleBlock = $("#pwDupleBlock");
@@ -145,12 +181,95 @@ pageEncoding="UTF-8"%>
             // TODO: ptag 표시
             return;
         }
-        console.log("동일한 비밀번호입니다.");
+
+        // 비밀번호가 정규식과 일치하는지 확인
+        if (!passwordRegex.test(userPw)) {
+            console.log("안전한 비밀번호를 입력하세요.");
+            pwDupleBlock.text("안전한 비밀번호를 입력하세요.");
+            // TODO: ptag 표시
+            return;
+        }
+
+        console.log("동일한 안전한 비밀번호입니다.");
         pwDupleBlock.text("");
-
     }
-    
 
+
+	//이메일 인증
+	let code = ""; // 이메일 인증 저장위한 코드
+	let emailPatternCheck = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+	
+	function sendEmail() {
+	    if (!emailPatternCheck.test($("#email").val())) {
+	        alert("이메일 형식에 맞추어 작성하세요");
+	    } else {
+	        let email = $("#email").val(); // 입력한 이메일
+	
+	        $.ajax({
+	            url: "mailSender.do",
+	            type: "get",
+	            data: { 'm_email': email },
+	            success: function (rnum) {
+	                alert("기입하신 이메일로 인증번호를 전송했습니다.");
+	
+	                $("#codeInput").attr("disabled", false); // 입력칸 활성화
+	                code = rnum;
+	            },
+	            error: function () {
+	                alert("에러 발생");
+	            }
+	        });
+	    }
+	}
+	
+	function emailVerifyCheck() {
+	    let enteredCode = $("#codeInput").val();
+	    let joinButton = $("#joinButton"); // 회원가입 버튼
+	
+	    if (code === enteredCode) {
+	        // 올바른 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "green");
+	        $("#codecheck_blank").text("인증되었습니다.");
+	        joinButton.prop("disabled", false); // 회원가입 버튼 활성화
+	    } else {
+	        // 잘못된 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "red");
+	        $("#codecheck_blank").text("인증번호를 다시 입력해주세요.");
+	        joinButton.prop("disabled", true); // 회원가입 버튼 비활성화
+	    }
+	}
+	//회원가입시 필수입력란이 비어있을경우 회원가입 못하게 막아주기
+	function join() {
+	    // 필수 항목들의 값을 가져옵니다.
+	    var profile = $("#profile").val(); // 프로필 사진
+	    var userId = $("#userId").val(); // 아이디
+	    var userPw = $("#userPw").val(); // 비밀번호
+	    var userPwConfirm = $("#userPwConfirm").val(); // 비밀번호 확인
+	    var email = $("#email").val(); // 이메일
+	    var codeInput = $("#codeInput").val(); // 인증번호
+	    var userName = $("#userName").val(); // 이름
+	    var userNick = $("#userNick").val(); // 닉네임
+
+	    // 필수 항목 중 하나라도 비어있다면 가입 불가능
+	    if (!profile || !userId || !userPw || !userPwConfirm || !email || !codeInput || !userName || !userNick) {
+	        alert("필수 항목을 모두 입력하세요.");
+	        return;
+	    }
+
+	    // 이메일 인증 코드 확인
+	    if (codeInput !== code) {
+	        alert("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
+	        return;
+	    }
+
+	    // 여기에 회원가입 처리 로직을 추가하세요.
+	    alert("회원가입이 완료되었습니다.");
+	}
+
+
+
+
+    
 </script>
 
 
@@ -278,15 +397,21 @@ pageEncoding="UTF-8"%>
 		   </svg>
 		 </span>
 		<div class="form-floating is-invalid">
-			<input type="email" id="email" name="email" class="border border-success-subtle form-control" onblur="emailDupleCheck(this)" required>
-		    <label for="floatingInputGroup2">이메일*</label>
+          <input type="email" class="border border-success-subtle form-control" name="email" id="email" onblur="emailDupleCheck(this)" required="required">
+          <label class="floatingInputGroup2">이메일*</label> 
+<!--           <button id="sendEmailButton" type="button" class="btn btn-primary" disabled="disabled" onclick="sendEmail()">인증 코드 발송</button> -->
+          <button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()" disabled="disabled">인증코드 발송</button>
 	  	</div>
-		<div id="emailDupleBlock" class="invalid-feedback"  style="display:none">
-			<p id="emailDupleText"></p>
-		</div>
+        <div class="border border-success-subtle form-control">
+           <label class="floatingInputGroup2">인증번호*</label>
+         <input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
+         <span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+          </div>
+	<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
+	    <p id="emailDupleText"></p>
 	</div>
-	
-		
+	</div>
+
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -294,7 +419,7 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck()" required>
+			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck(this)" required>
 		    <label for="floatingInputGroup2">이름*</label>
 	  	</div>
 		<div id="nameDupleBlock" class="invalid-feedback"  style="display:none">
@@ -309,7 +434,7 @@ pageEncoding="UTF-8"%>
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-			<input  type="text" id="userNick" name="userNick" class="border border-success-subtle form-control" onblur="nickDupleCheck(this)" required>
+			<input type="text" id="userNick" name="userNick" class="border border-success-subtle form-control" onblur="nickDupleCheck(this)" required>
 		    <label for="floatingInputGroup2">닉네임*</label>
 	  	</div>
 		<div id="nickDupleBlock" class="invalid-feedback"  style="display:none">

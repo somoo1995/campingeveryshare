@@ -88,7 +88,26 @@
     }
     
 </style>
-
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".carRegi").on("click", ".registerLink", function(event) {
+        event.preventDefault(); // 이 부분이 링크의 기본 동작을 막습니다.
+        $.ajax({
+            type: "get",
+            url: "/car/regi",
+            dataType: "html",
+            success: function(res){
+                console.log("AJAX성공")
+                $(".carRegi").hide();
+                $(".regiForm").html(res);
+            },
+            error: function(){
+                console.log("AJAX실패")
+            }
+        });
+    });
+});
+</script>
 <div class="status-container">
     <div class="status-card">
         <img src="/resources/img/ongoing.png" alt="진행중" />
@@ -114,10 +133,11 @@
 </div>
 <hr>
 <div class="carRegi">
-<a href="./regi">
+<a class="registerLink" href=".주소">
 <span>+</span>
 <br>
 <span>등록하기</span>
 
 </a>
 </div>
+<div class="regiForm"></div>

@@ -2,6 +2,7 @@ package web.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,7 @@ public class HomeController {
 		logger.info("paging : {}", paging);
 		logger.info("hasData : {}", hasData);
 		
-		List<Board> list = searchService.getList(paging);
+		List<Map<String, Object>> list = searchService.getList(paging);
 		
 		logger.info("list : {}", list);
 		

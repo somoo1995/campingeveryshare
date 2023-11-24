@@ -44,6 +44,52 @@ pageEncoding="UTF-8"%>
 	    });
 	}
 	
+	//이메일 인증
+	let code = ""; // 이메일 인증 저장위한 코드
+	let emailPatternCheck = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+	
+	function sendEmail() {
+		console.log("sendEmailFunctionStart")
+	    if (!emailPatternCheck.test($("#email").val())) {
+	        alert("이메일 형식에 맞추어 작성하세요");
+	    } else {
+	        let email = $("#email").val(); // 입력한 이메일
+	
+	        $.ajax({
+	            url: "mailSender.do",
+	            type: "get",
+	            data: { 'm_email': email },
+	            success: function (rnum) {
+	                alert("기입하신 이메일로 인증번호를 전송했습니다.");
+	
+	                $("#codeInput").attr("disabled", false); // 입력칸 활성화
+	                code = rnum;
+	            },
+	            error: function () {
+	                alert("에러 발생");
+	            }
+	        });
+	    }
+	}
+	
+	function emailVerifyCheck() {
+	    let enteredCode = $("#codeInput").val();
+	    let idfind_button = $("#idfind_button"); // 아이디찾기 버튼
+	
+	    if (code === enteredCode) {
+	        // 올바른 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "green");
+	        $("#codecheck_blank").text("인증되었습니다.");
+	        idfind_button.prop("disabled", false); // 아이디찾기 버튼 활성화
+	    } else {
+	        // 잘못된 인증 코드인 경우
+	        $("#codecheck_blank").css("color", "red");
+	        $("#codecheck_blank").text("인증번호를 다시 입력해주세요.");
+	        idfind_button.prop("disabled", true); // 아이디찾기 버튼 비활성화
+	    }
+	}
+	
+	
 	// 이메일 중복 체크
 	function emailDupleCheck(input) {
 	    checkDuplicate(
@@ -51,10 +97,18 @@ pageEncoding="UTF-8"%>
 	        "/user/emailCheck/",
 	        "emailDupleBlock",
 	        "이메일을 입력해 주세요.",
-	        "이메일을 찾을 수 없습니다. 회원가입을 진행해주세요.",
+	        "",
 	        ""
 	    );
+	 // 이메일이 사용 가능한 경우에만 인증 코드 발송 버튼 활성화
+	    if ($("#emailDupleBlock").text() === "사용 가능한 이메일입니다.") {
+	        $("#sendEmailButton").prop("disabled", true);
+	    } else {
+	        $("#sendEmailButton").prop("disabled", false);
+	    }
 	}
+	
+	
 	
 	// 이름 체크
 	function nameCheck() {
@@ -73,7 +127,26 @@ pageEncoding="UTF-8"%>
 
 
 	$(document).ready(function () {
-	    $("#idfind_button").on("click", function (event) {
+		// 이메일 입력란에서 Enter 키를 누를 때 이름 작성 칸으로 포커스 이동
+	    $("#email").keypress(function (e) {
+	        if (e.which === 13) { // 13은 Enter 키의 키 코드입니다.
+	            e.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+
+	            // userName 입력란으로 포커스 이동
+	            $("#userName").focus();
+	        }
+	    });
+
+	    // userName 입력란에서 Enter 키를 누를 때 아이디 찾기 버튼 클릭
+	    $("#userName").keypress(function (e) {
+	        if (e.which === 13) { // 13은 Enter 키의 키 코드입니다.
+	            e.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+
+	            // 아이디 찾기 버튼 클릭
+	            $("#idfind_button").click();
+	        }
+	    });
+		$("#idfind_button").on("click", function (event) {
 	    	//중복 클릭 방지
 	    	if($(this).prop("disabled")){
 	    		return;
@@ -84,9 +157,11 @@ pageEncoding="UTF-8"%>
 	        // 이메일과 이름 입력값 가져오기
 	        var email = $("#email").val();
 	        var userName = $("#userName").val();
+	        var codeInput = $("#codeInput").val(); 
+
 
 	        // 간단한 유효성 검사
-	        if (email.trim() === '' || userName.trim() === '') {
+	        if (codeInput.trim() === '' || email.trim() === '' || userName.trim() === '') {
 	            return; // 입력값이 비어 있으면 더 이상 진행하지 않음
 	        }
 
@@ -121,11 +196,22 @@ pageEncoding="UTF-8"%>
 	            },
 	        });
 	    });
+		 // 이메일 인증 코드 발송 버튼 클릭 시 타이머 설정
+	    var emailVerificationTimer;
+	    $("#sendEmailButton").click(function () {
+	    	console.log("#sendEmailButtonClickEventStart")
+	        // 타이머 설정 (예: 60초 동안 다시 클릭 불가능)
+	        sendEmail();
+	        $(this).prop("disabled", true);
+	        emailVerificationTimer = setTimeout(function () {
+	            $("#sendEmailButton").prop("disabled", false);
+	        }, 60000); // 60초
+	        // 인증 코드 발송 함수 호출
+	    });
 	});
 
 
 </script>
-
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">아이디 찾기</h3>
@@ -144,12 +230,18 @@ pageEncoding="UTF-8"%>
 		   </svg>
 		 </span>
 		<div class="form-floating is-invalid">
-			<input type="email" id="email" name="email" class="border border-success-subtle form-control" onblur="emailDupleCheck(this)" required>
-		    <label for="floatingInputGroup2">이메일*</label>
+          <input type="email" class="border border-success-subtle form-control" name="email" id="email" onblur="emailDupleCheck(this)" required="required">
+          <label class="floatingInputGroup2">이메일*</label> 
+          <button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송"  disabled="disabled">인증코드 발송</button>
 	  	</div>
-		<div id="emailDupleBlock" class="invalid-feedback"  style="display:none">
-			<p id="emailDupleText"></p>
-		</div>
+        <div class="border border-success-subtle form-control">
+           <label class="floatingInputGroup2">인증번호*</label>
+         <input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
+         <span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+          </div>
+	<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
+	    <p id="emailDupleText"></p>
+	</div>
 	</div>
 	
 	<div class="input-group has-validation" id="idfind_userName" >

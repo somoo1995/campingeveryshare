@@ -8,7 +8,7 @@ import lombok.Data;
 public class Review {
 
 	private int reviewNo;
-	private int carNo;
+	private int rentNo;
 	private String userId;
 	private String content;
 	private Date postDate;

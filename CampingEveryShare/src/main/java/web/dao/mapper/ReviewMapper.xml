@@ -6,11 +6,26 @@
   
 <mapper namespace="web.dao.face.ReviewDao">
 	
+	<sql id="selectReview">
+		SELECT review_no, car_no, content, rate, delete_status, post_date
+		, (SELECT user_nick FROM usertb U WHERE U.user_id = (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no)) as reviewNick
+		FROM reviewtb R
+	</sql>
+	
+	<select id="selectReviewByCar" parameterType="Car" resultType="Car">
+		<include refid="selectReview" />
+		<where>
+			AND car_no = #{carNo }
+		</where>
+	</select>
+	
 	<insert id="insertReview" parameterType="Review">
 		<selectKey order="BEFORE" keyProperty="reviewNo" resultType="int">
 			SELECT review_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO reviewtb ( review_no, car_no, content, rate )
-		VALUES ( #{reviewNo}, #{carNo }, #{content }, #{rate } )
+		INSERT INTO reviewtb ( review_no, rent_no, content, rate )
+		VALUES ( #{reviewNo}, #{rentNo }, #{content }, #{rate } )
 	</insert>
+	
+	
 </mapper>

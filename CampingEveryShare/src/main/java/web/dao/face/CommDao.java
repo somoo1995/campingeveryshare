@@ -69,6 +69,14 @@ public interface CommDao {
 	 * @return 
 	 */
 	public int insertCommByGroup(Comm comm);
+	
+	/**
+	 * 공지사항에 댓글달기
+	 * 
+	 * @param comm - 입력한 댓글
+	 * @return
+	 */
+	public int insertCommByInquiry(Comm comm);
 
 	
 

@@ -37,7 +37,7 @@ public class GroupController {
 	@Autowired GroupService groupService;
 	
 	@GetMapping("list")
-	public void groupList(Paging param, Model model, Board board) {
+	public String groupList(Paging param, Model model, Board board) {
 		
 		
 		Paging paging = groupService.getPaging( param );
@@ -57,6 +57,7 @@ public class GroupController {
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
 		
+		return "group/main";
 	}
 	
 	@GetMapping("view")

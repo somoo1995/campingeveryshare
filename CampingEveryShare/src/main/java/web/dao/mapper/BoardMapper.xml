@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.BoardDao">
+ 
+<select id="selectCntAllQna" resultType="int" parameterType="web.util.Paging">
+	SELECT count(*) FROM boardtb
+	WHERE board_cate = 6
+</select>
+
+<select id="selectAllQna" resultType="map" parameterType="web.util.Paging">
+	SELECT * FROM (
+        SELECT rownum rnum, B.* FROM (
+        SELECT 
+	        board_no,
+		    title,
+		    location,
+			CAST(post_date AS DATE) AS post_date,
+		    hit,
+		    content,
+		    delete_status,
+		    board_cate,
+		    user_id
+		FROM boardtb
+        WHERE board_cate = 6
+        ORDER BY board_no DESC
+        ) B
+	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+</select>
+
+
+
+</mapper>

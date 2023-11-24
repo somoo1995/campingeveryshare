@@ -39,7 +39,7 @@ public class MarketController {
 	@Autowired MarketService marketService;
 	
 	@GetMapping("list")
-	public void marketList(Paging param, Model model, Board board) {
+	public String marketList(Paging param, Model model, Board board) {
 		
 		
 		Paging paging = marketService.getPaging( param );
@@ -58,6 +58,8 @@ public class MarketController {
 		logger.info("list : {}", list);
 		logger.info("paging {} :" + paging.toString());
 		logger.info("model {} :" + model.toString());
+		
+		return "market/main";
 	}
 	
 	@GetMapping("view")
