@@ -5,8 +5,6 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/header.jsp" />
-
 
 <style type="text/css">
 
@@ -98,43 +96,6 @@ select {
 </style>
 
 
-<div class="container">
-
-
-<!-- 작성 공간 -->
-<div class="pageTitle">
-<h3 id=pageTitle>캠핑존 공유 게시판</h3>
-<hr>
-<div class="select">
-<label><input type="radio" id="paid" name="paid" value="1" checked="checked">전체</label>
-<label><input type="radio" id="paid" name="paid" value="2">무료</label>
-<label><input type="radio" id="paid" name="paid" value="3">유료</label>
-<select name="locCate" id="locCate">
-     <option>지역</option>
-     <option value="10">강원</option>
-     <option value="9">경기</option>
-     <option value="16">경남</option>
-     <option value="15">경북</option>
-     <option value="5">광주</option>
-     <option value="6">대구</option>
-     <option value="3">대전</option>
-     <option value="4">부산</option>
-     <option value="1">서울</option>
-     <option value="8">세종</option>
-     <option value="7">울산</option>
-     <option value="2">인천</option>
-     <option value="14">전남</option>
-     <option value="13">전북</option>
-     <option value="17">제주</option>
-     <option value="12">충남</option>
-     <option value="11">충북</option>
- </select>
-</div>
-<hr>
-<div style="text-align: right; margin-bottom: 10px;">
-<a href="/share/write?boardCate=2"><button>글쓰기</button></a>
-</div>
-
 <div class="board">
 
 <c:forEach items="${list}" var="board" varStatus="loop">
@@ -204,11 +165,3 @@ select {
   </c:if>
 </c:forEach>
 </div>
-
-
-
-
-
-</div><!-- .container -->
-<c:import url="../layout/pagination.jsp" />
-<c:import url="../layout/footer.jsp" />

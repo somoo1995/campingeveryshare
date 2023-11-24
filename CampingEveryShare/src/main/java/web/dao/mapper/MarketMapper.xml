@@ -28,8 +28,13 @@
 			, (SELECT price FROM markettb WHERE board_no = boardtb.board_no) AS "PRICE"
 			, user_id
 			FROM boardtb
-			WHERE board_cate = 3
-			AND delete_status = 0
+			<where>
+				AND board_cate = 3
+				AND delete_status = 0
+				<if test="search != null and !''.equals(search)">
+					AND title LIKE '%' || (#{search }) || '%' 
+				</if>
+			</where>
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}

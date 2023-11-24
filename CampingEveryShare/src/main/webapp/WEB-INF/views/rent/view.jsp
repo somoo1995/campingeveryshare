@@ -6,113 +6,22 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
-<style type="text/css">
-.star-box {
-	/* 별과 별 사이 공백 제거 */
-    font-size: 0;
-}
-
-.star {
-	/* width,height 적용가능하도록 변경 */
-	display: inline-block;
-
-	/* 별이 표현되는 영역 크기 */
-	width: 25px;
-    height: 50px;
-
-	/* 투명한 별 표현 */
-	background-image: url(/resources/img/star_empty.png);
-	background-repeat: no-repeat;
-}
-
-.star_left {
-	/* 왼쪽 별 */
-	background-position: 0 0;
-	background-size: 200%;
-/* 	border: 1px solid #ccc; */
-}
-
-.star_right {
-	/* 오른쪽 별 */
-	background-position: 100% 0;
-	background-size: 200%;
-}
-
-.on {
-	/* 채워진 별로 이미지 변경 */
-	background-image: url(/resources/img/star_full.png);
-}
-</style>
-
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<script type="text/javascript">
-$(function() {
-	
-	var idx = 0;
-	var rate = 0;	
-	
-	//별 클릭 이벤트
-	$(".star").click(function() {
-		
-		//클릭된 별이 몇 번째 칸인지 알아내기
-		idx = $(this).index();
-		
-		//모두 투명하게 만들기
-		$(".star").removeClass("on")
-		
-		//클릭이 된 곳까지 채워진 별로 만들기
-		for(var i=0; i<=idx; i++) {
-			$(".star").eq(i).addClass("on");
-		}
-		
-		rate = (idx+1)/2
-		
-		console.log("클릭된 별의 위치 : " + idx)
-		console.log("점수로 변환 : " + (idx+1)/2)
-	})
-	
-	$("#btnReview").click(function() {
-		
-		console.log("review click - rate : " + rate)
-		
-	      $.ajax({
-	          type: "post"
-	          , url: "/rent/review/write"
-	          , data: {
-				carNo: ${car.carNo },
-	      		content: $("#content").val(),
-	      		rate: rate
-	          }
-	          , dataType: "json"
-	          , success: function(  ) {
-	             console.log("AJAX 성공")
-				$("#content").val('')
-				
-	          }
-	          , error: function() {
-	             console.log("AJAX 실패")
-
-	          }
-	       })
-	})
-	
-})
-</script>
 
 
 <script type="text/javascript">
 
 $(function() {
 	$("#btnCal").click(function() {
-		$(".calendar").show()	
+		$(".calendar").toggle()	
 	})
 	
 	$("#addOption").change(function() {
 		
 		var totalPrice = $("#totalPrice").text()
-		var addPrice = 70000
+		var addPrice = ${car.extraPrice}
+		console.log(addPrice)
 		
 		if($(this).is(':checked')){
 			console.log("checked")
@@ -124,10 +33,6 @@ $(function() {
 			$("#totalPrice").text(totalPrice*1 - addPrice)
 		}
 	})
-	
-})
-
-$(function() {
 	
 })
 
@@ -157,7 +62,7 @@ function submitBook(rsp) {
 		$("<input>").attr({
 			type: "hidden",
 			name: "reservPax",
-			value: 2
+			value: $("#carPax").val()
 		})
 	).append(
 		$("<input>").attr({
@@ -266,8 +171,6 @@ function getGuestInfo(callback) {
 	
 }
 
-
-
 IMP.init('imp83448842')
 
 function requestPay() {
@@ -286,7 +189,7 @@ function requestPay() {
 		      
 			name: "${car.carName }",	//주문 상품 이름
 // 			amount: $("#totalPrice").text(),				// 금액, 숫자 타입
-			amount: 1000,				// text 금액
+			amount: 1,				// text 금액
 		      
 			//주문자 정보
 			buyer_email: user.user.email,
@@ -359,8 +262,7 @@ function requestPay() {
 전기 : ${car.carElec } <br>
 물 : ${car.carWater } <br>
 테이블 : ${car.carTable } <br>
-카운터 : ${car.carCounter } <br>
-주방 : ${car.carKitchin } <br>
+주방 : ${car.carKitchen } <br>
 온도 : ${car.carTemp } <br>
 샤워 : ${car.carShower } <br>
 화장실 : ${car.carToilet } <br>
@@ -393,21 +295,11 @@ function requestPay() {
 
 <div>
 인원 선택 :
-<select name="carPax">
-	<option value="1">1</option>
-	<option value="2">2</option>
-	<option value="3">3</option>
-	<option value="4">4</option>
-	<option value="5">5</option>
-	<option value="6">6</option>
-	<option value="7">7</option>
-	<option value="8">8</option>
-	<option value="9">9</option>
-</select>
+<input type="number" name="carPax" id="carPax">
 </div>
 
 <div>
-추가 옵션 : <input type="checkbox" name="addOption" id="addOption"> <p> 6시간 연장 (+70,000원)
+추가 옵션 : <input type="checkbox" name="addOption" id="addOption"> <p> 6시간 연장 (+ ${car.extraPrice } 원)
 </div>
 
 
@@ -433,31 +325,7 @@ function requestPay() {
 
 <hr>
 
-<div class="col-8 mx-auto" id="review">
-
-<div class="form-group mb-3">
-
-	<div class="star-box">
-	<span class="star star_left"></span>
-	<span class="star star_right"></span>
-	<span class="star star_left"></span>
-	<span class="star star_right"></span>
-	<span class="star star_left"></span>
-	<span class="star star_right"></span>
-	<span class="star star_left"></span>
-	<span class="star star_right"></span>
-	<span class="star star_left"></span>
-	<span class="star star_right"></span>
-	</div>
-
-<%-- 	<label class="form-label mb-0" for="content" style="font-weight: bold;">${loginId }</label><br> --%>
-	<textarea class="form-control" rows="4" name="content" id="content" placeholder="리뷰 작성하세요" style="resize: none;"></textarea>
-	<div class="text-center mt-3"><button class="btn btn-dark btn-sm" id="btnReview">작성</button></div>
-</div>
-
-</div>
-
-<div id="reviewList"></div>
+<div id="reviewList">리뷰 보일곳</div>
 
 </div><!-- .container -->
 

@@ -38,7 +38,7 @@ public class ShareController {
 	@Autowired ShareService shareService;
 	
 	@GetMapping("list")
-	public void shareList(Paging param, Model model, Board board) {
+	public String shareList(Paging param, Model model, Board board) {
 		
 		
 		Paging paging = shareService.getPaging( param );
@@ -57,6 +57,8 @@ public class ShareController {
 		logger.info("list : {}", list);
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
+		
+		return "share/main";
 		
 	}
 	
