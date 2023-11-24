@@ -282,7 +282,7 @@ $(function() {
 <div id="menu" class="menu">
    
    <div class="mypage_background">
-<!--    <img alt="mypage_background" src="/resources/img/mypage_background_1.png"></div>mypage_background -->
+<!--    <img alt="mypage_background" src="/resources/img/mypage_background_2.png"></div>mypage_background -->
    <img alt="mypage_background" src=""></div><!-- mypage_background -->
    
    <aside id="all_mymenu" role="navigation" style="left: 0px; margin: 0 auto;" >
@@ -296,7 +296,7 @@ $(function() {
          <c:when test="${empty isLogin or not isLogin }">
          <div class="profile_box">
          <div class="box">
-         <img class="profile" alt="profile" src="/resources/img/profile1.png">
+         <img class="profile" alt="profile" src="/resources/img/profile2.png">
          </div><!-- .box -->
          </div><!-- .profile_box -->
          
@@ -314,7 +314,7 @@ $(function() {
             <!-- 프로필 사진 규격: 150px 150px -->
             <div class="profile_box">
             <div class="box">
-            <img class="profile" alt="profile" src="/resources/img/profile1.png">
+            <img class="profile" alt="profile" src="/resources/img/profile2.png">
             </div><!-- .box -->
             </div><!-- .profile_box -->
             
@@ -356,13 +356,13 @@ $(function() {
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
           <div class="reservation">
-          <img class="reservation_icon" onclick="location.href='/mypage/fail'" alt="reservation_icon" src="/resources/img/reservation_1.png" width="100px" height="100px">
+          <img class="reservation_icon" onclick="location.href='/mypage/fail'" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px">
             </div>
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
           <div class="reservation">
-          <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_1.png" width="100px" height="100px">
+          <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px">
             </div>
          </c:when>
       </c:choose>
@@ -375,7 +375,7 @@ $(function() {
          
          <c:when test="${not empty isLogin and isLogin }">
          <div class="reservation">
-<!--             <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_1.png" width="100px" height="100px"> -->
+<!--             <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px"> -->
             <span class="reservation_letter" id="campStatus" camp-data="/booking/main">내 예약</span>
          </div>
          </c:when>
@@ -388,13 +388,13 @@ $(function() {
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
          <div class="message">
-          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_1.png" width="100px" height="100px">
+          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="100px" height="100px">
           </div><!-- .message -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
           <div class="message">
-          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_1.png" width="100px" height="100px">
+          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="100px" height="100px">
           </div><!-- .message -->
        </c:when>
       </c:choose>
@@ -409,13 +409,13 @@ $(function() {
        <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
          <div class="heart">
-            <img class="heart_icon" onclick="location.href='/mypage/fail'" alt="heart_icon" src="/resources/img/heart_1.png" width="100px" height="100px">
+            <img class="heart_icon" onclick="location.href='/mypage/fail'" alt="heart_icon" src="/resources/img/heart_2.png" width="100px" height="100px">
             </div><!-- .heart -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
          <div class="heart">
-            <img class="heart_icon" onclick="location.href='/heart/list'" alt="heart_icon" src="/resources/img/heart_1.png" width="100px" height="100px">
+            <img class="heart_icon" onclick="location.href='/heart/main'" alt="heart_icon" src="/resources/img/heart_2.png" width="100px" height="100px">
             </div><!-- .heart -->
        </c:when>
       </c:choose>
@@ -427,7 +427,7 @@ $(function() {
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
-         <span class="heart_letter" onclick="location.href='/heart/list'">찜</span>
+         <span class="heart_letter" onclick="location.href='/heart/main'">찜</span>
        </c:when>
       </c:choose>
       </div><!-- .heart_container -->
@@ -438,13 +438,13 @@ $(function() {
        <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
             <div class="alarm">
-            <img class="alarm_icon" onclick="location.href='/mypage/fail'" alt="alarm_icon" src="/resources/img/alarm_1.png" width="100px" height="100px">
+            <img class="alarm_icon" onclick="location.href='/mypage/fail'" alt="alarm_icon" src="/resources/img/alarm_2.png" width="100px" height="100px">
             </div><!-- .alarm -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
             <div class="alarm">
-            <img class="alert-open alarm_icon" alt="alarm_icon" src="/resources/img/alarm_1.png" width="100px" height="100px">
+            <img class="alert-open alarm_icon" alt="alarm_icon" src="/resources/img/alarm_2.png" width="100px" height="100px">
             </div><!-- .alarm -->
        </c:when> 
       </c:choose>
@@ -471,7 +471,7 @@ $(function() {
       
       <hr class="hr_simple">
       <div class="fin">
-      <span class="information">공지사항</span>
+      <span class="information" onclick="location.href='/notice/list'">공지사항</span>
       
       <span>고객문의</span>
 
