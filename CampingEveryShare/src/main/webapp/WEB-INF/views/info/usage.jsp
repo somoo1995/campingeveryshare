@@ -13,7 +13,7 @@ h1 {
     307deg, #ff5252 0%, #8D7944 100%
   );
   background: -webkit-linear-gradient(
-    91deg, #32ab2e 0%, #ffe34c 100%
+    91deg, #08ff00 0%, #113223 100%
   );
   background: -moz-linear-gradient(
     307deg, #ff5252 0%, #8D7944 100%
