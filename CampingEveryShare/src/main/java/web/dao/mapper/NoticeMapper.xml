@@ -39,4 +39,53 @@
   		SELECT count(*) FROM boardtb
   	</select>
   	  
+  	<select id="selectBoardView" resultType="board" parameterType="board">
+  		SELECT
+	    board_no,
+	    title,
+	    location,
+		CAST(post_date AS DATE) AS post_date,
+	    hit,
+	    content,
+	    delete_status,
+	    board_cate,
+	    user_id
+
+		FROM boardtb
+		WHERE board_no = #{boardNo }
+  	</select>  
+  	
+  	<insert id="insertNoticeWrite" parameterType="board">
+  				<selectKey order="BEFORE"  resultType="int" keyProperty="boardNo">
+			SELECT board_seq.nextval FROM dual
+		</selectKey> 
+  		INSERT INTO boardtb (board_no, title,content, user_id, board_cate, location)
+  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
+  	</insert>
+  	  
+  	<select id="selectByAdminCode" resultType="admin" parameterType="admin">
+		SELECT admin_code
+	  	FROM admintb
+	  	WHERE admin_code = #{adminCode }
+  	</select>  
+  	
+  	<update id="hit" parameterType="board">
+  		UPDATE boardtb
+  		SET hit = hit+1
+  		WHERE board_no = #{boardNo}
+  	</update>
+  	  
+	<update id="updateProc" parameterType="board">
+		UPDATE boardtb
+		SET title = #{title }
+	 	, content = #{content }
+		WHERE board_no = #{boardNo } 
+  	</update>  
+  	  
+  	<update id="deleteByBoardNo" parameterType="board">
+		UPDATE boardtb
+ 		SET delete_status = 1
+ 		WHERE board_no = #{boardNo}
+  	</update>  
+  	  
   </mapper>

@@ -24,6 +24,7 @@
 					, (SELECT user_nick FROM usertb WHERE user_id = commtb.user_id) AS user_nick
 				FROM commTb
 				WHERE board_no = #{boardNo }
+				AND delete_status = 0
 				ORDER BY post_date DESC
 			) B
 		)
@@ -36,7 +37,7 @@
   	</insert>
   
   	<update id="deleteComm" parameterType="comm">
-  		UPDATE INTO commTB
+  		UPDATE COMMTB
   		SET delete_status = 1
   		WHERE comm_no = #{commNo}
   	</update>
@@ -44,11 +45,13 @@
 	<select id="countComm" resultType="int" parameterType="comm">
 		SELECT COUNT(*) FROM commTB
 		WHERE comm_no = #{commNo}
+		AND delete_status = 0
 	</select>
   	
   	<select id="selectCommByUserId" resultType="user" parameterType="comm">
 		SELECT user_nick FROM usertb
-		WHERE user_id = #{userId}  	
+		WHERE user_id = #{userId}
+		AND delete_status = 0  	
   	</select>
   	
   	<select id="getCommListByUserNick" parameterType="Map" resultMap="Map">
@@ -65,6 +68,7 @@
 					, (SELECT user_nick FROM usertb WHERE user_id = commtb.user_id) AS user_nick
 				FROM commTb
 				WHERE board_no = #{boardNo }
+				AND delete_status = 0
 				ORDER BY post_date DESC
 			) B
 		)
@@ -78,6 +82,11 @@
   	</insert>
   	
 	<insert id="insertCommByGroup" parameterType="comm">
+		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
+		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
+  	</insert>
+  	
+	<insert id="insertCommByInquiry" parameterType="comm">
 		INSERT INTO commTB ( comm_no, board_no, user_id, content, board_cate )
 		VALUES ( comm_seq.nextval, #{boardNo}, #{userId}, #{content}, #{boardCate} )
   	</insert>

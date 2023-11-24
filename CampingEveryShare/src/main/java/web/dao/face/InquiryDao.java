@@ -3,22 +3,21 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
-import web.dto.Comm;
-import web.dto.Group;
 import web.dto.User;
 import web.util.Paging;
 
-public interface GroupDao {
-
+public interface InquiryDao {
+	
 	/**
-	 * 전체 리스트
+	 * 전체 레스트
 	 * 
 	 * @param paging - 페이징 객체
 	 * @return - 조회된 게시글 전체
 	 */
-	public List<Map<String, Object>> selectGroupAll(Paging paging);
+	public List<Map<String, Object>> selectInquiryAll(Paging paging);
 	
 	/**
 	 * 조회된 게시글 수 조회 (페이징)
@@ -26,7 +25,7 @@ public interface GroupDao {
 	 * @return - 총 게시글 수
 	 */
 	public int selectCntAll();
-	
+
 	/**
 	 * 클릭한 게시물 상세조회
 	 * 
@@ -34,7 +33,7 @@ public interface GroupDao {
 	 * @return - 상세조회된 게시글
 	 */
 	public Board selectBoardView(Board board);
-	
+
 	/**
 	 * 글 상세조회시 조회수 증가
 	 * 
@@ -57,28 +56,28 @@ public interface GroupDao {
 	 * @return - 가져온 파일 정보
 	 */
 	public List<BoardFile> selectGetFileByBoardNo(Board board);
-	
+
 	/**
-	 * Group테이블에 글 등록
+	 * Inquiry테이블에 글 등록
 	 * 
 	 * @param board - 등록한 글을 담은 객체
 	 */
-	public void insertGroupWrite(Board board);
-	
+	public void insertInquiryWrite(Board board);
+
 	/**
-	 * Group테이블에 파일 등록
+	 * Inquiry테이블에 파일 등록
 	 * 
 	 * @param boardFile - 등록한 파일을 담은 객체
 	 */
-	public void insertGroupFile(BoardFile boardFile);
-
+	public void insertInquiryFile(BoardFile boardFile);
+	
 	/**
 	 * 게시글 번호를 이용하여 첨부파일 정보를 조회한다
 	 * 
 	 * @param viewBoard - 조회할 게시글 번호 객체
 	 * @return 조회된 첨부파일 정보
 	 */
-	public List<BoardFile> selectGroupFileByBoardNo(Board board);
+	public List<BoardFile> selectInquiryFileByBoardNo(Board board);
 
 	/**
 	 * 게시글 내용을 수정한다
@@ -87,7 +86,7 @@ public interface GroupDao {
 	 * @param updateParam - 수정할 내용이 담긴 객체
 	 */
 	public void updateProc(Board board);
-	  
+	
 	/**
 	 * 기존의 첨부파일을 삭제한다
 	 * 
@@ -95,43 +94,18 @@ public interface GroupDao {
 	 */
 	public void deleteFiles(int[] delFileNo);
 	
-//	/**
-//	 * 게시글 삭제
-//	 * 파일 먼저 삭제하기
-//	 * @param boardFile - 파일 번호를 가져가서 삭제
-//	 */
-//	public void deleteFileByBoardNo(BoardFile boardFile);
-	
 	/**
 	 * 게시글 삭제
 	 * 파일 삭제 후 게시글 삭제
 	 * @param board - 게시글 번호를 가져가서 삭제
 	 */
 	public void deleteByBoardNo(Board board);
-	
 	/**
-	 * status 입력
+	 * admin 코드 가져오기위한 친구
 	 * 
-	 * @param group - 게시글 번호, 글 상태
+	 * @param admin - admin 코드를 가지러가자
+	 * @return - 가져온 adminCode
 	 */
-	public void insertGroupStatus(Group group);
-	
-	/**
-	 * board_no 들고가서 DB에 저장된 글 상태 들고오기
-	 * 
-	 * @param group - board_no
-	 * @return - 입력되어 있는 상태
-	 */
-	public Group selectSatus(Group group);
-	
-	/**
-	 * 글 수정시 status 업데이트
-	 * 
-	 * @param group - status 정보
-	 */
-	public void updateStatus(Group group);
-
-	
-	
+	public Admin selectByAdminCode(Admin admin);
 
 }

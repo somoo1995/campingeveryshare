@@ -5,106 +5,8 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
-
-
 <script type="text/javascript">
 $(()=>{
-	if(${isRecom}) {
-		$("#btnRecom")
-			.addClass("btn-warning")
-			.html('추천 취소');
-	} else {
-		$("#btnRecom")
-			.addClass("btn-primary")
-			.html('추천');
-	}
-	
-	$("#btnRecom").click(()=>{
-		
-		$.ajax({
-			type: "get"
-			, url: "/share/recom"
-			, data: { 
-				userId : "${loginId}",
-				recomNo : ${board.boardNo},
-				boardCate : ${board.boardCate}
- 			}
-			, dataType: "json"
-			, success: function( data ) {
-					console.log("성공");
-	
-				if( data.result ) { //추천 성공
-					$("#btnRecom")
-					.removeClass("btn-primary")
-					.addClass("btn-warning")
-					.html('추천 취소');
-				
-				} else { //추천 취소 성공
-					$("#btnRecom")
-					.removeClass("btn-warning")
-					.addClass("btn-primary")
-					.html('추천');
-				
-				}
-				
-				//추천수 적용
-				$("#recom").html(data.cnt);
-				
-			}
-			, error: function() {
-				console.log("실패");
-			}
-		}); //ajax end
-		
-	}); //$("#btnRecommend").click() end
-
-	$(() => {
-	    if (${isHeart}) {
-	        $("#btnHeart")
-	            .addClass("btn-warning")
-	            .html('찜 취소');
-	    } else {
-	        $("#btnHeart")
-	            .addClass("btn-primary")
-	            .html('찜');
-	    }
-
-	    $("#btnHeart").click(() => {
-	        $.ajax({
-	            type: "get",
-	            url: "/share/heart",
-	            data: {
-	                userId: "${loginId}",
-	                heartNo: ${board.boardNo},
-	                boardCate: ${board.boardCate}
-	            },
-	            dataType: "json",
-	            success: function (data) {
-	                console.log("성공");
-
-	                if (data.hResult) { //찜 성공
-	                    $("#btnHeart")
-	                        .removeClass("btn-primary")
-	                        .addClass("btn-warning")
-	                        .html('찜 취소');
-
-	                } else { //찜 취소 성공
-	                    $("#btnHeart")
-	                        .removeClass("btn-warning")
-	                        .addClass("btn-primary")
-	                        .html('찜');
-
-	                }
-
-	            },
-	            error: function () {
-	                console.log("실패");
-	            }
-	        }); //ajax end
-	    }); //$("#btnHeart").click() end
-	});
-
-	
 	// 댓글 입력
 	$("#btnCommInsert").click(function() {
 		
@@ -136,7 +38,6 @@ $(()=>{
 		
 		
 	}); //$("#btnCommInsert").click() end
-
 })
 
 function updateCommentList() {
@@ -179,47 +80,7 @@ function deleteComment(commNo) {
 	});
 }
 
-$(() => {
-    if (${isReport}) {
-        $("#reportbtn")
-            .addClass("btn-danger")
-            .html('신고 완료')
-            .prop("disabled", true); // 버튼 비활성화
-    } else {
-        $("#reportbtn")
-            .addClass("btn-primary")
-            .html('신고 하기')
-            .click(() => { // 클릭 이벤트 추가
-                $.ajax({
-                    type: "get",
-                    url: "/share/report",
-                    data: {
-                        ruserId: "${loginId}",
-                        boardNo: ${board.boardNo},
-                        boardCate: ${board.boardCate}
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        console.log("성공");
-                        $("#reportbtn")
-                            .removeClass("btn-primary")
-                            .addClass("btn-warning")
-                            .html('신고 완료')
-                            .prop("disabled", true); // 버튼 비활성화
-                    },
-                    error: function () {
-                        console.log("실패");
-                    }
-                }); //ajax end
-            });
-    }
-});
-
-
-
 </script>
-
-
 
 <style type="text/css">
 .content {
@@ -233,7 +94,7 @@ $(() => {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 
-<h3 id="pageTitle">공유 게시글 조회</h3>
+<h3 id="pageTitle">고객문의 조회</h3>
 <table class="table table-bordered">
 <colgroup>
 	<col style="width: 15%">
@@ -242,37 +103,12 @@ $(() => {
 	<col style="width: 35%">
 </colgroup>
 	<tr>
-		<th class="table-info">금 액</th>
-		<td >
-		    <c:choose>
-			    <c:when test="${share.paid eq 2}">
-			        무료
-			    </c:when>
-			    <c:when test="${share.paid eq 3}">
-			        유료
-			    </c:when>
-			</c:choose>		
-		</td>
-		<th class="table-info">위 치</th>
+		<th class="table-info">글 유형</th>
+		<td ><c:if test="${board.location eq 0}">고객문의</c:if></td>
+		<th class="table-info">작성일</th>
 		<td>
-		<c:if test="${board.location eq 10}">강원</c:if>
-  		<c:if test="${board.location eq 9}">경기</c:if>
-	   	<c:if test="${board.location eq 16}">경남</c:if>
-	    <c:if test="${board.location eq 15}">경북</c:if>
-	    <c:if test="${board.location eq 5}">광주</c:if>
-	    <c:if test="${board.location eq 6}">대구</c:if>
-	    <c:if test="${board.location eq 3}">대전</c:if>
-	    <c:if test="${board.location eq 4}">부산</c:if>
-	    <c:if test="${board.location eq 1}">서울</c:if>
-	    <c:if test="${board.location eq 8}">세종</c:if>
-	    <c:if test="${board.location eq 7}">울산</c:if>
-	    <c:if test="${board.location eq 2}">인천</c:if>
-	    <c:if test="${board.location eq 14}">전남</c:if>
-	    <c:if test="${board.location eq 13}">전북</c:if>
-	    <c:if test="${board.location eq 17}">제주</c:if>
-	    <c:if test="${board.location eq 12}">충남</c:if>
-	    <c:if test="${board.location eq 11}">충북</c:if>
-		</td>
+			<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>	
+        </td>
 	</tr>
 	<tr>
 		<th class="table-info">아이디</th><td>${board.userId }</td>
@@ -284,17 +120,13 @@ $(() => {
 	</tr>
 	<tr>
 		<th class="table-info">첨부파일</th>
-		<td>
+		<td colspan="3">
 		<c:forEach var="boardFile" items="${boardFile }">
 		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
 		${boardFile.originName }<br>
 		</a>
 		</c:forEach>		
 		</td>
-		<th class="table-info">작성일</th>
-		<td>
-			<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>	
-        </td>
 	</tr>
 	<tr>
 		<th class="table-info">내용</th><td colspan="3">${board.content }</td>
@@ -308,26 +140,12 @@ $(() => {
 <div class="text-center">
 	<a href="./list" class="btn btn-secondary">목록</a>
 <div>
-<!-- 	찜 -->
 	<button id="btnRecom" class="btn"></button>
 </div>
-	<p>추천수</p> <p id=recom>${totalCnt }</p>
-	
 	<c:if test="${loginId eq board.userId}">
 	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 	</c:if>
-
-	<!-- 신고 -->
-	<c:if test="${not (empty loginId or loginId eq board.userId)}">
-	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn" id="reportbtn"></button>
-	</c:if>
-
-</div>
-
-<div>
-<!-- 찜 구역 -->
-	<button id="btnHeart" class="btn"></button>
 </div>
 <hr>
 <div>
@@ -405,7 +223,5 @@ $(() => {
 
 
 </div><!-- .container -->
-
 <c:import url="../layout/modal.jsp" />
 <c:import url="../layout/footer.jsp" />
-

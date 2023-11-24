@@ -20,80 +20,98 @@ import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
-import web.dto.Group;
-import web.dto.Recom;
-import web.dto.Report;
 import web.dto.User;
-import web.service.face.NoticeService;
+import web.service.face.InquiryService;
 import web.util.Paging;
 
 @Controller
-@RequestMapping("/notice")
-public class NoticeController {
+@RequestMapping("/inquiry")
+public class InquiryController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
-	@Autowired NoticeService noticeService;
+	@Autowired InquiryService inquiryService;
 	
 	@GetMapping("list")
-	public void noticeList(Paging param, Model model, Board board, Admin admin, HttpSession session) {
+	public void inquiryList(Paging param, Admin admin, Model model, Board board, HttpSession session) {
 		
 		param.setType((String) session.getAttribute("adminCode"));
-		
-		Paging paging = noticeService.getPaging( param );
+
+		Paging paging = inquiryService.getPaging( param );
 		logger.info("paging : {}", paging);
 		admin.setAdminCode((String) session.getAttribute("adminCode"));
-		logger.info("admin : {}", admin);
 		
-		List<Map<String, Object>> list = noticeService.list(paging);
+		
+		List<Map<String, Object>> list = inquiryService.list(paging);
+		
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		model.addAttribute("admin", admin);
-		
+
 //		logger.info("board : {}", board);
 		logger.info("list : {}", list);
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
 		
 	}
-
-	@GetMapping("view")
-	public void noticeView( Board board, Admin admin, Model model, HttpSession session) {
 	
-		board = noticeService.noticeView(board);
-		admin.setAdminCode((String) session.getAttribute("adminCode"));
+	@GetMapping("view")
+	public String groupView( Board board, BoardFile file, User user, Comm comm, Model model, Admin admin, HttpSession session) {
+	
+		board = inquiryService.inquiryView(board);
+		user.setUserId(board.getUserId());
+		user = inquiryService.getNick(user);
 		logger.info("board : {}" + board.toString());
 		
-		admin = noticeService.getAdminCode(admin);
-		logger.info("admin : {} " + admin);
+		admin.setAdminCode((String) session.getAttribute("adminCode"));
+		admin = inquiryService.getAdminCode(admin);
+		
+		List<BoardFile> boardFile = inquiryService.fileView(board);
+		model.addAttribute("boardFile", boardFile);
+		logger.info("boarFile : {}", boardFile);
+		
+		
+		//댓글 리스트
+		List<Comm> commList = inquiryService.getCommList(comm);
+		logger.info("user : {} " + user.toString());
+		logger.info("board : {} " + board.toString());
+		logger.info("commList : {} " + commList.toString());
+
+		model.addAttribute("commList", commList);
 		model.addAttribute("board", board);
+		model.addAttribute("user", user);
 		model.addAttribute("admin", admin);
+
+		return "/inquiry/view";
 	}
+	
 	
 	@GetMapping("/write")
 	public void write() {
 	}
 	
 	@PostMapping("/write")
-	public String noticeWrite(
-			Admin admin
+	public String groupWrite(
+			User user
 			, Board board
-			, HttpSession session
-	) {
+			, List<MultipartFile> file
+			, HttpSession session ) {
+		logger.info("user : {} " + user);
 		logger.info("board : {} " + board);
 
-		board.setUserId((String) session.getAttribute("adminCode"));
-		admin.setAdminCode((String) session.getAttribute("adminCode"));
+		board.setUserId((String) session.getAttribute("loginId"));
+		logger.info("sessionId : {}" + session.getAttribute("loginNick").toString());
+		user.setUserNick((String) session.getAttribute("loginNick"));
 		logger.info("board : {} " + board);
 		
-		noticeService.noticeWrite(board);
+		inquiryService.inquiryWrite(board, file);
 		
 		return "redirect:./view?boardNo=" + board.getBoardNo();
 	}
-
+	
 	@GetMapping("/update")
-	public String update(Board board, Admin admin, Model model, HttpSession session) {
+	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
 			return "redirect:./view";
@@ -102,32 +120,32 @@ public class NoticeController {
 		board.setHit(-1);
 		
 		//상세보기 게시글 조회
-		board = noticeService.view(board);
-		admin.setAdminCode((String) session.getAttribute("adminCode"));
-		logger.info("board : {}" + board.toString());
-		
-		admin = noticeService.getAdminCode(admin);
-
+		board = inquiryService.view(board);
 		model.addAttribute("board", board);
-		model.addAttribute("admin", admin);
 
+		//첨부파일 정보 전달
+		List<BoardFile> boardfile = inquiryService.getAttachFile( board );
+		model.addAttribute("boardfile", boardfile);
 		
-		return "notice/update";
+		return "inquiry/update";
 	}
 	
 	@PostMapping("/update")
 	public String updateProc(
-			Admin admin
+			User user
 			, Board board
+			, List<MultipartFile> file
 			, HttpSession session
-	) {
+			, int[] delFileNo ) {
 		
 		logger.info("board {}", board);
+		logger.info("file {}", file);
+		logger.info("delFileno {}", Arrays.toString(delFileNo));
 
-		board.setUserId((String) session.getAttribute("adminCode"));
-		admin.setAdminCode((String) session.getAttribute("adminCode"));
+		board.setUserId((String) session.getAttribute("userId"));
+		user.setUserNick((String) session.getAttribute("userNick"));
 		
-		noticeService.updateProc(board);
+		inquiryService.updateProc(board, file, delFileNo);
 		
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}
@@ -138,10 +156,12 @@ public class NoticeController {
 			return "redirect:./list";
 		}
 
-		noticeService.delete(board);
+//		groupService.delete(board, boardFile);
+		inquiryService.delete(board);
 		
 		return "redirect:./list";
 	}
+
 	
 	
 	

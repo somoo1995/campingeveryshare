@@ -28,34 +28,26 @@ pageEncoding="UTF-8"%>
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id=pageTitle>공지 게시판</h3>
+<h3 id=pageTitle>고객문의</h3>
 
 <div style="text-align: right; margin-bottom: 10px;">
-<c:choose>
-    <c:when test="${empty adminCode or adminCode ne admin.adminCode}">
-        <!-- adminCode가 비어 있거나 adminCode와 admin.adminCode가 일치하지 않을 때는 버튼을 표시하지 않음 -->
-    </c:when>
-    <c:otherwise>
-        <!-- adminCode가 존재하고 adminCode와 admin.adminCode가 일치하는 경우에만 버튼을 표시 -->
-        <a href="/notice/write?boardCate=5"><button>글쓰기</button></a>
-    </c:otherwise>
-</c:choose>
+<a  href="/inquiry/write?boardCate=6"><button>글쓰기</button></a>
+</div>
 
-
-<form action="web.dao.face.GroupDao" method="get" >
+<form action="web.dao.face.InquiryDao" method="get" >
 
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
-	<col style="width : 10%">
-	<col style="width : 57%">
-	<col style="width : 10%">
-	<col style="width : 11%">
-	<col style="width : 12%">
+	<col style="width : 15%">
+	<col style="width : 40%">
+	<col style="width : 15%">
+	<col style="width : 15%">
+	<col style="width : 15%">
 </colgroup>
 
 <thead class="head">
-	<tr>
-		<th>번호</th>
+	<tr style="font-size: 17px; font-weight: bold;">
+		<th>글 유형</th>
 		<th>제목</th>
 		<th>작성자</th>
 		<th>조회수</th>
@@ -65,13 +57,33 @@ pageEncoding="UTF-8"%>
 <tbody>
 <c:forEach var="board" items="${list }">
 	<tr> 
-		<td style="text-align: center; font-weight: bold; font-size: 17px; margin-right: 13px;">[공지]</td>
+		<td style="text-align: center;">
+		<div style="font-weight: bold; font-size: 17px;">[${board.LOCATION_NAME}]</div>
+		</td>
 		<td class="title">
-		<a href="./view?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
-		<div>${board.TITLE }</div>
+<c:choose>
+    <c:when test="${empty loginId or loginId ne board.USER_ID}">
+        <div>🔒비밀글 입니다.</div>
+    </c:when>
+    <c:otherwise>
+        <c:choose>
+            <c:when test="${empty adminCode or adminCode ne admin.adminCode}">
+		        <div>🔒비밀글 입니다.</div>
+            </c:when>
+            <c:otherwise>
+                <!-- 관리자인 경우 -->
+                <a href="./view?boardNo=${board.BOARD_NO}" style="text-decoration: none;">
+                    <div>${board.TITLE}</div>
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </c:otherwise>
+</c:choose>
+
+		</div>
 		</a>
 		</td>
-		<td style="text-align: center;">${board.USER_ID }</td>
+		<td style="text-align: center;">${board.USER_NICK }</td>
 		<td style="text-align: center;">${board.HIT }</td>
 		<td style="text-align: center;">
 	      <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
