@@ -55,8 +55,10 @@ public interface AdminService {
 	public List<Map<String, Object>> incomeList(Paging paging);
 
 	public Paging getPagingIncome(Paging param);
-
-
+	
+	public boolean updateUserStatus(String userId);
+	
+	public boolean joinIdCheck(String userId);
 
 
 }
