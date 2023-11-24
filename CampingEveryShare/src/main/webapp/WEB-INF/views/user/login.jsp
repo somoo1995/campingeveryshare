@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
         );
     }
 
-       function passwordCheck() {
+	    function passwordCheck() {
         var userPw = $("#userPw").val();
         var pwDupleBlock = $("#pwDupleBlock");
 
@@ -66,49 +66,72 @@ pageEncoding="UTF-8"%>
     }
   
 
-       $(document).ready(function () {
-          $("#loginButton").click(function() {
-              var userIdValue = $("#userId").val().trim();
-              var userPwValue = $("#userPw").val().trim();
-              if (userIdValue.length === 0 || userPwValue.length === 0) {
-                  $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
-                  event.preventDefault(); // Prevent form submission
-                  console.log("아이디와 비밀번호를 입력해 주세요.");
-                  return;
-              } 
-               $.ajax({
-                   type: "POST",
-                   url: "/user/login",
-                   data: {
-                       userId: userIdValue,
-                       userPw: userPwValue
-                   },
-                   dataType: "text",
-                   success: function (response) {
-                       console.log(response); // 서버 응답 확인
-                       if (response ==="true") {
-                           console.log("로그인 성공");
-                           window.location.href = "/";
-                       } 
-                       else if(response ==="loginfalse") {
-                           console.log("로그인 실패");
-                     alert("아이디 또는 비밀번호가 잘못되었습니다.");                       
-                           window.location.href = "/user/login";
-                       }
-                       else if(response ==="false") {
-                           console.log("탈퇴 회원");
-                     alert("탈퇴한 회원으로 로그인 할 수 없습니다.");
-                     window.location.href = "/user/join";
-                       }
-                   },
-                   error: function (jqXHR, textStatus, errorThrown) {
+	    $(document).ready(function () {
+	    	// 엔터 키를 누르면 다음 입력란으로 포커스 이동
+    	    $("#userId").keypress(function (e) {
+    	        if (e.which === 13) { // 13은 Enter 키의 키 코드입니다.
+    	            e.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+
+    	            // userPw 입력란으로 포커스 이동
+    	            $("#userPw").focus();
+    	        }
+    	    });
+
+    	    // userPw 입력란에서 엔터 키를 누르면 로그인 버튼 클릭
+    	    $("#userPw").keypress(function (e) {
+    	        if (e.which === 13) { // 13은 Enter 키의 키 코드입니다.
+    	            e.preventDefault(); // 기본 동작 방지 (폼 제출 방지)
+
+    	            // 로그인 버튼 클릭
+    	            $("#loginButton").click();
+    	        }
+    	    });
+
+	    	$("#loginButton").click(function() {
+	  			var userIdValue = $("#userId").val().trim();
+		        var userPwValue = $("#userPw").val().trim();
+		        if (userIdValue.length === 0 || userPwValue.length === 0) {
+		            $("#loginFailureMessageText").text("아이디와 비밀번호를 모두 입력해 주세요.").show();
+		            event.preventDefault(); // Prevent form submission
+		            console.log("아이디와 비밀번호를 입력해 주세요.");
+		            return;
+		        } 
+	            $.ajax({
+	                type: "POST",
+	                url: "/user/login",
+	                data: {
+	                    userId: userIdValue,
+	                    userPw: userPwValue
+	                },
+	                dataType: "text",
+	                success: function (response) {
+	                    console.log(response); // 서버 응답 확인
+	                    if (response ==="true") {
+	                        console.log("로그인 성공");
+	                        window.location.href = "/";
+	                    } 
+	                    else if(response ==="loginfalse") {
+	                        console.log("로그인 실패");
+							alert("아이디 또는 비밀번호가 잘못되었습니다.");                    	
+	                        window.location.href = "/user/login";
+	                    }
+	                    else if(response ==="false") {
+	                        console.log("탈퇴 회원");
+							alert("탈퇴한 회원으로 로그인 할 수 없습니다.");
+							window.location.href = "/user/join";
+	                    }
+	                },
+	                error: function (jqXHR, textStatus, errorThrown) {
                         console.log("서버 응답에 문제가 있습니다."); // 서버 응답이 다르게 올 경우
-                       console.error("AJAX 요청 실패: " + textStatus);
-                   }
-               });
-          })
-       });  
-</script><!-- .script 끝 -->
+	                    console.error("AJAX 요청 실패: " + textStatus);
+	                }
+	            });
+	    	})
+	    });
+	    
+</script>
+
+<!-- .script 끝 -->
 
 <style type="text/css">
 
