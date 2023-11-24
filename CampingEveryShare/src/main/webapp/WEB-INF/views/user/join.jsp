@@ -21,53 +21,68 @@ pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
 
-	function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
-	    var value = input.value;
-	    var displayBlock = $("#" + displayBlock);
-	
-	    console.info("checkDuplicate::" + value);
-	
-	    displayBlock.show();
-	
-	    if (value.trim() == '') {
-	        displayBlock.text(emptyMessage);
-	        console.log(emptyMessage);
-	        return;
-	    }
-	
-	    $.ajax({
-	        type: "get",
-	        url: url + value,
-	        dataType: "text",
-	        success: function (response) {
-	            console.log(response);
-	            if (response == "true") {
-	                console.log(successMessage);
-	                displayBlock.text(successMessage);
-	            } else {
-	                console.log(failureMessage);
-	                displayBlock.text(failureMessage);
-	            }
-	        },
-	        error: function (xhr, status, error) {
-	            console.error("AJAX Error: " + status + " - " + error);
-	        }
-	    });
-	}
+function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage, errorMessage) {
+    var value = input.value;
+    var displayBlock = $("#" + displayBlock);
 
+    console.info("checkDuplicate::" + value);
 
-    // id 중복 체크
-    function idDupleCheck(input) {
+    displayBlock.show();
+
+    if (value.trim() == '') {
+        displayBlock.text(emptyMessage);
+        console.log(emptyMessage);
+        return;
+    }
+
+    $.ajax({
+        type: "get",
+        url: url + value,
+        dataType: "text",
+        success: function (response) {
+            console.log(response);
+            if (response == "false") {
+                console.log(failureMessage);
+                displayBlock.text(errorMessage);
+            } else {
+                console.log(successMessage);
+                // 변경된 부분: errorMessage 사용
+                displayBlock.text(successMessage);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: " + status + " - " + error);
+        }
+    });
+}
+
+// id 중복 체크
+function idDupleCheck(input) {
+    // 정규식
+    var idRegex = /^[a-zA-Z0-9_]{4,8}$/;
+
+ // 입력된 아이디가 정규식과 일치하는지 확인
+    if (!idRegex.test(input.value)) {
+        // 정규식과 일치하지 않을 때 처리 (예: 메시지 출력, 기타 로직 수행)
+        var displayBlock = $("#" + "idDupleBlock"); // 여기에서 displayBlock을 가져옵니다.
+        displayBlock.show();
+        displayBlock.text("아이디는 4글자 이상 8글자 이하이어야 합니다.");
+        return;
+    } else {
+        // 정규식과 일치할 때 처리 (예: 중복 체크 계속 진행)
         checkDuplicate(
             input,
             "/user/idCheck/",
             "idDupleBlock",
             "아이디를 입력해 주세요.",
-            "",
+            "사용가능한 아이디 입니다",
+            "사용가능한 아이디 입니다",
             "사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요."
         );
     }
 
+
+}
 	// email 중복 체크
 	function emailDupleCheck(input) {
 	    checkDuplicate(
@@ -103,28 +118,18 @@ pageEncoding="UTF-8"%>
     }
 
  // 닉네임 중복 체크
-    function nickDupleCheck(inputElement) {
-        checkDuplicate(
-            inputElement.value,  // 수정된 부분: inputElement에서 value를 가져오도록 수정
-            "/user/nickCheck/",
-            "nickDupleBlock",
-            "닉네임을 입력해 주세요.",
-            "",
-            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요."
-        );
-    }
-
-
-    
-    // 닉네임 중복 체크
     function nickDupleCheck(input) {
+        // 정규식: 최대 8글자
+        var nickRegex = /^.{1,8}$/;
+
         checkDuplicate(
             input,
             "/user/nickCheck/",
             "nickDupleBlock",
             "닉네임을 입력해 주세요.",
             "",
-            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요."
+            "사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해 주세요.",
+            "닉네임은 8글자 이하이어야 합니다."
         );
     }
 
@@ -152,6 +157,9 @@ pageEncoding="UTF-8"%>
     });
 
     function passwordCheck() {
+    	// 최소 8자 이상, 최소 하나의 숫자와 특수 문자를 포함하는 비밀번호 정규식
+    	var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
+
         var userPw = $("#userPw").val();
         var userPwConfirm = $("#userPwConfirm").val();
         var pwDupleBlock = $("#pwDupleBlock");
@@ -173,10 +181,19 @@ pageEncoding="UTF-8"%>
             // TODO: ptag 표시
             return;
         }
-        console.log("동일한 비밀번호입니다.");
-        pwDupleBlock.text("");
 
+        // 비밀번호가 정규식과 일치하는지 확인
+        if (!passwordRegex.test(userPw)) {
+            console.log("안전한 비밀번호를 입력하세요.");
+            pwDupleBlock.text("안전한 비밀번호를 입력하세요.");
+            // TODO: ptag 표시
+            return;
+        }
+
+        console.log("동일한 안전한 비밀번호입니다.");
+        pwDupleBlock.text("");
     }
+
 
 	//이메일 인증
 	let code = ""; // 이메일 인증 저장위한 코드
@@ -221,22 +238,35 @@ pageEncoding="UTF-8"%>
 	        joinButton.prop("disabled", true); // 회원가입 버튼 비활성화
 	    }
 	}
-	
-	// 회원가입 버튼 클릭 시 실행되는 함수
+	//회원가입시 필수입력란이 비어있을경우 회원가입 못하게 막아주기
 	function join() {
-	    // 이메일 인증 코드 확인
-	    let enteredCode = $("#codeInput").val();
-	
-	    if (enteredCode === code) {
-	        // 올바른 인증 코드인 경우 회원가입 처리를 진행
-	        alert("회원가입이 완료되었습니다.");
-	        // 여기에 회원가입 처리 로직을 추가하세요.
-	    } else {
-	        // 잘못된 인증 코드인 경우 사용자에게 알림
-	        alert("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
-	        // 회원가입 처리를 진행하지 않음
+	    // 필수 항목들의 값을 가져옵니다.
+	    var profile = $("#profile").val(); // 프로필 사진
+	    var userId = $("#userId").val(); // 아이디
+	    var userPw = $("#userPw").val(); // 비밀번호
+	    var userPwConfirm = $("#userPwConfirm").val(); // 비밀번호 확인
+	    var email = $("#email").val(); // 이메일
+	    var codeInput = $("#codeInput").val(); // 인증번호
+	    var userName = $("#userName").val(); // 이름
+	    var userNick = $("#userNick").val(); // 닉네임
+
+	    // 필수 항목 중 하나라도 비어있다면 가입 불가능
+	    if (!profile || !userId || !userPw || !userPwConfirm || !email || !codeInput || !userName || !userNick) {
+	        alert("필수 항목을 모두 입력하세요.");
+	        return;
 	    }
+
+	    // 이메일 인증 코드 확인
+	    if (codeInput !== code) {
+	        alert("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
+	        return;
+	    }
+
+	    // 여기에 회원가입 처리 로직을 추가하세요.
+	    alert("회원가입이 완료되었습니다.");
 	}
+
+
 
 
     

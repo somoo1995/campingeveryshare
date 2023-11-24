@@ -248,7 +248,7 @@ pageEncoding="UTF-8"%>
 	    }
 	}
 	
-	// 회원가입 버튼 클릭 시 실행되는 함수
+	// 비밀번호찾기 버튼 클릭 시 실행되는 함수
 	function pwfind() {
 	    // 이메일 인증 코드 확인
 	    let enteredCode = $("#codeInput").val();
@@ -263,6 +263,78 @@ pageEncoding="UTF-8"%>
 	        // 회원가입 처리를 진행하지 않음
 	    }
 	}
+	
+	$(document).ready(function () {
+	    // 이메일, 사용자 이름, 코드 입력란에서 엔터 키를 누르면 다음 입력란으로 이동하거나 특정 액션을 수행하도록 합니다.
+	    $("#userId, #userName, #email, #codeInput").keydown(function (e) {
+	        if (e.which === 13) { // 13은 엔터 키의 키 코드입니다.
+	            e.preventDefault(); // 기본 동작 방지
+
+	            // 현재 포커스된 엘리먼트의 ID를 가져옵니다.
+	            var currentElementId = $(this).attr("id");
+
+	            // 다음 입력란으로 이동하거나 특정 액션 수행
+	            switch (currentElementId) {
+	                case "userId":
+	                    $("#userName").focus();
+	                    break;
+	                case "userName":
+	                    $("#email").focus();
+	                    break;
+	                case "email":
+	                    // 이메일 형식 확인 및 이메일 중복 체크 수행
+	                    emailDupleCheck(this);
+	                    // 이메일이 사용 가능한 경우에만 인증 코드 발송 버튼 활성화
+	                    if ($("#emailDupleBlock").text() === "사용 가능한 이메일입니다.") {
+	                        $("#sendEmailButton").prop("disabled", false);
+	                    } else {
+	                        $("#sendEmailButton").prop("disabled", true);
+	                    }
+	                    break;
+	                case "codeInput":
+	                    // 인증 코드 확인 수행
+	                    emailVerifyCheck();
+	                    break;
+	                default:
+	                    break;
+	            }
+	        }
+	    });
+	 // 이메일 인증 코드 발송 버튼 클릭 시 타이머 설정
+	    var emailVerificationTimer;
+	    $("#sendEmailButton").click(function () {
+	        // 타이머 설정 (예: 60초 동안 다시 클릭 불가능)
+	        $(this).prop("disabled", true);
+	        emailVerificationTimer = setTimeout(function () {
+	            $("#sendEmailButton").prop("disabled", false);
+	        }, 60000); // 60초
+	        // 인증 코드 발송 함수 호출
+	        sendEmail();
+	    });
+	    // 엔터 키 처리
+        $("#userPw, #userPwConfirm").keydown(function (e) {
+            if (e.which === 13) { // 13은 엔터 키의 키 코드입니다.
+                e.preventDefault(); // 기본 동작 방지
+
+                // 현재 포커스된 엘리먼트의 ID를 가져옵니다.
+                var currentElementId = $(this).attr("id");
+
+                // 다음 입력란으로 이동하거나 특정 액션 수행
+                switch (currentElementId) {
+                    case "userPw":
+                        $("#userPwConfirm").focus();
+                        break;
+                    case "userPwConfirm":
+                        // 엔터 키로 버튼 클릭 이벤트 호출
+                        updatePassword();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }); 
+	    
+    });
 
 
 
