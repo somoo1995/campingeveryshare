@@ -384,15 +384,9 @@ $(document).ready(function() {
 </div>
 <div class="form-wrap">
   <div class="form-wrap">
-    <div class="form-Label">성수기가격</div>
+    <div class="form-Label">가격</div>
     <div class="form">
-      <input type="number" name="maxPrice" min="0" step="10000" value="0">
-    </div>
-  </div>
-    <div class="form-wrap">
-    <div class="form-Label">비수기가격</div>
-    <div class="form">
-      <input type="number" name="minPrice" min="0" step="10000" value="0" >
+      <input type="number" name="price" min="0" step="10000" value="0">
     </div>
   </div>
     <div class="form-wrap">

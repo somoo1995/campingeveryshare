@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.carNo }'">
 		<div class="info">
 	    <h6>👤 : ${car.userId}</h6>
-		    <c:set var="formattedPrice" value="${car.maxPrice }" />
+		    <c:set var="formattedPrice" value="${car.price }" />
 			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 			<h6 style="color:
 			    <c:choose>
