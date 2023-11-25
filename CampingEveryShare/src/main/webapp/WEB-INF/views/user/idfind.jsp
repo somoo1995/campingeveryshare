@@ -230,7 +230,7 @@ pageEncoding="UTF-8"%>
 		   </svg>
 		 </span>
 		<div class="form-floating is-invalid">
-          <input type="email" class="border border-success-subtle form-control" name="email" id="email" onblur="emailDupleCheck(this)" required="required">
+          <input type="email" class="border border-success-subtle form-control" name="email" id="email" oninput="emailDupleCheck(this)" required="required">
           <label class="floatingInputGroup2">이메일*</label> 
           <button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송"  disabled="disabled">인증코드 발송</button>
 	  	</div>
