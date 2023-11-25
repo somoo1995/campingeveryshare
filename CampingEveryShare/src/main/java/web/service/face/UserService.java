@@ -51,10 +51,9 @@ public interface UserService {
 	 * 
 	 * @param user 사용자
 	 * @param selectedProfile 프로필 사진 번호 입력
-	 * @param userPwConfirm 비밀번호,비밀번호 확인값 일치여부 확인
 	 * @return
 	 */
-	public boolean join(User user, int selectedProfile, String userPwConfirm);
+	public boolean join(User user, int selectedProfile);
 
 	/**
 	 * 회원 정보
