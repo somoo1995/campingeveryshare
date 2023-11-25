@@ -60,8 +60,10 @@ pageEncoding="UTF-8"%>
   </c:if>
 	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.CAR_NO }'">
 		<div class="info">
-	    <h6>👤 : ${car.HOSTNICK}</h6>
-		    <c:set var="formattedPrice" value="${car.PRICE }" />
+
+	    <h6>👤 : ${car.userId}</h6>
+		    <c:set var="formattedPrice" value="${car.price }" />
+
 			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 			<h6 style="color:
 			    <c:choose>

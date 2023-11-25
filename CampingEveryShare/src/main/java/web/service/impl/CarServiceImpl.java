@@ -42,6 +42,7 @@ public class CarServiceImpl implements CarService {
 		}
 		
 		String storedPath = context.getRealPath("upload");
+		System.out.println(storedPath);
 		
 		File storedFolder = new File(storedPath);
 		storedFolder.mkdir();

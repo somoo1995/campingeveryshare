@@ -7,11 +7,9 @@
 <mapper namespace="web.dao.face.CarDao">
 	
 	<sql id="selectCar">
-		SELECT car_no, user_id, car_name, car_number, car_size, location, area, area_detail, 
-		pickup_time_start, pickup_time_end, car_pax, car_spax, car_beds, price, extra_price, 
-		car_elec, car_water, car_table, car_sink, car_kitchen, car_temp, car_shower, car_toilet, car_pet, car_smoke, car_status, content, delete_status
-		, (SELECT user_nick FROM usertb U WHERE U.user_id = C.user_id ) as hostnick
-		FROM cartb C
+		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, delete_status
+		FROM cartb
+
 	</sql>
 
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
@@ -46,13 +44,15 @@
 		</where>
 	</select>
 
-   <insert id="insertCarWrite" parameterType="Car">
-   <selectKey keyProperty="carNo" resultType="int" order="BEFORE">
-      SELECT car_seq.nextval FROM dual
-   </selectKey>
-   INSERT INTO cartb(CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT)
-     VALUES(#{carNo}, #{userId}, #{carName}, #{carNumber}, #{carSize}, #{location}, #{area}, #{areaDetail}, #{pickupTimeStart}, #{pickupTimeEnd}, #{carPax}, #{carSpax}, #{carBeds}, #{price},#{extraPrice}, #{carElec}, #{carWater}, #{carTable}, #{carSink}, #{carKitchen}, #{carTemp}, #{carShower}, #{carToilet}, #{carPet}, #{carSmoke}, 0, #{content})
-   </insert>
+
+	<insert id="insertCarWrite" parameterType="Car">
+	<selectKey keyProperty="carNo" resultType="int" order="BEFORE">
+		SELECT car_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO cartb(CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT)
+  	VALUES(#{carNo}, #{userId}, #{carName}, #{carNumber}, #{carSize}, #{location}, #{area}, #{areaDetail}, #{pickupTimeStart}, #{pickupTimeEnd}, #{carPax}, #{carSpax}, #{carBeds}, #{price},#{extraPrice}, #{carElec}, #{carWater}, #{carTable}, #{carSink}, #{carKitchen}, #{carTemp}, #{carShower}, #{carToilet}, #{carPet}, #{carSmoke}, 0, #{content})
+	</insert>
+
 	
 	<insert id="insertFile" parameterType="Boardfile">
 		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
