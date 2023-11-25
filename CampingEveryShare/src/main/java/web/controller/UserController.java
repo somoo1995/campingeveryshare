@@ -95,7 +95,7 @@ public class UserController {
        /* 이메일 보내기 */
          String setFrom = "campingeveryshare@gmail.com"; //보내는 이메일
          String toMail = m_email; //받는 사람 이메일
-         String title = "회원가입 인증 이메일 입니다.";
+         String title = "인증 이메일 입니다.";
          String content = 
                  "campingeveryshare 홈페이지를 방문해주셔서 감사합니다." +
                  "<br><br>" + 

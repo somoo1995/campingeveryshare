@@ -9,6 +9,7 @@
 	<sql id="selectCar">
 		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, delete_status
 		FROM cartb
+
 	</sql>
 
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
@@ -19,11 +20,14 @@
 		</where>
 	</select>
 	
-	<select id="selectAll" parameterType="web.util.Paging" resultType="Car">
+	<select id="selectAll" parameterType="web.util.Paging" resultType="map">
 		SELECT * FROM (
 		SELECT rownum rnum, R.* FROM (
 			<include refid="selectCar" />
 			<where>
+				<if test="search != null and !''.equals(search)">
+					AND car_name LIKE '%' || (#{search }) || '%'
+				</if>
 				AND delete_status = 0
 			</where>
 			ORDER BY car_no DESC
@@ -40,6 +44,7 @@
 		</where>
 	</select>
 
+
 	<insert id="insertCarWrite" parameterType="Car">
 	<selectKey keyProperty="carNo" resultType="int" order="BEFORE">
 		SELECT car_seq.nextval FROM dual
@@ -47,6 +52,7 @@
 	INSERT INTO cartb(CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT)
   	VALUES(#{carNo}, #{userId}, #{carName}, #{carNumber}, #{carSize}, #{location}, #{area}, #{areaDetail}, #{pickupTimeStart}, #{pickupTimeEnd}, #{carPax}, #{carSpax}, #{carBeds}, #{price},#{extraPrice}, #{carElec}, #{carWater}, #{carTable}, #{carSink}, #{carKitchen}, #{carTemp}, #{carShower}, #{carToilet}, #{carPet}, #{carSmoke}, 0, #{content})
 	</insert>
+
 	
 	<insert id="insertFile" parameterType="Boardfile">
 		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">

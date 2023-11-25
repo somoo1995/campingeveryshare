@@ -14,48 +14,19 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<style type="text/css">
+<link rel="stylesheet" href="../resources/css/adminheader.css">
 
-.wrap {
-	width: 1300px;
-}
-
-.container {
-	width: 1300px;
-/* 	margin-left: -10px; */
-/* 	margin-right: 0px; */
-}
-
-.header-container {
-    position: relative;
-    display: inline-block;
-    width: 1300px;
-    height: 310px;
-}
-
-.header-image {
-    z-index: -1; 
-}
-
-
-#adminpageTitle {
-	color: #2072d8;
-	font-weight: bold;
-	font-size: 40px;
-	margin-top: 50px;
-	margin-bottom: 50px;
-	text-align: center;
-}
-
-
-
-@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
- * {
- font-family: 'Nanum Gothic', sans-serif;
-}
-
-</style>
+<!-- 어도비 본고딕 폰트 불러오기! -->
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'nhb2qxu',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -76,22 +47,26 @@ $(document).ready(function () {
 
 <header class="header text-center my-4">
 <div class="header-container">
-	<img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40">
-	<a href="/"><img alt="header" class="header-img" src="/resources/img/header_text.png" width="1300" height="300"></a>
-	<img alt="search" class="search-icon" src="/resources/img/search_white.png" width="40" height="40">
+	<img alt="header" class="header-img" src="/resources/img/header_blue.png" width="1300" height="250">
 </div>
 
 <!--  style="display: none;" -->
 <div id="adminMenu" class="main-category-menu mt-3">
-<a>캠핑카 관리</a>
-|
-<a href="/admin/list">회원 관리</a>
-|
-<a>글 작성</a>
-|
-<a href="/admin/report">신고 관리</a>
-|
-<a href="/admin/income">수익 관리</a>
+
+<!-- 캠핑카 관리 링크 이후 수정 -->
+<a href="admin/test">🩵캠핑카 관리</a>
+
+<a href="/admin/list">🩵회원 관리</a>
+
+<!-- 글 작성 링크 이후 수정 -->
+<a href="/admin/write">🩵글 작성</a>
+
+<a href="/admin/report">🩵신고 관리</a>
+
+<a href="/admin/income">🩵수익 관리</a>
+
+<a href="/">🩵사용자 페이지</a>
+
 </div>
 </header>
 

@@ -13,7 +13,6 @@ pageEncoding="UTF-8"%>
 	justify-content: space-between; /* 자식 요소들을 양 끝에 배치 */
 	border: 1px solid red;
 }
-
 .left{
 	display: flex;
 	flex-direction: column;
@@ -104,12 +103,19 @@ pageEncoding="UTF-8"%>
 
 
 
+
+
+
+
 </style>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
 
 $(function() {
+
 	console.log("이건 잘 나오나?")
 	$(".contentButton").click(function(){
 		console.log("content클릭됨")
@@ -196,6 +202,7 @@ function submitBook(rsp) {
       )
    $(document.body).append( $form )
    $form.submit()
+
 }
 
 
@@ -288,11 +295,10 @@ function getGuestInfo(callback) {
    
 }
 
-
-
 IMP.init('imp83448842')
 
 function requestPay() {
+
    
    var payDate = new Date().toISOString().slice(0, 19).replace(/[-T:/]/g, '')
    console.log(payDate)
@@ -357,6 +363,7 @@ function requestPay() {
       })
    })
    
+
 }
 
 </script>
@@ -437,9 +444,6 @@ function requestPay() {
 
 </div>
 
-
-
-
 <div class="right">
 <span>오른쪽</span>
 
@@ -472,6 +476,7 @@ function requestPay() {
 <div>
 인원 선택 :
 <input type="number" name="carPax" id="carPax">
+
 <!-- <select name="carPax" id="carPax"> -->
 <!--    <option value="1">1</option> -->
 <!--    <option value="2">2</option> -->
@@ -483,6 +488,7 @@ function requestPay() {
 <!--    <option value="8">8</option> -->
 <!--    <option value="9">9</option> -->
 <!-- </select> -->
+
 </div>
 
 <div>

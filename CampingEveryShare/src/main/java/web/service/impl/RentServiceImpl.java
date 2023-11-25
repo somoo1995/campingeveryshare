@@ -1,6 +1,7 @@
 package web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import web.dao.face.RentDao;
 import web.dao.face.ReviewDao;
 import web.dto.Car;
 import web.dto.Rent;
-import web.dto.Review;
 import web.dto.User;
 import web.service.face.RentService;
 import web.util.Paging;
@@ -35,9 +35,9 @@ public class RentServiceImpl implements RentService {
 	}
 
 	@Override
-	public List<Car> getCarList(Paging paging) {
+	public List<Map<String, Object>> getCarList(Paging paging) {
 		
-		List<Car> list = carDao.selectAll(paging);
+		List<Map<String, Object>> list = carDao.selectAll(paging);
 		
 		return list;
 	}
@@ -63,11 +63,6 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public User getGuestInfo(User user) {
 		return rentDao.selectUserByUserId(user);
-	}
-
-	@Override
-	public void writeReview(Review review) {
-		reviewDao.insertReview(review);
 	}
 
 }

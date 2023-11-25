@@ -135,80 +135,9 @@ select {
 <a href="/share/write?boardCate=2"><button>글쓰기</button></a>
 </div>
 
-<div class="board">
-
-<c:forEach items="${list}" var="board" varStatus="loop">
-  <c:if test="${loop.index % 3 == 0}">
-    <div class="row">
-  </c:if>
-     
-  <div class="write-container">
-	
-	<div style="margin-bottom : 10px;">
-	</div>
-	<div class="info">
-    <h6>👤 : ${board.USER_NICK } </h6>
-    <h6>❣️ : ${board.HEART }  </h6>
-    <h6>
-    <c:choose>
-	    <c:when test="${board.PAID eq 2}">
-	        <h6 style="color: #78E150 ; font-weight: bold;">🪙 : 무료</h6>
-	    </c:when>
-	    <c:when test="${board.PAID eq 3}">
-	        <h6 style="color: #FF8E99 ; font-weight: bold;">🪙 : 유료</h6>
-	    </c:when>
-	</c:choose>
-    </h6>
-	</div>
-    <c:if test="${not empty board.THUMBNAIL_NAME}">
-      <div>
-        <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
-          <img class="preview" src="/upload/${board.THUMBNAIL_NAME}"/>
-        </a>
-      </div>
-    </c:if>
-    <c:if test="${empty board.THUMBNAIL_NAME}">
-      <div>
-        <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
-          <img class="preview" src="/resources/img/noimg.png"/>
-        </a>
-      </div>
-    </c:if>
-    <div style="width: 354px;">
-    <a href="/share/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
-      <h6 class="title">🏕️ ${board.TITLE }</h6>
-    </a>
-
-    </div>
-    <div class="info">
-    <h6 class="location">🗺️  ${board.LOCATION_NAME }</h6>
-    <h6 class="good">🎖️  ${board.RECOM }</h6>
-    <h6 class="view">🔭  ${board.HIT}</h6>
-    <h6 class="write">✏️
-      <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
-      <fmt:formatDate value="${board.POST_DATE }" pattern="yyyyMMdd" var="write"/>
-      <c:choose>
-         <c:when test="${write lt current }">
-            <fmt:formatDate value="${board.POST_DATE }" pattern="yyyy-MM-dd"/>
-         </c:when>
-         <c:when test="${write eq current }">
-            <fmt:formatDate value="${board.POST_DATE }" pattern="HH:mm"/>
-         </c:when>
-      </c:choose>      
-    </h6>
-    </div>
-  </div><!-- .write-container -->
-    
-  <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
-    </div> <!-- .class="row" -->
-  </c:if>
-</c:forEach>
-</div>
-
-
-
+<c:import url="./list.jsp"></c:import>
 
 
 </div><!-- .container -->
-<c:import url="../layout/listpagination.jsp" />
+<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />

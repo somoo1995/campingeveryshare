@@ -20,20 +20,11 @@
 		</where>
 	</select>
 	
-	<select id="selectBySearch" resultType="map" parameterType="web.util.Paging">
-		SELECT * FROM (
-		SELECT rownum rnum, R.* FROM (
-			<include refid="selectBoard" />
-			<where>
-				AND board_cate = #{category }
-				AND title LIKE '%' || (#{search }) || '%'
-			</where>
-			ORDER BY board_no DESC
-		) R )
+	<select id="selectCntCar" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM cartb
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			AND car_name LIKE '%' || (#{search }) || '%'
 		</where>
-		
 	</select>
 	
 </mapper>

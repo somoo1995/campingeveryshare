@@ -37,56 +37,97 @@ pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
 
-function search() {
-	
-	$.ajax({
-        type: "post"
-        , url: "/heart/list"
-        , data: {
-			category: $(".button.active").data("category"),
+function rent() {
+    $.ajax({
+        type: "post",
+        url: "/heart/rent",
+        data: {
+            boardCate: $(".button.active").data("category"),
+            userId : "${loginId}",
+        },
+        dataType: "html",
+        success: function(res) {
+            console.log("AJAX 성공");
+            $("#heartList").html(res);
+            // 성공 시 다른 동작을 추가하려면 여기에 코드를 작성
+        },
+        error: function() {
+            console.log("AJAX 실패");
+            // 실패 시 다른 동작을 추가하려면 여기에 코드를 작성
         }
-        , dataType: "html"
-        , success: function( res ) {
-           console.log("AJAX 성공")
-			$("#shareList").html(res)
-        }
-        , error: function() {
-           console.log("AJAX 실패")
-
-        }
-	})
+    });
 }
 
-$(function() {
-	search()
-	
-	$("#btnRent").click(function() {
-		$(this).addClass("active")
-		$("#btnShare, #btnMarket, #btnGroup").removeClass("active")
-		search()
-	})
-	
-	$("#btnShare").click(function() {
-		$(this).addClass("active")
-		$("#btnRent, #btnMarket, #btnGroup").removeClass("active")
-		search()		
-	})
-	
-	$("#btnMarket").click(function() {
-		$(this).addClass("active")
-		$("#btnRent, #btnShare, #btnGroup").removeClass("active")
-		search()
-	})
+function share() {
+    $.ajax({
+        type: "post",
+        url: "/heart/share",
+        data: {
+            boardCate: $(".button.active").data("category"),
+            userId : "${loginId}",
+        },
+        dataType: "html",
+        success: function(res) {
+            console.log("AJAX 성공");
+            $("#heartList").html(res);
+            // 성공 시 다른 동작을 추가하려면 여기에 코드를 작성
+        },
+        error: function() {
+            console.log("AJAX 실패");
+            // 실패 시 다른 동작을 추가하려면 여기에 코드를 작성
+        }
+    });
+}
 
-	$("#btnGroup").click(function() {
-		$(this).addClass("active")
-		$("#btnRent, #btnShare, #btnMarket").removeClass("active")
-		search()
-	})
-	
-})
+function market() {
+    $.ajax({
+        type: "post",
+        url: "/heart/market",
+        data: {
+            boardCate: $(".button.active").data("category"),
+            userId : "${loginId}",
+        },
+        dataType: "html",
+        success: function(res) {
+            console.log("AJAX 성공");
+            $("#heartList").html(res);
+            // 성공 시 다른 동작을 추가하려면 여기에 코드를 작성
+        },
+        error: function() {
+            console.log("AJAX 실패");
+            // 실패 시 다른 동작을 추가하려면 여기에 코드를 작성
+        }
+    });
+}
+
+
+
+
+$(function() {
+    rent();
+
+    $("#btnRent").click(function() {
+        $(this).addClass("active");
+        $("#btnShare, #btnMarket").removeClass("active");
+        rent();
+    });
+
+    $("#btnShare").click(function() {
+        $(this).addClass("active");
+        $("#btnRent, #btnMarket").removeClass("active");
+        share();
+    });
+
+    $("#btnMarket").click(function() {
+        $(this).addClass("active");
+        $("#btnRent, #btnShare").removeClass("active");
+        market();
+    });
+
+});
 
 </script>
+
 
 
 <div class="container">
@@ -102,11 +143,10 @@ $(function() {
 	    <a class="button active" id="btnRent" data-category="1">대여</a>
 	    <a class="button" id="btnShare" data-category="2">캠핑존공유</a>
 	    <a class="button" id="btnMarket" data-category="3">중고장터</a>
-	    <a class="button" id="btnGroup" data-category="4">모집</a>
 	</div>
 
 
-	<div class="shareList" id="shareList"></div>
+	<div class="heartList" id="heartList"></div>
 
 
 </div><!-- .container -->

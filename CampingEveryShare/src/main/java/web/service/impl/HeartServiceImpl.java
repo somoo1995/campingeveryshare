@@ -21,7 +21,7 @@ public class HeartServiceImpl implements HeartService{
 	
 	@Override
 	public Paging getPaging(Paging param) {
-		int totalCount = heartDao.selectCntAll();
+		int totalCount = heartDao.selectCntAll(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
 		
@@ -29,8 +29,11 @@ public class HeartServiceImpl implements HeartService{
 	}
 	
 	@Override
-	public List<Board> getList(Paging paging) {
-		return heartDao.selectShareAll(paging);
+	public List<Map<String, Object>> list(Paging paging) {
+		
+		List<Map<String, Object>> list = heartDao.selectShareAll(paging);
+		logger.info("list : {}" + list.toString());
+		return list;
 	}
-	
+
 }

@@ -238,16 +238,7 @@ $(() => {
 		</td>
 		<th class="table-info">작성일</th>
 		<td>
-			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
-			<fmt:formatDate value="${board.postDate }" pattern="yyyyMMdd" var="write"/>
-			<c:choose>
-				<c:when test="${write lt current }">
-					<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>
-				</c:when>
-				<c:when test="${write eq current }">
-					<fmt:formatDate value="${board.postDate }" pattern="HH:mm"/>
-				</c:when>
-			</c:choose>
+			<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>	
         </td>
 	</tr>
 	<tr>

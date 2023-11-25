@@ -46,13 +46,15 @@ public interface HeartDao {
 	 * 
 	 * @return - 총 게시글 수
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging param);
 	
 	/**
 	 * 조회된 게시글 리스트
 	 * @param paging
 	 * @return - 받아온 리스트
 	 */
-	public List<Board> selectShareAll(Paging paging);
+	public List<Map<String, Object>> selectShareAll(Paging paging);
+	
+
 
 }

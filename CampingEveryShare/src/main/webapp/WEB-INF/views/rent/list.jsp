@@ -4,8 +4,6 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/header.jsp" />
-
 <style type="text/css">
 
 .list-container {
@@ -55,40 +53,17 @@ pageEncoding="UTF-8"%>
 }
 </style>
 
-<script type="text/javascript">
-</script>
-
-<div class="container">
-
-
-<!-- 작성 공간 -->
-<div class="pageTitle">
-<h3 id="pageTitle">대여</h3>
-</div>
-
-
-<div class="col-2 mb-3 float-end">
-
-<select class="form-select">
-	<option selected="selected">지역</option>
-	<option value="1">서울</option>
-	<option value="2">인천</option>
-</select>
-
-<input type="date" class="form-control">
-
-</div>
-
-<div class="clearfix"></div>
 
 <c:forEach items="${list }" var="car" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">
   </c:if>
-	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.carNo }'">
+	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.CAR_NO }'">
 		<div class="info">
+
 	    <h6>👤 : ${car.userId}</h6>
 		    <c:set var="formattedPrice" value="${car.price }" />
+
 			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 			<h6 style="color:
 			    <c:choose>
@@ -106,7 +81,7 @@ pageEncoding="UTF-8"%>
 			        </c:otherwise>
 			    </c:choose>
 			;">
-			🪙 : 1박 / ${price } 원
+			💸 1박 / ${price } 원
 			</h6>
 			
 		</div>
@@ -115,49 +90,49 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="info">
 		
-		<h6 class="title">🚗 : ${car.carName }</h6>
+		<h6 class="title">🚗 : ${car.CAR_NAME }</h6>
 		</div>
 		<div class="info">
 		<h6>🗺️ :
-			<c:if test="${car.location eq 1 }">서울
-				<c:if test="${car.area eq 1}">강남구</c:if>
-				<c:if test="${car.area eq 2}">강동구</c:if>
-				<c:if test="${car.area eq 3}">강북구</c:if>
-				<c:if test="${car.area eq 4}">강서구</c:if>
-				<c:if test="${car.area eq 5}">관악구</c:if>
-				<c:if test="${car.area eq 6}">광진구</c:if>
-				<c:if test="${car.area eq 7}">구로구</c:if>
-				<c:if test="${car.area eq 8}">금천구</c:if>
-				<c:if test="${car.area eq 9}">노원구</c:if>
-				<c:if test="${car.area eq 10}">도봉구</c:if>
-				<c:if test="${car.area eq 11}">동대문구</c:if>
-				<c:if test="${car.area eq 12}">동작구</c:if>
-				<c:if test="${car.area eq 13}">마포구</c:if>
-				<c:if test="${car.area eq 14}">서대문구</c:if>
-				<c:if test="${car.area eq 15}">서초구</c:if>
-				<c:if test="${car.area eq 16}">성동구</c:if>
-				<c:if test="${car.area eq 17}">성북구</c:if>
-				<c:if test="${car.area eq 18}">송파구</c:if>
-				<c:if test="${car.area eq 19}">양천구</c:if>
-				<c:if test="${car.area eq 20}">영등포구</c:if>
-				<c:if test="${car.area eq 21}">용산구</c:if>
-				<c:if test="${car.area eq 22}">은평구</c:if>
-				<c:if test="${car.area eq 23}">종로구</c:if>
+			<c:if test="${car.LOCATION eq 1 }">서울
+				<c:if test="${car.AREA eq 1}">강남구</c:if>
+				<c:if test="${car.AREA eq 2}">강동구</c:if>
+				<c:if test="${car.AREA eq 3}">강북구</c:if>
+				<c:if test="${car.AREA eq 4}">강서구</c:if>
+				<c:if test="${car.AREA eq 5}">관악구</c:if>
+				<c:if test="${car.AREA eq 6}">광진구</c:if>
+				<c:if test="${car.AREA eq 7}">구로구</c:if>
+				<c:if test="${car.AREA eq 8}">금천구</c:if>
+				<c:if test="${car.AREA eq 9}">노원구</c:if>
+				<c:if test="${car.AREA eq 10}">도봉구</c:if>
+				<c:if test="${car.AREA eq 11}">동대문구</c:if>
+				<c:if test="${car.AREA eq 12}">동작구</c:if>
+				<c:if test="${car.AREA eq 13}">마포구</c:if>
+				<c:if test="${car.AREA eq 14}">서대문구</c:if>
+				<c:if test="${car.AREA eq 15}">서초구</c:if>
+				<c:if test="${car.AREA eq 16}">성동구</c:if>
+				<c:if test="${car.AREA eq 17}">성북구</c:if>
+				<c:if test="${car.AREA eq 18}">송파구</c:if>
+				<c:if test="${car.AREA eq 19}">양천구</c:if>
+				<c:if test="${car.AREA eq 20}">영등포구</c:if>
+				<c:if test="${car.AREA eq 21}">용산구</c:if>
+				<c:if test="${car.AREA eq 22}">은평구</c:if>
+				<c:if test="${car.AREA eq 23}">종로구</c:if>
 			</c:if>
 			
-	  		<c:if test="${car.location eq 2 }">인천
-				<c:if test="${car.area eq 1}">중구</c:if>
-				<c:if test="${car.area eq 2}">남동구</c:if>
-				<c:if test="${car.area eq 3}">동구</c:if>
-				<c:if test="${car.area eq 4}">미추홀구</c:if>
-				<c:if test="${car.area eq 5}">부평구</c:if>
-				<c:if test="${car.area eq 6}">서구</c:if>
-				<c:if test="${car.area eq 7}">연수구</c:if>
-				<c:if test="${car.area eq 8}">계양구</c:if>
+	  		<c:if test="${car.LOCATION eq 2 }">인천
+				<c:if test="${car.AREA eq 1}">중구</c:if>
+				<c:if test="${car.AREA eq 2}">남동구</c:if>
+				<c:if test="${car.AREA eq 3}">동구</c:if>
+				<c:if test="${car.AREA eq 4}">미추홀구</c:if>
+				<c:if test="${car.AREA eq 5}">부평구</c:if>
+				<c:if test="${car.AREA eq 6}">서구</c:if>
+				<c:if test="${car.AREA eq 7}">연수구</c:if>
+				<c:if test="${car.AREA eq 8}">계양구</c:if>
 			</c:if>
 		 </h6>
 		 <div>
-			<h6>👨‍👩‍👧‍👦 : ${car.carPax }명</h6>
+			<h6>👨‍👩‍👧‍👦 : ${car.CAR_PAX }명</h6>
 		 </div>
 		</div>		
 	</div>
@@ -167,7 +142,3 @@ pageEncoding="UTF-8"%>
   </c:if>
 	
 </c:forEach>
-
-</div><!-- .container end -->
-<c:import url="../layout/pagination.jsp" />
-<c:import url="../layout/footer.jsp" />

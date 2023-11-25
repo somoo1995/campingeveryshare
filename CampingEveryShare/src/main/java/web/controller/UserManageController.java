@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.Admin;
@@ -21,6 +22,7 @@ import web.dto.Income;
 import web.dto.Report;
 import web.dto.User;
 import web.service.face.AdminService;
+import web.service.face.UserService;
 import web.util.Paging;
 
 @Controller
@@ -37,6 +39,12 @@ public class UserManageController {
 		return adminService.loginCheck(admin);
 	}
 	
+	@GetMapping("/idCheck/{userId}")
+	   @ResponseBody
+	   public boolean joinIdDuplicateCheck(@PathVariable String userId) {
+	      return adminService.joinIdCheck(userId);
+	   }
+	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
 		logger.info("login[GET]");
@@ -50,17 +58,17 @@ public class UserManageController {
 		logger.info("login[POST]");
 
 		// 로그인 인증
-		boolean isLogin = adminService.loginCheck(admin);
+		boolean isAdmin = adminService.loginCheck(admin);
 		Admin loginInfo = adminService.loginInfo(admin);
 		// [세션] 로그인 인증 결과
 
-		if (!isLogin) {
+		if (!isAdmin) {
 			session.invalidate();
 			return false;
 		}
 		
 		logger.info("로그인 성공");
-		session.setAttribute("isLogin", isLogin);
+		session.setAttribute("isAdmin", isAdmin);
 		session.setAttribute("adminCode", loginInfo.getAdminCode());
 		session.setAttribute("adminPw", loginInfo.getAdminPw());
 		logger.info("session : " + session.getAttribute("adminCode"));
@@ -137,6 +145,27 @@ public class UserManageController {
 		logger.info("paging {} :" + paging.toString());
 		logger.info("model {} :" + model.toString());
 	
+	}
+	
+	@PostMapping("/list")
+	@ResponseBody
+	public String deleteuser(@RequestParam("userId") String userId, Model model) {
+		
+		//무언가 단단히 잘못되었다.
+		
+		boolean isDeleted = adminService.updateUserStatus(userId);
+
+	    if (isDeleted) {
+	        model.addAttribute("deleteuser", isDeleted);
+	        logger.info("회원상태1로변경");
+	        return "done";
+	       } else {
+	       model.addAttribute("error", "비밀번호를 확인해주세요");
+	       logger.info("회원상태 변경 실패");
+	       return "undone";
+	       }
+	    
+	    
 	}
 		
 	

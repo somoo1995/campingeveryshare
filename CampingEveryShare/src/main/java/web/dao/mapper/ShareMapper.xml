@@ -28,16 +28,22 @@
 			, (SELECT paid FROM sharetb WHERE board_no = boardtb.board_no) AS "PAID"
 			, user_id
 			FROM boardtb
-			WHERE board_cate = 2
-			AND delete_status = 0
+			<where>
+				AND board_cate = 2
+				AND delete_status = 0
+				<if test="search != null and !''.equals(search)">
+					AND title LIKE '%' || (#{search }) || '%' 
+				</if>
+			</where>
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 
   	</select>
   
-  	<select id="selectCntAll">
+  	<select id="selectCntAll" parameterType="int">
   		SELECT count(*) FROM boardtb
+  		WHERE board_cate = 2
   	</select>
   
   	<select id="selectBoardView" resultType="board" parameterType="board">

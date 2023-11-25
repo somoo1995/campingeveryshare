@@ -44,10 +44,51 @@ $(() => {
 	console.log("검색어:", searchValue, "검색 카테고리:", typeCategory); // 확인용 로그
 	location.href = "./list?search=" + searchValue + "&category=" + typeCategory;
 	});
+
 })
-
-
 </script>
+
+<script type="text/javascript">
+
+$(() => {
+	  // ...
+
+	  $("#deleteInfoButton").click(function() {
+	    // 삭제할 사용자의 아이디를 가져옴
+	    var userId = $(this).data('userid');
+
+	    // 확인 대화상자 표시
+	    var isConfirmed = confirm("정말로 탈퇴시키겠습니까?");
+
+	    if (isConfirmed) {
+	      $.ajax({
+	        type: "post",
+	        url: "/admin/list",
+	        data: {
+	          userId: userId
+	        },
+	        success: function(response) {
+	          console.log("서버 응답:", response);
+	          console.log("파싱된 응답:", response);
+
+	          if (response === "done") {
+	            console.log("회원탈퇴가 성공적으로 이루어졌습니다!");
+	            alert("회원탈퇴가 성공적으로 이루어졌습니다!");
+	          } else if (response === "undone") {
+	            console.log("회원탈퇴 실패.");
+	            alert("회원탈퇴 실패, 비밀번호를 확인해주세요");
+	          }
+	        },
+	        error: function(error) {
+	          console.log("AJAX 실패")
+	        }
+	      });
+	    }
+	  });
+	});
+	
+</script>
+
 
 <div class="container">
 
@@ -68,7 +109,6 @@ $(() => {
 	<button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
-<form action="web.dao.face.adminDao" method="get" >
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
 	<col width="5%">
@@ -116,21 +156,20 @@ $(() => {
 		</td>
 		<td>
 		<button type="button" class="btn btn-warning">알림</button>
-		<button type="button" class="btn btn-danger">탈퇴</button>
+		<button id="deleteInfoButton" type="submit" class="btn btn-danger" data-userid="${user.USER_ID}">탈퇴</button>
 		</td>  
 	</tr>
 </c:forEach>
 </tbody>
+
 </table>
 <small class="float-end mb-3">total : ${paging.totalCount }</small>
 
-</form>
 </div>
-
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+<c:import url="/WEB-INF/views/layout/pagination.jsp" >
     <c:param name="url" value="./list" />
 </c:import>
 

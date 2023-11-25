@@ -1,6 +1,7 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Car;
 import web.dto.Rent;
@@ -12,7 +13,7 @@ public interface RentService {
 
 	public Paging getPaging(Paging param);
 
-	public List<Car> getCarList(Paging paging);
+	public List<Map<String, Object>> getCarList(Paging paging);
 
 	public Car view(Car car);
 
@@ -22,6 +23,5 @@ public interface RentService {
 
 	public User getGuestInfo(User user);
 
-	public void writeReview(Review review);
 
 }

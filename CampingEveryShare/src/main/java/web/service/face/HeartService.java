@@ -18,10 +18,12 @@ public interface HeartService {
 	public Paging getPaging(Paging param);
 	
 	/**
-	 * 공유 게시판 찜 목록
-	 * @param paging
-	 * @return
+	 * 게시글 리스트
+	 * 
+	 * @param paging - 페이징 객체
+	 * @return - 조회된 게시글 리스트
 	 */
-	public List<Board> getList(Paging paging);
+	public List<Map<String, Object>> list(Paging paging);
+
 
 }

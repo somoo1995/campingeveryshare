@@ -5,7 +5,6 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/header.jsp" />
 
 <style type="text/css">
 .head {
@@ -20,19 +19,6 @@ pageEncoding="UTF-8"%>
 }
 </style>
 
-
-
-
-<div class="container">
-
-
-<!-- 작성 공간 -->
-<div class="pageTitle">
-<h3 id=pageTitle>모집 게시판</h3>
-
-<div style="text-align: right; margin-bottom: 10px;">
-<a  href="/group/write?boardCate=4"><button>글쓰기</button></a>
-</div>
 
 <form action="web.dao.face.GroupDao" method="get" >
 
@@ -100,10 +86,3 @@ pageEncoding="UTF-8"%>
 </table>
 </form>
 
-
-
-
-
-</div><!-- .container -->
-<c:import url="../layout/pagination.jsp" />
-<c:import url="../layout/footer.jsp" />
