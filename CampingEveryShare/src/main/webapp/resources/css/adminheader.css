@@ -55,7 +55,7 @@
 	color: #4f82cd;
 	transition: color 0.3s ease;
 	font-weight: bold;
-	width: 210px;
+	width: 180px; /* 넓이 수정!!*/
 	display: inline-block;
 /* 	text-align: center; */
 /* 	box-sizing: border-box;  */

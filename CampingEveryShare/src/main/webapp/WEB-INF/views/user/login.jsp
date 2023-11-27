@@ -203,46 +203,24 @@ pageEncoding="UTF-8"%>
 .idpw {
    min-width: 600px;
    min-height: 40px;
-   margin-bottom: 10px;
+/*    margin-bottom: 0px; */
    padding-left: 60px;
    border-radius: 5px;
    border: 1px solid;
-   
 }
 
 .id {
-   /* 아이콘 넣기*/
-   background: url('/resources/img/id_icon.png');
-    background-size: 30px;
-    background-repeat: no-repeat;
-    background-position: 10px;
-    background-color: #F0EFF4;
-}
-
-.pw {
-   /* 아이콘 넣기*/
-   background: url('/resources/img/pw_icon.png');
-    background-size: 30px;
-    background-repeat: no-repeat;
-    background-position: 10px;
-    background-color: #F0EFF4;
-}
-
-.invalid-feedback {
-   margin-top: 0px;
-   margin-bottom: 0px;
-   margin-left: 60px;
-   line-height: 0;
+	margin-bottom: 0px;
 }
 
 .id_space {
-   margin-bottom: 30px;
+   margin-bottom: -10px;
 /*    background-color: lime; */
    height: 60px;
 }
 
 .pw_space {
-   margin-top: -30px;
+   margin-top: 10px;
    margin-bottom: 0px;
 /*    background-color: lime; */
    height: 60px;
@@ -299,6 +277,17 @@ p {
    color: #005400;
 }
 
+.id_icon {
+	position: absolute;
+	margin-left: 15px;
+	margin-top: 5px;
+}
+
+.pw_icon {
+	position: absolute;
+ 	margin-left: 15px; 
+ 	margin-top: 5px; 
+}
 
 </style><!-- .css 끝 -->
 
@@ -315,6 +304,7 @@ p {
 <div class="id_space">
 
    <div>
+   <img alt="id_icon" src="/resources/img/id_icon.png" class="id_icon" width="30px" height="30px">
       <input type="text" id="userId" class="idpw id" name="userId" onblur="idDupleCheck(this)" placeholder="아이디*">
 
      </div><!-- .form-floating is-invalid -->
@@ -327,7 +317,7 @@ p {
 <!-- 비밀번호 -->
 <div class="pw_space">
    <div>
-
+		<img alt="pw_icon" src="/resources/img/pw_icon.png" class="pw_icon" width="30px" height="30px">
        <input type="password" id="userPw" class="idpw pw" name="userPw" aria-describedby="passwordHelpInline" onblur="passwordCheck()" placeholder="비밀번호*" required>
      </div><!-- .form-floating is-invalid -->
      <div id="pwDupleBlock" class="invalid-feedback" style="display:none">

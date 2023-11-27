@@ -7,38 +7,22 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
-<style type="text/css">
-.head {
-	text-align: center;
-}
-
-.title > a{
-	color: black;
-	align-items: center; /* 수직 가운데 정렬 */
-	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-	
-}
-</style>
-
-
-
+<link rel="stylesheet" href="../resources/css/group.css?after">
 
 <div class="container">
 
-
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id=pageTitle>모집 게시판</h3>
-
+<h3>모집 게시판</h3>
+<h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6>
+<hr>
 <div style="text-align: right; margin-bottom: 10px;">
-<a  href="/group/write?boardCate=4"><button>글쓰기</button></a>
+<a  href="/group/write?boardCate=4"><button class="btn_write">글쓰기</button></a>
 </div>
 
 <c:import url="./list.jsp"></c:import>
 
-
-
-
+</div><!-- .pageTitle -->
 </div><!-- .container -->
 <c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />
