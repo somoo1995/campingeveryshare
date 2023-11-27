@@ -90,14 +90,15 @@ function loadBooking() {
 	console.log(dataBooking)
 	
     $.ajax({
-        type: "get"
-        , url: "/booking/list?status=" + dataBooking
+        type: "post"
+        , url: "/booking/main"
         , data: {
+        	status: dataBooking
         }
         , dataType: "html"
         , success: function( res ) {
            console.log("AJAX 성공")
-          $("#bookingList").html(res)
+          $("#resultList").html(res)
 			
         }
         , error: function() {
@@ -125,11 +126,10 @@ function loadBooking() {
 	</div>
 		
 	<div class="mt-5 mb-5">
-	
-		<div class="bookingList" id="bookingList"></div>
-
+		<div class="resultList" id="resultList"></div>
 	</div>
 
 </div><!-- .container -->
+
 
 <c:import url="../layout/footer.jsp" />

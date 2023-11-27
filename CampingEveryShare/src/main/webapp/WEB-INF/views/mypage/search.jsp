@@ -49,7 +49,7 @@ function search() {
         , dataType: "html"
         , success: function( res ) {
            console.log("AJAX 성공")
-			$("#searchResult").html(res)
+			$("#resultList").html(res)
         }
         , error: function() {
            console.log("AJAX 실패")
@@ -107,7 +107,7 @@ $(function() {
 	</div>
 
 
-	<div class="searchResults" id="searchResult"></div>
+	<div class="resultList" id="resultList"></div>
 
 
 </div><!-- .container -->

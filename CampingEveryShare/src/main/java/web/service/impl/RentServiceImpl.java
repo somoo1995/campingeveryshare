@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.CarDao;
+import web.dao.face.IncomeDao;
 import web.dao.face.RentDao;
 import web.dao.face.ReviewDao;
 import web.dto.Car;
+import web.dto.Income;
 import web.dto.Rent;
 import web.dto.User;
 import web.service.face.RentService;
@@ -24,6 +26,7 @@ public class RentServiceImpl implements RentService {
 	@Autowired CarDao carDao;
 	@Autowired RentDao rentDao;
 	@Autowired ReviewDao reviewDao; 
+	@Autowired IncomeDao incomeDao;
 
 	@Override
 	public Paging getPaging(Paging param) {
@@ -63,6 +66,16 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public User getGuestInfo(User user) {
 		return rentDao.selectUserByUserId(user);
+	}
+
+	@Override
+	public void cancelBooking(Rent rent) {
+		rentDao.updateCancel(rent);
+	}
+
+	@Override
+	public void income(Income income) {
+		incomeDao.insertIncome(income);
 	}
 
 }
