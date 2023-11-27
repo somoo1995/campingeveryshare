@@ -10,7 +10,7 @@ $(function() {
 		
 	      $.ajax({
 	          type: "post"
-	          , url: "/search"
+	          , url: "${url}"
 	          , data: {
 	        	  curPage: $(this).data("page"),
 	        	  category: ${paging.category },
@@ -19,7 +19,7 @@ $(function() {
 	          , dataType: "html"
 	          , success: function( res ) {
 	             console.log("AJAX 성공")
-					$("#searchResult").html(res)
+					$("#resultList").html(res)
 	          }
 	          , error: function() {
 	             console.log("AJAX 실패")

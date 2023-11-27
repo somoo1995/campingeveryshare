@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Car;
+import web.dto.Income;
 import web.dto.Rent;
 import web.dto.Review;
 import web.dto.User;
@@ -22,6 +23,10 @@ public interface RentService {
 	public void book(Rent rent);
 
 	public User getGuestInfo(User user);
+
+	public void cancelBooking(Rent rent);
+
+	public void income(Income income);
 
 
 }

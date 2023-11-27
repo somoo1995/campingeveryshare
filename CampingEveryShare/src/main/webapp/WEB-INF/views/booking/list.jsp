@@ -7,6 +7,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
+<!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
+<!--   crossorigin="anonymous"></script> -->
+
 <style type="text/css">
 
 .review { 
@@ -114,22 +122,32 @@ $(function() {
 
 <script type="text/javascript">
 
-// function cancel() {
-// 	$.ajax({
-// 	      "url": "https://api.iamport.kr/payments/cancel", // 예: http://www.myservice.com/payments/cancel
-// 	      "type": "POST",
-// 	      "contentType": "application/json",
-// 	      "data": JSON.stringify({
-// 	        "merchant_uid": "{결제건의 주문번호}", // 예: ORD20180131-0000011
-// 	        "cancel_request_amount": 2000, // 환불금액
-// 	        "reason": "테스트 결제 환불" // 환불사유
-// 	        "refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-// 	        "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-// 	        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-// 	      }),
-// 	      "dataType": "json"
-// 	    });
-// }
+$(function() {
+	
+	$(".btnCancel").click(function() {
+		
+		console.log($(this).attr("data-uid"))
+		
+		$.ajax({
+			type: "post"
+			, url: "/cancel"
+			, data: {
+				merchantUid: $(this).attr("data-uid"),
+				rentNo: $(this).attr("data-no")
+			}
+			, dataType: "json"
+			, success: function( res ) {
+			console.log("AJAX 성공")
+			
+			}
+			, error: function() {
+			console.log("AJAX 실패")
+			}
+		})
+		
+	})
+	
+})
 
 </script>
 
@@ -159,7 +177,7 @@ $(function() {
 <!-- 		</li> -->
 		<c:choose>
 			<c:when test="${empty param.status || param.status == 'now'}">
-			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success">취소</button> </li>
+			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }">취소</button> </li>
 			</c:when>
 			<c:when test="${param.status == 'history' }">
 			<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }">리뷰</li>	
@@ -192,11 +210,9 @@ $(function() {
 	<hr>
 	</c:forEach>
 </div>
-
-
-
-
-<c:import url="../layout/pagination.jsp" />
+<c:if test="${paging.totalCount gt 5 }">
+	<c:import url="../layout/paginationAjax.jsp" />
+</c:if>
 </c:if>
 
 <c:if test="${empty hasData or not hasData }">

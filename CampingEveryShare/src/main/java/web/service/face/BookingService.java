@@ -8,9 +8,9 @@ import web.util.Paging;
 
 public interface BookingService {
 
-	public Paging getPaging(Paging param, String status, Rent rent);
+	public Paging getPaging(Paging param, String status, String userId);
 
-	public List<Map<String, Object>> getList(Paging paging, Rent rent);
+	public List<Map<String, Object>> getList(Paging paging);
 
 
 }

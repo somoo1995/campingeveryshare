@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import web.dto.Rent;
 import web.service.face.BookingService;
@@ -28,37 +30,33 @@ public class BookingController {
 	@GetMapping("/main")
 	public void bookingMain( 
 			Model model, 
-			HttpSession session,
+			@SessionAttribute("loginId") String userId,
 			@RequestParam(required = false) String status,
 			Paging param
 			) {
 		
-		Rent rent = new Rent();
-		rent.setUserId((String) session.getAttribute("loginId"));
-			
-		Paging paging = bookingService.getPaging(param, status, rent);
+		logger.info("param : {}", param);
+		
+		Paging paging = bookingService.getPaging(param, status, userId);
 		
 		boolean hasData = false;
 		if( paging.getTotalCount() > 0 ) {
 			hasData = true; 
 		}
-	
+		
 		model.addAttribute("hasData", hasData);
 		
 	}
 	
-	@RequestMapping("/list")
+	@PostMapping("/main")
 	public String bookingList(
 			Model model, 
-			HttpSession session,
+			@SessionAttribute("loginId") String userId,
 			@RequestParam(required = false) String status,
 			Paging param
 			) {
-		
-		Rent rent = new Rent();
-		rent.setUserId((String) session.getAttribute("loginId"));
-			
-		Paging paging = bookingService.getPaging(param, status, rent);
+
+		Paging paging = bookingService.getPaging(param, status, userId);
 		logger.info("paging : {}", paging);
 		
 		boolean hasData = false;
@@ -68,17 +66,12 @@ public class BookingController {
 		
 		logger.info("hasData : {}", hasData);
 		
-		List<Map<String, Object>> list = bookingService.getList(paging, rent);
-		logger.info("list {} : ", list);
-		
+		List<Map<String, Object>> list = bookingService.getList(paging);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("hasData", hasData);
 		model.addAttribute("list", list);
 		return "booking/list";
 	}
-	
-
-	
 	
 }

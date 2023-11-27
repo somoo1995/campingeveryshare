@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.IncomeDao">
+
+	<insert id="insertIncome" parameterType="Income">
+		<selectKey order="BEFORE" resultType="int" keyProperty="incomeNo">
+			SELECT income_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO incometb ( income_no, rent_no, amount, income_status )
+		VALUES ( #{incomeNo }, #{rentNo }, #{amount }, 0 )
+
+	</insert>
+
+</mapper>

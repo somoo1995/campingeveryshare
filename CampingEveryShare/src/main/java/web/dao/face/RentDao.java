@@ -5,20 +5,22 @@ import java.util.Map;
 
 import web.dto.Car;
 import web.dto.Rent;
-import web.dto.Review;
 import web.dto.User;
+import web.util.Paging;
 
 public interface RentDao {
 	
-	public int selectCntAll(Map<String, Object> map);
-
-	public List<Map<String, Object>> selectAllByRentStatus(Map<String, Object> map);
-
 	public List<Rent> selectAllByCarNo(Car car);
 
 	public void insertRent(Rent rent);
 
 	public User selectUserByUserId(User user);
+
+	public void updateCancel(Rent rent);
+
+	public int selectCntAll(Paging param);
+
+	public List<Map<String, Object>> selectAllByRentStatus(Paging paging);
 
 
 
