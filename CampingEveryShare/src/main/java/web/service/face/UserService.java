@@ -105,5 +105,30 @@ public interface UserService {
 	 */
 	public boolean deleteUser(String userId, String password);
 
+	/**
+	 * 이메일확인통해 로그인
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public boolean findByEmail(String email);
+
+	/**
+	 * 카카오로그인한 회원정보 조회
+	 * 
+	 * @param login
+	 * @return
+	 */
+	public User kakaoInfo(User login);
+
+	/**
+	 * 카카오로그인 회원가입
+	 * 
+	 * @param signup
+	 * @return
+	 */
+	public boolean kakaoJoin(User signup);
+
+
 }
 

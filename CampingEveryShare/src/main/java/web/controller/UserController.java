@@ -1,15 +1,12 @@
 package web.controller;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.util.SessionConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +35,10 @@ import web.service.face.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
+	
+//	@Autowired
+//	private ObjectMapper objectMapper;
+	
 	// 로그 객체 생성d
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -290,36 +290,74 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/kakaoLogin.ajax")
-	public String kakaoLogin() {
-		StringBuffer loginUrl = new StringBuffer();
-		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id");
-		loginUrl.append("ce1568eb40d41fed6eb58ca0a4e9a6eb");
-		loginUrl.append("&redirect_uri=");
-		loginUrl.append("http://localhost:8088/user/login");
-		loginUrl.append("&response_type=code");
+	@RequestMapping(value = "/kakaoLogin", method= {RequestMethod.POST})
+	@ResponseBody
+	public String kakaoLogin(@RequestParam String email,User login, HttpSession session) {
+		logger.info("kakaoLogin : {}", email);
 
-		return "redirect:" + loginUrl.toString();
+		
+		// 로그인 인증
+//		TODO: kakao로그인으로 진행하는 경우에는 email정보만으로 로그인을 진행한다.
+		boolean isLogin = userService.findByEmail(email);
+		User loginInfo = userService.kakaoInfo(login);
+
+		// [세션] 로그인 인증 결과
+		if (!isLogin) {
+			return "loginfalse";
+			
+		} else if (loginInfo.getUserStatus() == 1) {
+			return "false";
+		}
+		session.setAttribute("isLogin", isLogin);
+		session.setAttribute("loginId", loginInfo.getUserId());
+		session.setAttribute("loginNick", loginInfo.getUserNick());
+		logger.info("session : " + session.getAttribute("loginId"));
+		logger.info("session : " + session.getAttribute("loginNick"));
+
+		logger.info("로그인 성공");
+		return "true";
+	}
+	
+
+	@RequestMapping(value = "/kakaoSignup", method = {RequestMethod.POST})
+	@ResponseBody
+	public String kakaoSignup(User signup, HttpSession session) {
+	    logger.info("kakaoSignup: {}", signup);
+	    logger.info("카카오회원가입");
+	    // TODO: 회원가입 처리 로직 구현
+	    
+		// 회원가입 처리
+//		boolean isLogin = userService.login(signup);
+
+//	    User loginInfo = userService.kakaoInfo(signup);
+		boolean joinResult = userService.kakaoJoin(signup);
+
+		
+		if (joinResult) {
+			logger.info("카카오회원가입 성공");
+			return "true";
+		} else {
+			logger.info("카카오회원가입 실패");
+			return "false";
+		}
+
+
+//	     예시: 회원가입 성공 시 로그인 처리
+
+//	    if (isLogin && loginInfo.getUserStatus() != 1) {
+//	        session.setAttribute("isLogin", isLogin);
+//	        session.setAttribute("loginId", loginInfo.getUserId());
+//	        session.setAttribute("loginNick", loginInfo.getUserNick());
+//	        logger.info("session: " + session.getAttribute("loginId"));
+//	        logger.info("session: " + session.getAttribute("loginNick"));
+//
+//	        logger.info("카카오 회원가입 및 로그인 성공");
+//	        return "{\"success\":true}";
+//	    } else {
+//	        // 회원가입 실패 또는 탈퇴 회원인 경우
+//	        return "{\"success\":false}";
+//	    }
 	}
 
-//   @RequestMapping(value = "/kakaoCallback", method = RequestMethod.GET)
-//   public String redirectkakao(@RequestParam String code, HttpSession session) throws IOException{
-//      logger.info(code);
-//      
-//      //접속토큰 get
-//      String kakaoToken = userService.getReturnAccessToken(code);
-//      
-//      //접속자 정보 get
-//      Map<String,Object> result = userService.getUserInfo(kakaoToken);
-//        logger.info("result:: " + result);
-//        String snsId = (String) result.get("id");
-//        String userName = (String) result.get("nickname");
-//        String email = (String) result.get("email");
-//        String userpw = snsId;
-//      SessionConfigVO config = new org.apache.tomcat.util.descriptor.web.SessionConfig()
-//      return code;
-//      
-//      
-//   }
-
+	
 }

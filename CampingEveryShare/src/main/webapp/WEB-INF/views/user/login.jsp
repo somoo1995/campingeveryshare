@@ -6,7 +6,137 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />  
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<!-- <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.min.js"
+  integrity="sha384-kYPsUbBPlktXsY6/oNHSUDZoTX6+YI51f63jCPEIPFP09ttByAdxd2mEjKuhdqn4" crossorigin="anonymous"></script>
+ -->
+<script>
+  Kakao.init('8dbde9a5763083fbca31c3f1098a1682'); // 사용하려는 앱의 JavaScript 키 입력
+</script>
+<script>
+
+function kakaoLogin() {
+    Kakao.Auth.login({
+    	
+    	//로그인 성공
+      success: function (response) {
+        Kakao.API.request({
+          url: '/v2/user/me',
+        
+          //로그인 성공후 , 개인정보조회 성공
+          success: function (response) {
+        	  console.log(response.kakao_account)
+//         	  console.log(response.kakao_account.email)
+        	 
+         	  //응답에서 사용자정보 추출
+        	  var userId = response.id+".k";
+        	  var email = response.kakao_account.email;
+        	  var userName = response.kakao_account.name;
+        	  var userNick = response.kakao_account.profile.nickname;
+        	  var birth = response.kakao_account.birthyear+response.kakao_account.birthday;
+        	  var phone = response.kakao_account.phone_number;
+
+        	  // 콘솔에 사용자정보 기록
+              console.log(userId);
+              console.log(email);
+              console.log(userName);
+              console.log(userNick);
+              console.log(birth);
+              console.log(phone);
+
+              // HTTP 요청을 사용하여 서버에 사용자정보 보내기
+              sendInfoToServer(userId,email,userName,userNick,birth,phone);
+
+          },
+          //로그인 성공후 , 개인정보조회 실패
+          fail: function (error) {
+            console.log(error)
+
+          },
+        })
+      },
+      //로그인 실패
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+function sendInfoToServer(userId,email,userName,userNick,birth,phone) {
+
+	var url = '/user/kakaoLogin?email=' + encodeURIComponent(email);
+	
+	$.ajax({
+        url: url,
+        type: 'POST',
+        success: function (data) {
+            console.log(data);
+         // 반환된 값이 'true'인 경우 로그인 처리
+            if (data === 'true') {
+                // 여기에 로그인 처리 로직 추가
+                console.log('로그인 성공');
+                window.location.href = "/";
+            } 
+            else if(data ==="loginfalse") {
+                console.log("비회원");
+                
+             // processKakaoSignup 함수 호출
+                processKakaoSignup(email, userId, userName, userNick);
+
+//                 window.location.href = "/user/kakaoSignup";
+            }
+            else if(data ==="false") {
+                console.log("탈퇴 회원");
+				alert("탈퇴한 회원으로 로그인 할 수 없습니다.");
+// 				window.location.href = "/user/kakaoSignup";
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("서버 응답에 문제가 있습니다."); // 서버 응답이 다르게 올 경우
+            console.error("AJAX 요청 실패: " + textStatus);
+        }
+    });
+}
+
+function processKakaoSignup(email,userId,userName,userNick,birth,phone) {
+	
+    // 회원가입 처리
+    $.ajax({
+        type: "post",
+        url: '/user/kakaoSignup',
+        data: {
+            "userId": userId,
+            "email": email,
+            "userName": userName,
+            "userNick": userNick,
+            "birth": birth,
+            "phone": phone
+        },
+        success: function (data) {
+            console.log(data);
+            // 회원가입 성공 시 로그인 처리
+            if (data === 'true') {
+                console.log('카카오 회원가입 및 로그인 성공');
+                window.location.href = "/";
+            } else {
+                alert('카카오 회원가입 실패. 일반 계정으로 로그인하시기 바랍니다.');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("서버 응답에 문제가 있습니다.");
+            console.error("AJAX 요청 실패: " + textStatus);
+            console.error("에러 내용: " + errorThrown);
+            console.error("서버 응답: " + jqXHR.responseText);
+        }
+    });
+}
+
+
+</script>
+
 <script type="text/javascript">
+
+
+
     function checkDuplicate(input, url, displayBlock, emptyMessage, successMessage, failureMessage) {
         var value = input.value;
         var displayBlock = $("#" + displayBlock);
@@ -350,7 +480,8 @@ p {
    
    <!-- 카카오 소셜 로그인 -->
    <div class="kakao">
-      <a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=a75bad9d6cd43e60fa8e31d70d2b8625&redirect_uri=http://localhost:8088/user/login&response_type=code">
+   
+      <a class="p-2" id="kakao-login-btn" onclick="kakaoLogin()">
       <p class="kakao_href">
       <img alt="kakao_icon_2" src="/resources/img/kakao_icon_2.png" class="kakao_icon" width="30px" height="30px">
       카카오 로그인</p>
