@@ -123,7 +123,7 @@ select {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="file">파일</label>
+	<label class="form-label" for="file">게시글 목록에 보여질 사진을 올려주세요</label>
 	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
 </div>
 
