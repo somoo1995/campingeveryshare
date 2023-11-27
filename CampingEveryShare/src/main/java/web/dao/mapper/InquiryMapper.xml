@@ -76,7 +76,7 @@
 			SELECT board_seq.nextval FROM dual
 		</selectKey> 
   		INSERT INTO boardtb (board_no, title,content, user_id, board_cate, location)
-  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, 0 )
+  		VALUES (#{boardNo}, #{title}, #{content}, #{userId}, #{boardCate}, #{location} )
   	</insert>
 
 	<insert id="insertInquiryFile" parameterType="boardfile">
@@ -97,6 +97,7 @@
   		UPDATE boardtb
   		SET title = #{title }
   			, content = #{content }
+  			, location = #{location }
 		WHERE board_no = #{boardNo } 
   	</update>
   	

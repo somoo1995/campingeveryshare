@@ -42,7 +42,7 @@ $(() => {
 }
 .location{
     text-align: center;
-    width: 55px;
+    width: 100px;
     border: none;
     font-weight: bold;
 }
@@ -75,7 +75,6 @@ select {
 
 
 <input type="hidden" name="loginId" value="${loginId }" >
-<input type="hidden" name="location" value="0" >
 <input type="hidden" name="boardCate" value="6" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
@@ -88,13 +87,19 @@ select {
 </div>
 
 <div class="form-group mb-3">
+	<label class="form-label" for="file">파일</label>
+	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+</div>
+
+<div class="form-group mb-3">
 	<label class="form-label" for="content">본문</label>
 	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
 
-<div class="form-group mb-3">
-	<label class="form-label" for="file">파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+<input type="text" class="location"  readonly="readonly" value="글 공개 여부">
+|
+<label><input type="radio" name="location" id="location" value="18" checked="checked">공개</label>
+<label><input type="radio" name="location" id="location" value="0">비공개</label>
 </div>
 
 <div class="text-center">

@@ -77,7 +77,6 @@ select {
 
  
 <input type="hidden" name="boardNo" value="${board.boardNo }" >
-<input type="hidden" name="location" value="0" >
 <input type="hidden" name="boardCate" value="6" >
 <input type="hidden" name="loginId" value="${loginId }" >
 
@@ -106,6 +105,12 @@ select {
 <div class="form-group mb-3">
 	<label class="form-label" for="content">본문</label>
 	<textarea class="form-control" name="content" id="content">${board.content }</textarea>
+</div>
+
+<input type="text" class="location"  readonly="readonly" value="글 공개 여부">
+|
+<label><input type="radio" name="location" id="location" value="18" <c:if test="${board.location eq 18}">checked="checked"</c:if>>공개</label>
+<label><input type="radio" name="location" id="location" value="0" <c:if test="${board.location eq 0}">checked="checked"</c:if>>비공개</label>
 </div>
 
 <%-- 새로운 첨부파일 --%>
