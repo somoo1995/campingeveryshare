@@ -59,7 +59,9 @@ $(document).ready(function () {
 <a href="/admin/list">🩵회원 관리</a>
 
 <!-- 글 작성 링크 이후 수정 -->
-<a href="/admin/write">🩵글 작성</a>
+<a href="/admin/notice">🩵공지사항</a>
+
+<a href="/admin/qna">🩵고객문의</a>
 
 <a href="/admin/report">🩵신고 관리</a>
 

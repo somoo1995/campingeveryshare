@@ -356,13 +356,13 @@ $(function() {
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
           <div class="reservation">
-          <img class="reservation_icon" onclick="location.href='/mypage/fail'" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px">
+          <img class="reservation_icon" onclick="location.href='/mypage/fail'" alt="reservation_icon" src="/resources/img/reservation_2.png" width="50px" height="50px">
             </div>
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
           <div class="reservation">
-          <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px">
+          <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="50px" height="50px">
             </div>
          </c:when>
       </c:choose>
@@ -375,7 +375,7 @@ $(function() {
          
          <c:when test="${not empty isLogin and isLogin }">
          <div class="reservation">
-<!--             <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="100px" height="100px"> -->
+<!--             <img class="reservation_icon" alt="reservation_icon" src="/resources/img/reservation_2.png" width="50px" height="50px"> -->
             <span class="reservation_letter" id="campStatus" camp-data="/booking/main">내 예약</span>
          </div>
          </c:when>
@@ -388,13 +388,13 @@ $(function() {
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
          <div class="message">
-          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="100px" height="100px">
+          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="50px" height="50px">
           </div><!-- .message -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
           <div class="message">
-          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="100px" height="100px">
+          <img class="message_icon" onclick="location.href='/message/list'" alt="message_icon" src="/resources/img/message_2.png" width="50px" height="50px">
           </div><!-- .message -->
        </c:when>
       </c:choose>
@@ -409,13 +409,13 @@ $(function() {
        <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
          <div class="heart">
-            <img class="heart_icon" onclick="location.href='/mypage/fail'" alt="heart_icon" src="/resources/img/heart_2.png" width="100px" height="100px">
+            <img class="heart_icon" onclick="location.href='/mypage/fail'" alt="heart_icon" src="/resources/img/heart_2.png" width="50px" height="50px">
             </div><!-- .heart -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
          <div class="heart">
-            <img class="heart_icon" onclick="location.href='/heart/main'" alt="heart_icon" src="/resources/img/heart_2.png" width="100px" height="100px">
+            <img class="heart_icon" onclick="location.href='/heart/main'" alt="heart_icon" src="/resources/img/heart_2.png" width="50px" height="50px">
             </div><!-- .heart -->
        </c:when>
       </c:choose>
@@ -438,13 +438,13 @@ $(function() {
        <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
             <div class="alarm">
-            <img class="alarm_icon" onclick="location.href='/mypage/fail'" alt="alarm_icon" src="/resources/img/alarm_2.png" width="100px" height="100px">
+            <img class="alarm_icon" onclick="location.href='/mypage/fail'" alt="alarm_icon" src="/resources/img/alarm_2.png" width="50px" height="50px">
             </div><!-- .alarm -->
          </c:when>
          
          <c:when test="${not empty isLogin and isLogin }">
             <div class="alarm">
-            <img class="alert-open alarm_icon" alt="alarm_icon" src="/resources/img/alarm_2.png" width="100px" height="100px">
+            <img class="alert-open alarm_icon" alt="alarm_icon" src="/resources/img/alarm_2.png" width="50px" height="50px">
             </div><!-- .alarm -->
        </c:when> 
       </c:choose>

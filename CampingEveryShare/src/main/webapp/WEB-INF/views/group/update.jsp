@@ -9,6 +9,8 @@ pageEncoding="UTF-8"%>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
+<link rel="stylesheet" href="../resources/css/group.css?after">
+
 <script type="text/javascript">
 $(() => {
 	$("#title").focus()
@@ -24,59 +26,25 @@ $(() => {
 	})
 })
 </script>
-<style type="text/css">
-.select {
-	text-align: center;
-    align-items: center; /* 수직 가운데 정렬 */
-   	margin: 15px auto 15px auto;
-   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-}
 
-.recruitStatus{
-    text-align: center;
-    width: 80px;
-    border: none;
-    font-weight: bold;
-}
-.location{
-    text-align: center;
-    width: 55px;
-    border: none;
-    font-weight: bold;
-}
-
-label{
-	margin : 5px;
-}
-
-select {
-	width: 100px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.selectmoney{
-	text-align: center;
-}
-</style>
 <div class="container">
 
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">글 수정</h3>
+<h3 id="pageTitle" style="color: forestgreen;">글 수정</h3>
 <hr>
 </div>
 <div class="col-10 mx-auto">
 <form action="./update" method="post" enctype="multipart/form-data">
-<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 ">
+<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 " style="width: 100px; color: forestgreen; margin-left: -110px;">
 |
 <label><input type="radio" name="paid" id="paid" value="0" <c:if test="${group.recruitStatus eq 0}">checked="checked"</c:if>>모집중</label>
 <label><input type="radio" name="paid" id="paid" value="1" <c:if test="${group.recruitStatus eq 1}">checked="checked"</c:if>>모집 완료</label>
 </div>
 
 <div class="locationselect">
-<input type="text" class="location" readonly="readonly" value="위 치">
+<input type="text" class="location" readonly="readonly" value="위 치" style="width: 98px; color: forestgreen;">
 |
 <select name="location" id="location">
     <option>선택</option>
@@ -104,18 +72,35 @@ select {
  
 <input type="hidden" name="boardNo" value="${board.boardNo }" readonly="readonly">
 
-<div class="form-group mb-3">
-	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" value="${loginNick }">
-</div>
+<!-- <div class="form-group mb-3"> -->
+<!-- 	<label class="form-label" for="writer" style="font-weight: bold; color: forestgreen">작성자</label> -->
+<%-- 	<input type="text" class="form-control" readonly="readonly" value="${loginNick }"> --%>
+<!-- </div> -->
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
+<!-- 	<label class="form-label" for="title" style="font-weight: bold; color: forestgreen">제목</label> -->
 	<input type="text" class="form-control" name="title" id="title" value="${board.title }">
 </div>
 
+<div class="form-group mb-3">
+<!-- 	<label class="form-label" for="content" style="font-weight: bold; color: forestgreen">본문</label> -->
+	<textarea class="form-control" name="content" id="content">${board.content }</textarea>
+</div>
+
+<%-- 새로운 첨부파일 --%>
+<div id="newFile">
+
+<div class="form-group mb-3">
+	<label class="form-label" for="file" style="font-weight: bold; color: forestgreen">첨부파일</label>
+	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+</div>
+
+</div>
+
+<%-- 기존 첨부파일 --%>
+
 <div id="originFile">
-	<label class="form-label" for="file">첨부파일</label>
+	<label class="form-label" for="file" style="font-weight: bold; color: forestgreen">첨부파일 목록</label>
 <c:forEach var="boardfile" items="${boardfile }">
 	<div>
 		<a href="./download?fileNo=${boardfile.fileNo }">${boardfile.originName }</a>
@@ -126,27 +111,10 @@ select {
 </c:forEach>
 </div>
 
-<div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
-	<textarea class="form-control" name="content" id="content">${board.content }</textarea>
-</div>
-
-<%-- 새로운 첨부파일 --%>
-<div id="newFile">
-
-<div class="form-group mb-3">
-	<label class="form-label" for="file">첨부파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
-</div>
-
-</div>
-
-<%-- 기존 첨부파일 --%>
-
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnUpdate">수정</button>
-	<a href="./view?boardNo=${board.boardNo }"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
+	<button class="btn_edit" id="btnUpdate">수정</button>
+	<a href="./view?boardNo=${board.boardNo }"><button type="button" class="btn_cancel" id="btnCancel">취소</button></a>
 </div>
 
 </form>

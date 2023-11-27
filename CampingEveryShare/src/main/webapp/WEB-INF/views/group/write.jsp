@@ -10,6 +10,7 @@ pageEncoding="UTF-8"%>
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<link rel="stylesheet" href="../resources/css/group.css?after">
 
 <script type="text/javascript">
 $(() => {
@@ -25,62 +26,28 @@ $(() => {
 		height: 300
 	})
 })
+
 </script>
-<style type="text/css">
-.select {
-	text-align: center;
-    align-items: center; /* 수직 가운데 정렬 */
-   	margin: 15px auto 15px auto;
-   	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-}
-
-.recruitStatus{
-    text-align: center;
-    width: 80px;
-    border: none;
-    font-weight: bold;
-}
-.location{
-    text-align: center;
-    width: 55px;
-    border: none;
-    font-weight: bold;
-}
-
-label{
-	margin : 5px;
-}
-
-select {
-	width: 100px;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.selectmoney{
-	text-align: center;
-}
-</style>
 
 <div class="container">
 
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">모집 글 작성</h3>
+<h3>모집 글 작성</h3>
 <hr>
 
 <div>
 
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
-<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 ">
+<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황" style="width: 100px; color: forestgreen;">
 |
-<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집중</label>
+<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집 중</label>
 <label><input type="radio" name="recruitStatus" id="recruitStatus" value="1">모집 완료</label>
 </div>
 
 <div class="locationselect">
-<input type="text" class="location" readonly="readonly" value="위 치">
+<input type="text" class="location" readonly="readonly" value="위 치" style="width: 100px; color: forestgreen">
 |
 <select name="location" id="location">
      <option>선택</option>
@@ -102,29 +69,29 @@ select {
      <option value="12">충남</option>
      <option value="11">충북</option>
  </select>
-</div> 
+</div> <!-- .locationselect -->
 
 <hr>
  
 <input type="hidden" name="loginId" value="${loginId }" >
 <input type="hidden" name="boardCate" value="4" >
-<div class="form-group mb-3">
-	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">
-</div>
+<!-- <div class="form-group mb-3"> -->
+<!-- 	<label class="form-label">작성자</label> -->
+<%-- 	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }"> --%>
+<!-- </div> -->
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
+<!-- 	<label class="form-label" for="title">제목</label> -->
 	<input type="text" class="form-control" name="title" id="title">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
+<!-- 	<label class="form-label" for="content">본문</label> -->
 	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="file">파일</label>
+	<label class="form-label" for="file" style="font-weight: bold; color: forestgreen;">파일</label>
 	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
 </div>
 

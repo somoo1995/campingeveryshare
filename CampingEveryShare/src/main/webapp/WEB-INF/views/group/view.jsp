@@ -5,6 +5,8 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
+<link rel="stylesheet" href="../resources/css/group.css?after">
+
 <script type="text/javascript">
 $(()=>{
 	if(${isRecom}) {
@@ -167,11 +169,6 @@ $(() => {
 });
 </script>
 
-<style type="text/css">
-.content {
-	min-height: 300px;
-}
-</style>
 
 <div class="container">
 

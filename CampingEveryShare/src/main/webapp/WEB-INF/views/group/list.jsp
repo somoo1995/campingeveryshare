@@ -5,24 +5,12 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<style type="text/css">
-.head {
-	text-align: center;
-}
-
-.title > a{
-	color: black;
-	align-items: center; /* 수직 가운데 정렬 */
-	display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-	
-}
-</style>
-
+<link rel="stylesheet" href="../resources/css/group.css">
 
 <form action="web.dao.face.GroupDao" method="get" >
 
-<table class="table table-striped table-hover table-sm" >
+<div class="tb">
+<table>
 <colgroup>
 	<col style="width : 7%">
 	<col style="width : 10%">
@@ -33,7 +21,7 @@ pageEncoding="UTF-8"%>
 	<col style="width : 7%">
 </colgroup>
 
-<thead class="head">
+<thead>
 	<tr>
 		<th>번호</th>
 		<th>모집 현황</th>
@@ -44,6 +32,7 @@ pageEncoding="UTF-8"%>
 		<th>추천수</th>
 	</tr>
 </thead>
+
 <tbody>
 <c:forEach var="board" items="${list }">
 	<tr> 
@@ -51,10 +40,10 @@ pageEncoding="UTF-8"%>
 		<td style="text-align: center;">
 		<c:choose>
 			<c:when test="${board.RECRUIT_STATUS eq 0}">
-				<div style="color: #4AB34A;">[모집중]</div>
+				<div style="color: #4AB34A; font-weight: 600;">[모집 중]</div>
 			</c:when>
 			<c:when test="${board.RECRUIT_STATUS eq 1}">
-				<div style="color: #FF6A89; text-decoration: line-through;">[모집 완료]</div>
+				<div style="color: #FF6A89; text-decoration: line-through; font-weight: 600;">[모집 완료]</div>
 			</c:when>
 		</c:choose>	
 		</td>
@@ -84,5 +73,7 @@ pageEncoding="UTF-8"%>
 </c:forEach>
 </tbody>
 </table>
+</div><!-- .tb -->
 </form>
+
 
