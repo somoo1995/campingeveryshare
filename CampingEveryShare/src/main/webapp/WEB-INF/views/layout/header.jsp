@@ -20,6 +20,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
 
+<!-- 폰트 목록 불러오기 -->
+<link rel="stylesheet" href="../resources/css/font.css?after">
+
 <!-- 어도비 본고딕 폰트 불러오기 -->
 <script>
   (function(d) {

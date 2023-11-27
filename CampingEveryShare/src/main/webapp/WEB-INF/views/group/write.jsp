@@ -8,9 +8,13 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+
 <link rel="stylesheet" href="../resources/css/group.css?after">
+
+<!-- <link rel="stylesheet" href="../resources/css/font.css?after"> -->
 
 <script type="text/javascript">
 $(() => {
@@ -23,9 +27,47 @@ $(() => {
 	})
 	
 	$("#content").summernote({
-		height: 300
-	})
-})
+		   height: 300,
+		   placeholder: '모집 게시글을 작성해주세요.',
+		   toolbar: [
+		      ['style', ['bold', 'italic', 'underline', 'clear']],
+		      ['font', ['fontname']],
+		      ['fontsize', ['fontsize']],
+		      ['color', ['color']],
+		      ['para', ['ul', 'ol', 'paragraph']],
+		      ['height', ['height']],
+		      ['insert', ['link', 'picture', 'video']],
+		      ['table', ['table']],
+// 		      ['view', ['fullscreen', 'codeview']],
+		   ],
+		   fontNames: ['주아체', '도현체', '본명조', '부크크 명조', 'Roboto'],
+		   fontNamesIgnoreCheck: ['주아체', '도현체', '본명조', '부크크 명조', 'Roboto'],
+		   fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+		   popover: {
+			   image: [
+			     ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+			     ['float', ['floatLeft', 'floatRight', 'floatNone']],
+			     ['remove', ['removeMedia']]
+			   ],
+			   link: [
+			     ['link', ['linkDialogShow', 'unlink']]
+			   ],
+			   table: [
+			     ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+			     ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+			   ],
+			   air: [
+			     ['color', ['color']],
+			     ['font', ['bold', 'underline', 'clear']],
+			     ['para', ['ul', 'paragraph']],
+			     ['table', ['table']],
+			     ['insert', ['link', 'picture']]
+			   ]
+			 }
+		});
+
+});
+
 
 </script>
 
@@ -42,8 +84,8 @@ $(() => {
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
 <input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황" style="width: 100px; color: forestgreen;">
 |
-<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집 중</label>
-<label><input type="radio" name="recruitStatus" id="recruitStatus" value="1">모집 완료</label>
+<label><input type="radio" name="recruitStatus" value="0" checked="checked">모집 중</label>
+<label><input type="radio" name="recruitStatus" value="1">모집 완료</label>
 </div>
 
 <div class="locationselect">
