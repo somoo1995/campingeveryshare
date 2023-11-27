@@ -157,6 +157,36 @@ public class UserServiceImpl implements UserService {
 	    return false; // 비밀번호가 일치하지 않거나 사용자가 존재하지 않을 경우 삭제 실패
 	}
 
+	@Override
+	public boolean findByEmail(String email) {
+		int loginChk = userDao.selectCntKakao(email);
+        if( loginChk > 0)
+        	return true;
+        return false;
+	}
+
+	@Override
+	public User kakaoInfo(User login) {
+		return userDao.selectKakaoInfo(login);
+	}
+
+
+	@Override
+	public boolean kakaoJoin(User signup) {
+		String email = signup.getEmail();
+
+	    // 중복 ID인지 확인
+	    if (userDao.selectCntEmail(email) > 0) {
+	        return false;
+	    }
+
+	        // 회원 정보 삽입
+        userDao.kakaoInsert(signup);
+
+	        // 가입 결과 확인
+        return userDao.selectCntEmail(email) > 0;
+	}
+
 
 }
 

@@ -52,8 +52,6 @@
     VALUES (#{userId}, #{userPw}, #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, #{profile})
 	</insert>
 
-
-
     <select id="selectInfo" resultType="User" parameterType="User">
     SELECT *
     FROM userTb
@@ -109,5 +107,31 @@
         WHERE 
         	user_id = #{userId}
     </update>
+
+	<select id="selectCntKakao" resultType="int" parameterType="String">
+
+    SELECT count(*)
+    FROM userTb
+    <where>
+        <if test="userId != null and userId != ''"> AND email = #{email} </if>
+    </where>
+		
+	</select>
+
+
+    <select id="selectKakaoInfo" resultType="User" parameterType="User">
+    SELECT *
+    FROM userTb
+    WHERE 
+   	 email = #{email}
+
+	</select>
+	
+	<insert id="kakaoInsert" parameterType="User">
+    INSERT INTO userTb (user_id, user_pw, email, user_name, user_nick, birth, address, address_detail, phone, profile)
+    VALUES (#{userId}, FLOOR(DBMS_RANDOM.VALUE * 1000000), #{email}, #{userName}, #{userNick}, #{birth}, #{address}, #{addressDetail}, #{phone}, 2)
+	</insert>
+	
+	
 
 </mapper>

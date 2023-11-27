@@ -51,8 +51,12 @@ public interface UserDao {
 	 */
 	public void insert(User user);
 
-	
-
+	/**
+	 * 일반로그인 회원정보 조회
+	 * 
+	 * @param login
+	 * @return
+	 */
 	public User selectInfo(User login);
 
 	/**
@@ -91,5 +95,28 @@ public interface UserDao {
 	 * @param user
 	 */
 	public void deleteInfo(User user);
+
+	/**
+	 * 이메일존재여부 통한 카카오로그인
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public int selectCntKakao(String email);
+
+	/**
+	 * 카카오 로그인 회원정보 조회
+	 * 
+	 * @param login
+	 * @return
+	 */
+	public User selectKakaoInfo(User login);
+
+	/**
+	 * 카카오 로그인 회원가입
+	 * 
+	 * @param signup
+	 */
+	public void kakaoInsert(User signup);
 }
 

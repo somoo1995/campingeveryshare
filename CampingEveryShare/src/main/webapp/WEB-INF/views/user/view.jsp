@@ -57,7 +57,7 @@ $(document).ready(function() {
 
             	        // 일정 시간 후에 로그아웃 페이지로 이동
             	        setTimeout(function() {
-            	            window.location.href = "/";
+            	            window.location.href = "/user/logout";
             	        }, 1000); // 1000ms(1초) 딜레이
             	    }  
             	    if (response === "undone"){
@@ -144,7 +144,7 @@ $(document).ready(function() {
 		</span>
 		<div class="col-md-6 form-floating is-invalid">
 			<input class="border border-success-subtle form-control" id="userId" name="userId" type="text" value="${login.userId }"  disabled>
-		    <label for="floatingInputGroup2">이름*</label>
+		    <label for="floatingInputGroup2">아이디*</label>
 	  	</div>
 		<div id="idDupleBlock" class="valid-feedback"  style="display:none">
 			<p id="idDupleText"></p>
