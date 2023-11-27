@@ -7,7 +7,7 @@
 <mapper namespace="web.dao.face.RentDao">
 	
 	<sql id="selectRent">
-		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status
+		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status, merchant_uid
 		, (SELECT user_nick FROM usertb U WHERE U.user_id = R.user_id ) AS guestnick
 		, (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no ) AS hostid
 		, (SELECT car_name FROM cartb C WHERE C.car_no = R.car_no ) AS carname
@@ -18,36 +18,36 @@
 		, (SELECT user_nick FROM usertb U WHERE U.user_id = (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no)) as hostnick
 		FROM renttb R
 	</sql>
-
 	
-	<select id="selectCntAll" resultType="int" parameterType="map">
+	
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM renttb
 		<where>
-			<if test="rent.rentStatus != null and !''.equals(rent.rentStatus)">
-				AND rent_status = #{rent.rentStatus }
+			<if test="category != null and !''.equals(category)">
+				AND rent_status = #{category }
 			</if>
-			<if test="rent.userId != null and !''.equals(rent.userId)">
-				AND user_id = #{rent.userId }
+			<if test="search != null and !''.equals(search)">
+				AND user_id = #{search }
 			</if>
 		</where>
 	</select>
 	
-	<select id="selectAllByRentStatus" resultType="map" parameterType="map">
+	<select id="selectAllByRentStatus" resultType="map" parameterType="web.util.Paging">
 		SELECT * FROM (
 		SELECT rownum rnum, R.* FROM (
 			<include refid="selectRent" />
 			<where>
-				<if test="rent.rentStatus != null and !''.equals(rent.rentStatus)">
-					AND rent_status = #{rent.rentStatus }
+				<if test="category != null and !''.equals(category)">
+					AND rent_status = #{category }
 				</if>
-				<if test="rent.userId != null and !''.equals(rent.userId)">
-					AND user_id = #{rent.userId }
+				<if test="search != null and !''.equals(search)">
+					AND user_id = #{search }
 				</if>
 			</where>
 			ORDER BY rent_no DESC
 		) R )
 		<where>
-			AND rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+			AND rnum BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
 
@@ -76,5 +76,14 @@
 		</where>
 	</select>
 	
+	<update id="updateCancel" parameterType="Rent">
+		UPDATE renttb
+		<set>
+			rent_status = 2,
+		</set>
+		<where>
+			AND rent_no = #{rentNo }
+		</where>
+	</update>
 
 </mapper>

@@ -104,7 +104,10 @@ function deleteComment(commNo) {
 </colgroup>
 	<tr>
 		<th class="table-info">글 유형</th>
-		<td ><c:if test="${board.location eq 0}">고객문의</c:if></td>
+		<td >
+		<c:if test="${board.location eq 0}">비공개</c:if>
+		<c:if test="${board.location eq 18}">공개</c:if>
+		</td>
 		<th class="table-info">작성일</th>
 		<td>
 			<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>	

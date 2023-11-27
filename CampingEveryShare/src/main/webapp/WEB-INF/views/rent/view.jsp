@@ -102,16 +102,10 @@ pageEncoding="UTF-8"%>
 }
 
 
-
-
-
-
-
 </style>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script type="text/javascript">
 
 $(function() {
@@ -137,6 +131,7 @@ $(function() {
 	})
 	//다누 것들 ------------------------------------------
    $("#btnCal").click(function() {
+	   console.log("btnCal click")
       $(".calendar").toggle()   
    })
    
@@ -144,11 +139,11 @@ $(function() {
       
       var totalPrice = $("#totalPrice").text()
       var addPrice = ${car.extraPrice}
-      console.log(addPrice)
+      
+//       console.log(addPrice)
       
       if($(this).is(':checked')){
          console.log("checked")
-         
          $("#totalPrice").text(totalPrice *1 + addPrice)
          
       } else {
@@ -158,6 +153,35 @@ $(function() {
    })
    
 })
+
+
+function submit(rsp) {
+	
+	console.log("carNo: " + ${car.carNo })
+
+	$.ajax({
+		type: "post"
+		, url: "/rent/book"
+		, data: {
+			carNo: ${car.carNo },
+			startDate: startDate,
+// 			endDate: $("#toDate").val(),
+			reservPax: $("#carPax").val(),
+			addOption: $("#addOption").is(":checked") ? 1 : 0,
+// 			merchantUid: rsp.merchant_uid
+		}
+		, dataType: "json"
+		, success: function( res ) {
+			console.log("AJAX 성공 - /rent/book")
+			$("#carPax").val('')
+			addOption: $("#addOption").prop("checked", false)
+		}
+		, error: function() {
+			console.log("AJAX 실패")
+		}
+	})
+	
+}
 
 function submitBook(rsp) {
    $form = $("<form>").attr({
@@ -191,15 +215,21 @@ function submitBook(rsp) {
       $("<input>").attr({
          type: "hidden",
          name: "addOption",
-         value: 0
+         value: $("#addOption").is(":checked") ? 1 : 0
       })
-   ).append(
+	).append(
          $("<input>").attr({
             type: "hidden",
             name: "merchantUid",
             value: rsp.merchant_uid
          })
-      )
+	).append(
+         $("<input>").attr({
+             type: "hidden",
+             name: "amount",
+             value: rsp.paid_amount
+          })
+	 )
    $(document.body).append( $form )
    $form.submit()
 
@@ -295,10 +325,33 @@ function getGuestInfo(callback) {
    
 }
 
+
+function getToken() {
+	
+	console.log("getToken start")
+	
+	  axios({
+		    url: "https://api.iamport.kr/users/getToken",
+		    // POST method
+		    method: "post", 
+		    // "Content-Type": "application/json"
+		    headers: { "Content-Type": "application/json" }, 
+		    data: {
+		      // REST API키
+		      imp_key: "2441044643164541", 
+		      // REST API Secret
+		      imp_secret: "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX"
+		    }
+		  }).then((data) => {
+				console.log("access_token : " + data.access_token)
+          })
+		  
+}
+
+
 IMP.init('imp83448842')
 
 function requestPay() {
-
    
    var payDate = new Date().toISOString().slice(0, 19).replace(/[-T:/]/g, '')
    console.log(payDate)
@@ -310,11 +363,11 @@ function requestPay() {
          pg: "html5_inicis",      //결제 pg 선택
          pay_method: "card",   //결제 방식
    
-         merchant_uid: "RC" + "${car.carNo}" + "-" + "payDate",   // 고유 주문 번호
+         merchant_uid: "RC" + "${car.carNo}" + "-" + payDate,   // 고유 주문 번호
             
          name: "${car.carName }",   //주문 상품 이름
 //          amount: $("#totalPrice").text(),            // 금액, 숫자 타입
-         amount: 1,            // text 금액
+         amount: 100,            // text 금액
             
          //주문자 정보
          buyer_email: user.user.email,
@@ -330,23 +383,32 @@ function requestPay() {
 //           console.log(rsp.merchant_uid)
           
           if (rsp.success) {   
-            // axios로 HTTP 요청
-            axios({
-              url: "/rent/payment",
-              method: "post",
-              headers: { "Content-Type": "application/json" },
-              data: {
-                impUid: rsp.imp_uid,
-                merchantUid: rsp.merchant_uid
-              }
-            }).then((data) => {
-              // 서버 결제 API 성공시 로직
-            })
+            
+           		$.ajax({
+					type: "POST"
+					, url: "/verifyiamport/" + rsp.imp_uid
+
+           		}).done(function(data) {
+					
+					if(rsp.paid_amount == data.response.amount){
+						console.log("결제 검증")
+						console.log("rsp.paid_amount : " + rsp.paid_amount)
+						console.log("data.response.amount : " + rsp.paid_amount)
+						
+						submitBook(rsp)
+// 						submit(rsp)
+						sendNotification()				
+						
+						alert("예약이 완료되었습니다")
+						
+					} else {
+						console.log("검증 실패")
+					}
+				})          
+            
           } else {
-            alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+            alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg)
           }
-          
-          
           
 //           if( rsp.success ) {
              
@@ -492,7 +554,7 @@ function requestPay() {
 </div>
 
 <div>
-추가 옵션 : <input type="checkbox" name="addOption" id="addOption"> <p> 6시간 연장 (+ ${car.extraPrice } 원)
+추가 옵션 : <input type="checkbox" name="addOption" id="addOption" > <p> 6시간 연장 (+ ${car.extraPrice } 원)
 </div>
 
 

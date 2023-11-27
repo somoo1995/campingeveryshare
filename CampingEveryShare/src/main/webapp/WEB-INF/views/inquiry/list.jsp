@@ -61,27 +61,25 @@ pageEncoding="UTF-8"%>
 		<div style="font-weight: bold; font-size: 17px;">[${board.LOCATION_NAME}]</div>
 		</td>
 		<td class="title">
-<c:choose>
-    <c:when test="${empty loginId or loginId ne board.USER_ID}">
-        <div>🔒비밀글 입니다.</div>
-    </c:when>
-    <c:otherwise>
-        <c:choose>
-            <c:when test="${empty adminCode or adminCode ne admin.adminCode}">
-		        <div>🔒비밀글 입니다.</div>
-            </c:when>
-            <c:otherwise>
-                <!-- 관리자인 경우 -->
-                <a href="./view?boardNo=${board.BOARD_NO}" style="text-decoration: none;">
-                    <div>${board.TITLE}</div>
-                </a>
-            </c:otherwise>
-        </c:choose>
-    </c:otherwise>
-</c:choose>
-
-		</div>
-		</a>
+	<c:choose>
+	   
+	    <c:when test="${ isAdmin }">
+	        <a href="./view?boardNo=${board.BOARD_NO}" style="text-decoration: none;">
+	            <div>${board.TITLE}</div>
+            </a>
+	    </c:when>
+	    
+	     <c:when test="${empty loginId or (loginId ne board.USER_ID)}">
+	        <div style="color: #767676;"><c:if test="${board.LOCATION eq 0 }"> 🔒비공개 글 입니다.</c:if></div>
+	        <div style="color: #767676;"><c:if test="${board.LOCATION eq 18 }"> 🔒로그인 후 이용 가능합니다.</c:if></div>
+	    </c:when>
+	    
+	    <c:otherwise>
+	        <a href="./view?boardNo=${board.BOARD_NO}" style="text-decoration: none;">
+	            <div>${board.TITLE}</div>
+			</a>
+	    </c:otherwise>
+	</c:choose>
 		</td>
 		<td style="text-align: center;">${board.USER_NICK }</td>
 		<td style="text-align: center;">${board.HIT }</td>

@@ -21,6 +21,7 @@ import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Comm;
 import web.dto.User;
+import web.service.face.AdminService;
 import web.service.face.InquiryService;
 import web.util.Paging;
 
@@ -30,10 +31,12 @@ public class InquiryController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Autowired InquiryService inquiryService;
+	@Autowired AdminService adminService;
 	
 	@GetMapping("list")
 	public void inquiryList(Paging param, Admin admin, Model model, Board board, HttpSession session) {
 		
+		logger.info("sessionAd : " + session.getAttribute("adminCode"));
 		param.setType((String) session.getAttribute("adminCode"));
 
 		Paging paging = inquiryService.getPaging( param );
@@ -49,8 +52,11 @@ public class InquiryController {
 		model.addAttribute("board", board);
 		model.addAttribute("admin", admin);
 
+	     logger.info("sessionId : " + session.getAttribute("loginId"));
+
 //		logger.info("board : {}", board);
 		logger.info("list : {}", list);
+		logger.info("admin : {}", admin);
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
 		
