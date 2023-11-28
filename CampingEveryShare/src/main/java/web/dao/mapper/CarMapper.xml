@@ -7,7 +7,7 @@
 <mapper namespace="web.dao.face.CarDao">
 	
 	<sql id="selectCar">
-		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, delete_status
+		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, DELETE_STATUS
 		FROM cartb
 
 	</sql>
@@ -68,4 +68,104 @@
 		INSERT INTO boardfiletb ( file_no, board_no, origin_name, stored_name,board_cate )
 		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName},1 )
 	</insert>
+	
+	<select id="selectBycarNumber" parameterType="Car">
+		SELECT count(*) FROM cartb
+		WHERE car_number = #{carNumber}
+	</select>
+	
+	<select id="selectCarNoByUserId" parameterType="User">
+		SELECT car_no FROM cartb WHERE user_id = #{userId} AND delete_status = 0
+	</select>
+	
+	<select id="selectCarSummaryByCarNo" parameterType="Integer">
+	SELECT
+	  (SELECT stored_name FROM boardfiletb WHERE board_no = #{carNo}) AS stored_name,
+	  (SELECT car_name FROM cartb WHERE car_no = #{carNo}) AS car_name,
+	  (SELECT price FROM cartb WHERE car_no = #{carNo}) AS price,
+	  (SELECT COUNT(*) FROM renttb WHERE car_no = #{carNo} AND rent_status = 1) AS rent_count,
+	  (SELECT car_number FROM cartb where car_no = #{carNo}) AS car_number,
+	  (SELECT car_status FROM cartb WHERE car_no = #{carNo}) AS car_status
+	FROM dual
+	</select>
+	
+	<select id="selectCarByCarNo" parameterType="Car">
+	SELECT * FROM cartb
+	WHERE car_number=#{carNumber}
+	</select>
+	
+	<select id="selectFileInfoByCarNo" parameterType="Car">
+	SELECT origin_name,stored_name FROM boardfiletb
+	WHERE board_no = #{carNo}
+	AND board_cate = 1
+	</select>
+	
+	<update id="updateCar" parameterType="Car">
+    UPDATE cartb
+    SET 
+        CAR_NAME = #{carName},
+        CAR_SIZE = #{carSize},
+        LOCATION = #{location},
+        AREA = #{area},
+        AREA_DETAIL = #{areaDetail},
+        PICKUP_TIME_START = #{pickupTimeStart},
+        PICKUP_TIME_END = #{pickupTimeEnd},
+        CAR_PAX = #{carPax},
+        CAR_SPAX = #{carSpax},
+        CAR_BEDS = #{carBeds},
+        PRICE = #{price},
+        EXTRA_PRICE = #{extraPrice},
+        CAR_ELEC = #{carElec},
+        CAR_WATER = #{carWater},
+        CAR_TABLE = #{carTable},
+        CAR_SINK = #{carSink},
+        CAR_KITCHEN = #{carKitchen},
+        CAR_TEMP = #{carTemp},
+        CAR_SHOWER = #{carShower},
+        CAR_TOILET = #{carToilet},
+        CAR_PET = #{carPet},
+        CAR_SMOKE = #{carSmoke},
+        CAR_STATUS = 0,
+        CONTENT = #{content}
+    WHERE car_number = #{carNumber}
+</update>
+
+<select id="checkFile" parameterType="Boardfile" resultType="int">
+SELECT count(*) from boardfiletb
+WHERE board_no = #{boardNo}
+AND board_cate = 1
+</select>
+
+<update id="updateFile" parameterType="Boardfile">
+UPDATE boardfiletb
+SET 
+	origin_name=#{originName},
+	stored_name=#{storedName}
+WHERE board_no = #{boardNo}
+AND board_cate = 1
+	
+</update>
+
+<select id="selectBycarNumberNew" parameterType="Car">
+SELECT * from cartb
+WHERE car_number=#{carNumber}
+</select>
+
+<delete id="deleteCar" parameterType="Car">
+UPDATE cartb
+SET delete_status = 1
+WHERE car_number = #{carNumber}
+</delete>
+
+<update id="updateCarStop" parameterType="Car">
+UPDATE cartb
+SET car_status = 3
+WHERE car_number = #{carNumber}
+</update>
+
+<update id="resumeCar" parameterType="Car">
+UPDATE cartb
+SET car_status = 2
+WHERE car_number = #{carNumber}
+</update>
 </mapper>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -268,6 +269,50 @@ function getSelectedOptions() {
     return selectedOptions;
 }
 $(document).ready(function() {
+    <c:if test="${carModel != null and carModel.carStatus != 1}">
+    $('.carRegiForm form').on('change', 'input, select, textarea', function() {
+        // 버튼의 disabled 속성 제거
+        $('.update-button').prop('disabled', false);
+    });
+    </c:if>
+  
+	
+	
+	<c:if test="${carModel != null}">
+    var options = {
+            carElec: ${carModel.carElec},
+            carWater: ${carModel.carWater},
+            carTable: ${carModel.carTable},
+            carSink: ${carModel.carSink},
+            carkitchen: ${carModel.carKitchen},
+            carTemp: ${carModel.carTemp},
+            carShower: ${carModel.carShower},
+            carToilet: ${carModel.carToilet},
+            carPet: ${carModel.carPet},
+            carSmoke: ${carModel.carSmoke}
+            // 여기에 다른 옵션들도 추가
+        };
+    
+    var loadedAreaInfo = '${carModel.areaDetail}'
+    if(loadedAreaInfo){
+    	var parts = loadedAreaInfo.split('#');
+    	if(parts.length ===3){
+            document.getElementById('sample6_postcode').value = parts[0]; // 우편번호
+            document.getElementById('sample6_address').value = parts[1]; // 주소
+            document.getElementById('sample6_detailAddress').value = parts[2]; // 상세주소
+    	}
+    }
+    $.each(options, function(key, value) {
+        if (value === 1) {
+            $('button[data-value="' + key + '"]').addClass('option-selected');
+        }
+    });
+	
+	</c:if>
+	
+
+	
+
   $('.option-button').click(function() {
     $(this).toggleClass('option-selected');
   });
@@ -276,32 +321,160 @@ $(document).ready(function() {
        event.preventDefault();
 
        // FormData 객체를 생성하고 폼 데이터를 추가합니다.
-        // 여기부분 추가해줘 gpt야
         
+    var isValid = true;
+    var formData = new FormData();
+
+    // 모든 텍스트, 숫자, 파일 입력, 선택 및 텍스트 영역 검사
+        var input = $(this);
+
+        var isValid = true;
         var formData = new FormData();
-        $('input[type="text"], input[type="number"], input[type="file"], select, textarea').each(function() {
-            var input = $(this);
-            if (input.attr('type') == 'file') {
-                if (input[0].files.length > 0) {
-                    formData.append(input.attr('name'), input[0].files[0]);
-                }
-            } else {
-                formData.append(input.attr('name'), input.val());
+        
+        // 글 제목
+        var carName = $('input[name="carName"]').val().trim();
+        if (carName === '') {
+            alert($('input[name="carName"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('carName', carName);
+        }
+        
+        // 차량번호
+        var carNumber = $('input[name="carNumber"]').val().trim();
+        if (carNumber === '') {
+            alert($('input[name="carNumber"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('carNumber', carNumber);
+        }
+        
+        // 대표 사진
+        var carFile = $('input[name="carFile"]')[0].files;
+        if (carFile.length === 0) {
+            alert($('input[name="carFile"]').data('error-message') + '을(를) 등록해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('carFile', carFile[0]);
+        }
+        // 라디오 버튼 값 추가 및 검사
+        $('input[type="radio"]').each(function() {
+            var name = $(this).attr('name');
+            if ($('input[type="radio"][name="' + name + '"]:checked').length === 0) {
+                alert('차종 선택 체크는 필수입니다!');
+                isValid = false;
+                return false;
             }
+            formData.append(name, $('input[type="radio"][name="' + name + '"]:checked').val());
+            return false;
         });
-
-        // 라디오 버튼 값 추가
-        $('input[type="radio"]:checked').each(function() {
-            formData.append($(this).attr('name'), $(this).val());
-        });
-
+        if(!isValid){
+        	return
+        }
+        
+        
+        var price = $('input[name="price"]').val().trim();
+        console.log("차가격부분")
+        if (price === '0') {
+            alert($('input[name="price"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('price', price);
+        }
+        
+        var extraPrice = $('input[name="extraPrice"]').val().trim();
+        if (extraPrice === '0') {
+            alert($('input[name="extraPrice"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('extraPrice', extraPrice);
+        }
+        var pickupTimeStart = $('select[name="pickupTimeStart"]').val();
+        var pickupTimeEnd = $('select[name="pickupTimeEnd"]').val();
+        if (pickupTimeStart === pickupTimeEnd) { 
+            alert("픽업시작시간과 종료시간을 다르게 선택해주세요!");
+            isValid = false;
+            return;
+        } else {
+            formData.append('pickupTimeStart', pickupTimeStart);
+            formData.append('pickupTimeEnd', pickupTimeEnd);
+        }
+        if (pickupTimeStart > pickupTimeEnd) {
+            alert("픽업 종료 시간이 시작 시간보다 이전입니다. 올바른 시간을 선택해주세요!");
+            isValid = false;
+            return;
+        }
+        
+        //주소
+        var location = $('input[name="location"]').val().trim();
+        if (location === '') {
+            alert($('input[name="location"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+        	var arr = $('input[name="location"]').val().split(" ")
+        	if(arr[0] != '서울' && arr[0] !='인천'){
+        		alert("서울/인천 지역만 등록이 가능합니다!")
+        		isValid = false;
+        		return;
+        	}
+            formData.append('location', location);
+        }
+        
+        //상세주소
+        var areaDetail = $('input[name="areaDetail"]').val().trim();
+        var postCode = $('#sample6_postcode').val().trim();
+        if (areaDetail === '') {
+            alert($('input[name="areaDetail"]').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+        	var wholeLocation = postCode+ '#' + location + '#' + areaDetail;
+            formData.append('areaDetail', wholeLocation);
+        }
+        
+        //취침,탑승,침대수
+        var carPax = $('input[name="carPax"]').val().trim();
+        formData.append('carPax', carPax);
+        var carSpax = $('input[name="carSpax"]').val().trim();
+        formData.append('carSpax', carSpax);
+        var carBeds = $('input[name="carBeds"]').val().trim();
+        formData.append('carBeds', carBeds);
+        
+        
         // Summernote 내용 추가
-        formData.append('content', $('#summernote').summernote('code'));
+        var summernoteContent = $('#summernote').summernote('code').trim();
+        if (summernoteContent === '' || summernoteContent === '<p><br></p>' || summernoteContent === '상세설명을 등록해주세요') {
+            alert($('#summernote').data('error-message') + '을(를) 입력해주세요!');
+            isValid = false;
+            return;
+        } else {
+            formData.append('content', summernoteContent);
+        }
+        
+        
+        
+        
 
+	
+
+
+   
         // 선택된 옵션 버튼 값 수집 및 추가
         var selectedOptions = getSelectedOptions();
         formData.append('selectedOptions', selectedOptions);
-
+        console.log('selectedOptions : ' ,selectedOptions);
+        if(!isValid){
+        	return;
+        }
+//         for (let [key, value] of formData.entries()) {
+// 		    console.log(key, value);
+// 		}
        // AJAX 요청을 보냅니다.
        $.ajax({
            url: '/car/save', // 서버의 엔드포인트 URL
@@ -311,20 +484,213 @@ $(document).ready(function() {
            contentType: false, // multipart/form-data로 보내기 위해 컨텐트 타입 설정을 false로 설정
            success: function(response) {
                console.log("서버로부터의 응답:", response);
+               if(response === "이미 등록된 차량입니다"){
+            	   alert('이미 등록된 차량입니다.');
+            	   return;
+               }
            },
            error: function(xhr, status, error) {
                console.error("에러 발생:", error);
            }
        });
+
+       $('.approve-button').prop('disabled', false);
    });
+  
+  $('.btn.btn-success.update-button').click(function(event) {
+      event.preventDefault();
+
+      // FormData 객체를 생성하고 폼 데이터를 추가합니다.
+       
+   var isValid = true;
+   var formData = new FormData();
+
+   // 모든 텍스트, 숫자, 파일 입력, 선택 및 텍스트 영역 검사
+       var input = $(this);
+
+       var isValid = true;
+       var formData = new FormData();
+       
+       // 글 제목
+       var carName = $('input[name="carName"]').val().trim();
+       if (carName === '') {
+           alert($('input[name="carName"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+           formData.append('carName', carName);
+       }
+       
+       // 차량번호
+       var carNumber = $('input[name="carNumber"]').val().trim();
+       if (carNumber === '') {
+           alert($('input[name="carNumber"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+           formData.append('carNumber', carNumber);
+       }
+       
+       // 대표 사진
+       var carFile = $('input[name="carFile"]')[0].files;
+       if (carFile.length === 0) {
+    	   console.log("파일 첨부 안 함")
+       } else {
+    	   console.log("파일 첨부 함")
+           formData.append('carFile', carFile[0]);
+       }
+       // 라디오 버튼 값 추가 및 검사
+       $('input[type="radio"]').each(function() {
+           var name = $(this).attr('name');
+           if ($('input[type="radio"][name="' + name + '"]:checked').length === 0) {
+               alert('차종 선택 체크는 필수입니다!');
+               isValid = false;
+               return false;
+           }
+           formData.append(name, $('input[type="radio"][name="' + name + '"]:checked').val());
+           return false;
+       });
+       if(!isValid){
+       	return
+       }
+       
+       
+       var price = $('input[name="price"]').val().trim();
+       console.log("차가격부분")
+       if (price === '0') {
+           alert($('input[name="price"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+           formData.append('price', price);
+       }
+       
+       var extraPrice = $('input[name="extraPrice"]').val().trim();
+       if (extraPrice === '0') {
+           alert($('input[name="extraPrice"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+           formData.append('extraPrice', extraPrice);
+       }
+       var pickupTimeStart = $('select[name="pickupTimeStart"]').val();
+       var pickupTimeEnd = $('select[name="pickupTimeEnd"]').val();
+       if (pickupTimeStart === pickupTimeEnd) { 
+           alert("픽업시작시간과 종료시간을 다르게 선택해주세요!");
+           isValid = false;
+           return;
+       } else {
+           formData.append('pickupTimeStart', pickupTimeStart);
+           formData.append('pickupTimeEnd', pickupTimeEnd);
+       }
+       if (pickupTimeStart > pickupTimeEnd) {
+           alert("픽업 종료 시간이 시작 시간보다 이전입니다. 올바른 시간을 선택해주세요!");
+           isValid = false;
+           return;
+       }
+       
+       //주소
+       var location = $('input[name="location"]').val().trim();
+       if (location === '') {
+           alert($('input[name="location"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+       	var arr = $('input[name="location"]').val().split(" ")
+       	if(arr[0] != '서울' && arr[0] !='인천'){
+       		alert("서울/인천 지역만 등록이 가능합니다!")
+       		isValid = false;
+       		return;
+       	}
+           formData.append('location', location);
+       }
+       
+       //상세주소
+       var areaDetail = $('input[name="areaDetail"]').val().trim();
+       var postCode = $('#sample6_postcode').val().trim();
+       if (areaDetail === '') {
+           alert($('input[name="areaDetail"]').data('error-message') + '을(를) 입력해주세요!');
+           isValid = false;
+           return;
+       } else {
+       	var wholeLocation = postCode+ '#' + location + '#' + areaDetail;
+           formData.append('areaDetail', wholeLocation);
+       }
+       
+       //취침,탑승,침대수
+       var carPax = $('input[name="carPax"]').val().trim();
+       formData.append('carPax', carPax);
+       var carSpax = $('input[name="carSpax"]').val().trim();
+       formData.append('carSpax', carSpax);
+       var carBeds = $('input[name="carBeds"]').val().trim();
+       formData.append('carBeds', carBeds);
+       
+       
+       // Summernote 내용 추가
+       var summernoteContent = $('#summernote').summernote('code').trim();
+       formData.append('content', summernoteContent);
+       
+       formData.append('update', true);
+       
+       
+       
+       
+
+	
+
+
+  
+       // 선택된 옵션 버튼 값 수집 및 추가
+       var selectedOptions = getSelectedOptions();
+       formData.append('selectedOptions', selectedOptions);
+       console.log('selectedOptions : ' ,selectedOptions);
+       if(!isValid){
+       	return;
+       }
+       for (let [key, value] of formData.entries()) {
+		    console.log(key, value);
+		}
+      // AJAX 요청을 보냅니다.
+      $.ajax({
+          url: '/car/save', // 서버의 엔드포인트 URL
+          type: 'POST', // 데이터를 보내는 HTTP 메소드
+          data: formData, // 보낼 데이터
+          processData: false, // 데이터를 쿼리 스트링으로 변환하지 않도록 설정
+          contentType: false, // multipart/form-data로 보내기 위해 컨텐트 타입 설정을 false로 설정
+          success: function(response) {
+              console.log("서버로부터의 응답:", response);
+              if(response === "이미 등록된 차량입니다"){
+           	   alert('이미 등록된 차량입니다.');
+           	   return;
+              }
+          },
+          error: function(xhr, status, error) {
+              console.error("에러 발생:", error);
+          }
+      });
+      <c:if test="${carModel != null and carModel.carStatus != 1}">
+      $('.approve-button').prop('disabled', false);
+      
+      </c:if>
+  });
+  
+  
 
   $(".btn.btn-primary.approve-button").click(function(event){
      event.preventDefault();
      console.log("승인요청 버튼 클릭됨");
+     location.href = location.pathname + "?autoClick=btnMyCar";
   })
   
   $('#summernote').summernote({
-     height: 400
+     height: 400,
+     callbacks: {
+         onChange: function(contents, $editable) {
+        	 <c:if test="${carModel != null and carModel.carStatus != 1}">
+             $('.update-button').prop('disabled', false);
+             </c:if>
+         }
+     }
   });
 });
 </script>
@@ -333,7 +699,24 @@ $(document).ready(function() {
 
 
 <div class="pageTitle">
+<c:choose>
+<c:when test="${carModel != null}">
+<h3 id="pageTitle">기존 캠핑카 편집</h3>
+</c:when>
+<c:otherwise>
 <h3 id="pageTitle">신규 캠핑카 등록</h3>
+</c:otherwise>
+</c:choose>
+
+<c:choose>
+<c:when test="${carModel != null}">
+<!-- 수정할때 -->
+</c:when>
+<c:otherwise>
+<!-- 기존폼 -->
+</c:otherwise>
+</c:choose>
+
 <hr>
 </div>
 <div class="carRegiForm">
@@ -341,61 +724,102 @@ $(document).ready(function() {
 <div class="form-wrap">
 <div class="form-Label">글 제목</div>
 <div class="form">
-<input style="width:450px;" type="text" name="carName">
+<c:choose>
+<c:when test="${carModel != null}">
+<!-- 수정할때 -->
+<input style="width:450px;" type="text" name="carName" data-error-message="글 제목" value="${carModel.carName }">
+</c:when>
+<c:otherwise>
+<!-- 기존폼 -->
+<input style="width:450px;" type="text" name="carName" data-error-message="글 제목">
+</c:otherwise>
+</c:choose>
 </div>
 <div class="form-Label">차량번호</div>
-<input style="width:450px;" type="text" name="carNumber">
+<c:choose>
+<c:when test="${carModel != null}">
+<!-- 수정할때 -->
+<input style="width:450px;" type="text" name="carNumber" data-error-message="차량 번호" value="${carModel.carNumber }" readonly>
+</c:when>
+<c:otherwise>
+<!-- 기존폼 -->
+<input style="width:450px;" type="text" name="carNumber" data-error-message="차량 번호">
+</c:otherwise>
+</c:choose>
 </div>
 <div class="form-wrap">
 <div class="form-Label" style="flex-basis:1000px; text-align:center; ">대표 사진을 등록해 주세요.</div>
 <div class="form">
-<input type="file" name="carFile">
+<c:choose>
+<c:when test="${carModel != null}">
+<!-- 수정할때 -->
+<p>현재 파일: <a href="../upload/${file.storedName} download="${file.originName }>Download ${file.originName }</a></p>
+<input type="file" name="carFile" data-error-message="차량사진" >
+</c:when>
+<c:otherwise>
+<!-- 기존폼 -->
+<input type="file" name="carFile" data-error-message="차량사진">
+</c:otherwise>
+</c:choose>
 </div>
 </div>
 <div class="form-wrap">
   <div class="form-Label">차종</div>
   <div class="form">
-    <label><input type="radio" name="carSize" value="1">소형</label>
-    <label><input type="radio" name="carSize" value="2">중형</label>
+    <label>
+      <input type="radio" name="carSize" value="1" data-error-message="차량 사이즈"
+      ${carModel != null && carModel.carSize == 1 ? 'checked' : ''}>소형
+    </label>
+    <label>
+      <input type="radio" name="carSize" value="2" data-error-message="차량 사이즈"
+      ${carModel != null && carModel.carSize == 2 ? 'checked' : ''}>중형
+    </label>
   </div>
 </div>
 <div class="form-row"> <!-- 새로운 flex 컨테이너 추가 -->
   <div class="form-wrap">
     <div class="form-Label">탑승 인원</div>
     <div class="form">
-      <input type="number" name="carPax" min="1" max="10" step="1" value="1">
+      <input type="number" name="carPax" min="1" max="10" step="1"
+      value="${carModel != null ? carModel.carPax : '1'}" data-error-message="탑승 인원">
     </div>
   </div>
 
   <div class="form-wrap">
     <div class="form-Label">취침 인원</div>
     <div class="form">
-      <input type="number" name="carSpax" min="1" max="10" step="1" value="1">
+      <input type="number" name="carSpax" min="1" max="10" step="1"
+      value="${carModel != null ? carModel.carSpax : '1'}" data-error-message="취침 인원">
     </div>
   </div>
 
   <div class="form-wrap">
     <div class="form-Label">침대 수</div>
     <div class="form">
-      <input type="number" name="carBeds" min="1" max="5" step="1" value="1">
+      <input type="number" name="carBeds" min="1" max="5" step="1"
+      value="${carModel != null ? carModel.carBeds : '1'}" data-error-message="침대 수">
     </div>
   </div>
-
 </div>
+
 <div class="form-wrap">
   <div class="form-wrap">
     <div class="form-Label">가격</div>
     <div class="form">
-      <input type="number" name="price" min="0" step="10000" value="0">
+      <input type="number" name="price" min="0" step="10000"
+      value="${carModel != null ? carModel.price : '0'}" data-error-message="가격">
     </div>
   </div>
-    <div class="form-wrap">
-    <div class="form-Label" >추가가격</div>
+  <div class="form-wrap">
+    <div class="form-Label">추가가격</div>
     <div class="form">
-      <input type="number" name="extraPrice" min="0" step="5000" value="0">
+      <input type="number" name="extraPrice" min="0" step="5000"
+      value="${carModel != null ? carModel.extraPrice : '0'}" data-error-message="추가 가격">
     </div>
   </div>
 </div>
+
+
 <div class="form-wrap">
 <div class="form-Label" style="margin-left: 500px;
     border-right: none;">보유옵션</div>
@@ -466,58 +890,24 @@ $(document).ready(function() {
   <div class="form-Label">픽업 시간</div>
   <div class="form-time-selection">
     시작 시간:
-    <select name="pickupTimeStart" class="time-selector">
-            <option value="01:00">01:00</option>
-      <option value="02:00">02:00</option>
-      <option value="03:00">03:00</option>
-      <option value="04:00">04:00</option>
-      <option value="05:00">05:00</option>
-      <option value="06:00">06:00</option>
-      <option value="07:00">07:00</option>
-      <option value="08:00">08:00</option>
-      <option value="08:00">09:00</option>
-      <option value="10:00">10:00</option>
-      <option value="11:00">11:00</option>
-      <option value="12:00">12:00</option>
-      <option value="13:00">13:00</option>
-      <option value="14:00">14:00</option>
-      <option value="15:00">15:00</option>
-      <option value="16:00">16:00</option>
-      <option value="17:00">17:00</option>
-      <option value="18:00">18:00</option>
-      <option value="19:00">19:00</option>
-      <option value="20:00">20:00</option>
-      <option value="21:00">21:00</option>
-      <option value="22:00">22:00</option>
-      <option value="23:00">23:00</option>
-      <option value="24:00">24:00</option>
+    <select name="pickupTimeStart" class="time-selector" data-error-message="픽업 시작시간">
+      <c:forEach var="hour" begin="1" end="24">
+        <c:set var="formattedHour" value="${hour lt 10 ? '0' : ''}${hour}:00" />
+        <option value="${formattedHour}" 
+                ${carModel != null && carModel.pickupTimeStart eq formattedHour ? 'selected' : ''}>
+          ${formattedHour}
+        </option>
+      </c:forEach>
     </select>
     끝 시간:
-    <select name="pickupTimeEnd" class="time-selector">
-            <option value="01:00">01:00</option>
-      <option value="02:00">02:00</option>
-      <option value="03:00">03:00</option>
-      <option value="04:00">04:00</option>
-      <option value="05:00">05:00</option>
-      <option value="06:00">06:00</option>
-      <option value="07:00">07:00</option>
-      <option value="08:00">08:00</option>
-      <option value="08:00">09:00</option>
-      <option value="10:00">10:00</option>
-      <option value="11:00">11:00</option>
-      <option value="12:00">12:00</option>
-      <option value="13:00">13:00</option>
-      <option value="14:00">14:00</option>
-      <option value="15:00">15:00</option>
-      <option value="16:00">16:00</option>
-      <option value="17:00">17:00</option>
-      <option value="18:00">18:00</option>
-      <option value="19:00">19:00</option>
-      <option value="20:00">20:00</option>
-      <option value="21:00">21:00</option>
-      <option value="22:00">22:00</option>
-      <option value="23:00">23:00</option>
-      <option value="24:00">24:00</option>
+    <select name="pickupTimeEnd" class="time-selector" data-error-message="픽업 종료시간">
+      <c:forEach var="hour" begin="1" end="24">
+        <c:set var="formattedHour" value="${hour lt 10 ? '0' : ''}${hour}:00" />
+        <option value="${formattedHour}" 
+                ${carModel != null && carModel.pickupTimeEnd eq formattedHour ? 'selected' : ''}>
+          ${formattedHour}
+        </option>
+      </c:forEach>
     </select>
   </div>
 </div>
@@ -525,19 +915,34 @@ $(document).ready(function() {
   <div class="form-wrap">
     <div class="form-Label">픽업 위치</div>
     <div class="form">
-       <input type="text" id="sample6_postcode" placeholder="우편번호">
+       <input type="text" id="sample6_postcode" placeholder="우편번호" readonly>
       <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-      <input type="text" id="sample6_address" placeholder="주소"  name="location"><br>
-      <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="areaDetail">
+      <input type="text" id="sample6_address" placeholder="주소"  name="location" data-error-message="주소" readonly><br>
+      <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="areaDetail" data-error-message="상세 주소" >
       <input type="text" id="sample6_extraAddress" placeholder="참고항목">
     </div>
   </div>
 <hr>
 <h2>상세설명</h2>
-<div id="summernote" >상세설명을 등록해주세요</div>
+<div id="summernote" data-error-message="상세설명">
+<c:if test="${carModel != null }">
+${carModel.content }
+</c:if>
+<c:if test="${carModel == null }">
+상세설명을 등록해주세요
+</c:if>
+</div>
 <div class="button-container">
-  <button type="button" class="btn btn-success save-button">저장</button>
-  <button type="button" class="btn btn-primary approve-button">승인요청</button>
+	<c:if test="${carModel != null and carModel.carStatus != 1 }">
+  		<button type="button" class="btn btn-success update-button" disabled>변경</button>
+	</c:if>
+	<c:if test="${carModel != null and carModel.carStatus == 1 }">
+  		<button type="button" class="btn btn-success update-button" disabled>승인신청 대기중</button>
+	</c:if>
+	<c:if test="${carModel == null }">
+  		<button type="button" class="btn btn-success save-button">저장</button>
+	</c:if>
+  <button type="button" class="btn btn-primary approve-button" disabled>승인요청</button>
 </div>
 </form>
 </div>

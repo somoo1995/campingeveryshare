@@ -12,16 +12,20 @@ pageEncoding="UTF-8"%>
 	width: 1116px;
 	justify-content: space-between; /* 자식 요소들을 양 끝에 배치 */
 	border: 1px solid red;
+	height: auto; /* 높이를 자동으로 설정 */
+	margin-left: 90px;
 }
 .left{
 	display: flex;
 	flex-direction: column;
 	width: 744px;
 	border: 1px solid blue;
+	height: auto; /* 높이를 자동으로 설정 */	
 }
 .right{
 	width: 372px;
 	border: 1px solid blue;
+	margin-left: 10px;
 }
 .title{
 	display: flex;
@@ -35,6 +39,7 @@ pageEncoding="UTF-8"%>
 	margin-top: 5px;
 	width: 50px;
 	height: 30px;
+	cursor: pointer;
 }
 .userNickName{
 	border:1px solid orange;
@@ -88,17 +93,28 @@ pageEncoding="UTF-8"%>
 	justify-content: space-around;
 	margin-top: 30px;
 	border-bottom: 1px solid;
+	position: sticky;
+    top: 0;
+    z-index: 1000; /* 다른 요소들 위에 표시되도록 함 */
+    background-color: white; /* 배경색 지정 */
+    padding: 10px; /* 필요에 따라 패딩 추가 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 하단에 그림자 효과 (선택 사항) */
 }
 
 .category div{
 	cursor: pointer; 
 }
-
+.content{
+	height: 1000px;
+}
 .refund{
-	display: none;
+	height: 1000px;
 }
 .caution{
-	display: none;
+	height: 1000px;
+}
+ul {
+    list-style-type: disc; /* 동그라미 불릿 */
 }
 
 
@@ -112,24 +128,45 @@ $(function() {
 	
 	loadReview()
 
-	console.log("이건 잘 나오나?")
 	$(".contentButton").click(function(){
 		console.log("content클릭됨")
-		$(".content").show()
-		$(".refund").hide()
-		$(".caution").hide()
+		var target = $($(this).attr('href'));
+		if(target.length){
+			var scrollTo = target.offset().top;
+		}
+		$('body,html').animate({
+			scrollTop: scrollTo
+		},200);
 	})
 		$(".refundButton").click(function(){
 		console.log("refund 클릭됨")
-		$(".refund").show()
-		$(".content").hide()
-		$(".caution").hide()
+		var target = $($(this).attr('href'));
+		if(target.length){
+			var scrollTo = target.offset().top;
+		}
+		$('body,html').animate({
+			scrollTop: scrollTo
+		},200);
 	})
 		$(".cautionButton").click(function(){
 		console.log("caution 클릭됨")
-		$(".caution").show()
-		$(".content").hide()
-		$(".refund").hide()
+		var target = $($(this).attr('href'));
+		if(target.length){
+			var scrollTo = target.offset().top;
+		}
+		$('body,html').animate({
+			scrollTop: scrollTo
+		},200);
+	})
+	$(".reviewButton").click(function(){
+		console.log("reivew 클릭됨")
+		var target = $($(this).attr('href'));
+		if(target.length){
+			var scrollTo = target.offset().top;
+		}
+		$('body,html').animate({
+			scrollTop: scrollTo
+		},200);
 	})
 	//다누 것들 ------------------------------------------
    $("#btnCal").click(function() {
@@ -442,7 +479,6 @@ function requestPay() {
 </div>
 <div class="test">
 <div class="left">
-<span>왼쪽</span>
 <div class="title">
 <h2>캠핑카 제목</h2>
 <div class="heart">
@@ -480,27 +516,27 @@ function requestPay() {
 </div>
 </div>
 <div class="category">
-<div class="contentButton">
+<div href="#content"class="contentButton">
 <span>캠핑카 소개</span>
 </div>
-<div class="refundButton">
+<div href="#refund"class="refundButton">
 <span>환불 정책</span>
 </div>
-<div class="cautionButton">
+<div href="#caution"class="cautionButton">
 <span>유의 사항</span>
 </div>
-<div class="reviewButton">
+<div href="#review"class="reviewButton">
 <span>이용후기</span>
 </div>
 
 </div>
-<div class="content">
+<div id="content" class="content">
 콘텐트
 </div>
-<div class="refund">
+<div id="refund" class="refund">
 환불정책
 </div>
-<div class="caution">
+<div id="caution" class="caution">
 유의 사항
 </div>
 
@@ -510,34 +546,34 @@ function requestPay() {
 
 <div class="right">
 <span>오른쪽</span>
-
-</div>
-
-</div>
-
-<br>
-
+<div class="detailInfo">
+<h3>세부사항</h3>
 <hr>
-
+<ul>
+<li>대여장소 : 상세주소..</li>
+<li>차량 유형 : 중형 / 대형</li>
+<li>탑승 인원 : 최대 x명</li>
+<li>취침 인원 : 최대 x명</li>
+<li>침대수 : x개</li>
+</ul>
+<hr>
+</div>
+<div class="carOptions">
+<h3>보유 옵션</h3>
+<br>
+<br>
+<br>
+<br>
+<hr>
+</div>
+<div class="book">
 <button id="btnCal" class="btn btn-outline-success">날짜 선택</button>
 <div class="calendar" style="display: none;">
 <!-- <div class="calendar"> -->
 <c:import url="./book.jsp"></c:import>
 </div>
 
-
-<!-- <hr> -->
-
-<%-- <c:forEach items="${list }" var="list"> --%>
-<!-- <ul> -->
-<%--    <li>대여 게시글 번호 : ${list.rentNo }</li> --%>
-<%--    <li>대여 상태 : ${list.rentStatus }</li> --%>
-<%--    <li>출발일 : ${list.startDate }</li> --%>
-<%--    <li>도착일 : ${list.endDate }</li> --%>
-<!-- </ul> -->
-<%-- </c:forEach> --%>
-
-<div>
+<div class="passengerSelect">
 인원 선택 :
 <input type="number" name="carPax" id="carPax">
 
@@ -554,14 +590,13 @@ function requestPay() {
 <!-- </select> -->
 
 </div>
-
 <div>
 추가 옵션 : <input type="checkbox" name="addOption" id="addOption" > <p> 6시간 연장 (+ ${car.extraPrice } 원)
 </div>
-
-
 <hr>
+</div>
 
+<div class="bookInfo">
 출발일 : 
 <!-- <span id="fromDate"></span><br> -->
 <input type="text" id="fromDate" readonly="readonly" style="border: none;"></input><br>
@@ -575,14 +610,29 @@ function requestPay() {
  ( <span id="totalNights"></span> 박 )
 </div>
 
-<hr>
+</div>
 
 <button class="btn btn-success">문의하기</button> 
 <button class="btn btn-success" onclick="requestPay()">결제하기</button> 
+</div>
 
-<hr>
+</div>
 
-<div id="reviewList">리뷰 보일곳</div>
+<!-- <hr> -->
+
+<%-- <c:forEach items="${list }" var="list"> --%>
+<!-- <ul> -->
+<%--    <li>대여 게시글 번호 : ${list.rentNo }</li> --%>
+<%--    <li>대여 상태 : ${list.rentStatus }</li> --%>
+<%--    <li>출발일 : ${list.startDate }</li> --%>
+<%--    <li>도착일 : ${list.endDate }</li> --%>
+<!-- </ul> -->
+<%-- </c:forEach> --%>
+
+
+<div id="review" class="review">
+리뷰 보일곳
+</div>
 
 </div><!-- .container -->
 
