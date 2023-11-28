@@ -3,6 +3,7 @@
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:import url="../layout/header.jsp" />
 <style>
@@ -18,6 +19,7 @@ pageEncoding="UTF-8"%>
     border-color: #78cc71;
 }
 </style>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <script type="text/javascript">
 
@@ -33,7 +35,29 @@ $(document).ready(function() {
         var isConfirmed = confirm("정말로 회원탈퇴하시겠습니까?");
         
         if (isConfirmed) {
-           // 탈퇴를 위한 AJAX 요청
+        	// .k로 끝나는 회원인 경우 Kakao API 호출
+            if (${login.userId.endsWith('.k')}) {
+                // Kakao API 호출을 여기에 추가
+                Kakao.init('8dbde9a5763083fbca31c3f1098a1682'); // 사용하려는 앱의 JavaScript 키 입력
+                Kakao.isInitialized();
+
+                Kakao.API.request({
+                    url: '/v1/user/unlink',
+                    success: function(response) {
+                        console.log(response);
+
+            	        console.log("회원탈퇴가 성공적으로 이루어졌습니다!");
+            	        alert("회원탈퇴가 성공적으로 이루어졌습니다!");
+                    	window.location.href ="/user/logout"
+                    },
+                    fail: function(error) {
+                        alert('탈퇴처리가 미완료되었습니다. \n관리자에게 문의하시기 바랍니다.');
+                        console.log(error);
+                    }
+                });
+            } 
+        	else {
+        	// 탈퇴를 위한 AJAX 요청
            var userId = "${login.userId}";
            var userPw = prompt("비밀번호를 입력하세요."); // 사용자에게 비밀번호 입력받기
           
@@ -44,6 +68,7 @@ $(document).ready(function() {
                   userId: userId,
                   password: userPw
               },
+				
               success: function(response) {
             	    console.log("서버 응답:", response);
 
@@ -71,9 +96,11 @@ $(document).ready(function() {
 
 
            });
+		}
         }	
      });
 });
+
 
 </script>
 
@@ -151,7 +178,8 @@ $(document).ready(function() {
 		</div>
 	</div>
 	
-	
+	<c:if test="${not fn:contains(loginId, '.k')}">
+    <div id="pw">
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
@@ -183,6 +211,8 @@ $(document).ready(function() {
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>
+	</div>
+	</c:if>
 	
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
