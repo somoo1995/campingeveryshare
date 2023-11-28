@@ -18,5 +18,6 @@ public class Rent {
 	private int addOption;
 	private int deleteStatus;
 	private String merchantUid;
+	private int amount;
 
 }

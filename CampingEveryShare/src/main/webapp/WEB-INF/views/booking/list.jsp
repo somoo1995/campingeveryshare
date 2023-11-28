@@ -127,6 +127,10 @@ $(function() {
 	$(".btnCancel").click(function() {
 		
 		console.log($(this).attr("data-uid"))
+		console.log($(this).attr("data-id"))
+		
+		var userId = $(this).attr("data-id")
+		var rentNo = $(this).attr("data-no")
 		
 		$.ajax({
 			type: "post"
@@ -136,18 +140,52 @@ $(function() {
 				rentNo: $(this).attr("data-no")
 			}
 			, dataType: "json"
-			, success: function( res ) {
-			console.log("AJAX 성공")
-			
+			, success: function( data ) {
+				console.log("AJAX 성공")
+				sendNotification(userId, rentNo)
+				
+				alert("취소가 완료되었습니다")
+				
+				if(data.status === "success"){
+					loadBooking()
+				}
+				
 			}
-			, error: function() {
-			console.log("AJAX 실패")
+			, error: function(xhr, status, error) {
+				console.log("AJAX 실패", status, error)
 			}
 		})
 		
 	})
 	
 })
+
+function sendNotification(userId, rentNo) {
+   
+// 	console.log(userid)
+// 	console.log(rentno)
+	
+    $.ajax({
+        type: "post"
+        , url: "/alert/sendnotification"
+        , data: {
+           userId: userId,
+           boardCate: 1,
+           boardNo: rentNo,
+           content: 5
+        }
+        , dataType: "json"
+        , success: function(  ) {
+           console.log("send Notification - AJAX 성공")
+
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+     })
+   
+}
 
 </script>
 
@@ -177,7 +215,7 @@ $(function() {
 <!-- 		</li> -->
 		<c:choose>
 			<c:when test="${empty param.status || param.status == 'now'}">
-			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }">취소</button> </li>
+			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }">취소</button> </li>
 			</c:when>
 			<c:when test="${param.status == 'history' }">
 			<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }">리뷰</li>	

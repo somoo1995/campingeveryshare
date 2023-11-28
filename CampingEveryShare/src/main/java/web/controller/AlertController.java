@@ -40,7 +40,7 @@ public class AlertController {
 	@GetMapping("/list")
 	public String alert( Model model, Alert alert, @SessionAttribute("loginId") String userId ) {
 		alert.setUserId(userId);
-		logger.info("alert : {}", alert);		
+//		logger.info("alert : {}", alert);		
 
 		List<Alert> list = alertService.getList(alert);
 		
@@ -51,7 +51,7 @@ public class AlertController {
 	
 	@PostMapping("/read")
 	public String readAlert( Alert alert, @SessionAttribute("loginId") String userId ) {
-		logger.info("alert : {}", alert);
+//		logger.info("alert : {}", alert);
 		alertService.readAlert(alert);
 		
 		return "jsonView";
@@ -62,7 +62,7 @@ public class AlertController {
 		alert.setUserId(userId);
 		int hasNew = alertService.hasNew(alert);
 		model.addAttribute("hasNew", hasNew);
-		logger.info("hasNew : {}", hasNew);
+//		logger.info("hasNew : {}", hasNew);
 		return "jsonView";
 	}
 	
@@ -72,7 +72,7 @@ public class AlertController {
     public SseEmitter getNotification( HttpSession session ) {
     	
     	String userId = (String) session.getAttribute("loginId");
-    	logger.info("userId : {}", userId);
+//    	logger.info("userId : {}", userId);
     	    	
     	SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
     	sendInitEvent(sseEmitter);
@@ -93,10 +93,10 @@ public class AlertController {
     	alertService.sendAlert(alert);
     	
     	int hasNew = alertService.hasNew(alert);
-    	logger.info("hasNew : {}", hasNew);
+//    	logger.info("hasNew : {}", hasNew);
     	
     	SseEmitter sseEmitter = emitters.get(alert.getUserId());
-    	logger.info("sseEmitter : {}", sseEmitter);
+//    	logger.info("sseEmitter : {}", sseEmitter);
     	
     	if(sseEmitter != null) {
     		

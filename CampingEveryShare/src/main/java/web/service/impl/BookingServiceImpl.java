@@ -31,8 +31,12 @@ public class BookingServiceImpl implements BookingService {
 			param.setCategory(1);
 		}
 		
+		logger.info("param : {}", param);
+		
 		int totalCount = rentDao.selectCntAll(param);
 		Paging paging = new Paging( totalCount, param.getCurPage(), 5, 10 );
+		paging.setCategory(param.getCategory());
+		paging.setSearch(userId);
 		
 		return paging;
 	}

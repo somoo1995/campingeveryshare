@@ -17,6 +17,9 @@
 		<where>
 			AND car_status = 0
 			AND delete_status = 0
+			<if test="category != 0">
+				AND location = #{category }
+			</if>
 		</where>
 	</select>
 	
@@ -27,6 +30,10 @@
 			<where>
 				<if test="search != null and !''.equals(search)">
 					AND car_name LIKE '%' || (#{search }) || '%'
+				</if>
+<!-- 				<if test="category !=null and !''.equals(category)"> -->
+				<if test="category != 0">
+					AND location = #{category }
 				</if>
 				AND delete_status = 0
 			</where>

@@ -52,10 +52,10 @@ public class BookingController {
 	public String bookingList(
 			Model model, 
 			@SessionAttribute("loginId") String userId,
-			@RequestParam(required = false) String status,
+			@RequestParam(value="status", required = false) String status,
 			Paging param
 			) {
-
+		logger.info("status : {}", status);
 		Paging paging = bookingService.getPaging(param, status, userId);
 		logger.info("paging : {}", paging);
 		
@@ -67,6 +67,8 @@ public class BookingController {
 		logger.info("hasData : {}", hasData);
 		
 		List<Map<String, Object>> list = bookingService.getList(paging);
+		
+		logger.info("Booking list : {}", list);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("hasData", hasData);
