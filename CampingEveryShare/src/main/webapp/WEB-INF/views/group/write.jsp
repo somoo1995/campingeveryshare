@@ -73,8 +73,7 @@ $(() => {
 
 <div class="container">
 
-
-<!-- 작성 공간 -->
+<!-- 작성 공간! -->
 <div class="pageTitle">
 <h3>모집 글 작성</h3>
 <hr>
