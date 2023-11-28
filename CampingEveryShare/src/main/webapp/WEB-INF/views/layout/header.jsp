@@ -9,28 +9,39 @@
 <meta charset="UTF-8">
 <title>Camping Every Share</title>
 
+<!-- 파비콘 -->
+<link rel="icon" href="/resources/img/favicon.ico">
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
+<!-- 헤더 css 파일 불러오기 -->
 <link rel="stylesheet" href="../resources/css/header.css?after">
+<!-- 폰트 css 파일 불러오기 -->
+<link rel="stylesheet" href="../resources/css/font.css?after">
+
+
 <!-- Slick 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
 
-<!-- 어도비 본고딕 폰트 불러오기 -->
+<!-- 본고딕 폰트 가져오기 -->
+
+<!-- 본명조 폰트 가져오기 -->
 <script>
   (function(d) {
     var config = {
-      kitId: 'nhb2qxu',
+      kitId: 'cjv7yqs',
       scriptTimeout: 3000,
       async: true
     },
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
   })(document);
 </script>
+
 
 <!-- Line Awesome Icon 불러오기-->
 <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
@@ -273,7 +284,8 @@ $(function() {
    
    <div class="mypage_background">
 <!--    <img alt="mypage_background" src="/resources/img/mypage_background_2.png"></div>mypage_background -->
-   <img alt="mypage_background" src=""></div><!-- mypage_background -->
+<!--    <img alt="mypage_background" src=""> -->
+   </div><!-- mypage_background -->
    
    <aside id="all_mymenu" role="navigation" style="left: 0px; margin: 0 auto;" >
    
@@ -440,8 +452,8 @@ $(function() {
       </c:choose>
          
       <c:if test="${not empty isLogin and isLogin }">
-      <div class="alert-open alarm_letter">알림
-      </div><!-- <span> alert-open .alarm_letter -->
+      <span class="alert-open alarm_letter">알림
+      </span><!-- <span> alert-open .alarm_letter -->
 
       <div id="new-alert"></div>
       <!-- .new_alert -->

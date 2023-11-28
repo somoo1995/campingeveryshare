@@ -1,47 +1,60 @@
 @charset "UTF-8";
 
-/* 주아체*/
-@font-face {
-    font-family: '주아체';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+/*본명조*/
+
+@fontface{
+	font-family: "Source Han Serif K ExtraLight", serif;
+/* 	font-weight: 200; */
+/* 	font-style: normal; */
+}
+
+@fontface{
+	font-family: "Source Han Serif K Light", serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+
+@fontface{
+	font-family: "Source Han Serif K Regular", serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+@fontface{
+	font-family: "Source Han Serif K Medium", serif;
+	font-weight: 500;
+	font-style: normal;
+}
+
+
+@fontface{
+	font-family: "Source Han Serif K SemiBold", serif;
+	font-weight: 600;
+	font-style: normal;
+}
+
+@fontface{
+	font-family: "Source Han Serif K Heavy", serif;
+	font-weight: 900;
+	font-style: normal;
+}
+
+
+@fontface{
+	
+}
+
+
+
+/* 본명조 */
+/* @font-face { */
+/*     font-family: '본명조'; */
+/*     src: url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 /*     font-weight: normal; */
 /*     font-style: normal; */
-}
-
-/* 도현체 */
-@font-face {
-    font-family: '도현체';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* 본명조*/
-@font-face {
-    font-family: 'NotoSerifKR';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* 부크크 명조*/
-@font-face {
-    font-family: '부크크 명조';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
- font-family: 'Roboto';
- font-style: normal;
- font-weight: 400;
- src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu72xKOzY.woff2) format('woff2');
- unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
- }
-
-/* 본명조 import 어떻게?*/
-
+/* } */
 
 /* body { */
 /*    font-family: 'YourFontName', sans-serif; */
