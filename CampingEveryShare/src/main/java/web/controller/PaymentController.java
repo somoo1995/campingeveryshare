@@ -3,6 +3,7 @@ package web.controller;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -52,7 +53,7 @@ public class PaymentController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/verifyiamport/{imp_uid}", method=RequestMethod.POST)
+	@RequestMapping(value="/verify/{imp_uid}", method=RequestMethod.POST)
 	public IamportResponse<Payment> paymentByImpUid(Model model, Locale locale, HttpSession session
 			, @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException {	
 		
@@ -90,9 +91,9 @@ public class PaymentController {
 	}
 
 	
-	@PostMapping("/cancel")
+	@PostMapping(value="/cancel")
 	@ResponseBody
-	public void cancel( Rent rent, String merchantUid ) {
+	public ResponseEntity<Map<String,Object>> cancel( Rent rent, String merchantUid ) {
 		logger.info("merchantUid : {} ", merchantUid);
 		
 		try {
@@ -102,11 +103,14 @@ public class PaymentController {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
 		}
 		
 		rentService.cancelBooking(rent);
 		
 //		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(Map.of("status","success"));
+//		return "redirect:/booking/main";
 		
 	}
 	

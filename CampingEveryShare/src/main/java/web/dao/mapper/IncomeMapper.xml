@@ -6,13 +6,12 @@
   
 <mapper namespace="web.dao.face.IncomeDao">
 
-	<insert id="insertIncome" parameterType="Income">
-		<selectKey order="BEFORE" resultType="int" keyProperty="incomeNo">
-			SELECT income_seq.nextval FROM dual
-		</selectKey>
-		INSERT INTO incometb ( income_no, rent_no, amount, income_status )
-		VALUES ( #{incomeNo }, #{rentNo }, #{amount }, 0 )
-
-	</insert>
+<!-- 	<insert id="insertIncome" parameterType="Income"> -->
+<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="incomeNo"> -->
+<!-- 			SELECT income_seq.nextval FROM dual -->
+<!-- 		</selectKey> -->
+<!-- 		INSERT INTO incometb ( income_no, rent_no, amount, income_status ) -->
+<!-- 		VALUES ( #{incomeNo }, #{rentNo }, #{amount }, 0 ) -->
+<!-- 	</insert> -->
 
 </mapper>

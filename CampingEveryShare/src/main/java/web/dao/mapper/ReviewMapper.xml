@@ -7,13 +7,26 @@
 <mapper namespace="web.dao.face.ReviewDao">
 	
 	<sql id="selectReview">
-		SELECT review_no, car_no, content, rate, delete_status, post_date
-		, (SELECT user_nick FROM usertb U WHERE U.user_id = (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no)) as reviewNick
-		FROM reviewtb R
+		SELECT review_no, RV.user_id, R.rent_no, car_no, content, rate, RV.delete_status, RV.post_date
+		, (SELECT user_nick FROM usertb U WHERE RV.user_id = U.user_id) as reviewnick
+		FROM reviewtb RV
 	</sql>
 	
-	<select id="selectReviewByCar" parameterType="Car" resultType="Car">
+	<resultMap type="map" id="reviewMap">
+		<result property="reviewNo" column="review_no" />
+		<result property="userId" column="user_id" />
+		<result property="rentNo" column="rent_no" />
+		<result property="carNo" column="car_no" />
+		<result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="rate" column="rate" />
+		<result property="deleteStatus" column="delete_status" />
+		<result property="postDate" column="post_date" />
+		<result property="reviewNick" column="reviewnick" />
+	</resultMap>
+	
+	<select id="selectReviewByCar" parameterType="Car" resultMap="reviewMap">
 		<include refid="selectReview" />
+		INNER JOIN renttb R ON RV.rent_no = R.rent_no
 		<where>
 			AND car_no = #{carNo }
 		</where>

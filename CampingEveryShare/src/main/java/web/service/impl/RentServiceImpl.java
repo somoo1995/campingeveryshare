@@ -29,10 +29,15 @@ public class RentServiceImpl implements RentService {
 	@Autowired IncomeDao incomeDao;
 
 	@Override
-	public Paging getPaging(Paging param) {
-				
+	public Paging getPaging(Paging param, String location) {
+		
+		if(location != null) {
+			param.setCategory(Integer.parseInt(location));
+		}
+		
 		int totalCount = carDao.selectCntAll(param);
 		Paging paging = new Paging( totalCount, param.getCurPage(), 9, 10 );
+		paging.setCategory(param.getCategory());
 		
 		return paging;
 	}
@@ -73,9 +78,9 @@ public class RentServiceImpl implements RentService {
 		rentDao.updateCancel(rent);
 	}
 
-	@Override
-	public void income(Income income) {
-		incomeDao.insertIncome(income);
-	}
+//	@Override
+//	public void income(Income income) {
+//		incomeDao.insertIncome(income);
+//	}
 
 }

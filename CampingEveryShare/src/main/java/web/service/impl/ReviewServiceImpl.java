@@ -27,8 +27,6 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public List<Map<String, Object>> getReview(Car car) {
 		
-		
-		
 		List<Map<String, Object>> list = reviewDao.selectReviewByCar(car);
 		
 		return list;

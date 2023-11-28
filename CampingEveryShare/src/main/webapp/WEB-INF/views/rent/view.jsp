@@ -109,6 +109,8 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript">
 
 $(function() {
+	
+	loadReview()
 
 	console.log("이건 잘 나오나?")
 	$(".contentButton").click(function(){
@@ -326,27 +328,27 @@ function getGuestInfo(callback) {
 }
 
 
-function getToken() {
+// function getToken() {
 	
-	console.log("getToken start")
+// 	console.log("getToken start")
 	
-	  axios({
-		    url: "https://api.iamport.kr/users/getToken",
-		    // POST method
-		    method: "post", 
-		    // "Content-Type": "application/json"
-		    headers: { "Content-Type": "application/json" }, 
-		    data: {
-		      // REST API키
-		      imp_key: "2441044643164541", 
-		      // REST API Secret
-		      imp_secret: "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX"
-		    }
-		  }).then((data) => {
-				console.log("access_token : " + data.access_token)
-          })
+// 	  axios({
+// 		    url: "https://api.iamport.kr/users/getToken",
+// 		    // POST method
+// 		    method: "post", 
+// 		    // "Content-Type": "application/json"
+// 		    headers: { "Content-Type": "application/json" }, 
+// 		    data: {
+// 		      // REST API키
+// 		      imp_key: "2441044643164541", 
+// 		      // REST API Secret
+// 		      imp_secret: "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX"
+// 		    }
+// 		  }).then((data) => {
+// 				console.log("access_token : " + data.access_token)
+//           })
 		  
-}
+// }
 
 
 IMP.init('imp83448842')
@@ -386,7 +388,7 @@ function requestPay() {
             
            		$.ajax({
 					type: "POST"
-					, url: "/verifyiamport/" + rsp.imp_uid
+					, url: "/verify/" + rsp.imp_uid
 
            		}).done(function(data) {
 					

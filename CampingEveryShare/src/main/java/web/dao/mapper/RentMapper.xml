@@ -7,7 +7,7 @@
 <mapper namespace="web.dao.face.RentDao">
 	
 	<sql id="selectRent">
-		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status, merchant_uid
+		SELECT rent_no, car_no, user_id, rent_status, booking_date, start_date, end_date, reserv_pax, add_option, delete_status, merchant_uid, amount
 		, (SELECT user_nick FROM usertb U WHERE U.user_id = R.user_id ) AS guestnick
 		, (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no ) AS hostid
 		, (SELECT car_name FROM cartb C WHERE C.car_no = R.car_no ) AS carname
@@ -56,6 +56,7 @@
 		FROM renttb
 		<where>
 			AND car_no = #{carNo }
+			AND rent_status = 0
 		</where>
 	</select>
 	
@@ -63,8 +64,8 @@
 		<selectKey order="BEFORE" keyProperty="rentNo" resultType="int">
 			SELECT rent_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO renttb (rent_no, car_no, user_id, start_date, end_date, reserv_pax, add_option, merchant_uid)
-		VALUES( #{rentNo}, #{carNo}, #{userId}, #{startDate }, #{endDate}, #{reservPax }, #{addOption }, #{merchantUid } )
+		INSERT INTO renttb (rent_no, car_no, user_id, start_date, end_date, reserv_pax, add_option, merchant_uid, amount)
+		VALUES( #{rentNo}, #{carNo}, #{userId}, #{startDate }, #{endDate}, #{reservPax }, #{addOption }, #{merchantUid }, #{amount } )
 	</insert>
 	
 	<select id="selectUserByUserId" parameterType="User" resultType="User">

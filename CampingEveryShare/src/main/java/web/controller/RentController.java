@@ -14,9 +14,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ import web.dto.Rent;
 import web.dto.Review;
 import web.dto.User;
 import web.service.face.RentService;
+import web.service.face.ReviewService;
 import web.util.Paging;
 
 @Controller
@@ -40,12 +43,14 @@ import web.util.Paging;
 public class RentController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 	@Autowired RentService rentService;
+	@Autowired ReviewService reviewService;
 	
 	
-	@RequestMapping("/list")
-	public String rentList( Model model, Paging param  ) {
+	@GetMapping("/list")
+	public String rentMain( Model model, Paging param, @RequestParam(required = false) String location ) {
+		logger.info("location : {}", location);
 		
-		Paging paging = rentService.getPaging(param);
+		Paging paging = rentService.getPaging(param, location);
 		logger.info("paging : {}", paging);
 		
 		List<Map<String, Object>> list = rentService.getCarList(paging);
@@ -54,6 +59,20 @@ public class RentController {
 		model.addAttribute("list", list);
 		
 		return "rent/main";
+	}
+	
+	@PostMapping("/list")
+	public String rentList( Model model, Paging param, @RequestParam(required = false) String location ) {
+		logger.info("location : {}", location);
+		
+		Paging paging = rentService.getPaging(param, location);
+		logger.info("paging : {}", paging);
+		
+		List<Map<String, Object>> list = rentService.getCarList(paging);
+		logger.info("list : {}", list);
+		
+		model.addAttribute("list", list);
+		return "rent/list";
 	}
 	
 	@RequestMapping("/view")
@@ -70,27 +89,23 @@ public class RentController {
 		
 	}
 	
+	@Transactional                                                                                                     
 	@RequestMapping("/book")
 	public String book( Model model, Rent rent, String startDate, @SessionAttribute("loginId") String userId, Income income ) {
 		rent.setUserId(userId);
-		logger.info("startDate : {} ", startDate);
-		logger.info("rent : {}", rent);
-		logger.info("income 1st : {}", income);
+//		logger.info("rent : {}", rent);
 		
 		rentService.book(rent);
-		income.setRentNo(rent.getRentNo());
-		logger.info("income 2nd : {}", income);
-		
-		rentService.income(income);
 
 		Car car = new Car();
 		car.setCarNo(rent.getCarNo());
-		logger.info("car : {} ", car);
+//		logger.info("car : {} ", car);
 		
 		List<Rent> list = rentService.getRentList(car);
 		model.addAttribute("list", list);
 		
-		return "redirect:/rent/view?=" + rent.getCarNo();
+//		return "redirect:/rent/view?=" + rent.getCarNo();
+		return "redirect:/booking/main";
 	}
 	
 	@RequestMapping("/user")
@@ -102,6 +117,17 @@ public class RentController {
 		model.addAttribute("user", user);
 		
 		return "jsonView";
+	}
+	
+	@RequestMapping("/review")
+	public String review( Model model, Car car ) {
+//		logger.info("car : {}", car);
+		
+		List<Map<String,Object>> list = reviewService.getReview(car);
+//		logger.info("list : {} ", list);
+		model.addAttribute("list", list);
+		
+		return "rent/review";
 	}
 	
 //	@PostMapping("/payment")
