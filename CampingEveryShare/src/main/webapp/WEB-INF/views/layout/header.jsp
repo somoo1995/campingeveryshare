@@ -190,7 +190,7 @@ function hasNew() {
 }
 
 $(function() {
-   
+	
     $(".toggleSwitch").click(function() {
         // 토글 버튼 클릭 시 호스트와 게스트 교체
         $("#host, #guest").toggleClass("userStatus");
@@ -225,17 +225,7 @@ $(function() {
     console.log("Setting user status and camp data");
     var userStatusContainer = $("#userStatusContainer");
     userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
-    
-    if (isLoggedIn) {
-        //로그인한 경우
-         userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
-         $("#campStatus").html("내 예약").attr("camp-data", "/booking/main");
-     }
-     else {
-        //로그인하지 않은 경우
-        campStatusIcon.html("내 캠핑").attr("camp-data", "/mypage/fail");
-     }
-    
+   
 });
 
 </script><!-- script 끝 -->

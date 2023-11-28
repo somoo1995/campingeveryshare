@@ -279,7 +279,7 @@ function processKakaoSignup(email,userId,userName,userNick,birth,phone) {
    background: url('/resources/img/login_background.jpg');
     background-size: 1300px 700px; /* 이미지 크기 조절 */
     background-repeat: no-repeat;
-    background-position: 20px;
+    background-position: 0px;
 }
 
 .form {
@@ -337,6 +337,7 @@ function processKakaoSignup(email,userId,userName,userNick,birth,phone) {
    padding-left: 60px;
    border-radius: 5px;
    border: 1px solid;
+   background-color: #F0EFF4;
 }
 
 .id {
