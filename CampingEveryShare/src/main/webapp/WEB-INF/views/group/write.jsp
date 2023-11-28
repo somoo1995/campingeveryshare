@@ -28,20 +28,24 @@ $(() => {
 	
 	$("#content").summernote({
 		   height: 300,
-		   placeholder: '모집 게시글을 작성해주세요.',
+		   placeholder: '게시글을 작성해주세요. ',
 		   toolbar: [
-		      ['style', ['bold', 'italic', 'underline', 'clear']],
+// 		      ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
 		      ['font', ['fontname']],
 		      ['fontsize', ['fontsize']],
-		      ['color', ['color']],
-		      ['para', ['ul', 'ol', 'paragraph']],
+		      ['color', ['forecolor', 'backcolor']],
+// 		      ['para', ['ul', 'ol', 'paragraph']],
+		      ['para', [ 'ol', 'paragraph']],
 		      ['height', ['height']],
-		      ['insert', ['link', 'picture', 'video']],
-		      ['table', ['table']],
+// 		      ['insert', ['link', 'picture', 'video']]
+		      ['insert', ['link', 'picture']]
+// 		      ['table', ['table']],
 // 		      ['view', ['fullscreen', 'codeview']],
 		   ],
-		   fontNames: ['Noto Sans KR', 'Source Han Serif K ExtraLight', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K Medium', 'Source Han Serif K SemiBold', 'Source Han Serif K Heavy'],
-		   fontNamesIgnoreCheck: ['Noto Sans KR', 'Source Han Serif K ExtraLight', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K Medium', 'Source Han Serif K SemiBold', 'source-han-serif-korean', 'Source Han Serif K Heavy'],
+// 		   fontNames: ['Source Han Sans KR Light', 'Source Han Sans KR Normal', 'Source Han Sans KR Regular', 'Source Han Sans KR Heavy', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K SemiBold', 'Source Han Serif K Heavy'],
+// 		   fontNamesIgnoreCheck: ['Source Han Sans KR Light', 'Source Han Sans KR Normal', 'Source Han Sans KR Regular', 'Source Han Sans KR Bold', 'Source Han Sans KR Heavy', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K SemiBold', 'source-han-serif-korean', 'Source Han Serif K Heavy'],
+		   fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather'],
+  		fontNamesIgnoreCheck: ['Merriweather'],
 		   fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
 		   popover: {
 			   image: [
@@ -52,15 +56,15 @@ $(() => {
 			   link: [
 			     ['link', ['linkDialogShow', 'unlink']]
 			   ],
-			   table: [
-			     ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
-			     ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
-			   ],
+// 			   table: [
+// 			     ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+// 			     ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+// 			   ],
 			   air: [
 			     ['color', ['color']],
-			     ['font', ['bold', 'underline', 'clear']],
+// 			     ['font', ['bold', 'underline', 'clear']],
 			     ['para', ['ul', 'paragraph']],
-			     ['table', ['table']],
+// 			     ['table', ['table']],
 			     ['insert', ['link', 'picture']]
 			   ]
 			 }
