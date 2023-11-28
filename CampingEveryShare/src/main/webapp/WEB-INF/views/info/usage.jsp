@@ -30,7 +30,7 @@ h1 {
 
 .span {
 font-weight: bold; 
- color: #8aad00; 
+ color: forestgreen; 
 }
 
 .container {

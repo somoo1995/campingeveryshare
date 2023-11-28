@@ -40,8 +40,8 @@ $(() => {
 		      ['table', ['table']],
 // 		      ['view', ['fullscreen', 'codeview']],
 		   ],
-		   fontNames: ['주아체', '도현체', '본명조', '부크크 명조', 'Roboto'],
-		   fontNamesIgnoreCheck: ['주아체', '도현체', '본명조', '부크크 명조', 'Roboto'],
+		   fontNames: ['Noto Sans KR', 'Source Han Serif K ExtraLight', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K Medium', 'Source Han Serif K SemiBold', 'Source Han Serif K Heavy'],
+		   fontNamesIgnoreCheck: ['Noto Sans KR', 'Source Han Serif K ExtraLight', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K Medium', 'Source Han Serif K SemiBold', 'source-han-serif-korean', 'Source Han Serif K Heavy'],
 		   fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
 		   popover: {
 			   image: [
@@ -73,8 +73,7 @@ $(() => {
 
 <div class="container">
 
-
-<!-- 작성 공간 -->
+<!-- 작성 공간! -->
 <div class="pageTitle">
 <h3>모집 글 작성</h3>
 <hr>
