@@ -212,7 +212,8 @@ ul {
 }
 
 .mypage_background {
-	background-color: pink;
+/* 	background-color: pink; */
+	background: url('/resources/img/mypage_background.png');
 	height: 180px;
 }
 
