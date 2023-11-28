@@ -9,6 +9,9 @@
 <meta charset="UTF-8">
 <title>Camping Every Share</title>
 
+<!-- 파비콘 -->
+<link rel="icon" href="/resources/img/favicon.ico">
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -37,7 +40,6 @@
 
 <!-- Line Awesome Icon 불러오기-->
 <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-
 
 <style type="text/css">
 
