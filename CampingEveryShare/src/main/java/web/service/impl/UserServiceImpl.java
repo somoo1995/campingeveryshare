@@ -119,6 +119,12 @@ public class UserServiceImpl implements UserService {
 	        return false;
 	    }
 
+	    // '.k'로 끝나는 경우에는 비밀번호 확인 없이 회원 정보 업데이트
+	    if (userId.endsWith(".k")) {
+	        userDao.updateUser(updateUser);
+	        return true;
+	    }
+	    
 	    // 비밀번호와 비밀번호 확인이 일치할 때만 회원 정보 삽입
 	    if (userPw.equals(userPwConfirm)) {
 	        // 프로필 번호 설정

@@ -55,13 +55,20 @@ pageEncoding="UTF-8"%>
 	    }
 
 	    $(document).ready(function () {
-			$("#joinButton").click(function () {
+			$("#updateButton").click(function () {
 	            // phone 인풋의 값이 비어있으면 0을 넣어줌
 	            if ($("#phone").val().trim() === '') {
 	                $("#phone").val('0');
 	            }
 
-	            // 비밀번호 값을 가져오는 부분 수정
+	            // 로그인 아이디가 '.k'로 끝나는지 확인
+	            if (${login.userId.endsWith('.k')}) {
+	                // '.k'로 끝나는 경우, 비밀번호 확인 로직을 건너뛰고 바로 수정 로직으로 이동
+	                console.log("로그인 아이디가 '.k'로 끝납니다. 비밀번호 확인을 생략합니다.");
+	                // 필요한 경우 여기에 특별한 동작이나 로직을 추가하세요.
+	            } else {
+	            // '.k'로 끝나지 않는 경우, 비밀번호 확인 로직 수행
+	                
 	            var userPw = $("#userPw").val();
 	            var userPwConfirm = $("#userPwConfirm").val();
 	            
@@ -72,6 +79,7 @@ pageEncoding="UTF-8"%>
 	                // TODO: ptag 표시
 	                return;
 	            }
+	           }
 
 	        });
 	    });
@@ -176,7 +184,7 @@ pageEncoding="UTF-8"%>
 		</span>
 		<div class="col-md-6 form-floating is-invalid">
 			<input class="border border-success-subtle form-control" id="userId" name="userId" type="text" value="${updateUser.userId }"  disabled>
-		    <label for="floatingInputGroup2">이름*</label>
+		    <label for="floatingInputGroup2">아이디*</label>
 	  	</div>
 		<div id="idDupleBlock" class="valid-feedback"  style="display:none">
 			<p id="idDupleText"></p>
@@ -320,7 +328,7 @@ pageEncoding="UTF-8"%>
 		
 	<div class="form-floating is-invalid birth">
 		<a href="/"  class="border-success-subtle form-control btn btn-outline-success">메인페이지</a>
-		<button id="joinButton" type="submit" class="border-success-subtle form-control btn btn-outline-success">회원정보 수정 완료</button>
+		<button id="updateButton" type="submit" class="border-success-subtle form-control btn btn-outline-success">회원정보 수정 완료</button>
 	</div>
 		
 		
