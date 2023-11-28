@@ -26,6 +26,7 @@ pageEncoding="UTF-8"%>
 <script>
 $(document).ready(function () {
 
+
 	$("#btnMyHistory").click(function() {
 		$(this).addClass("active")
 		$("#btnMyCar").removeClass("active")
@@ -89,6 +90,11 @@ $(document).ready(function () {
 		
 	})
 	$("#btnMyHistory").click();
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('autoClick') === 'btnMyCar') {
+        // 특정 요소에 대한 클릭 이벤트를 트리거
+        $('#btnMyCar').click();
+    }
 	
 	
 })

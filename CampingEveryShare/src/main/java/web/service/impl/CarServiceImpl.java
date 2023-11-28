@@ -2,9 +2,12 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.print.attribute.HashAttributeSet;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.CarDao;
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.User;
 import web.service.face.CarService;
 
 @Service
@@ -23,16 +27,21 @@ public class CarServiceImpl implements CarService {
 	@Autowired ServletContext context;
 
 	@Override
-	public void carWrite(Car car, List<MultipartFile> carFile) {
+	public int carWrite(Car car, List<MultipartFile> carFile) {
+		
+		if(carDao.selectBycarNumber(car) >=1) {
+			return 1;
+		}
 		
 		carDao.insertCarWrite(car);
 		if(carFile.size() == 0) {
-			return;
+			return 0;
 		}
 		
 		for(MultipartFile f : carFile) {
 			this.fileinsert(f,car.getCarNo());
 		}
+		return 0;
 		
 	}
 	
@@ -64,8 +73,71 @@ public class CarServiceImpl implements CarService {
 		boardFile.setOriginName(originName);
 		boardFile.setStoredName(storedName);
 		boardFile.setBoardCate(1);
+		if(carDao.checkFile(boardFile) == 0) {
+			carDao.insertFile(boardFile);
+		}else {
+			carDao.updateFile(boardFile);
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getCarNoByUserId(User user) {
+		List<Integer> carNoList = new ArrayList<Integer>();
+		carNoList = carDao.selectCarNoByUserId(user);
 		
-		carDao.insertFile(boardFile);
+		List<Map<String,Object>> carListMap = new ArrayList<Map<String,Object>>();
+		for(Integer carNo : carNoList) {
+			Map<String,Object> carSummary = carDao.selectCarSummaryByCarNo(carNo);
+			carListMap.add(carSummary);
+			
+		}
+		return carListMap;
+	}
+
+	@Override
+	public Car getCarInfoByCarNo(Car car) {
+		
+		return carDao.selectCarByCarNo(car);
+	}
+
+	@Override
+	public BoardFile getFileInfoByCarNo(Car car) {
+		// TODO Auto-generated method stub
+		return carDao.selectFileInfoByCarNo(car);
+	}
+
+	@Override
+	public int updateCar(Car car, List<MultipartFile> carFile) {
+		carDao.updateCar(car);
+		car = carDao.selectBycarNumberNew(car);
+		if(carFile != null) {
+			if(carFile.size() == 0) {
+				return 0;
+			}
+			for(MultipartFile f : carFile) {
+				this.fileinsert(f,car.getCarNo());
+			}		
+		}
+		
+		return 0;
+		
+	}
+
+	@Override
+	public void deleteCar(Car car) {
+		carDao.deleteCar(car);
+	}
+
+	@Override
+	public void stopCar(Car car) {
+		carDao.updateCarStop(car);
+		
+	}
+
+	@Override
+	public void resumeCar(Car car) {
+		carDao.resumeCar(car);
+		
 	}
 
 }

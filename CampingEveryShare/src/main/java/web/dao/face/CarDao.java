@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.User;
 import web.util.Paging;
 
 public interface CarDao {
@@ -18,6 +19,32 @@ public interface CarDao {
 	public void insertCarWrite(Car car);
 
 	public void insertFile(BoardFile boardFile);
+
+	public int selectBycarNumber(Car car);
+
+	public List<Integer> selectCarNoByUserId(User user);
+
+	public Map<String, Object> selectCarSummaryByCarNo(Integer carNo);
+
+	public Car selectCarByCarNo(Car car);
+
+	public BoardFile selectFileInfoByCarNo(Car car);
+
+	public void updateCarByCarNo(Car car);
+
+	public void updateCar(Car car);
+
+	public int checkFile(BoardFile boardFile);
+
+	public void updateFile(BoardFile boardFile);
+
+	public Car selectBycarNumberNew(Car car);
+
+	public void deleteCar(Car car);
+
+	public void updateCarStop(Car car);
+
+	public void resumeCar(Car car);
 	
 
 }

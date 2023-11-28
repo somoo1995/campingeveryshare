@@ -1,12 +1,15 @@
 package web.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.User;
 import web.service.face.CarService;
 
 @Controller
@@ -34,8 +39,14 @@ public class CarController {
 	}
 	
 	@GetMapping("/mycar")
-	public String mycar() {
-		return "/car/mycar";
+	public String mycar(HttpSession session, Model model) {
+		User user = new User();
+		user.setUserId((String)session.getAttribute("loginId"));
+		List<Map<String,Object>> carNoList = new ArrayList<Map<String,Object>>();
+		carNoList = carService.getCarNoByUserId(user);
+		log.info(carNoList.toString());
+		model.addAttribute("carNoList",carNoList);
+		return "car/mycar";
 	}
 
 	
@@ -45,11 +56,26 @@ public class CarController {
 	}
 	
 	@GetMapping("/regi")
-	public void regi() {
+	public void regi(Car car, Model model) {
+		log.info("잘 나오는지 확인 하자구요");
+		
+		if(car.getCarNumber() != null) {
+			log.info("{}",car);
+			car = carService.getCarInfoByCarNo(car);
+			log.info(car.toString());
+			model.addAttribute("carModel",car);
+			log.info("모델값 전달 완료");
+			BoardFile file = new BoardFile();
+			file = carService.getFileInfoByCarNo(car);
+			log.info(file.toString());
+			model.addAttribute("file",file);
+		}
+		
+		
 		
 	}
 	
-   @PostMapping("/save")
+   @PostMapping(value="/save",produces="application/text; charset=UTF-8")
    @ResponseBody
     public String saveCar(
             @RequestParam("carName") String carName,
@@ -66,13 +92,13 @@ public class CarController {
             @RequestParam("areaDetail") String areaDetail,
             @RequestParam("selectedOptions") String[] selectedOptions,
             @RequestParam("content") String content,
-            @RequestParam("carFile") List<MultipartFile> carFile,
+            @RequestParam(value="carFile", required=false) List<MultipartFile> carFile,
+            @RequestParam(value="update", required=false) boolean update,
             HttpSession session
             // 다른 필드가 있으면 여기에 추가
     ) {
 	   String userId = (String) session.getAttribute("loginId");
 	   Car car = new Car();
-	   userId = "user1";
 	   car.setUserId(userId);
 	   log.info(carName);
 	   car.setCarName(carName);
@@ -166,6 +192,10 @@ public class CarController {
 			   car.setArea(7);
 		   } else if(locationarray[1].toString().equals("계양구")) {
 			   car.setArea(8);
+		   }else if(locationarray[1].toString().equals("강화군")) {
+			   car.setArea(9);
+		   }else if(locationarray[1].toString().equals("옹진군")) {
+			   car.setArea(10);
 		   }
 	   }
 	   log.info(areaDetail);
@@ -198,14 +228,47 @@ public class CarController {
 	   }
 	   log.info(content);
 	   car.setContent(content);
-	   log.info(carFile.toString());
-	   log.info(car.toString());
-	   
-	   carService.carWrite(car,carFile);
+	   if(carFile != null) {
+		   log.info(carFile.toString());
+		   log.info(car.toString());
+	   }
+
+	   if(update == true) {
+		   log.info("이부분은 수정입니다");
+		   carService.updateCar(car,carFile);
+		   return null;
+	   }
+	   if (carService.carWrite(car,carFile)==1) {
+		   return "이미 등록된 차량입니다";
+	   };
 	   
 	   
         return "ok";
     }
+   
+   @RequestMapping("/delete")
+   @ResponseBody
+   public String delete(Car car) {
+	   log.info(car.toString());
+	   carService.deleteCar(car);
+	   return null;
+   }
+   
+   @RequestMapping("/stop")
+   @ResponseBody
+   public String stop(Car car) {
+	   log.info(car.toString());
+	   carService.stopCar(car);
+	   return null;
+   }
+   
+   @RequestMapping("/resume")
+   @ResponseBody
+   public String resume(Car car) {
+	   log.info(car.toString());
+	   carService.resumeCar(car);
+	   return null;
+   }
 }
 
 
