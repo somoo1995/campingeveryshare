@@ -176,7 +176,7 @@ pageEncoding="UTF-8"%>
 		</span>
 		<div class="col-md-6 form-floating is-invalid">
 			<input class="border border-success-subtle form-control" id="userId" name="userId" type="text" value="${updateUser.userId }"  disabled>
-		    <label for="floatingInputGroup2">이름*</label>
+		    <label for="floatingInputGroup2">아이디*</label>
 	  	</div>
 		<div id="idDupleBlock" class="valid-feedback"  style="display:none">
 			<p id="idDupleText"></p>
