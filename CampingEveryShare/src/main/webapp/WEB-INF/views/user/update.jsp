@@ -3,6 +3,7 @@
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:import url="../layout/header.jsp" />
 <style>
@@ -182,7 +183,8 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 	
-	
+	<c:if test="${not fn:contains(loginId, '.k')}">
+    <div id="pw">
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
 		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
@@ -214,6 +216,8 @@ pageEncoding="UTF-8"%>
 	    <p id="pwDupleText"></p>
 		</div>
 	</div>
+	</div>
+	</c:if>	
 	
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text" id="basic-addon1">
