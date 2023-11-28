@@ -9,9 +9,6 @@
 <meta charset="UTF-8">
 <title>Camping Every Share</title>
 
-<!-- 파비콘 -->
-<link rel="icon" href="/resources/img/favicon.ico">
-
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -22,9 +19,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
-
-<!-- 폰트 목록 불러오기 -->
-<link rel="stylesheet" href="../resources/css/font.css?after">
 
 <!-- 어도비 본고딕 폰트 불러오기 -->
 <script>
@@ -40,6 +34,7 @@
 
 <!-- Line Awesome Icon 불러오기-->
 <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
 
 <style type="text/css">
 
@@ -195,7 +190,7 @@ function hasNew() {
 }
 
 $(function() {
-   
+	
     $(".toggleSwitch").click(function() {
         // 토글 버튼 클릭 시 호스트와 게스트 교체
         $("#host, #guest").toggleClass("userStatus");
@@ -230,17 +225,7 @@ $(function() {
     console.log("Setting user status and camp data");
     var userStatusContainer = $("#userStatusContainer");
     userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
-    
-    if (isLoggedIn) {
-        //로그인한 경우
-         userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
-         $("#campStatus").html("내 예약").attr("camp-data", "/booking/main");
-     }
-     else {
-        //로그인하지 않은 경우
-        campStatusIcon.html("내 캠핑").attr("camp-data", "/mypage/fail");
-     }
-    
+   
 });
 
 </script><!-- script 끝 -->
