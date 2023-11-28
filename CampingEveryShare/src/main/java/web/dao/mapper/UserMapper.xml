@@ -80,17 +80,36 @@
 	</select>
 	
 	<update id="updateUser" parameterType="User">
-	    UPDATE userTb
-	    SET
-	        user_pw = #{userPw},
-	        birth = #{birth}, 
-	        address = #{address}, 
-	        address_detail = #{addressDetail},
-	        phone = #{phone}, 
-	        profile = #{profile}
-	    WHERE
-	        user_id = #{userId}
+    <choose>
+        <!-- Check if user ID ends with '.k' -->
+        <when test="userId.endsWith('.k')">
+            UPDATE userTb
+            SET
+                birth = #{birth}, 
+                address = #{address}, 
+                address_detail = #{addressDetail},
+                phone = #{phone}, 
+                profile = #{profile}
+            WHERE
+                user_id = #{userId}
+        </when>
+        <!-- If user ID doesn't end with '.k', update password as well -->
+        <otherwise>
+            UPDATE userTb
+            SET
+                user_pw = #{userPw},
+                birth = #{birth}, 
+                address = #{address}, 
+                address_detail = #{addressDetail},
+                phone = #{phone}, 
+                profile = #{profile}
+            WHERE
+                user_id = #{userId}
+        </otherwise>
+    </choose>
 	</update>
+	
+
 
 	<update id="updatePw" parameterType="User">
 	    UPDATE userTb
