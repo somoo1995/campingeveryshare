@@ -2,6 +2,7 @@ package web.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
 import web.service.face.CarService;
+import web.util.Paging;
 
 @Controller
 @RequestMapping("/car")
@@ -33,8 +35,19 @@ public class CarController {
 		
 	}
 	
-	@GetMapping("/history")
-	public String history() {
+	@RequestMapping("/history")
+	public String history(HttpSession session,Model model,Paging param) {
+		User user = new User();
+		user.setUserId((String)session.getAttribute("loginId"));
+		log.info(user.toString());
+		Paging paging = carService.getPaging(param,user);
+		log.info(paging.toString());
+		List<Map<String,Object>> rentList = new ArrayList<Map<String,Object>>();
+		rentList = carService.getRentList(user,paging);
+		model.addAttribute("rentList",rentList);
+		model.addAttribute("paging",paging);
+//		log.info(rentList.toString());
+		
 		return "/car/history";
 	}
 	

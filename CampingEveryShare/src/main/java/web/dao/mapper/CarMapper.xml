@@ -15,7 +15,7 @@
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM cartb
 		<where>
-			AND car_status = 0
+			AND car_status = 2
 			AND delete_status = 0
 			<if test="category != 0">
 				AND location = #{category }
@@ -174,4 +174,58 @@ UPDATE cartb
 SET car_status = 1
 WHERE car_number = #{carNumber}
 </update>
+
+<select id="selectRentList" parameterType="User" resultType="Map">
+WITH PaginatedRent AS (
+    SELECT
+    	R.rent_no, 
+        R.rent_status,
+        F.stored_name,
+        C.car_name,
+        C.car_number,
+        U.user_nick,
+        U.profile,
+        R.MERCHANT_UID, 
+        R.user_id as custom_id,
+        TO_CHAR(R.start_date, 'YYYY-MM-DD') AS start_date,
+        TO_CHAR(R.end_date, 'YYYY-MM-DD') AS end_date,
+         TO_CHAR(R.amount, '999,999,999') AS amount,
+        TO_CHAR(R.booking_date, 'YYYY-MM-DD') AS booking_date,
+        R.car_no,
+        C.user_id,
+        ROW_NUMBER() OVER (ORDER BY R.rent_status) AS RNUM
+    FROM 
+        renttb R
+        INNER JOIN cartb C ON R.car_no = C.car_no
+        INNER JOIN boardfiletb F ON C.car_no = F.board_no
+        INNER JOIN usertb U ON R.user_id = U.user_id
+    WHERE C.user_id = #{user.userId}
+)
+SELECT * FROM PaginatedRent
+WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
+
+<select id="selectCntLentList" parameterType="user">
+SELECT count(*) from(
+    SELECT 
+        R.rent_status,
+        F.stored_name,
+        C.car_name,
+        C.car_number,
+        U.user_nick,
+        U.profile,
+        R.start_date,
+        R.end_date,
+        R.amount,
+        R.booking_date,
+        R.car_no,
+        C.user_id,
+        ROW_NUMBER() OVER (ORDER BY R.end_date DESC) AS RNUM
+    FROM 
+        renttb R
+        INNER JOIN cartb C ON R.car_no = C.car_no
+        INNER JOIN boardfiletb F ON C.car_no = F.board_no
+        INNER JOIN usertb U ON R.user_id = U.user_id
+    WHERE C.user_id = #{userId})
+</select>
 </mapper>

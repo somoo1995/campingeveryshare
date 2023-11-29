@@ -19,6 +19,7 @@ import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
 import web.service.face.CarService;
+import web.util.Paging;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -144,6 +145,18 @@ public class CarServiceImpl implements CarService {
 	public void approveCar(Car car) {
 		carDao.updateApproveCae(car);
 		
+	}
+
+	@Override
+	public List<Map<String, Object>> getRentList(User user,Paging paging) {
+		return carDao.selectRentList(user,paging);
+	}
+
+	@Override
+	public Paging getPaging(Paging param, User user) {
+		int totalCount = carDao.selectCntLentList(user);
+		Paging paging = new Paging( totalCount, param.getCurPage() );
+		return paging;
 	}
 
 }

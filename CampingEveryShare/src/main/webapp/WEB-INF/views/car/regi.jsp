@@ -972,8 +972,8 @@ ${carModel.content }
 	<c:if test="${carModel == null }">
   		<button type="button" class="btn btn-success save-button">저장</button>
 	</c:if>
-	<c:if test="${carModel != null and carModel.carStatus == 0}">
-  <button type="button" class="btn btn-primary approve-button">승인요청</button>
+	<c:if test="${carModel == null }">
+  		<button type="button" class="btn btn-success approve-button" disabled>승인요청</button>
 	</c:if>
 	<c:if test="${carModel != null and carModel.carStatus == 2}">
 	<button type="button" class="btn btn-primary approve-button" disable>승인요청</button>

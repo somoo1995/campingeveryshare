@@ -3,6 +3,8 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
@@ -47,6 +49,10 @@ public interface CarDao {
 	public void resumeCar(Car car);
 
 	public void updateApproveCae(Car car);
+
+	public List<Map<String, Object>> selectRentList(@Param("user") User user, @Param("paging") Paging paging);
+
+	public int selectCntLentList(User user);
 	
 
 }
