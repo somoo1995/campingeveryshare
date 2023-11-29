@@ -227,8 +227,10 @@ public class UserController {
 		session.setAttribute("isLogin", isLogin);
 		session.setAttribute("loginId", loginInfo.getUserId());
 		session.setAttribute("loginNick", loginInfo.getUserNick());
+		session.setAttribute("loginProfile", loginInfo.getProfile());
 		logger.info("session : " + session.getAttribute("loginId"));
 		logger.info("session : " + session.getAttribute("loginNick"));
+		logger.info("session : " + session.getAttribute("loginProfile"));
 
 		return "true";
 	}
