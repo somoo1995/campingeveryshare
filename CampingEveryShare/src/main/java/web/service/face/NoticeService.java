@@ -12,7 +12,7 @@ import web.util.Paging;
 public interface NoticeService {
 
 	/**
-	 * 게시글 전체 리스트
+	 * 게시글 전체 리스트 (delete_status 가 0:활성 인 리스트 불러오기)
 	 * 
 	 * @param paging - 페이징 객체
 	 * @return - 조회된 게시글 리스트
@@ -79,8 +79,14 @@ public interface NoticeService {
 	 */
 	public boolean deleteStatus(Board board);
 
-	public boolean status(Board board);
-	
+	/**
+	 * 게시글 전체 리스트 (관리자용, delete_status 상관없이 모두 불러오기)
+	 * 
+	 * @param paging - 페이징 객체
+	 * @return - 조회된 게시글 리스트
+	 */
+	public List<Map<String, Object>> adminList(Paging paging);
+
 	/**
 	 * 글 상태 조회
 	 * 

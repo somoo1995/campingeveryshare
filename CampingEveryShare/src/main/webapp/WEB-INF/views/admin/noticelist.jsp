@@ -16,26 +16,15 @@ pageEncoding="UTF-8"%>
 </style>
 
 <script type="text/javascript">
-$(()=>{
-//	if(${isStatus}) {
-//		$("#btnStatus")
-//			.addClass("btn-warning")
-//			.html('삭제 복구');
-//	} else {
-//		$("#btnStatus")
-//			.addClass("btn-primary")
-//			.html('삭제');
-//	}
-	
+$(()=>{	
 	$(".btnStatus").click(function (){
 		
-		console.log("동작하니")
 		var boardNo = $(this).attr("data-boardno")
 		var boardCate = $(this).attr("data-cate")
 		var status = $(this).attr("data-status")
 		
-		console.log($(this).data("boardno"))
-		console.log($(this).attr("data-cate"))
+		console.log(boardNo)
+		console.log(boardCate)
 		console.log(status)
 		
 		$.ajax({
@@ -48,20 +37,22 @@ $(()=>{
  			}
 			, dataType: "json"
 			, success: function( data ) {
-					console.log("성공");
-	
+	//				console.log("성공");
+					
 				if( data.result ) { //삭제 성공
-					$(".btnStatus")
-					.removeClass("btn-primary")
+					$(".btnStatus[data-boardno='" + boardNo + "']")
+					.removeClass("btn-danger")
 					.addClass("btn-warning")
 					.html('삭제 복구');
 				
 				} else { //삭제 복구 성공
-					$(".btnStatus")
+					$(".btnStatus[data-boardno='" + boardNo + "']")
 					.removeClass("btn-warning")
-					.addClass("btn-primary")
+					.addClass("btn-danger")
 					.html('삭제');
 				} //if end
+				
+	//			location.reload(true);
 				
 			}
 			, error: function() {
@@ -87,7 +78,7 @@ $(()=>{
     </c:when>
     <c:otherwise>
         <!-- adminCode가 존재하고 adminCode와 admin.adminCode가 일치하는 경우에만 버튼을 표시 -->
-        <a href="/notice/write?boardCate=5"><button>글쓰기</button></a>
+        <a href="./write?boardCate=5"><button>글쓰기</button></a>
     </c:otherwise>
 </c:choose>
 </div>
@@ -95,10 +86,10 @@ $(()=>{
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
    <col width="15%">
-   <col width="50%">
+   <col width="40%">
    <col width="10%">
    <col width="15%">
-   <col width="10%">
+   <col width="20%">
 </colgroup>
 
 <thead class="head">
@@ -115,7 +106,7 @@ $(()=>{
 	<tr> 
 		<td style="text-align: center; font-weight: bold; font-size: 17px; margin-right: 13px;">[공지]</td>
 		<td class="body">
-			<a href="admin/noticeview?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
+			<a href="./noticeview?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
 			${board.TITLE }</a>
 		</td>
 		<td class="body">${board.HIT }</td>
@@ -132,8 +123,15 @@ $(()=>{
 	      </c:choose>   
          </td>
          <td class="body">
-   			 <button class="btn btn-primary btnStatus" data-boardno="${board.BOARD_NO}" data-cate="${board.BOARD_CATE }" data-status="${board.DELETE_STATUS }">${board.BOARD_NO},${board.BOARD_CATE },${board.DELETE_STATUS }</button>
-		</td>   
+         <c:choose>
+         <c:when test="${board.DELETE_STATUS eq 0 }">
+   			 <button class="btn btn-danger btnStatus" data-boardno="${board.BOARD_NO}" data-cate="${board.BOARD_CATE }" data-status="${board.DELETE_STATUS }">삭제</button>
+		</c:when>
+		<c:when test="${board.DELETE_STATUS eq 1 }">
+   			 <button class="btn btn-warning btnStatus" data-boardno="${board.BOARD_NO}" data-cate="${board.BOARD_CATE }" data-status="${board.DELETE_STATUS }">삭제 복구</button>
+		</c:when>
+		</c:choose>
+		</td>
 	</tr>
 </c:forEach>
 </tbody>
