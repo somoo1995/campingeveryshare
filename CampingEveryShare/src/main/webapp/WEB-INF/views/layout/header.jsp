@@ -33,10 +33,15 @@
 
 
 <style type="text/css">
+.profile_box .box{
+	display: none;
+}
 
 </style>
 
 <script type="text/javascript">
+
+
 
 $(function() {
    $('.fade').slick({
@@ -224,6 +229,30 @@ $(function() {
    
 });
 
+
+$(document).ready(function() {
+    // 사용자의 프로필 값을 가져옴
+    var userProfile = "${loginProfile}";
+	
+    console.log("login.profile:", userProfile);
+
+
+    // 로그인 여부에 따라 다른 프로필 사진을 보여줌
+    if (${empty isLogin or not isLogin}) {
+        // 로그인하지 않은 경우
+    	var targetNumber = 2;
+   	 	var $target = $('.box[data-profile-number="' +targetNumber+ '"]');
+   	 	$target.show();
+    } else {
+        // 로그인한 경우
+    	 var targetNumber = userProfile;
+    	 var $target = $('.box[data-profile-number="' +targetNumber+ '"]');
+    	 $target.show();
+    }
+});
+
+
+
 </script><!-- script 끝 -->
 
 </head>
@@ -282,8 +311,8 @@ $(function() {
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
          <div class="profile_box">
-         <div class="box">
-         <img class="profile" alt="profile" src="/resources/img/profile2.png">
+         <div class="box"  data-profile-number="2">
+		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="150" height="150">
          </div><!-- .box -->
          </div><!-- .profile_box -->
          
@@ -296,14 +325,35 @@ $(function() {
             </div>
          </c:when>
          <c:when test="${not empty isLogin and isLogin }">
+             
+<!--             선택한 프로필에 따라 사진 변경 필요 -->
+<!--             프로필 사진 규격: 150px 150px -->
+<!--             <div class="profile_box"> -->
+<!--             <div class="box"> -->
+<!--             <img class="profile" alt="profile" src="/resources/img/profile2.png"> -->
+<!--             </div>.box -->
+<!--             </div>.profile_box -->
+
+
+    <div class="profile_box">
+        <div class="box" data-profile-number="1">
+		   <img src="/resources/img/profile1.png" alt="프로필1" id="profile-img-1" width="150" height="150" >
+        </div>
+        <div class="box"  data-profile-number="2">
+		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="150" height="150">
+        </div>
+        <div class="box"  data-profile-number="3">
+		   <img src="/resources/img/profile3.png" alt="프로필3" id="profile-img-3" width="150" height="150">
+        </div>
+        <div class="box" data-profile-number="4">
+		   <img src="/resources/img/profile4.png" alt="프로필4" id="profile-img-4" width="150" height="150">
+        </div>
+        <div class="box" data-profile-number="5">
+		   <img src="/resources/img/profile5.png" alt="프로필5" id="profile-img-5" width="150" height="150" >
+        </div>
+	</div>
+	
             
-            <!-- 선택한 프로필에 따라 사진 변경 필요 -->
-            <!-- 프로필 사진 규격: 150px 150px -->
-            <div class="profile_box">
-            <div class="box">
-            <img class="profile" alt="profile" src="/resources/img/profile2.png">
-            </div><!-- .box -->
-            </div><!-- .profile_box -->
             
             <div class="mb-5"> <span style="font-weight: 500;">${loginNick }</span>님</div>
             
