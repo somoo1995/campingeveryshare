@@ -70,7 +70,7 @@ $(function () {
 			$(".selectSEL").hide()
 			$(".selectICN").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 		}
 	})
@@ -81,7 +81,7 @@ $(function () {
 			$(".selectSEL").show()
 			$(".selectICN").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 			
 		}
@@ -93,7 +93,7 @@ $(function () {
 			$(".selectICN").show()
 			$(".selectSEL").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 			
 		}
@@ -107,7 +107,7 @@ function loadList(areaCate) {
 		type: "post"
 		, url: "/rent/list"
 		, data: {
-			location: areaCate
+			category: areaCate
 		}
 		, dataType: "html"
 		, success: function( res ) {
@@ -136,59 +136,53 @@ function loadList(areaCate) {
 
 <div class="col-2 mb-3 float-end">
 	<div>
-<!-- 	<select class="form-select"> -->
-<!-- 		<option selected="selected">지역</option> -->
-<!-- 		<option value="1">서울</option> -->
-<!-- 		<option value="2">인천</option> -->
-<!-- 	</select> -->
-	
-	<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked">전체
-	<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1">서울
-	<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
+		<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked">전체
+		<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1">서울
+		<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
 	</div>
 	
-	<div class="selectSEL" style="display: none;">
-		<select class="form-select" name="areaSelect" id="areaCateSeo">
-			<option>전체</option>      
-			<option value="1">강남구</option>      
-			<option value="2">강동구</option>      
-			<option value="3">강북구</option>      
-			<option value="4">강서구</option>      
-			<option value="5">관악구</option>      
-			<option value="6">광진구</option>      
-			<option value="7">구로구</option>      
-			<option value="8">금천구</option>      
-			<option value="9">노원구</option>      
-			<option value="10">도봉구</option>      
-			<option value="11">동대문구</option>      
-			<option value="12">동작구</option>      
-			<option value="13">마포구</option>      
-			<option value="14">서대문구</option>      
-			<option value="15">서초구</option>      
-			<option value="16">성동구</option>      
-			<option value="17">성북구</option>      
-			<option value="18">송파구</option>      
-			<option value="19">양천구</option>      
-			<option value="20">영등포구</option>      
-			<option value="21">용산구</option>      
-			<option value="22">은평구</option>      
-			<option value="23">종로구</option>      
-		</select>
-	</div>
+<!-- 	<div class="selectSEL" style="display: none;"> -->
+<!-- 		<select class="form-select" name="areaSelect" id="areaCateSeo"> -->
+<!-- 			<option>전체</option>       -->
+<!-- 			<option value="1">강남구</option>       -->
+<!-- 			<option value="2">강동구</option>       -->
+<!-- 			<option value="3">강북구</option>       -->
+<!-- 			<option value="4">강서구</option>       -->
+<!-- 			<option value="5">관악구</option>       -->
+<!-- 			<option value="6">광진구</option>       -->
+<!-- 			<option value="7">구로구</option>       -->
+<!-- 			<option value="8">금천구</option>       -->
+<!-- 			<option value="9">노원구</option>       -->
+<!-- 			<option value="10">도봉구</option>       -->
+<!-- 			<option value="11">동대문구</option>       -->
+<!-- 			<option value="12">동작구</option>       -->
+<!-- 			<option value="13">마포구</option>       -->
+<!-- 			<option value="14">서대문구</option>       -->
+<!-- 			<option value="15">서초구</option>       -->
+<!-- 			<option value="16">성동구</option>       -->
+<!-- 			<option value="17">성북구</option>       -->
+<!-- 			<option value="18">송파구</option>       -->
+<!-- 			<option value="19">양천구</option>       -->
+<!-- 			<option value="20">영등포구</option>       -->
+<!-- 			<option value="21">용산구</option>       -->
+<!-- 			<option value="22">은평구</option>       -->
+<!-- 			<option value="23">종로구</option>       -->
+<!-- 		</select> -->
+<!-- 	</div> -->
 	
-	<div class="selectICN" style="display: none;">
-		<select class="form-select" name="areaSelect" id="areaCateIn">
-			<option>전체</option>      
-			<option value="1">중구</option>      
-			<option value="2">남동구</option>      
-			<option value="3">동구</option>      
-			<option value="4">미추홀구</option>      
-			<option value="5">부평구</option>      
-			<option value="6">서구</option>      
-			<option value="7">연수구</option>      
-			<option value="8">계양구</option>      
-		</select>
-	</div>
+<!-- 	<div class="selectICN" style="display: none;"> -->
+<!-- 		<select class="form-select" name="areaSelect" id="areaCateIn"> -->
+<!-- 			<option>전체</option>       -->
+<!-- 			<option value="1">중구</option>       -->
+<!-- 			<option value="2">남동구</option>       -->
+<!-- 			<option value="3">동구</option>       -->
+<!-- 			<option value="4">미추홀구</option>       -->
+<!-- 			<option value="5">부평구</option>       -->
+<!-- 			<option value="6">서구</option>       -->
+<!-- 			<option value="7">연수구</option>       -->
+<!-- 			<option value="8">계양구</option>       -->
+<!-- 		</select> -->
+<!-- 	</div> -->
 	
 </div>
 
@@ -201,8 +195,5 @@ function loadList(areaCate) {
 
 </div><!-- .container end -->
 
-<c:if test="${paging.totalCount gt 9 }">
-	<c:import url="../layout/pagination.jsp" />
-</c:if>
 
 <c:import url="../layout/footer.jsp" />

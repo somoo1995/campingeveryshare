@@ -111,6 +111,11 @@ $(function() {
 		var reviewContainer = $(".review[data-no='" + rentNo + "']")
 		var content = reviewContainer.find(".content").val()
 		
+		if(content === "") {
+			alert("내용을 작성하세요")
+			return
+		}
+		
 		console.log("review click - rate : " + rate)
 		
 	      $.ajax({
@@ -156,9 +161,11 @@ $(function() {
 		
 		console.log($(this).attr("data-uid"))
 		console.log($(this).attr("data-id"))
+		console.log($(this).attr("data-car"))
 		
 		var userId = $(this).attr("data-id")
 		var rentNo = $(this).attr("data-no")
+		var carNo = $(this).attr("data-car")
 		
 		$.ajax({
 			type: "post"
@@ -170,7 +177,7 @@ $(function() {
 			, dataType: "json"
 			, success: function( data ) {
 				console.log("AJAX 성공")
-				sendNotification(userId, rentNo)
+				sendNotification(userId, carNo)
 				
 				alert("취소가 완료되었습니다")
 				
@@ -188,7 +195,7 @@ $(function() {
 	
 })
 
-function sendNotification(userId, rentNo) {
+function sendNotification(userId, carNo) {
    
 // 	console.log(userid)
 // 	console.log(rentno)
@@ -199,7 +206,7 @@ function sendNotification(userId, rentNo) {
         , data: {
            userId: userId,
            boardCate: 1,
-           boardNo: rentNo,
+           boardNo: carNo,
            content: 5
         }
         , dataType: "json"
@@ -243,7 +250,7 @@ function sendNotification(userId, rentNo) {
 <!-- 		</li> -->
 		<c:choose>
 			<c:when test="${empty param.status || param.status == 'now'}">
-			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }">취소</button> </li>
+			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> </li>
 			</c:when>
 			<c:when test="${param.status == 'history' }">
 				<c:if test="${empty list.REVIEW }">

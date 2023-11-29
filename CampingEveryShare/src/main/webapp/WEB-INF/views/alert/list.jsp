@@ -5,6 +5,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
+
 .alert-back {
 	position: absolute;
 	top: 10px;
@@ -16,6 +17,7 @@ pageEncoding="UTF-8"%>
 /* 	top:0px; */
 	width: 100%;
 	height:100%;
+	border-left: 1px solid #efefef;
 }
 
 .wrap-content {
@@ -25,11 +27,36 @@ pageEncoding="UTF-8"%>
 	width: 362px;
 	height: 94%;
 	overflow-y: auto;
-	overflow-x: hidden; 
+	overflow-x: hidden;
+}
+
+.alert-data {
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    box-shadow: 2px 4px 4px 0px rgba(0,0,0,0.3);
+    background-color: #EFEFEF;
+}
+
+
+.data-title {
+	font-weight: bold;
+	font-size: 20px;
+	color: #424242;
+}
+
+.data-message {
+	font-size: 16px;
+	color: #5F5F5F;
 }
 
 ul {
-	border-bottom: 1px solid #4E4134;
+	margin: 7px;
+	padding-left: 0px;
 }
 
 ul:hover {
@@ -38,8 +65,9 @@ ul:hover {
 }
 
 li {
-	margin-left: -25px;
+/* 	margin-left: -25px; */
 	color: #4E4134;
+	
 }
 
 #newIcon {
@@ -58,11 +86,6 @@ li {
 #newIcon-text {
 	display: inline-block;
 	margin-top: 1px;
-}
-
-.wrap-content {
-	border: 1px solid #ccc;
-	border-radius: 5px;
 }
 
 
@@ -110,23 +133,25 @@ $(function() {
 <img class="alert-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
 
 <div class="wrap-content">
-	<c:forEach var="list" items="${list }">	
-	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
-		<li>
-			<c:if test="${list.alertStatus eq 0 }"> <div id="newIcon"><div id="newIcon-text">NEW</div></div> </c:if>
-			<c:if test="${list.boardCate eq 1 }">[대여]</c:if>
-			<c:if test="${list.boardCate eq 7 }">[캠핑카]</c:if>
-			${list.alertNo }
+	<c:forEach var="list" items="${list }">
+	<div class="alert-data">
+	<ul class="alertData" id="alertData" data-alert="${list.ALERT_NO }" style="border: 1px solid #ccc;">
+		<li class="data-title">
+			<c:if test="${list.ALERT_STATUS eq 0 }"> <div id="newIcon"><div id="newIcon-text">NEW</div></div> </c:if>
+			<c:if test="${list.BOARD_CATE eq 1 }">[대여]</c:if>
+			<c:if test="${list.BOARD_CATE eq 7 }">[캠핑카]</c:if>
+			"${list.CARNAME }"
 		</li>
-		<li></li>
-		<li>
-			<c:if test="${list.content eq 1 }">신규 캠핑카 승인 완료</c:if>
-			<c:if test="${list.content eq 2 }">신규 캠핑카 승인 보류</c:if>
-			<c:if test="${list.content eq 3 }">신규 캠핑카 승인 불가</c:if>
-			<c:if test="${list.content eq 4 }">캠핑카 신규 예약</c:if>
-			<c:if test="${list.content eq 5 }">캠핑카 예약 취소</c:if>
+		<li class="data-message">
+			<c:if test="${list.CONTENT eq 1 }">승인 요청이 완료되었습니다</c:if><br>
+			<c:if test="${list.CONTENT eq 1 }"><span onclick="location.href='/car/main'">내 캠핑카 보러가기</span></c:if>
+			<c:if test="${list.CONTENT eq 2 }">승인 요청이 보류되었습니다</c:if>
+			<c:if test="${list.CONTENT eq 3 }">승인 요청이 거절되었습니다</c:if>
+			<c:if test="${list.CONTENT eq 4 }">새로운 예약이 생성되었습니다</c:if>
+			<c:if test="${list.CONTENT eq 5 }">캠핑카 예약이 취소되었습니다</c:if>
 		</li>
 	</ul>
+	</div>
 	</c:forEach>
 </div>
 

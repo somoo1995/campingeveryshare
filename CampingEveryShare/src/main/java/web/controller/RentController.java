@@ -35,6 +35,7 @@ public class RentController {
 	@GetMapping("/list")
 	public String rentMain( Model model, Paging param, @RequestParam(required = false) String location ) {
 		logger.info("location : {}", location);
+		logger.info("param : {}", param);
 		
 		Paging paging = rentService.getPaging(param, location);
 		logger.info("paging : {}", paging);
@@ -43,8 +44,10 @@ public class RentController {
 		logger.info("list : {}", list);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
 		
 		return "rent/main";
+		
 	}
 	
 	@PostMapping("/list")
@@ -57,6 +60,7 @@ public class RentController {
 		List<Map<String, Object>> list = rentService.getCarList(paging);
 		logger.info("list : {}", list);
 		
+		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		return "rent/list";
 	}

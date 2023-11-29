@@ -33,6 +33,7 @@ $(function() {
 
 </script>
 
+<%-- ${paging.curPage } --%>
 <div>
 	<ul class="pagination pagination-sm justify-content-center">
 		<c:if test="${paging.curPage ne 1 }">
