@@ -90,6 +90,15 @@ public interface NoticeDao {
 	public void statusToOne(Board board);
 
 	public void statusToZero(Board board);
+
+	/**
+	 * 전체 리스트 (관리자용)
+	 * 
+	 * @param paging - 페이징 객체
+	 * @param board 
+	 * @return - 조회된 게시글 전체
+	 */
+	public List<Map<String, Object>> selectNoticeAllAdmin(Paging paging);
 	
 
 }

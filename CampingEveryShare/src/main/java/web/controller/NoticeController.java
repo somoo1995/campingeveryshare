@@ -75,22 +75,17 @@ public class NoticeController {
 		admin.setAdminCode((String) session.getAttribute("adminCode"));
 		logger.info("admin : {}", admin);
 		
-		List<Map<String, Object>> list = noticeService.list(paging);
+		List<Map<String, Object>> list = noticeService.adminList(paging);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		model.addAttribute("admin", admin);
 		
-		//delete_status값 가져오기
-//		boolean isStatus = noticeService.status(board);
-//		model.addAttribute("isStatus", isStatus);
-		
 //		logger.info("board : {}", board);
-		logger.info("list : {}", list);
+//		logger.info("list : {}", list);
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
-		
 		
 	}
 
@@ -168,7 +163,7 @@ public class NoticeController {
 		return"redirect:/admin/noticeview?boardNo=" + board.getBoardNo();
 	}
 	
-	@RequestMapping("admin/deletenotice")
+	@RequestMapping("admin/delete")
 	public String deleteNotice(Board board, Model model) {
 		if( board.getBoardNo() < 1 ) {
 			return "/admin/noticelist";
@@ -181,7 +176,7 @@ public class NoticeController {
 	
 	@RequestMapping("/admin/status")
 	public ModelAndView toggleDeleteStatus(Board board, Model model, ModelAndView mav) {
-		logger.info("board : {}", board);
+		logger.info("board 제대로 나오니 : {}", board);
 		
 		board.setBoardNo(board.getBoardNo());
 		board.setBoardCate(board.getBoardCate());
@@ -190,7 +185,7 @@ public class NoticeController {
 		//글 삭제 상태 토글
 	    boolean result = noticeService.deleteStatus(board);
 	    
-	    logger.info("board : {} " + board.toString());
+	    logger.info("board delete_status 내놔 : {}", board);
 	    
 	    mav.addObject("result", result);
 	    mav.setViewName("jsonView");

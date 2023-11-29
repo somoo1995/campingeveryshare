@@ -34,6 +34,32 @@
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 
   	</select>
+  	
+  	<select id="selectNoticeAllAdmin" parameterType="web.util.Paging" resultType="Map">
+      	SELECT * FROM (
+	  	SELECT ROWNUM rnum, B.* FROM (
+			SELECT board_no
+			, title
+			, location
+			, CAST(post_date AS DATE) AS post_date
+			, hit 
+			, content
+			, delete_status
+			, board_cate
+			, (SELECT admin_code FROM admintb WHERE admin_code = #{type } ) AS "ADMIN" 
+			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK" 
+			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 5) AS "RECOM"
+            , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
+			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
+			, (SELECT recruit_status FROM grouptb WHERE board_no = boardtb.board_no) AS "RECRUIT_STATUS"
+			, user_id
+			FROM boardtb
+			WHERE board_cate = 5
+			ORDER BY board_no DESC
+	    ) B
+	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+
+  	</select>
   
   	<select id="selectCntAll" resultType="int">
   		SELECT count(*) FROM boardtb
@@ -68,12 +94,6 @@
 	  	FROM admintb
 	  	WHERE admin_code = #{adminCode }
   	</select>  
-  	
-  	<update id="hit" parameterType="board">
-  		UPDATE boardtb
-  		SET hit = hit+1
-  		WHERE board_no = #{boardNo}
-  	</update>
   	  
 	<update id="updateProc" parameterType="board">
 		UPDATE boardtb

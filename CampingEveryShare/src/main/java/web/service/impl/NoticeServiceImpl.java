@@ -94,30 +94,27 @@ public class NoticeServiceImpl implements NoticeService {
 	public boolean deleteStatus(Board board) {
 		
 		int status = noticeDao.checkStatus(board);
+		logger.info("board delete_status 가기 전: {}", board);
 		
 		if(status > 0) {
-		noticeDao.statusToOne(board);
+		noticeDao.statusToZero(board);
 		
 			return false;
 			
 		} else {
-			noticeDao.statusToZero(board);
+			noticeDao.statusToOne(board);
 			
 			return true;
 		}
+		
 	}
 
 	@Override
-	public boolean status(Board board) {
+	public List<Map<String, Object>> adminList(Paging paging) {
 		
-		int status = noticeDao.checkStatus(board);
+		List<Map<String, Object>> list = noticeDao.selectNoticeAllAdmin(paging);
 		
-		if(status>0) {
-			return true;
-		}
-		return false;
-
-
+		return list;
 	}
 
 }

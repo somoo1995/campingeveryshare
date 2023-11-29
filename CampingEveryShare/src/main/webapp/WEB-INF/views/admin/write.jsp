@@ -67,50 +67,19 @@ select {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">모집 글 작성</h3>
+<h3 id="pageTitle">공지사항 작성</h3>
 <hr>
 
 <div>
 
-<form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
-<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황 ">
-|
-<label><input type="radio" name="recruitStatus" id="recruitStatus" value="0" checked="checked">모집중</label>
-<label><input type="radio" name="recruitStatus" id="recruitStatus" value="1">모집 완료</label>
-</div>
+<form id="fileForm" action="./write" method="post">
 
-<div class="locationselect">
-<input type="text" class="location" readonly="readonly" value="위 치">
-|
-<select name="location" id="location">
-     <option>선택</option>
-     <option value="10">강원</option>
-     <option value="9">경기</option>
-     <option value="16">경남</option>
-     <option value="15">경북</option>
-     <option value="5">광주</option>
-     <option value="6">대구</option>
-     <option value="3">대전</option>
-     <option value="4">부산</option>
-     <option value="1">서울</option>
-     <option value="8">세종</option>
-     <option value="7">울산</option>
-     <option value="2">인천</option>
-     <option value="14">전남</option>
-     <option value="13">전북</option>
-     <option value="17">제주</option>
-     <option value="12">충남</option>
-     <option value="11">충북</option>
- </select>
-</div> 
-
-<hr>
  
-<input type="hidden" name="loginId" value="${loginId }" >
-<input type="hidden" name="boardCate" value="4" >
+<input type="hidden" name="adminCode" value="${adminCode }" >
+<input type="hidden" name="boardCate" value="5" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${loginNick }">
+	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${adminCode }">
 </div>
 
 <div class="form-group mb-3">
@@ -121,11 +90,6 @@ select {
 <div class="form-group mb-3">
 	<label class="form-label" for="content">본문</label>
 	<textarea class="form-control" name="content" id="content"></textarea>
-</div>
-
-<div class="form-group mb-3">
-	<label class="form-label" for="file">파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
 </div>
 
 <div class="text-center">
