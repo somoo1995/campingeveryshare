@@ -71,6 +71,25 @@ public interface NoticeDao {
 	 * @param board - 보드넘버
 	 */
 	public void deleteByBoardNo(Board board);
+
+	/**
+	 * 글 상태 토글 해보자
+	 * 
+	 * @param board
+	 */
+	public void deleteStatus(Board board);
+
+	/**
+	 * status 상태값을 가져오자
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public int checkStatus(Board board);
+
+	public void statusToOne(Board board);
+
+	public void statusToZero(Board board);
 	
 
 }
