@@ -12,5 +12,7 @@ public interface ReviewService {
 
 	public List<Map<String, Object>> getReview(Car car);
 
+	public void deleteReview(Review review);
+
 
 }

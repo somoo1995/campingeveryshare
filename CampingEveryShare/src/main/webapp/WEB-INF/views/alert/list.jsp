@@ -54,10 +54,17 @@ li {
 	z-index: 2;
 	vertical-align: middle;
 }
-#newIcon1 {
+
+#newIcon-text {
 	display: inline-block;
 	margin-top: 1px;
 }
+
+.wrap-content {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
 
 </style>
 
@@ -106,11 +113,12 @@ $(function() {
 	<c:forEach var="list" items="${list }">	
 	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
 		<li>
-			<c:if test="${list.alertStatus eq 0 }"> <div id="newIcon"><div id="newIcon1">NEW</div></div> </c:if>
+			<c:if test="${list.alertStatus eq 0 }"> <div id="newIcon"><div id="newIcon-text">NEW</div></div> </c:if>
 			<c:if test="${list.boardCate eq 1 }">[대여]</c:if>
 			<c:if test="${list.boardCate eq 7 }">[캠핑카]</c:if>
 			${list.alertNo }
 		</li>
+		<li></li>
 		<li>
 			<c:if test="${list.content eq 1 }">신규 캠핑카 승인 완료</c:if>
 			<c:if test="${list.content eq 2 }">신규 캠핑카 승인 보류</c:if>

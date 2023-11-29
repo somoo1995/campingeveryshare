@@ -10,6 +10,9 @@
 		SELECT review_no, RV.user_id, R.rent_no, car_no, content, rate, RV.delete_status, RV.post_date
 		, (SELECT user_nick FROM usertb U WHERE RV.user_id = U.user_id) as reviewnick
 		FROM reviewtb RV
+<!-- 		<where> -->
+<!-- 			delete_status = 0 -->
+<!-- 		</where> -->
 	</sql>
 	
 	<resultMap type="map" id="reviewMap">
@@ -29,6 +32,7 @@
 		INNER JOIN renttb R ON RV.rent_no = R.rent_no
 		<where>
 			AND car_no = #{carNo }
+			AND RV.delete_status = 0
 		</where>
 	</select>
 	
@@ -36,9 +40,18 @@
 		<selectKey order="BEFORE" keyProperty="reviewNo" resultType="int">
 			SELECT review_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO reviewtb ( review_no, rent_no, content, rate )
-		VALUES ( #{reviewNo}, #{rentNo }, #{content }, #{rate } )
+		INSERT INTO reviewtb ( review_no, rent_no, user_id, content, rate )
+		VALUES ( #{reviewNo}, #{rentNo }, #{userId }, #{content }, #{rate } )
 	</insert>
 	
+	<update id="updateReviewDelete">
+		UPDATE reviewtb
+		<set>
+			delete_status = 1
+		</set>
+		<where>
+			AND review_no = #{reviewNo }
+		</where>
+	</update>
 	
 </mapper>

@@ -35,13 +35,17 @@ public class ReviewController {
 	@PostMapping("/write")
 	public String reviewWrite( Review review, @SessionAttribute("loginId") String userId ) {
 		review.setUserId(userId);
-		
-		
 		logger.info("review : {}", review);
 		reviewService.writeReview(review);
 		
 		return "jsonView";
 	}
 	
+	@PostMapping("/delete")
+	public String reviewDelete( Review review ) {
+		logger.info("review : {}", review);
+		reviewService.deleteReview(review);
+		return "jsonView";
+	}
 	
 }

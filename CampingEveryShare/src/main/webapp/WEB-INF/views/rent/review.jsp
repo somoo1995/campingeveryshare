@@ -54,6 +54,30 @@ $(function() {
              $(this).find(".star").eq(i).addClass("on")
          }
      })
+     
+     $(".btnReviewDelete").click(function() {
+    	 
+    	 var reviewNo = $(this).attr("data-no")
+		
+    	 $.ajax({
+    			type: "post"
+    			, url: "/review/delete"
+    			, data: {
+    				reviewNo: reviewNo
+    			}
+    			, dataType: "json"
+    			, success: function(  ) {
+    				console.log("AJAX 성공")
+    				loadReview()
+    			}
+    			, error: function() {
+    				console.log("AJAX 실패")
+    			}
+    		})
+    	 
+    	 
+	})
+     
 
 })
 
@@ -61,6 +85,7 @@ $(function() {
 
 <div class="wrap-review">
 
+<c:if test="${not empty list }">
 <div class="mb-5">
 	<c:forEach var="list" items="${list }">
 	<ul>
@@ -85,22 +110,22 @@ $(function() {
 		</li>
 		<li style="font-size: 25px;">${list.content }</li>
 		<c:if test="${list.userId eq loginId }">
-		<li> <button class="btn-sm btn-dark">삭제</button> </li>
+		<li> <button class="btnReviewDelete btn-sm btn-light" data-no="${list.reviewNo }">삭제</button> </li>
 		</c:if>
 	</ul>
 	<hr>
 	</c:forEach>
 </div>
+</c:if>
 
 
-
-<%-- <c:if test="${empty hasData or not hasData }"> --%>
-<!-- 		<div class="rentList"> -->
-<!-- 			<strong>아직 예약된 캠핑카가 없습니다!</strong><br> -->
-<!-- 			<span>캠핑카를 찾으시나요?</span><br> -->
-<!-- 			<a href="링크URL" class="exploreButton">살펴보기</a> -->
-<!-- 		</div> -->
-<%-- </c:if> --%>
+<c:if test="${empty list }">
+		<div class="rentList">
+			<strong>작성된 리뷰가 없습니다!</strong><br>
+			<span>이용 후기를 작성하시겠어요?</span><br>
+			<a href="/booking/main" class="exploreButton">내 예약</a>
+		</div>
+</c:if>
 
 
 </div> <!-- .wrap-review end -->
