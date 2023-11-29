@@ -45,6 +45,8 @@ public interface CarDao {
 	public void updateCarStop(Car car);
 
 	public void resumeCar(Car car);
+
+	public void updateApproveCae(Car car);
 	
 
 }

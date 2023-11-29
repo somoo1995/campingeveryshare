@@ -273,7 +273,15 @@ $(document).ready(function() {
     $('.carRegiForm form').on('change', 'input, select, textarea', function() {
         // 버튼의 disabled 속성 제거
         $('.update-button').prop('disabled', false);
+        $('.approve-button').prop('disabled', true)
     });
+    
+    $('.options-section').on('click', '.option-button', function() {
+        // 버튼의 disabled 속성 제거
+        $('.update-button').prop('disabled', false);
+        $('.approve-button').prop('disabled', true)
+    });
+    
     </c:if>
   
 	
@@ -309,6 +317,8 @@ $(document).ready(function() {
     });
 	
 	</c:if>
+	
+	
 	
 
 	
@@ -679,6 +689,26 @@ $(document).ready(function() {
   $(".btn.btn-primary.approve-button").click(function(event){
      event.preventDefault();
      console.log("승인요청 버튼 클릭됨");
+     var carNumberValue = $('input[name="carNumber"]').val();
+     console.log(carNumberValue)
+     
+     $.ajax({
+         url: '/car/approve', // 서버의 엔드포인트 URL
+         type: 'POST', // 데이터를 보내는 HTTP 메소드
+         data: {carNumber : carNumberValue}, // 보낼 데이터
+         success: function(response) {
+        	 console.log("approve AJAX 성공")
+             console.log("서버로부터의 응답:", response);
+          
+             }
+         ,
+         error: function(xhr, status, error) {
+             console.error("approve AJAX 에러 발생:", error);
+         }
+     });
+     
+     
+     
      location.href = location.pathname + "?autoClick=btnMyCar";
   })
   
@@ -942,7 +972,12 @@ ${carModel.content }
 	<c:if test="${carModel == null }">
   		<button type="button" class="btn btn-success save-button">저장</button>
 	</c:if>
-  <button type="button" class="btn btn-primary approve-button" disabled>승인요청</button>
+	<c:if test="${carModel != null and carModel.carStatus == 0}">
+  <button type="button" class="btn btn-primary approve-button">승인요청</button>
+	</c:if>
+	<c:if test="${carModel != null and carModel.carStatus == 2}">
+	<button type="button" class="btn btn-primary approve-button" disable>승인요청</button>
+	</c:if>
 </div>
 </form>
 </div>

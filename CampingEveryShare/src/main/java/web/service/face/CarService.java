@@ -27,4 +27,6 @@ public interface CarService {
 
 	void resumeCar(Car car);
 
+	void approveCar(Car car);
+
 }

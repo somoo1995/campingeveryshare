@@ -161,4 +161,10 @@ UPDATE cartb
 SET car_status = 2
 WHERE car_number = #{carNumber}
 </update>
+
+<update id="updateApproveCae" parameterType="Car">
+UPDATE cartb
+SET car_status = 1
+WHERE car_number = #{carNumber}
+</update>
 </mapper>
