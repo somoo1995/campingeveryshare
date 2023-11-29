@@ -269,6 +269,14 @@ public class CarController {
 	   carService.resumeCar(car);
 	   return null;
    }
+   
+   @RequestMapping("/approve")
+   @ResponseBody
+   public String approve(Car car) {
+	   log.info(car.toString());
+	   carService.approveCar(car);
+	   return null;
+   }
 }
 
 

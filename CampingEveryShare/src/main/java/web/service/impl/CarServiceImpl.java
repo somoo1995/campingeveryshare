@@ -140,4 +140,10 @@ public class CarServiceImpl implements CarService {
 		
 	}
 
+	@Override
+	public void approveCar(Car car) {
+		carDao.updateApproveCae(car);
+		
+	}
+
 }
