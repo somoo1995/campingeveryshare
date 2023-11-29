@@ -16,6 +16,9 @@
 			WHERE A.area_cate = (SELECT area FROM cartb C WHERE C.car_no = R.car_no)
 			AND A.loc_cate = (SELECT location FROM cartb C WHERE C.car_no = R.car_no)) as area
 		, (SELECT user_nick FROM usertb U WHERE U.user_id = (SELECT user_id FROM cartb C WHERE C.car_no = R.car_no)) as hostnick
+		<if test="search != null and !''.equals(search)">
+		, (SELECT review_no FROM reviewtb RV WHERE R.rent_no = RV.rent_no AND RV.user_id = #{search } AND delete_status = 0) as review
+		</if>
 		FROM renttb R
 	</sql>
 	

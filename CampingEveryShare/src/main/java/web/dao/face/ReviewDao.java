@@ -12,4 +12,6 @@ public interface ReviewDao {
 
 	public List<Map<String, Object>> selectReviewByCar(Car car);
 
+	public void updateReviewDelete(Review review);
+
 }

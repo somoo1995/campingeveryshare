@@ -22,6 +22,7 @@
  } 
 
 
+
 .star-box {
 	/* 별과 별 사이 공백 제거 */
     font-size: 0;
@@ -65,18 +66,25 @@ $(function() {
 	var idx = 0
 	var rate = 0
 	
+	
 	//별 클릭 이벤트
 	$(".star").click(function() {
+		
+		var rentNo = $(this).closest(".review").attr("data-no")
+		var stars = $(".review[data-no='" + rentNo + "'] .star")
+// 		var reviewContainer = $(".review[data-no='" + rentNo + "']")
 		
 		//클릭된 별이 몇 번째 칸인지 알아내기
 		idx = $(this).index();
 		
 		//모두 투명하게 만들기
-		$(".star").removeClass("on")
+// 		$(".star").removeClass("on")
+		stars.removeClass("on")
 		
 		//클릭이 된 곳까지 채워진 별로 만들기
 		for(var i=0; i<=idx; i++) {
-			$(".star").eq(i).addClass("on");
+// 			$(".star").eq(i).addClass("on")
+			stars.eq(i).addClass("on")
 		}
 		
 		rate = (idx+1)/2
@@ -92,22 +100,41 @@ $(function() {
 		reviewContainer.toggle()
 	})
 	
-	$("#btnReviewWrite").click(function() {
+	$(".btnReviewRead").click(function() {
+		var carNo = $(this).attr("data-car")
+		location.href="/rent/view?carNo=" + carNo
+	})
+	
+	$(".btnReviewWrite").click(function() {
+		
+		var rentNo = $(this).attr("data-no")
+		var reviewContainer = $(".review[data-no='" + rentNo + "']")
+		var content = reviewContainer.find(".content").val()
 		
 		console.log("review click - rate : " + rate)
 		
 	      $.ajax({
 	          type: "post"
-	          , url: "/rent/review/write"
+	          , url: "/review/write"
 	          , data: {
-	        	rentNo: $(this).attr("data-no"),
-	      		content: $("#content").val(),
+	        	rentNo: rentNo,
+	      		content: content,
 	      		rate: rate
 	          }
 	          , dataType: "json"
 	          , success: function(  ) {
 	             console.log("AJAX 성공")
-				$("#content").val('')
+				reviewContainer.toggle()
+				
+				$(".btnReview[data-no='" + rentNo + "']")
+				.addClass("btnReviewRead btn-secondary")
+				.removeClass("btnReview btn-success")
+				.text("리뷰 확인")
+				.click(function () {
+					reviewContainer.toggle()
+					var carNo = $(this).attr("data-car")
+					location.href="/rent/view?carNo=" + carNo
+				})
 				
 	          }
 	          , error: function() {
@@ -117,6 +144,7 @@ $(function() {
 	})
 	
 })
+
 </script>
 
 
@@ -218,7 +246,12 @@ function sendNotification(userId, rentNo) {
 			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }">취소</button> </li>
 			</c:when>
 			<c:when test="${param.status == 'history' }">
-			<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }">리뷰</li>	
+				<c:if test="${empty list.REVIEW }">
+				<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</li>	
+				</c:if>
+				<c:if test="${not empty list.REVIEW }">
+				<li class="btnReviewRead mt-3 btn btn-sm btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</li>	
+				</c:if>
 			</c:when>
 		</c:choose>
 	</ul>
@@ -239,8 +272,8 @@ function sendNotification(userId, rentNo) {
 					<span class="star star_left"></span>
 					<span class="star star_right"></span>
 					</div>
-					<textarea class="form-control" rows="4" name="content" id="content" placeholder="리뷰 작성하세요" style="resize: none;"></textarea>
-					<div class="text-center mt-3"><button class="btn btn-dark btn-sm" id="btnReviewWrite" data-no="${list.RENT_NO}">작성</button></div>
+					<textarea class="content form-control" rows="4" name="content" id="content" placeholder="리뷰 작성하세요" style="resize: none;"></textarea>
+					<div class="text-center mt-3"><button class="btnReviewWrite btn btn-dark btn-sm" id="btnReviewWrite" data-no="${list.RENT_NO}">작성</button></div>
 				</div>
 				</div> 
 				</div><!-- .review end -->

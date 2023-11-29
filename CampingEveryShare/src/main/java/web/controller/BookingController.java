@@ -69,6 +69,7 @@ public class BookingController {
 		List<Map<String, Object>> list = bookingService.getList(paging);
 		
 		logger.info("Booking list : {}", list);
+			
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("hasData", hasData);
@@ -76,4 +77,5 @@ public class BookingController {
 		return "booking/list";
 	}
 	
+
 }

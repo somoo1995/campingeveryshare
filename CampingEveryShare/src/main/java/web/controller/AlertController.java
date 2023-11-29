@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +59,15 @@ public class AlertController {
 	}
 	
 	@RequestMapping("/new")
-	public String countNewAlert( Model model, Alert alert, @SessionAttribute("loginId") String userId ) {
+	public String countNewAlert( Model model, Alert alert, HttpSession session ) {
+		
+		String userId = (String) session.getAttribute("loginId");
+		
+		if(userId == null) {
+			model.addAttribute("hasNew", false);
+			return "jsonView";
+		}
+		
 		alert.setUserId(userId);
 		int hasNew = alertService.hasNew(alert);
 		model.addAttribute("hasNew", hasNew);
@@ -110,11 +119,6 @@ public class AlertController {
     		
     	}
     	
-//        try {
-//            resp.sendRedirect("/send");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 	}
     
 	private void sendInitEvent( SseEmitter sseEmitter ) {

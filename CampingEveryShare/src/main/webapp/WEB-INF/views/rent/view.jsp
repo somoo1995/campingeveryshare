@@ -7,54 +7,54 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/header.jsp" />
 <style>
 .test{
-	display: flex;
-	height: 1600px;
-	width: 1116px;
-	justify-content: space-between; /* 자식 요소들을 양 끝에 배치 */
-	border: 1px solid red;
-	height: auto; /* 높이를 자동으로 설정 */
-	margin-left: 90px;
+   display: flex;
+   height: 1600px;
+   width: 1116px;
+   justify-content: space-between; /* 자식 요소들을 양 끝에 배치 */
+   border: 1px solid red;
+   height: auto; /* 높이를 자동으로 설정 */
+   margin-left: 90px;
 }
 .left{
-	display: flex;
-	flex-direction: column;
-	width: 744px;
-	border: 1px solid blue;
-	height: auto; /* 높이를 자동으로 설정 */	
+   display: flex;
+   flex-direction: column;
+   width: 744px;
+   border: 1px solid blue;
+   height: auto; /* 높이를 자동으로 설정 */   
 }
 .right{
-	width: 372px;
-	border: 1px solid blue;
-	margin-left: 10px;
+   width: 372px;
+   border: 1px solid blue;
+   margin-left: 10px;
 }
 .title{
-	display: flex;
-	margin-top: 30px;
-	justify-content: space-between;
-	border: 1px solid coral;
+   display: flex;
+   margin-top: 30px;
+   justify-content: space-between;
+   border: 1px solid coral;
 }
 .heart{
 }
 .heart img{
-	margin-top: 5px;
-	width: 50px;
-	height: 30px;
-	cursor: pointer;
+   margin-top: 5px;
+   width: 50px;
+   height: 30px;
+   cursor: pointer;
 }
 .userNickName{
-	border:1px solid orange;
+   border:1px solid orange;
 }
 .carPhoto{
-	margin-top: 30px;
-	border:1px solid green;
+   margin-top: 30px;
+   border:1px solid green;
 }
 .carPhoto img{
-	margin-left: 20px;
-	width: 700px;
-	height: 300px;
+   margin-left: 20px;
+   width: 700px;
+   height: 300px;
 }
 .review-wrapper{
-	display: flex;
+   display: flex;
 }
 .reviewStar img {
     width: 30px; /* 이미지의 너비 */
@@ -85,15 +85,15 @@ pageEncoding="UTF-8"%>
     z-index: 1; /* 빈 별은 채워진 별보다 낮은 z-index를 가짐 */
 }
 .reviewNum{
-	margin-left: 20px;
-	font-size: 1em;
+   margin-left: 20px;
+   font-size: 1em;
 }
 .category{
-	display: flex;
-	justify-content: space-around;
-	margin-top: 30px;
-	border-bottom: 1px solid;
-	position: sticky;
+   display: flex;
+   justify-content: space-around;
+   margin-top: 30px;
+   border-bottom: 1px solid;
+   position: sticky;
     top: 0;
     z-index: 1000; /* 다른 요소들 위에 표시되도록 함 */
     background-color: white; /* 배경색 지정 */
@@ -102,20 +102,21 @@ pageEncoding="UTF-8"%>
 }
 
 .category div{
-	cursor: pointer; 
+   cursor: pointer; 
 }
 .content{
-	height: 1000px;
+   height: 1000px;
 }
 .refund{
-	height: 1000px;
+   height: 1000px;
 }
 .caution{
-	height: 1000px;
+   height: 1000px;
 }
-ul {
+.right ul {
     list-style-type: disc; /* 동그라미 불릿 */
 }
+
 
 
 </style>
@@ -125,347 +126,314 @@ ul {
 <script type="text/javascript">
 
 $(function() {
-	
-	loadReview()
-
-	$(".contentButton").click(function(){
-		console.log("content클릭됨")
-		var target = $($(this).attr('href'));
-		if(target.length){
-			var scrollTo = target.offset().top;
-		}
-		$('body,html').animate({
-			scrollTop: scrollTo
-		},200);
-	})
-		$(".refundButton").click(function(){
-		console.log("refund 클릭됨")
-		var target = $($(this).attr('href'));
-		if(target.length){
-			var scrollTo = target.offset().top;
-		}
-		$('body,html').animate({
-			scrollTop: scrollTo
-		},200);
-	})
-		$(".cautionButton").click(function(){
-		console.log("caution 클릭됨")
-		var target = $($(this).attr('href'));
-		if(target.length){
-			var scrollTo = target.offset().top;
-		}
-		$('body,html').animate({
-			scrollTop: scrollTo
-		},200);
-	})
-	$(".reviewButton").click(function(){
-		console.log("reivew 클릭됨")
-		var target = $($(this).attr('href'));
-		if(target.length){
-			var scrollTo = target.offset().top;
-		}
-		$('body,html').animate({
-			scrollTop: scrollTo
-		},200);
-	})
-	//다누 것들 ------------------------------------------
-   $("#btnCal").click(function() {
-	   console.log("btnCal click")
-      $(".calendar").toggle()   
-   })
+   loadReview()
    
-   $("#addOption").change(function() {
-      
-      var totalPrice = $("#totalPrice").text()
-      var addPrice = ${car.extraPrice}
-      
-//       console.log(addPrice)
-      
-      if($(this).is(':checked')){
-         console.log("checked")
-         $("#totalPrice").text(totalPrice *1 + addPrice)
-         
-      } else {
-         console.log("unchecked")
-         $("#totalPrice").text(totalPrice*1 - addPrice)
+   $(".contentButton").click(function(){
+      console.log("content클릭됨")
+      var target = $($(this).attr('href'));
+      if(target.length){
+         var scrollTo = target.offset().top;
       }
+      $('body,html').animate({
+         scrollTop: scrollTo
+      },200);
    })
-   
-})
+      $(".refundButton").click(function(){
+      console.log("refund 클릭됨")
+      var target = $($(this).attr('href'));
+      if(target.length){
+         var scrollTo = target.offset().top;
+      }
+      $('body,html').animate({
+         scrollTop: scrollTo
+      },200);
+   })
+      $(".cautionButton").click(function(){
+      console.log("caution 클릭됨")
+      var target = $($(this).attr('href'));
+      if(target.length){
+         var scrollTo = target.offset().top;
+      }
+      $('body,html').animate({
+         scrollTop: scrollTo
+      },200);
+   })
+   $(".reviewButton").click(function(){
+      console.log("reivew 클릭됨")
+      var target = $($(this).attr('href'));
+      if(target.length){
+         var scrollTo = target.offset().top;
+      }
+      $('body,html').animate({
+         scrollTop: scrollTo
+      },200);
+   })
+   //다누 것들 ------------------------------------------
+    $("#btnCal").click(function() {
+         console.log("btnCal click")
+         $(".calendar").toggle()   
+      })
+      
+      $("#addOption").change(function() {
+         
+         var totalPrice = $("#totalPrice").text()
+         var addPrice = ${car.extraPrice}
+         
+//          console.log(addPrice)
+         
+         if($(this).is(':checked')){
+            console.log("checked")
+            $("#totalPrice").text(totalPrice *1 + addPrice)
+            
+         } else {
+            console.log("unchecked")
+            $("#totalPrice").text(totalPrice*1 - addPrice)
+         }
+      })
+      
+   })
 
 
-function submit(rsp) {
-	
-	console.log("carNo: " + ${car.carNo })
+   function submit(rsp) {
+      
+      console.log("carNo: " + ${car.carNo })
 
-	$.ajax({
-		type: "post"
-		, url: "/rent/book"
-		, data: {
-			carNo: ${car.carNo },
-			startDate: startDate,
-// 			endDate: $("#toDate").val(),
-			reservPax: $("#carPax").val(),
-			addOption: $("#addOption").is(":checked") ? 1 : 0,
-// 			merchantUid: rsp.merchant_uid
-		}
-		, dataType: "json"
-		, success: function( res ) {
-			console.log("AJAX 성공 - /rent/book")
-			$("#carPax").val('')
-			addOption: $("#addOption").prop("checked", false)
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-		}
-	})
-	
-}
+      $.ajax({
+         type: "post"
+         , url: "/rent/book"
+         , data: {
+            carNo: ${car.carNo },
+            startDate: startDate,
+//             endDate: $("#toDate").val(),
+            reservPax: $("#carPax").val(),
+            addOption: $("#addOption").is(":checked") ? 1 : 0,
+//             merchantUid: rsp.merchant_uid
+         }
+         , dataType: "json"
+         , success: function( res ) {
+            console.log("AJAX 성공 - /rent/book")
+            $("#carPax").val('')
+            addOption: $("#addOption").prop("checked", false)
+         }
+         , error: function() {
+            console.log("AJAX 실패")
+         }
+      })
+      
+   }
 
-function submitBook(rsp) {
-   $form = $("<form>").attr({
-      action: "/rent/book",
-      method: "post"
-   }).append(
-      $("<input>").attr({
-         type: "hidden",
-         name: "carNo",
-         value: "${car.carNo}"
-      })
-   ).append(
-      $("<input>").attr({
-         type: "hidden",
-         name: "startDate",
-         value: firstSelectedDate
-      })
-   ).append(
-      $("<input>").attr({
-         type: "hidden",
-         name: "endDate",
-         value: secondSelectedDate
-      })
-   ).append(
-      $("<input>").attr({
-         type: "hidden",
-         name: "reservPax",
-         value: $("#carPax").val()
-      })
-   ).append(
-      $("<input>").attr({
-         type: "hidden",
-         name: "addOption",
-         value: $("#addOption").is(":checked") ? 1 : 0
-      })
-	).append(
+   function submitBook(rsp) {
+      $form = $("<form>").attr({
+         action: "/rent/book",
+         method: "post"
+      }).append(
          $("<input>").attr({
             type: "hidden",
-            name: "merchantUid",
-            value: rsp.merchant_uid
+            name: "carNo",
+            value: "${car.carNo}"
          })
-	).append(
+      ).append(
          $("<input>").attr({
-             type: "hidden",
-             name: "amount",
-             value: rsp.paid_amount
-          })
-	 )
-   $(document.body).append( $form )
-   $form.submit()
+            type: "hidden",
+            name: "startDate",
+            value: firstSelectedDate
+         })
+      ).append(
+         $("<input>").attr({
+            type: "hidden",
+            name: "endDate",
+            value: secondSelectedDate
+         })
+      ).append(
+         $("<input>").attr({
+            type: "hidden",
+            name: "reservPax",
+            value: $("#carPax").val()
+         })
+      ).append(
+         $("<input>").attr({
+            type: "hidden",
+            name: "addOption",
+            value: $("#addOption").is(":checked") ? 1 : 0
+         })
+      ).append(
+            $("<input>").attr({
+               type: "hidden",
+               name: "merchantUid",
+               value: rsp.merchant_uid
+            })
+      ).append(
+            $("<input>").attr({
+                type: "hidden",
+                name: "amount",
+                value: rsp.paid_amount
+             })
+       )
+      $(document.body).append( $form )
+      $form.submit()
 
-}
-
-
-function sendNotification() {
-   
-    $.ajax({
-        type: "post"
-        , url: "/alert/sendnotification"
-        , data: {
-           userId: "${car.userId}",
-           boardCate: 1,
-           boardNo: ${car.carNo },
-           content: 4
-        }
-        , dataType: "json"
-        , success: function(  ) {
-           console.log("send Notification - AJAX 성공")
-
-        }
-        , error: function() {
-           console.log("AJAX 실패")
-
-        }
-     })
-   
-}
-
-// function getBookedList() {
-   
-//    $.ajax({
-//         type: "post"
-//         , url: "/rent/view"
-//         , data: {
-//          carNo: ${car.carNo},
-//       }
-//         , dataType: "json"
-//         , success: function( res ) {
-//          console.log("AJAX 성공")
-//          buildCalendar()
-//         }
-//         , error: function() {
-//            console.log("AJAX 실패")
-
-//         }
-//    })
-   
-// }
-
-function loadReview() {
-   
-    $.ajax({
-        type: "get"
-        , url: "/rent/review"
-        , data: {
-         carNo: ${car.carNo }
-        }
-        , dataType: "html"
-        , success: function( res ) {
-           console.log("AJAX 성공")
-         $("#reviewList").html(res)
-        }
-        , error: function() {
-           console.log("AJAX 실패")
-
-        }
-     })
-}
-
-function getGuestInfo(callback) {
-   
-   $.ajax({
-        type: "post"
-        , url: "/rent/user"
-        , data: {
-      }
-        , dataType: "json"
-        , success: function( res ) {
-         console.log("AJAX 성공")
-         callback(res)
-         
-         console.log(res)
-         console.log(res.user.userName)
-         
-        }
-        , error: function() {
-           console.log("AJAX 실패")
-
-        }
-   })
-   
-}
+   }
 
 
-// function getToken() {
-	
-// 	console.log("getToken start")
-	
-// 	  axios({
-// 		    url: "https://api.iamport.kr/users/getToken",
-// 		    // POST method
-// 		    method: "post", 
-// 		    // "Content-Type": "application/json"
-// 		    headers: { "Content-Type": "application/json" }, 
-// 		    data: {
-// 		      // REST API키
-// 		      imp_key: "2441044643164541", 
-// 		      // REST API Secret
-// 		      imp_secret: "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX"
-// 		    }
-// 		  }).then((data) => {
-// 				console.log("access_token : " + data.access_token)
-//           })
-		  
-// }
-
-
-IMP.init('imp83448842')
-
-function requestPay() {
-   
-   var payDate = new Date().toISOString().slice(0, 19).replace(/[-T:/]/g, '')
-   console.log(payDate)
-   
-   getGuestInfo(function(user) {
+   function sendNotification() {
       
-      IMP.request_pay({
-         
-         pg: "html5_inicis",      //결제 pg 선택
-         pay_method: "card",   //결제 방식
-   
-         merchant_uid: "RC" + "${car.carNo}" + "-" + payDate,   // 고유 주문 번호
-            
-         name: "${car.carName }",   //주문 상품 이름
-//          amount: $("#totalPrice").text(),            // 금액, 숫자 타입
-         amount: 100,            // text 금액
-            
-         //주문자 정보
-         buyer_email: user.user.email,
-         buyer_name: user.user.userName,
-         buyer_tel: user.user.phone,
-         buyer_addr: user.user.address + user.user.addressDetail,
-            
-          }, function (rsp) { // callback
-            //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-            
-//           console.log(rsp)
-//           console.log(rsp.success)
-//           console.log(rsp.merchant_uid)
-          
-          if (rsp.success) {   
-            
-           		$.ajax({
-					type: "POST"
-					, url: "/verify/" + rsp.imp_uid
+       $.ajax({
+           type: "post"
+           , url: "/alert/sendnotification"
+           , data: {
+              userId: "${car.userId}",
+              boardCate: 1,
+              boardNo: ${car.carNo },
+              content: 4
+           }
+           , dataType: "json"
+           , success: function(  ) {
+              console.log("send Notification - AJAX 성공")
 
-           		}).done(function(data) {
-					
-					if(rsp.paid_amount == data.response.amount){
-						console.log("결제 검증")
-						console.log("rsp.paid_amount : " + rsp.paid_amount)
-						console.log("data.response.amount : " + rsp.paid_amount)
-						
-						submitBook(rsp)
-// 						submit(rsp)
-						sendNotification()				
-						
-						alert("예약이 완료되었습니다")
-						
-					} else {
-						console.log("검증 실패")
-					}
-				})          
+           }
+           , error: function() {
+              console.log("AJAX 실패")
+
+           }
+        })
+      
+   }
+
+   // function getBookedList() {
+      
+//       $.ajax({
+//            type: "post"
+//            , url: "/rent/view"
+//            , data: {
+//             carNo: ${car.carNo},
+//          }
+//            , dataType: "json"
+//            , success: function( res ) {
+//             console.log("AJAX 성공")
+//             buildCalendar()
+//            }
+//            , error: function() {
+//               console.log("AJAX 실패")
+
+//            }
+//       })
+      
+   // }
+
+   function loadReview() {
+      
+       $.ajax({
+           type: "get"
+           , url: "/review/list"
+           , data: {
+            carNo: ${car.carNo }
+           }
+           , dataType: "html"
+           , success: function( res ) {
+              console.log("AJAX 성공")
+            $("#reviewList").html(res)
+           }
+           , error: function() {
+              console.log("AJAX 실패")
+
+           }
+        })
+   }
+
+   function getGuestInfo(callback) {
+      
+      $.ajax({
+           type: "post"
+           , url: "/rent/user"
+           , data: {
+         }
+           , dataType: "json"
+           , success: function( res ) {
+            console.log("AJAX 성공")
+            callback(res)
             
-          } else {
-            alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg)
-          }
-          
-//           if( rsp.success ) {
-             
-//              sendNotification()
-//              submitBook(rsp)
-//              alert("예약 완료")
-             
-//           } else {
-//              alert(rsp.error_msg)
-//           }
-          
-          buildCalendar()
-         
+            console.log(res)
+            console.log(res.user.userName)
+            
+           }
+           , error: function() {
+              console.log("AJAX 실패")
+
+           }
       })
-   })
-   
+      
+   }
 
-}
+
+   IMP.init('imp83448842')
+
+   function requestPay() {
+      
+      var payDate = new Date().toISOString().slice(0, 19).replace(/[-T:/]/g, '')
+      console.log(payDate)
+      
+      getGuestInfo(function(user) {
+         
+         IMP.request_pay({
+            
+            pg: "html5_inicis",      //결제 pg 선택
+            pay_method: "card",   //결제 방식
+      
+            merchant_uid: "RC" + "${car.carNo}" + "-" + payDate,   // 고유 주문 번호
+               
+            name: "${car.carName }",   //주문 상품 이름
+//             amount: $("#totalPrice").text(),            // 금액, 숫자 타입
+            amount: 100,            // text 금액
+               
+            //주문자 정보
+            buyer_email: user.user.email,
+            buyer_name: user.user.userName,
+            buyer_tel: user.user.phone,
+            buyer_addr: user.user.address + user.user.addressDetail,
+               
+             }, function (rsp) { // callback
+               //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+               
+//              console.log(rsp)
+//              console.log(rsp.success)
+//              console.log(rsp.merchant_uid)
+             
+             if (rsp.success) {   
+               
+                  $.ajax({
+                  type: "POST"
+                  , url: "/verify/" + rsp.imp_uid
+
+                    }).done(function(data) {
+                  
+                  if(rsp.paid_amount == data.response.amount){
+                     console.log("결제 검증")
+                     console.log("rsp.paid_amount : " + rsp.paid_amount)
+                     console.log("data.response.amount : " + rsp.paid_amount)
+                     
+                     submitBook(rsp)
+//                      submit(rsp)
+                     sendNotification()            
+                     
+                     alert("예약이 완료되었습니다")
+                     
+                  } else {
+                     console.log("검증 실패")
+                  }
+               })          
+               
+             } else {
+               alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg)
+             }
+                       
+             buildCalendar()
+            
+         })
+      })
+      
+
+   }
+
 
 </script>
 
@@ -525,7 +493,7 @@ function requestPay() {
 <div href="#caution"class="cautionButton">
 <span>유의 사항</span>
 </div>
-<div href="#review"class="reviewButton">
+<div href="#reviewList"class="reviewButton">
 <span>이용후기</span>
 </div>
 
@@ -539,7 +507,9 @@ function requestPay() {
 <div id="caution" class="caution">
 유의 사항
 </div>
-
+<div id="reviewList" class="reviewList">
+리뷰 보일곳
+</div>
 
 
 </div>
@@ -597,8 +567,8 @@ function requestPay() {
 </div>
 
 <div class="bookInfo">
-출발일 : 
 <!-- <span id="fromDate"></span><br> -->
+출발일 : 
 <input type="text" id="fromDate" readonly="readonly" style="border: none;"></input><br>
 도착일 : 
 <!-- <span id="toDate"></span> -->
@@ -630,9 +600,7 @@ function requestPay() {
 <%-- </c:forEach> --%>
 
 
-<div id="review" class="review">
-리뷰 보일곳
-</div>
+
 
 </div><!-- .container -->
 
