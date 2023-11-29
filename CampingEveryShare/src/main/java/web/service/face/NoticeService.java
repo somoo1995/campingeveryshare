@@ -71,6 +71,23 @@ public interface NoticeService {
 	 * @param board - 삭제할 게시글 번호
 	 */
 	public void delete(Board board);
+
+	/**
+	 * 글 삭제 토글을 해보자 제발 되라
+	 * 
+	 * @param board
+	 */
+	public boolean deleteStatus(Board board);
+
+	public boolean status(Board board);
+	
+	/**
+	 * 글 상태 조회
+	 * 
+	 * @param boardStatus - 글 상태 
+	 * @return - 0 : 활성/ 1 : 비활성
+	 */
+//	public boolean noticeDeleteCnt(Board boardStatus);
 	
 
 }

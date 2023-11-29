@@ -87,5 +87,26 @@
  		SET delete_status = 1
  		WHERE board_no = #{boardNo}
   	</update>  
-  	  
+  	
+  	<select id="checkStatus" resultType="int" parameterType="board">
+  		SELECT delete_status
+  		FROM boardtb
+  		WHERE board_no = #{boardNo}
+  		AND board_cate = 5
+  	</select>
+  	
+  	<update id="statusToOne" parameterType="board">
+		UPDATE boardtb
+		SET delete_status = 1
+		WHERE board_no = #{boardNo}
+		AND board_cate = 5
+	</update>
+	
+	<update id="statusToZero" parameterType="board">
+		UPDATE boardtb
+		SET delete_status = 0
+		WHERE board_no = #{boardNo}
+		AND board_cate = 5
+	</update>
+  	
   </mapper>

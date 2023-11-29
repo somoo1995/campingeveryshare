@@ -90,6 +90,36 @@ public class NoticeServiceImpl implements NoticeService {
 		noticeDao.deleteByBoardNo(board);
 	}
 
+	@Override
+	public boolean deleteStatus(Board board) {
+		
+		int status = noticeDao.checkStatus(board);
+		
+		if(status > 0) {
+		noticeDao.statusToOne(board);
+		
+			return false;
+			
+		} else {
+			noticeDao.statusToZero(board);
+			
+			return true;
+		}
+	}
+
+	@Override
+	public boolean status(Board board) {
+		
+		int status = noticeDao.checkStatus(board);
+		
+		if(status>0) {
+			return true;
+		}
+		return false;
+
+
+	}
+
 }
 
 
