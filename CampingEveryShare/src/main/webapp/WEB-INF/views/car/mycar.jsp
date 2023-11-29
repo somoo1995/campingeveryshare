@@ -14,50 +14,6 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <style>
-    .status-container {
-        display: flex;
-        justify-content: space-around; /* 요소들 사이에 공간을 균등하게 배분 */
-        margin-top: 20px; /* 원하는 마진 설정 */
-    }
-
-   .status-card {
-        border: 1px solid #ddd; /* 테두리 */
-        border-radius: 10px; /* 테두리 둥글게 */
-        padding: 20px;
-        display: flex; /* Flexbox 사용 */
-        flex-direction: row; /* 요소들을 수평으로 배치 */
-        align-items: center; /* 세로 중앙 정렬 */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 그림자 효과 */
-        width: 300px; /* 카드의 너비 */
-    }
-
-    .status-card img {
-        width: 50%; /* 이미지가 카드의 절반을 차지하도록 설정 */
-        height: auto; /* 이미지 비율 유지 */
-    }
-
-    .text-container {
-        display: flex; /* Flexbox 사용 */
-        flex-direction: column; /* 요소들을 수직으로 배치 */
-        justify-content: center; /* 수직 중앙 정렬 */
-        flex: 1; /* 나머지 공간을 차지하도록 설정 */
-        text-align: left; /* 텍스트를 왼쪽으로 정렬 */
-        padding-left: 10px; /* 이미지와의 간격 */
-    }
-
-    .status-card p {
-        margin: 0;
-        font-size: 3.5em; /* 텍스트 크기 */
-        font-weight: bold;
-        text-algin: center;
-        margin-left: 30px;
-    }
-
-    .status-card label {
-        font-size: 1.2em;
-        color: #555;
-        text-align: center;
-    }
     .carRegi {
         width: 1100px;
         height: 150px;
@@ -261,29 +217,6 @@ $(document).ready(function(){
     
 });
 </script>
-<div class="status-container">
-    <div class="status-card">
-        <img src="/resources/img/ongoing.png" alt="진행중" />
-        <div class="text-container">
-            <p>10</p>
-            <label>진행중</label>
-        </div>
-    </div>
-    <div class="status-card">
-        <img src="/resources/img/ongoing.png" alt="완료" />
-        <div class="text-container">
-            <p>1</p>
-            <label>완료</label>
-        </div>
-    </div>
-    <div class="status-card">
-        <img src="/resources/img/ongoing.png" alt="취소" />
-        <div class="text-container">
-            <p>10</p>
-            <label>취소</label>
-        </div>
-    </div>
-</div>
 <hr>
 <div class="carList">
   <c:forEach items="${carNoList}" var="list">

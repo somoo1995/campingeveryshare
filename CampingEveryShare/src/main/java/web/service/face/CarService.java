@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
+import web.util.Paging;
 
 public interface CarService {
 
@@ -28,5 +29,10 @@ public interface CarService {
 	void resumeCar(Car car);
 
 	void approveCar(Car car);
+
+	List<Map<String, Object>> getRentList(User user, Paging paging);
+
+	Paging getPaging(Paging param, User user);
+
 
 }
