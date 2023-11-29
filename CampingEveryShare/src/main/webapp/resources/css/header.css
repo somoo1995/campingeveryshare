@@ -101,8 +101,10 @@
     left: -360px; 
     width: 360px; 
     height: 100%;
+/*     border: 1px solid #ccc; */
     border-radius: 0px;
-    background-color: #fff7cb; /* 색 수정*/
+/*     background-color: #fff7cb; */
+    background-color: #FEFEFE; /* 색 수정*/
     color: #fff; 
     transition: left 0.4s; 
     z-index: -1;
@@ -392,5 +394,9 @@ body {
 	justify-content: center;
 	justify-items: start;
 
+}
+
+.profile_box .box{
+	display: none;
 }
 

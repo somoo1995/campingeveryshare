@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 <!-- 헤더 css 파일 불러오기 -->
-<link rel="stylesheet" href="../resources/css/header.css?after">
+<link rel="stylesheet" href="../resources/css/header.css">
 <!-- 폰트 css 파일 불러오기 -->
 <link rel="stylesheet" href="../resources/css/font.css?after">
 
@@ -32,16 +32,7 @@
 <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
 
-<style type="text/css">
-.profile_box .box{
-	display: none;
-}
-
-</style>
-
 <script type="text/javascript">
-
-
 
 $(function() {
    $('.fade').slick({
@@ -80,7 +71,6 @@ $(function() {
        
    }
 })
-
 
 $(function() {
    
@@ -202,18 +192,18 @@ $(function() {
             // 게스트
             userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
             $("#campStatus").html("내 예약").attr("camp-data", "/booking/main");
-            $(".reservation_icon").click(function() {
-                location.href = "/booking/main";
-            });
+//             $(".reservation_icon").click(function() {
+//                 location.href = "/booking/main";
+//             });
             
         } else {
             // 호스트
             userStatusContainer.html('<div id="host" class="userStatus_h">호스트</div>');
-            $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/list");
+            $("#campStatus").html("내 캠핑카").attr("camp-data", "/car/main");
          	// 추가 코드: 호스트인 경우 예약 이미지 클릭 시 /car/list로 이동
-            $(".reservation_icon").click(function() {
-                location.href = "/car/list";
-            });
+//             $(".reservation_icon").click(function() {
+//                 location.href = "/car/main";
+//             });
         }
     });
 
@@ -223,7 +213,7 @@ $(function() {
         location.href = campData;
     });
     
-    console.log("Setting user status and camp data");
+//     console.log("Setting user status and camp data");
     var userStatusContainer = $("#userStatusContainer");
     userStatusContainer.html('<div id="guest" class="userStatus_g">게스트</div>');
    
@@ -387,8 +377,6 @@ $(document).ready(function() {
       <div class="mt-5 my_list"><!-- grid 사용 -->
    
       <!-- 예약 아이콘 -->
-      
-      <!-- 예약 아이콘 -->
       <div class="reservation_container">
       <c:choose>
          <c:when test="${empty isLogin or not isLogin }">
@@ -508,12 +496,12 @@ $(document).ready(function() {
       
       <hr class="hr_simple">
       <div class="fin">
-      <span class="information" onclick="location.href='/notice/list'">공지사항</span>
+      <span onclick="location.href='/notice/list'">공지사항</span>
       
-      <span>고객문의</span>
+      <span onclick="location.href='/inquiry/list'">고객문의</span>
 
-      <span class="goToAdmin" onclick="location.href='/admin/login'">
-      관리자 페이지로 이동
+      <span onclick="location.href='/admin/login'">
+      관리자 페이지
       </span>
       </div><!-- .fin -->
       

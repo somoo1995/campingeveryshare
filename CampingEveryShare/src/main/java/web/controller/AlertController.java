@@ -43,7 +43,7 @@ public class AlertController {
 		alert.setUserId(userId);
 //		logger.info("alert : {}", alert);		
 
-		List<Alert> list = alertService.getList(alert);
+		List<Map<String, Object>> list = alertService.getList(alert);
 		
 		model.addAttribute("list", list);
 		
