@@ -6,7 +6,46 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
+<script type="text/javascript">
 
+$(function() {
+    // 셀렉트 박스 변경 이벤트 핸들러
+    $("#location").change(function() {
+        // 선택된 옵션의 값을 가져옴
+        var selectedLocation = $(this).val();
+
+        // Ajax 호출
+        $.ajax({
+            type: "post",
+            url: "/market/list",  // 실제 컨트롤러 URL로 변경
+            data: {
+                location: selectedLocation,
+                category: selectedLocation,
+                // 여기에 필요한 다른 파라미터 추가 가능
+            },
+            dataType: "html",
+            success: function(res) {
+                console.log("AJAX 성공");
+                // 성공 시 받은 데이터를 처리
+                $("#resultList").html(res);
+            },
+            error: function() {
+                console.log("AJAX 실패");
+                // 실패 시 처리
+            }
+        });
+    });
+
+    // 초기 로딩
+    loadGroupList();
+});
+
+function loadGroupList() {
+    // 페이지 로딩 시에도 초기 데이터를 불러올 수 있음
+    $("#location").trigger("change");
+}
+
+</script>
 <style type="text/css">
 
 .row {
@@ -107,8 +146,8 @@ select {
 <h3 id=pageTitle>중고장터 게시판</h3>
 <hr>
 <div class="select">
-<select name="locCate" id="locCate">
-     <option>지역</option>
+<select name="location" id="location">
+     <option value="20">전체</option>
      <option value="10">강원</option>
      <option value="9">경기</option>
      <option value="16">경남</option>
@@ -134,12 +173,12 @@ select {
 <a  href="/market/write?boardCate=3"><button>글쓰기</button></a>
 </div>
 
-<c:import url="./list.jsp" />
+<div class="resultList" id="resultList"></div>
+
 
 
 
 
 
 </div><!-- .container -->
-<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />

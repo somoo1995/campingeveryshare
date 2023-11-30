@@ -26,24 +26,74 @@
             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
 			, (SELECT price FROM markettb WHERE board_no = boardtb.board_no) AS "PRICE"
+			, (SELECT COUNT(*) FROM hearttb WHERE heart_no = boardtb.board_no AND board_cate = 3 AND hearttb.user_id = #{type}) AS "HEARTID"
 			, user_id
 			FROM boardtb
 			<where>
 				AND board_cate = 3
 				AND delete_status = 0
-				<if test="search != null and !''.equals(search)">
+				<if test="category != '20' ">
+                    AND location = #{category}
+                </if>
+                <if test="search != null and !''.equals(search)">
 					AND title LIKE '%' || (#{search }) || '%' 
 				</if>
 			</where>
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+  	</select>
 
-  	</select>
-  
-  	<select id="selectCntAll">
+
+  	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
   		SELECT count(*) FROM boardtb
+  		WHERE board_cate =3
+  		AND delete_status =0
+        <if test="category != '20'">
+        AND location = #{category}
+   		</if>
   	</select>
+  	
+  	
+<!--   	<select id="selectMarketAllByLoc" parameterType="web.util.Paging" resultType="Map"> -->
+<!--       	SELECT * FROM ( -->
+<!-- 	  	SELECT ROWNUM rnum, B.* FROM ( -->
+<!-- 			SELECT board_no -->
+<!-- 			, title -->
+<!-- 			, location -->
+<!-- 			, CAST(post_date AS DATE) AS post_date -->
+<!-- 			, hit  -->
+<!-- 			, content -->
+<!-- 			, delete_status -->
+<!-- 			, board_cate -->
+<!-- 			, (SELECT user_name FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NAME"  -->
+<!-- 			, (SELECT user_nick FROM usertb WHERE user_id = boardtb.user_id) AS "USER_NICK"  -->
+<!-- 			, (SELECT COUNT(*) FROM recomtb WHERE recom_no = boardtb.board_no AND board_cate = 3) AS "RECOM" -->
+<!-- 			, (SELECT COUNT(*) FROM hearttb WHERE heart_no = boardtb.board_no AND board_cate = 3) AS "HEART" -->
+<!--             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME" -->
+<!-- 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME" -->
+<!-- 			, (SELECT price FROM markettb WHERE board_no = boardtb.board_no) AS "PRICE" -->
+<!-- 			, user_id -->
+<!-- 			FROM boardtb -->
+<!-- 			<where> -->
+<!-- 				AND board_cate = 3 -->
+<!-- 				AND delete_status = 0 -->
+<!-- 				AND location = #{category } -->
+<!-- 				<if test="search != null and !''.equals(search)"> -->
+<!-- 					AND title LIKE '%' || (#{search }) || '%'  -->
+<!-- 				</if> -->
+<!-- 			</where> -->
+<!-- 			ORDER BY board_no DESC -->
+<!-- 	    ) B -->
+<!-- 	) WHERE rnum BETWEEN #{startNo} AND #{endNo} -->
+<!--   	</select> -->
+  
+
+  
+<!--   	<select id="selectCntAllByLoc"> -->
+<!--   		SELECT count(*) FROM boardtb -->
+<!--   		WHERE location = #{category } -->
+<!--   	</select> -->
   
   	<select id="selectBoardView" resultType="board" parameterType="board">
 	SELECT

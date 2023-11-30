@@ -38,10 +38,60 @@ public class ShareController {
 	@Autowired ShareService shareService;
 	
 	@GetMapping("list")
-	public String shareList(Paging param, Model model, Board board) {
+	public String shareList(Paging param, Model model, Board board, HttpSession session) {
 		
-		
+		param.setType((String) session.getAttribute("loginId"));
+		param.setCategory(board.getLocation());
+
 		Paging paging = shareService.getPaging( param );
+		paging.setCategory(board.getLocation());
+		paging.setType((String) session.getAttribute("loginId"));
+		logger.info("paging : {}", paging);
+		
+		
+		
+		List<Map<String, Object>> list = shareService.list(paging);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		model.addAttribute("param", param);
+		
+		//찜 상태 조회
+		Heart heart = new Heart();
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		int heartCnt = shareService.getTotalCntHeart(heart);
+		logger.info("totalHeart" + heartCnt);
+		
+		//찜 상태 전달
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		boolean isHeart = shareService.heartCnt(heart);
+		model.addAttribute("isHeart", isHeart);
+		model.addAttribute("cntHeart", shareService.getTotalCntHeart(heart));
+		
+//		logger.info("board : {}", board);
+		logger.info("list : {}", list);
+//		logger.info("paging {} :" + paging.toString());
+//		logger.info("model {} :" + model.toString());
+		
+		return "share/main";
+		
+	}
+	
+	@PostMapping("list")
+	public String locList(Paging param, Model model, Board board, HttpSession session) {
+		
+		param.setType((String) session.getAttribute("loginId"));
+
+		Paging paging = shareService.getPaging( param );
+		paging.setCategory(param.getCategory());
+		paging.setType((String) session.getAttribute("loginId"));
+
 		logger.info("paging : {}", paging);
 		
 		
@@ -53,12 +103,28 @@ public class ShareController {
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		
+		//찜 상태 조회
+		Heart heart = new Heart();
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		int heartCnt = shareService.getTotalCntHeart(heart);
+		logger.info("totalHeart" + heartCnt);
+		
+		//찜 상태 전달
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		boolean isHeart = shareService.heartCnt(heart);
+		model.addAttribute("isHeart", isHeart);
+		model.addAttribute("cntHeart", shareService.getTotalCntHeart(heart));
+		
 //		logger.info("board : {}", board);
 		logger.info("list : {}", list);
 //		logger.info("paging {} :" + paging.toString());
 //		logger.info("model {} :" + model.toString());
 		
-		return "share/main";
+		return "share/list";
 		
 	}
 	
@@ -77,12 +143,6 @@ public class ShareController {
 		model.addAttribute("boardFile", boardFile);
 		model.addAttribute("share", share);
 		
-		logger.info("board : {}" + board.toString());
-		logger.info("model : {}" + model.toString());
-		logger.info("share : {}" + share);
-		logger.info("boarFile : {}", boardFile);
-		
-		
 		//찜 상태 조회
 		Heart heart = new Heart();
 		heart.setUserId((String) session.getAttribute("loginId"));
@@ -98,7 +158,12 @@ public class ShareController {
 		boolean isHeart = shareService.heartCnt(heart);
 		model.addAttribute("isHeart", isHeart);
 		model.addAttribute("cntHeart", shareService.getTotalCntHeart(heart));
-
+		
+		logger.info("board : {}" + board.toString());
+		logger.info("model : {}" + model.toString());
+		logger.info("share : {}" + share);
+		logger.info("boarFile : {}", boardFile);
+		
 		//신고 상태 조회
 		Report report = new Report();
 		report.setRuserId((String) session.getAttribute("loginId"));
@@ -253,6 +318,32 @@ public class ShareController {
 		return mav;
 	}
 
+	@GetMapping("loclist")
+	public String locList(Paging param, Model model, Board board) {
+		
+		
+		Paging paging = shareService.getPaging( param );
+		logger.info("paging : {}", paging);
+		
+		
+		
+		List<Map<String, Object>> list = shareService.list(paging);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+//		logger.info("board : {}", board);
+		logger.info("list : {}", list);
+//		logger.info("paging {} :" + paging.toString());
+//		logger.info("model {} :" + model.toString());
+		
+		return "share/main";
+		
+	}
+	
+	
 	@RequestMapping("/heart")
 	public ModelAndView heart(Model model, Heart heart, Board board, ModelAndView mav, HttpSession session) {
 		

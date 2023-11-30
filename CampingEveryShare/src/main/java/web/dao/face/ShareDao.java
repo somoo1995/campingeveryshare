@@ -26,7 +26,7 @@ public interface ShareDao {
 	 * 
 	 * @return - 총 게시글 수
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging param);
 	
 	/**
 	 * 클릭한 게시물 상세조회
