@@ -19,6 +19,7 @@ pageEncoding="UTF-8"%>
     border-color: #78cc71;
 }
 </style>
+
 <style>
 .container {
     min-width: 1300px;
@@ -141,8 +142,6 @@ $(document).ready(function() {
     // 프로필 값을 가지는 라디오 버튼을 체크
     $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
     
-    // 프로필 값을 가지는 라디오 버튼을 체크
-    $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
 
     // 나머지 프로필 이미지 및 라디오 버튼 숨김 처리
     $("input[name='profile']").each(function() {
@@ -403,7 +402,7 @@ $(document).ready(function() {
 		</svg>
 		</div>
 		<div class="input">
-		    <label>연락처</label>
+		    <label>연락처 +82</label>
 			<input  type="number" id="phone" name="phone" value="${login.phone }" disabled>
 	  	</div>
 	</div>
