@@ -14,7 +14,8 @@ $(function() {
 	          , data: {
 	        	  curPage: $(this).data("page"),
 	        	  category: ${paging.category },
-	        	  query: "${param.query}"
+	        	  location: ${paging.location },
+// 	        	  query: "${param.query}"
 	          }
 	          , dataType: "html"
 	          , success: function( res ) {

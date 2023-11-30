@@ -107,7 +107,7 @@ function loadList(areaCate) {
 		type: "post"
 		, url: "/rent/list"
 		, data: {
-			category: areaCate
+			location: areaCate
 		}
 		, dataType: "html"
 		, success: function( res ) {
@@ -130,7 +130,7 @@ function loadList(areaCate) {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">대여</h3>
+<h3 id="pageTitle">캠핑카 대여</h3>
 </div>
 
 
