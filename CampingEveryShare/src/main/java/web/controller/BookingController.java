@@ -37,14 +37,14 @@ public class BookingController {
 		
 		logger.info("param : {}", param);
 		
-		Paging paging = bookingService.getPaging(param, status, userId);
-		
-		boolean hasData = false;
-		if( paging.getTotalCount() > 0 ) {
-			hasData = true; 
-		}
-		
-		model.addAttribute("hasData", hasData);
+//		Paging paging = bookingService.getPaging(param, status, userId);
+//		
+//		boolean hasData = false;
+//		if( paging.getTotalCount() > 0 ) {
+//			hasData = true; 
+//		}
+//		
+//		model.addAttribute("hasData", hasData);
 		
 	}
 	

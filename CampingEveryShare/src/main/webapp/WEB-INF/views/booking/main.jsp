@@ -73,12 +73,21 @@ $(function () {
 	$("#btnCurrent").click(function() {
 		$(this).addClass("active")
 		$("#btnHistory").removeClass("active")
+		$("#btnCancel").removeClass("active")
 		loadBooking()
 	})
 	
 	$("#btnHistory").click(function() {
 		$(this).addClass("active")
 		$("#btnCurrent").removeClass("active")
+		$("#btnCancel").removeClass("active")
+		loadBooking()
+	})
+	
+	$("#btnCancel").click(function() {
+		$(this).addClass("active")
+		$("#btnCurrent").removeClass("active")
+		$("#btnHistory").removeClass("active")
 		loadBooking()
 	})
 	
@@ -118,11 +127,9 @@ function loadBooking() {
     </div >
         
     <div class="button-group mt-5">
-        <!-- param.status가 now, history 또는 설정되지 않았을 때 now로 간주 -->
-<%-- 	    <a href="./main?status=now" class="button ${empty param.status || param.status == 'now' ? 'active' : ''}" id="btnCurrent" data-booking="now">진행 중</a> --%>
-<%-- 	    <a href="./main?status=history" class="button ${param.status == 'history' ? 'active' : ''}" id="btnHistory" data-booking="history">이전 내역</a> --%>
 	    <a class="button active" id="btnCurrent" data-booking="now">진행 중</a>
 	    <a class="button" id="btnHistory" data-booking="history">이전 내역</a>
+	    <a class="button" id="btnCancel" data-booking="cancel">취소 내역</a>
 	</div>
 		
 	<div class="mt-5 mb-5">
