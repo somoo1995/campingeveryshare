@@ -43,8 +43,8 @@
 			AND vuser_id LIKE '%' || (#{search}) || '%'
 		</where>
 	</if>
-
 </sql>
+
 
 <sql id="searchIncome">
 	<if test="search != null and !''.equals(search)">
@@ -75,6 +75,25 @@
 
 <sql id="selectIncome">
 	SELECT income_no, rent_no, amount, income_status, post_date
+</sql>
+
+
+<sql id="selectMycar">
+	SELECT CAR_NO, USER_ID, CAR_NAME, CAR_NUMBER, CAR_SIZE, LOCATION
+	,AREA, AREA_DETAIL, PICKUP_TIME_START, PICKUP_TIME_END
+	,CAR_PAX, CAR_SPAX, CAR_BEDS, PRICE, EXTRA_PRICE
+	,CAR_ELEC, CAR_WATER, CAR_TABLE, CAR_SINK, CAR_KITCHEN
+	,CAR_TEMP, CAR_SHOWER, CAR_TOILET, CAR_PET, CAR_SMOKE, CAR_STATUS
+	,CONTENT,DELETE_STATUS
+		FROM cartb
+</sql>
+
+<sql id="searchMycar">
+	<if test="search != null and !''.equals(search)">
+		<where>
+			AND user_id LIKE '%' || (#{search}) || '%'
+		</where>
+	</if>
 </sql>
 
 
@@ -137,6 +156,8 @@
 	    	SELECT report_no, board_no, reason, reason_detail, vuser_id,
 			ruser_id, board_cate, report_date,
 	    	(SELECT title FROM boardtb WHERE board_cate = reporttb.board_cate AND board_no = reporttb.board_no) AS "REPORT_TITLE"
+	    	,(SELECT user_status FROM usertb WHERE user_id = reporttb.vuser_id) AS "USER_STATUS"
+	    	,(SELECT delete_status FROM boardtb WHERE board_cate = reporttb.board_cate AND board_no = reporttb.board_no) AS "DELETE_STATUS"
 	    	FROM reporttb
 	    	<include refid="searchReport" />
 	    	<if test="category != 0"> AND board_cate = #{category} </if>
@@ -185,6 +206,27 @@ SELECT count(*) FROM (
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
 
+<select id="selectCntAllMycar" resultType="int" parameterType="web.util.Paging">
+	SELECT count(*) FROM (
+		<include refid="selectMycar" />
+		WHERE car_status > 0
+		<include refid="searchMycar" />
+	)
+</select>
+
+
+<select id="selectAllMycar" resultType="map" parameterType="web.util.Paging">
+	 SELECT * FROM (
+        SELECT rownum rnum, B.* FROM (
+            <include refid="selectMycar" />
+            WHERE car_status > 0
+            <include refid="searchMycar" />
+            ORDER BY car_no DESC
+        ) B
+    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+</select>
+
+
 <select id="selectById" resultType="User" parameterType="string">
 	SELECT * FROM usertb
 	<where>
@@ -192,10 +234,44 @@ SELECT count(*) FROM (
 	</where>
 </select>
  
-<update id="updateUserStatus" parameterType="User">
-	UPDATE usertb
-	SET user_status = 1
-	WHERE user_id = #{userId }
-</update>
+	<select id="checkStatus" resultType="int" parameterType="User">
+  		SELECT user_status
+  		FROM usertb
+  		WHERE user_id = #{userId}
+  	</select>
+  	
+  	<update id="statusToOne" parameterType="User">
+		UPDATE usertb
+		SET user_status = 1
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="statusToZero" parameterType="User">
+		UPDATE usertb
+		SET user_status = 0
+		WHERE user_id = #{userId}
+	</update>
+	
+	<select id="checkBoardStatus" resultType="int" parameterType="Board">
+  		SELECT delete_status
+  		FROM boardtb
+  		WHERE board_no = #{boardNo}
+  		AND board_cate = #{boardCate}
+  	</select>
+  	
+  	<update id="BoardstatusToOne" parameterType="Board">
+		UPDATE boardtb
+		SET delete_status = 1
+		WHERE board_no = #{boardNo}
+  		AND board_cate = #{boardCate}
+	</update>
+	
+	<update id="BoardstatusToZero" parameterType="Board">
+		UPDATE boardtb
+		SET delete_status = 0
+		WHERE board_no = #{boardNo}
+  		AND board_cate = #{boardCate}
+	</update>
+
 
 </mapper>

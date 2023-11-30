@@ -102,7 +102,7 @@ $(() => {
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+<c:import url="/WEB-INF/views/layout/pagination.jsp" >
     <c:param name="url" value="./income" />
 </c:import>
 

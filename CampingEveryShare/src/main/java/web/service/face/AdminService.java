@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Admin;
+import web.dto.Board;
 import web.dto.User;
 import web.util.Paging;
 
@@ -56,9 +57,14 @@ public interface AdminService {
 
 	public Paging getPagingIncome(Paging param);
 	
-	public boolean updateUserStatus(String userId);
-	
 	public boolean joinIdCheck(String userId);
-
+	
+	public boolean deleteUserStatus(User user);
+	
+	public boolean deleteBoardStatus(Board board);
+	
+	public Paging getPagingMycar(Paging param);
+	
+	public List<Map<String, Object>> mycarList(Paging paging);
 
 }

@@ -30,34 +30,21 @@ pageEncoding="UTF-8"%>
 <div class="pageTitle">
 <h3 id=pageTitle>공지 게시판</h3>
 
-<div style="text-align: right; margin-bottom: 10px;">
-<c:choose>
-    <c:when test="${empty adminCode or adminCode ne admin.adminCode}">
-        <!-- adminCode가 비어 있거나 adminCode와 admin.adminCode가 일치하지 않을 때는 버튼을 표시하지 않음 -->
-    </c:when>
-    <c:otherwise>
-        <!-- adminCode가 존재하고 adminCode와 admin.adminCode가 일치하는 경우에만 버튼을 표시 -->
-        <a href="/notice/write?boardCate=5"><button>글쓰기</button></a>
-    </c:otherwise>
-</c:choose>
 
-
-<form action="web.dao.face.GroupDao" method="get" >
+<form action="web.dao.face.NoticeDao" method="get" >
 
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
 	<col style="width : 10%">
-	<col style="width : 57%">
-	<col style="width : 10%">
-	<col style="width : 11%">
-	<col style="width : 12%">
+	<col style="width : 60%">
+	<col style="width : 15%">
+	<col style="width : 15%">
 </colgroup>
 
 <thead class="head">
 	<tr>
 		<th>번호</th>
 		<th>제목</th>
-		<th>작성자</th>
 		<th>조회수</th>
 		<th>등록일</th>
 	</tr>
@@ -67,11 +54,9 @@ pageEncoding="UTF-8"%>
 	<tr> 
 		<td style="text-align: center; font-weight: bold; font-size: 17px; margin-right: 13px;">[공지]</td>
 		<td class="title">
-		<a href="./view?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
-		<div>${board.TITLE }</div>
-		</a>
+			<a href="./view?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
+			${board.TITLE }</a>
 		</td>
-		<td style="text-align: center;">${board.USER_ID }</td>
 		<td style="text-align: center;">${board.HIT }</td>
 		<td style="text-align: center;">
 	      <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
