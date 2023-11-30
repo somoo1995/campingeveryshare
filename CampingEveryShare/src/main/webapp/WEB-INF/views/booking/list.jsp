@@ -21,8 +21,6 @@
  	display: none; 
  } 
 
-
-
 .star-box {
 	/* 별과 별 사이 공백 제거 */
     font-size: 0;
@@ -249,10 +247,12 @@ function sendNotification(userId, carNo) {
 <%-- 		<fmt:formatDate value="${booking }" pattern="yyyy-MM-dd HH:mm"/> --%>
 <!-- 		</li> -->
 		<c:choose>
-			<c:when test="${empty param.status || param.status == 'now'}">
+<%-- 			<c:when test="${empty param.status || param.status == 'now'}"> --%>
+			<c:when test="${paging.category == 0}">
 			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> </li>
 			</c:when>
-			<c:when test="${param.status == 'history' }">
+<%-- 			<c:when test="${param.status == 'history' }"> --%>
+			<c:when test="${paging.category == 1 }">
 				<c:if test="${empty list.REVIEW }">
 				<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</li>	
 				</c:if>
@@ -260,6 +260,9 @@ function sendNotification(userId, carNo) {
 				<li class="btnReviewRead mt-3 btn btn-sm btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</li>	
 				</c:if>
 			</c:when>
+<%-- 			<c:when test="${paging.category == 1 }"> --%>
+			
+<%-- 			</c:when> --%>
 		</c:choose>
 	</ul>
 	
@@ -288,15 +291,26 @@ function sendNotification(userId, carNo) {
 	<hr>
 	</c:forEach>
 </div>
-<c:if test="${paging.totalCount gt 5 }">
 	<c:import url="../layout/paginationAjax.jsp" />
+<c:if test="${paging.totalCount gt 5 }">
 </c:if>
 </c:if>
 
 <c:if test="${empty hasData or not hasData }">
+<c:choose>
+	<c:when test="${paging.category == 2 }">
+		<div class="rentList">
+			<strong>취소 내역이 없습니다!</strong><br>
+			<span>캠핑카를 찾으시나요?</span><br>
+			<a href="/rent/list" class="exploreButton">살펴보기</a>
+		</div>
+	</c:when>
+	<c:when test="${paging.category == 0 or paging.category == 1 }">
 		<div class="rentList">
 			<strong>아직 예약된 캠핑카가 없습니다!</strong><br>
 			<span>캠핑카를 찾으시나요?</span><br>
 			<a href="/rent/list" class="exploreButton">살펴보기</a>
 		</div>
+	</c:when>
+</c:choose>
 </c:if>
