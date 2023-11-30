@@ -310,11 +310,15 @@ public class UserController {
 		} else if (loginInfo.getUserStatus() == 1) {
 			return "false";
 		}
+		
 		session.setAttribute("isLogin", isLogin);
 		session.setAttribute("loginId", loginInfo.getUserId());
 		session.setAttribute("loginNick", loginInfo.getUserNick());
+		session.setAttribute("loginProfile", loginInfo.getProfile());
 		logger.info("session : " + session.getAttribute("loginId"));
 		logger.info("session : " + session.getAttribute("loginNick"));
+		logger.info("session : " + session.getAttribute("loginProfile"));
+
 
 		logger.info("로그인 성공");
 		return "true";
