@@ -31,7 +31,26 @@ import web.util.Paging;
 public class CarController {
 	@Autowired CarService carService;
 	@GetMapping("/main")
-	public void main() {
+	public void main(HttpSession session,Model model) {
+		User user = new User();
+		user.setUserId((String)session.getAttribute("loginId"));
+		Map<String,Object> map = new HashMap<String, Object>();
+		int ongoing = 0;
+		ongoing = carService.getOngoing(user);
+		int done = 0;
+		done = carService.getDone(user);
+		int cancel = 0;
+		cancel = carService.getCancel(user);
+		log.info("{}",ongoing);
+		log.info("{}",done);
+		log.info("{}",cancel);
+		map.put("ongoing", ongoing);
+		map.put("done", done);
+		map.put("cancel", cancel);
+		model.addAttribute("index",map);
+		log.info(map.toString());
+		
+		
 		
 	}
 	
@@ -63,10 +82,7 @@ public class CarController {
 	}
 
 	
-	@GetMapping("/mysell")
-	public String mysell() {
-		return "/car/mysell";
-	}
+
 	
 	@GetMapping("/regi")
 	public void regi(Car car, Model model) {
@@ -290,6 +306,54 @@ public class CarController {
 	   carService.approveCar(car);
 	   return null;
    }
+   
+	@GetMapping("/mysell")
+	public String mysell(HttpSession session,Model model,Paging param) {
+		User user = new User();
+		user.setUserId((String)session.getAttribute("loginId"));
+		log.info(param.toString());
+		log.info("이거 클릭하는고얌");
+		int category = param.getCategory();
+		if(category == 1) { // 카테고리가 수익금 내역일 때
+			List<Map<String,Object>> target = new ArrayList<Map<String,Object>>();
+			Paging proPaging = carService.getPaging(param, user);
+			proPaging.setCategory(1);
+			model.addAttribute("paging",proPaging);
+			target = carService.getProceedsInfo(user,proPaging);
+			model.addAttribute("list",target);
+		}else if(category == 2) {
+			List<Map<String,Object>> target = new ArrayList<Map<String,Object>>();
+			Paging withPaging = carService.getPaging(param, user);
+			withPaging.setCategory(2);
+			target = carService.getWithdrawoInfo(user,withPaging);
+			model.addAttribute("paging",withPaging);
+			model.addAttribute("list",target);
+		}else if(category == 3) {
+			List<Map<String,Object>> target = new ArrayList<Map<String,Object>>();
+			Paging chargePaging = carService.getPaging(param, user);
+			chargePaging.setCategory(3);
+			target = carService.getChargeInfo(user,chargePaging);
+			model.addAttribute("paging",chargePaging);
+			model.addAttribute("list",target);
+		}		
+		//위에는 테스트용!
+		Map<String,Object> indexInfo = new HashMap<String, Object>();
+		indexInfo = carService.getIndexInfo(user);
+		log.info("이것들은 인덱스 가격들");
+		log.info(indexInfo.toString());
+		model.addAttribute("indexInfo",indexInfo);
+		
+		
+		return "/car/mysell";
+	}
+	
+	@GetMapping("/commit")
+	@ResponseBody
+	public String commit(@RequestParam("rentNos") List<String> rentNos) {
+	    log.info(rentNos.toString());
+	    carService.commit(rentNos);
+	    return "success";
+	}
 }
 
 

@@ -3,6 +3,7 @@ package web.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+import web.controller.CarController;
 import web.dao.face.CarDao;
 import web.dto.BoardFile;
 import web.dto.Car;
@@ -22,6 +26,7 @@ import web.service.face.CarService;
 import web.util.Paging;
 
 @Service
+@Slf4j
 public class CarServiceImpl implements CarService {
 	
 	@Autowired CarDao carDao;
@@ -154,9 +159,80 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	public Paging getPaging(Paging param, User user) {
-		int totalCount = carDao.selectCntLentList(user);
+		int totalCount = 0;
+		if(param.getCategory() == 0) {
+			totalCount = carDao.selectCntLentList(user);			
+		}else if(param.getCategory() == 1) {
+			totalCount = carDao.selectCntProceedsList(user);
+		}else if(param.getCategory() == 2) {
+			totalCount = carDao.selectCntWithdrawList(user);
+		}else if(param.getCategory() == 3) {
+			totalCount = carDao.selectCntChargeList(user);
+		}
 		Paging paging = new Paging( totalCount, param.getCurPage() );
 		return paging;
+	}
+
+	@Override
+	public int getOngoing(User user) {
+		// TODO Auto-generated method stub
+		return carDao.selectOngoing(user);
+	}
+
+	@Override
+	public int getDone(User user) {
+		// TODO Auto-generated method stub
+		return carDao.selectDone(user);
+	}
+
+	@Override
+	public int getCancel(User user) {
+		// TODO Auto-generated method stub
+		return carDao.selectCancel(user);
+	}
+
+	@Override
+	public Map<String, Object> getIndexInfo(User user) {
+		Integer avalible = 0;
+		Integer expectation = 0;
+		Integer total = 0;
+		
+		avalible = carDao.getAvalible(user);
+		expectation = carDao.getExpectation(user);
+		total = carDao.getTotal(user);
+		String account = null;
+		account = carDao.selectAccount(user);		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("avalible", avalible);
+		resultMap.put("expectation", expectation);
+		resultMap.put("total", total);
+		resultMap.put("account", account);
+		return resultMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> getProceedsInfo(User user, Paging param) {
+		// TODO Auto-generated method stub
+		log.info("{임플 페이징}",param);
+		return carDao.selectProceedsList(user,param);
+	}
+
+	@Override
+	public void commit(List<String> rentNos) {
+		carDao.commit(rentNos);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getWithdrawoInfo(User user, Paging withPaging) {
+		
+		return carDao.selectWithdrawList(user,withPaging);
+	}
+
+	@Override
+	public List<Map<String, Object>> getChargeInfo(User user, Paging chargePaging) {
+		
+		return carDao.selectChargeList(user,chargePaging);
 	}
 
 }
