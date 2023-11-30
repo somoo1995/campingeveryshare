@@ -17,8 +17,8 @@
 		<where>
 			AND car_status = 2
 			AND delete_status = 0
-			<if test="category != 0">
-				AND location = #{category }
+			<if test="location != 0">
+				AND location = #{location }
 			</if>
 		</where>
 	</select>
@@ -32,8 +32,8 @@
 					AND car_name LIKE '%' || (#{search }) || '%'
 				</if>
 <!-- 				<if test="category !=null and !''.equals(category)"> -->
-				<if test="category != 0">
-					AND location = #{category }
+				<if test="location != 0">
+					AND location = #{location }
 				</if>
 				AND delete_status = 0
 			</where>
@@ -66,7 +66,7 @@
 			SELECT file_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO boardfiletb ( file_no, board_no, origin_name, stored_name,board_cate )
-		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName},1 )
+		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, 1 )
 	</insert>
 	
 	<select id="selectBycarNumber" parameterType="Car">

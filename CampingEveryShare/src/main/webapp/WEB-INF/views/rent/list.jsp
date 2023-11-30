@@ -143,4 +143,4 @@ pageEncoding="UTF-8"%>
 	
 </c:forEach>
 
-	<c:import url="../layout/paginationAjax.jsp" />
+ <c:import url="../layout/paginationAjax.jsp" />

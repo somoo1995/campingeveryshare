@@ -109,9 +109,9 @@ select {
 
 	<c:when test="${paging.category eq 1 }">
 		<c:import url="/WEB-INF/views/rent/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
+<%-- 		<c:if test="${paging.totalCount gt 9 }"> --%>
+<%-- 			<c:import url="../layout/paginationAjax.jsp" /> --%>
+<%-- 		</c:if> --%>
 	</c:when>
 	
 	<c:when test="${paging.category eq 2 }">

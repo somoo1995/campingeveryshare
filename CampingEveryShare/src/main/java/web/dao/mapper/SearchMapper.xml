@@ -17,6 +17,7 @@
 		<where>
 			AND board_cate = #{category }
 			AND title LIKE '%' || (#{search }) || '%'
+			AND delete_status = 0
 		</where>
 	</select>
 	
@@ -24,6 +25,8 @@
 		SELECT count(*) FROM cartb
 		<where>
 			AND car_name LIKE '%' || (#{search }) || '%'
+			AND delete_status = 0
+			AND car_status = 2
 		</where>
 	</select>
 	

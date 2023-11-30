@@ -4,6 +4,8 @@ package web.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +33,60 @@ public class RentController {
 	@Autowired RentService rentService;
 	@Autowired ReviewService reviewService;
 	
-	
-	@GetMapping("/list")
-	public String rentMain( Model model, Paging param, @RequestParam(required = false) String location ) {
-		logger.info("location : {}", location);
-		logger.info("param : {}", param);
-		
-		Paging paging = rentService.getPaging(param, location);
-		logger.info("paging : {}", paging);
-		
-		List<Map<String, Object>> list = rentService.getCarList(paging);
-		logger.info("list : {}", list);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("paging", paging);
-		
-		return "rent/main";
-		
+	@RequestMapping("/list")
+	public String rentHandler(Model model, Paging param, HttpServletRequest request) {
+	    logger.info("param : {}", param);
+
+	    Paging paging = rentService.getPaging(param);
+	    logger.info("paging : {}", paging);
+
+	    List<Map<String, Object>> list = rentService.getCarList(paging);
+	    logger.info("list : {}", list);
+
+	    model.addAttribute("paging", paging);
+	    model.addAttribute("list", list);
+
+	    if (request.getMethod().equals("GET")) {
+	        return "rent/main";
+	    } else if (request.getMethod().equals("POST")) {
+	        return "rent/list";
+	    } else {
+	        return "error"; 
+	    }
 	}
 	
-	@PostMapping("/list")
-	public String rentList( Model model, Paging param, @RequestParam(required = false) String location ) {
-		logger.info("location : {}", location);
-		
-		Paging paging = rentService.getPaging(param, location);
-		logger.info("paging : {}", paging);
-		
-		List<Map<String, Object>> list = rentService.getCarList(paging);
-		logger.info("list : {}", list);
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
-		return "rent/list";
-	}
+	
+//	@GetMapping("/list")
+//	public String rentMain( Model model, Paging param) {
+//		logger.info("param : {}", param);
+//		
+//		Paging paging = rentService.getPaging(param);
+//		logger.info("paging : {}", paging);
+//		
+//		List<Map<String, Object>> list = rentService.getCarList(paging);
+//		logger.info("list : {}", list);
+//		
+//		model.addAttribute("list", list);
+//		model.addAttribute("paging", paging);
+//		
+//		return "rent/main";
+//		
+//	}
+//	
+//	@PostMapping("/list")
+//	public String rentList( Model model, Paging param ) {
+//		logger.info("param : {}", param);
+//		
+//		Paging paging = rentService.getPaging(param);
+//		logger.info("paging : {}", paging);
+//		
+//		List<Map<String, Object>> list = rentService.getCarList(paging);
+//		logger.info("list : {}", list);
+//		
+//		model.addAttribute("paging", paging);
+//		model.addAttribute("list", list);
+//		return "rent/list";
+//	}
 	
 	@RequestMapping("/view")
 	public void rentView( Model model, Car car ) {
