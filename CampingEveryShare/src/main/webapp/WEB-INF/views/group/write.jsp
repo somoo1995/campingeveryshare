@@ -95,7 +95,6 @@ $(() => {
 <input type="text" class="location" readonly="readonly" value="위 치" style="width: 100px; color: forestgreen">
 |
 <select name="location" id="location">
-     <option>선택</option>
      <option value="10">강원</option>
      <option value="9">경기</option>
      <option value="16">경남</option>

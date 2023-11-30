@@ -38,9 +38,11 @@ public class GroupController {
 	
 	@GetMapping("list")
 	public String groupList(Paging param, Model model, Board board) {
-		
-		
+		logger.info("board : {} ", board.getLocation());
+		param.setCategory(board.getLocation());
+		logger.info("param : {}", param);
 		Paging paging = groupService.getPaging( param );
+		paging.setCategory(param.getCategory());
 		logger.info("paging : {}", paging);
 		
 		
@@ -58,6 +60,33 @@ public class GroupController {
 //		logger.info("model {} :" + model.toString());
 		
 		return "group/main";
+	}
+	
+	@PostMapping("list")
+	public String groupLocList(Paging param, Model model, Board board) {
+		logger.info("board : {} ", board.getLocation());
+
+//		param.setCategory(board.getLocation());
+		logger.info("param : {}", param);
+		Paging paging = groupService.getPaging( param );
+		paging.setCategory(param.getCategory());
+		logger.info("paging : {}", paging);
+		
+		
+		
+		List<Map<String, Object>> list = groupService.list(paging);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+//		logger.info("board : {}", board);
+		logger.info("list : {}", list);
+//		logger.info("paging {} :" + paging.toString());
+//		logger.info("model {} :" + model.toString());
+		
+		return "group/list";
 	}
 	
 	@GetMapping("view")

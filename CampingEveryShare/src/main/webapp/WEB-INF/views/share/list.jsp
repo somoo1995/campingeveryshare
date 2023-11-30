@@ -5,15 +5,74 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/javascript">
+
+$(()=>{
+	
+	$(".btnHeart").click(()=>{
+		console.log(${isHeart})
+		console.log($(event.currentTarget).attr("data-no"));	
+		var targetNo = $(event.currentTarget).attr("data-no");
+		console.log(targetNo);
+		
+		$.ajax({
+			type: "get"
+			, url: "/share/heart"
+			, data: { 
+				userId : "${loginId}",
+                heartNo: $(event.currentTarget).attr("data-no"),
+                boardNo: $(event.currentTarget).attr("data-no"),
+                boardCate: $(event.currentTarget).attr("data-cate")
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
+					console.log(data)
+	
+				if (data.hResult == true) { // 찜 성공
+				    console.log("찜성공");
+				    var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
+				    targetImg.attr('src', '/resources/img/heartOn.png');
+				} else { // 찜 취소 성공
+				    console.log("찜취소");
+				    var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
+				    targetImg.attr('src', '/resources/img/heartNone.png');
+				}
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+		
+	}); //$("#btnHeart").click() end
+
+})
+</script>
+
 
 <style type="text/css">
+
+.heartOn {
+    width: 25px; /* 원하는 너비 */
+    height: 25px; /* 원하는 높이 */
+}
+
+.heartNone {
+    width: 25px; /* 원하는 너비 */
+    height: 25px; /* 원하는 높이 */
+}
+
+.btnHeart img:hover{
+	cursor: pointer;
+}
 
 .row {
     text-align: center;
 }
 
 .write-container {
-    height: 440px;
+    height: 450px;
     width: 380px;
     margin: 1em auto; 
     text-align: center; 
@@ -98,7 +157,10 @@ select {
 
 <div class="board">
 
+<div id="result">
 <c:forEach items="${list}" var="board" varStatus="loop">
+
+
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">
   </c:if>
@@ -109,8 +171,21 @@ select {
 	</div>
 	<div class="info">
     <h6>👤 : ${board.USER_NICK } </h6>
-    <h6>❣️ : ${board.HEART }  </h6>
-    <h6>
+	<c:if test="${board.HEARTID eq 0  }">
+		<c:if test="${isLogin }">
+			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartNone.png"> : ${board.HEART }</span>
+		</c:if>
+	</c:if>
+	<c:if test="${board.HEARTID eq 1  }">
+		<c:if test="${isLogin }">
+			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartOn.png"> : ${board.HEART }</span>
+		</c:if>	
+	</c:if>
+	<c:if test="${empty isLogin}">
+	    <h6><img class="heartOn" src="/resources/img/heartOn.png"> : ${board.HEART }</h6>
+	</c:if>	
+	
+	<h6>
     <c:choose>
 	    <c:when test="${board.PAID eq 2}">
 	        <h6 style="color: #78E150 ; font-weight: bold;">🪙 : 무료</h6>
@@ -164,4 +239,7 @@ select {
     </div> <!-- .class="row" -->
   </c:if>
 </c:forEach>
+</div>
+<c:import url="../layout/paginationAjax.jsp" />
+
 </div>

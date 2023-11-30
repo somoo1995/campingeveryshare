@@ -39,12 +39,68 @@ public class MarketController {
 	@Autowired MarketService marketService;
 	
 	@GetMapping("list")
-	public String marketList(Paging param, Model model, Board board) {
+	public String marketList(Paging param, Model model, Board board, HttpSession session) {
 		
-		
+		param.setType((String) session.getAttribute("loginId"));
+//		logger.info("paramId : {}", param.getType());
+		param.setCategory(board.getLocation());
 		Paging paging = marketService.getPaging( param );
-		logger.info("paging : {}", paging);
+//		logger.info("paging : {}", paging);
+		paging.setCategory(board.getLocation());
+		paging.setType((String) session.getAttribute("loginId"));
+//		logger.info("paramId : {}", param.getType());
+
 		
+		List<Map<String, Object>> list = marketService.list(paging);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		model.addAttribute("param", param);
+		
+		//찜 상태 조회
+		Heart heart = new Heart();
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		int heartCnt = marketService.getTotalCntHeart(heart);
+		logger.info("totalHeart" + heartCnt);
+		
+		//찜 상태 전달
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		boolean isHeart = marketService.heartCntList(heart);
+		model.addAttribute("isHeart", isHeart);
+		model.addAttribute("cntHeart", marketService.getTotalCntHeart(heart));
+		model.addAttribute("loginId", session.getAttribute("loginId"));
+		
+		
+		logger.info("isHeart : {}", isHeart);
+		logger.info("board : {}", board);
+		logger.info("list : {}", list);
+//		logger.info("paging {} :" + paging.toString());
+		logger.info("model {} :" + model.toString());
+		
+		return "market/main";
+	}
+	
+
+	@PostMapping("list")
+	public String locList(Paging param, Model model, Board board, HttpSession session) {
+		
+//		param.setCategory(board.getLocation());
+//		logger.info("paramId : {}", param.getType());
+
+		param.setType((String) session.getAttribute("loginId"));
+//		logger.info("parma : {}" + param);
+		Paging paging = marketService.getPaging( param );
+		paging.setCategory(param.getCategory());
+//		logger.info("paging : {}", paging);
+		paging.setType((String) session.getAttribute("loginId"));
+//		logger.info("paramId : {}", param.getType());
+
 		
 		
 		List<Map<String, Object>> list = marketService.list(paging);
@@ -54,12 +110,30 @@ public class MarketController {
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
 		
+		//찜 상태 조회
+		Heart heart = new Heart();
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		int heartCnt = marketService.getTotalCntHeart(heart);
+		logger.info("totalHeart" + heartCnt);
+		
+		//찜 상태 전달
+		heart.setUserId((String) session.getAttribute("loginId"));
+		heart.setHeartNo(board.getBoardNo());
+		heart.setBoardCate(board.getBoardCate());
+		boolean isHeart = marketService.heartCntList(heart);
+		model.addAttribute("isHeart", isHeart);
+		model.addAttribute("cntHeart", marketService.getTotalCntHeart(heart));
+		model.addAttribute("loginId", session.getAttribute("loginId"));
+
+		logger.info("isHeart : {}", isHeart);
 		logger.info("board : {}", board);
 		logger.info("list : {}", list);
-		logger.info("paging {} :" + paging.toString());
+//		logger.info("paging {} :" + paging.toString());
 		logger.info("model {} :" + model.toString());
 		
-		return "market/main";
+		return "market/list";
 	}
 	
 	@GetMapping("view")

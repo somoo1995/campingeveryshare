@@ -52,10 +52,10 @@ public class ShareServiceImpl implements ShareService {
 	@Override
 	public Paging getPaging(Paging param) {
 
-		int totalCount = shareDao.selectCntAll();
+		int totalCount = shareDao.selectCntAll(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
-		
+		paging.setCategory(param.getCategory());
 		return paging;
 	}
 

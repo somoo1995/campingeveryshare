@@ -49,15 +49,34 @@ public class MarketServiceImpl implements MarketService {
 		return list;
 	}
 
+//	@Override
+//	public List<Map<String, Object>> loclist(Paging paging) {
+//		
+//		List<Map<String, Object>> list;
+//		list = marketDao.selectMarketAllByLoc(paging);
+//			return list;
+//	}
+	
 	@Override
 	public Paging getPaging(Paging param) {
 
-		int totalCount = marketDao.selectCntAll();
+		int totalCount = marketDao.selectCntAll(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
+		paging.setCategory(param.getCategory());
 		
 		return paging;
 	}
+
+//	@Override
+//	public Paging getPagingByLoc(Paging param) {
+//		
+//		int totalCount = marketDao.selectCntAllByLoc(param);
+//
+//		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
+//		paging.setCategory(param.getCategory());
+//		return paging;
+//	}
 
 	@Override
 	public Board marketView(Board board) {
@@ -286,6 +305,16 @@ public class MarketServiceImpl implements MarketService {
 		return false;
 	}
 
+	@Override
+	public boolean heartCntList(Heart heart) {
+		int hCnt = heartDao.selectCntHeartList(heart);
+		
+		if( hCnt > 0 ) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean heart(Heart heart) {
 		if( heartCnt(heart) ) {

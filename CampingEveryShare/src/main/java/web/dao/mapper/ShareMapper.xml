@@ -26,11 +26,15 @@
             , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = boardtb.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME"
 			, (SELECT loc_name_ko FROM location_category WHERE loc_cate = boardtb.location) AS "LOCATION_NAME"
 			, (SELECT paid FROM sharetb WHERE board_no = boardtb.board_no) AS "PAID"
+			, (SELECT COUNT(*) FROM hearttb WHERE heart_no = boardtb.board_no AND board_cate = 2 AND hearttb.user_id = #{type}) AS "HEARTID"
 			, user_id
 			FROM boardtb
 			<where>
 				AND board_cate = 2
 				AND delete_status = 0
+				<if test="category != '20' ">
+                    AND location = #{category}
+                </if>
 				<if test="search != null and !''.equals(search)">
 					AND title LIKE '%' || (#{search }) || '%' 
 				</if>
@@ -41,9 +45,12 @@
 
   	</select>
   
-  	<select id="selectCntAll" parameterType="int">
+  	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
   		SELECT count(*) FROM boardtb
   		WHERE board_cate = 2
+  		<if test="category != '20'">
+        AND location = #{category}
+   		</if>
   	</select>
   
   	<select id="selectBoardView" resultType="board" parameterType="board">
