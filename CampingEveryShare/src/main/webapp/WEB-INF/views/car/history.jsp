@@ -165,16 +165,19 @@
   align-items: center; /* 중앙 정렬을 위해 추가 */
 }
 
-.carTitle {
+.carTitleHistory {
   width: 450px;
   height: 50px;
   margin-left: 50px;
   margin-top: 30px;
   /* 필요하다면 margin-left를 추가하여 간격을 조정할 수 있습니다. */
 }
-.carTitle span{
+.carTitleHistory span{
 	font-weight: 600;
 	font-size: 1.4em;
+}
+.historyPagination{
+	margin-left: 500px;
 }
 
 
@@ -194,8 +197,8 @@ function sendNotification(userId, rentNo) {
       , data: {
          userId: userId,
          boardCate: 1,
-         boardNo: rentNo,
-         content: 5
+         content: 5,
+         boardNo: carNo
       }
       , dataType: "json"
       , success: function(  ) {
@@ -220,6 +223,7 @@ $(document).ready(function () {
 	      
 	      var userId = $(this).attr("data-id")
 	      var rentNo = $(this).attr("data-no")
+	      var carNo = $(this).attr("data-car")
 	      
 	      console.log(rentNo)
 	      console.log(userId)
@@ -234,7 +238,7 @@ $(document).ready(function () {
 	         , dataType: "json"
 	         , success: function( data ) {
 	            console.log("AJAX 성공")
-	            sendNotification(userId, rentNo)
+	            sendNotification(userId,carNo)
 	            
 	            alert("취소가 완료되었습니다")
 	            
@@ -291,7 +295,7 @@ $(document).ready(function () {
     <div class="carNumber"> <!-- carNumber div -->
       <span>${list.CAR_NUMBER }</span>
     </div> <!-- carNumber div end -->
-    <div class="carTitle">
+    <div class="carTitleHistory">
       <span>${list.CAR_NAME }</span>
     </div> <!-- newDivAdjacentToCarNumber div end -->
   </div> <!-- carNumber-wrap div end -->
@@ -305,7 +309,7 @@ $(document).ready(function () {
     </div> <!-- newDivNearCarPrice div end -->
     <c:if test="${list.RENT_STATUS == 0 }">
     <div class="cancel">
-      <button class="btn btn-primary cancel-button" data-uid="${list.MERCHANT_UID }" data-id="${list.CUSTOM_ID }" data-no="${list.RENT_NO }">취소</button>
+      <button class="btn btn-primary cancel-button" data-uid="${list.MERCHANT_UID }" data-id="${list.CUSTOM_ID }" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">취소</button>
     </div> <!-- cancel div end -->    
     </c:if>
 
@@ -323,6 +327,8 @@ $(document).ready(function () {
 </div> <!-- userProfile div end -->
 </div><!-- 전체 div end -->
 </c:forEach>
-<c:import url="../layout/pagenationAjaxSeongGwon.jsp" />
+<div class="historyPagination">
+<c:import url="../car/historyPagination.jsp" />
+</div>
 
 </div>

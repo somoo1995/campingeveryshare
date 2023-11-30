@@ -34,5 +34,21 @@ public interface CarService {
 
 	Paging getPaging(Paging param, User user);
 
+	int getOngoing(User user);
+
+	int getDone(User user);
+
+	int getCancel(User user);
+
+	Map<String, Object> getIndexInfo(User user);
+
+	List<Map<String, Object>> getProceedsInfo(User user, Paging param);
+
+	void commit(List<String> rentNos);
+
+	List<Map<String, Object>> getWithdrawoInfo(User user, Paging withPaging);
+
+	List<Map<String, Object>> getChargeInfo(User user, Paging chargePaging);
+
 
 }
