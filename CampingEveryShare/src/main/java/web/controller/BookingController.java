@@ -3,8 +3,6 @@ package web.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import web.dto.Rent;
 import web.service.face.BookingService;
 import web.util.Paging;
 
@@ -28,25 +25,7 @@ public class BookingController {
 	@Autowired BookingService bookingService;
 	
 	@GetMapping("/main")
-	public void bookingMain( 
-			Model model, 
-			@SessionAttribute("loginId") String userId,
-			@RequestParam(required = false) String status,
-			Paging param
-			) {
-		
-		logger.info("param : {}", param);
-		
-//		Paging paging = bookingService.getPaging(param, status, userId);
-//		
-//		boolean hasData = false;
-//		if( paging.getTotalCount() > 0 ) {
-//			hasData = true; 
-//		}
-//		
-//		model.addAttribute("hasData", hasData);
-		
-	}
+	public void bookingMain() {}
 	
 	@PostMapping("/main")
 	public String bookingList(

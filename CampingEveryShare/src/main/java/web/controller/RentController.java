@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import web.dto.Car;
@@ -39,11 +36,17 @@ public class RentController {
 
 	    Paging paging = rentService.getPaging(param);
 	    logger.info("paging : {}", paging);
+	    
+		boolean hasData = false;
+		if( paging.getTotalCount() > 0 ) {
+			hasData = true; 
+		}
 
 	    List<Map<String, Object>> list = rentService.getCarList(paging);
 	    logger.info("list : {}", list);
 
 	    model.addAttribute("paging", paging);
+	    model.addAttribute("hasData", hasData);
 	    model.addAttribute("list", list);
 
 	    if (request.getMethod().equals("GET")) {
@@ -54,39 +57,6 @@ public class RentController {
 	        return "error"; 
 	    }
 	}
-	
-	
-//	@GetMapping("/list")
-//	public String rentMain( Model model, Paging param) {
-//		logger.info("param : {}", param);
-//		
-//		Paging paging = rentService.getPaging(param);
-//		logger.info("paging : {}", paging);
-//		
-//		List<Map<String, Object>> list = rentService.getCarList(paging);
-//		logger.info("list : {}", list);
-//		
-//		model.addAttribute("list", list);
-//		model.addAttribute("paging", paging);
-//		
-//		return "rent/main";
-//		
-//	}
-//	
-//	@PostMapping("/list")
-//	public String rentList( Model model, Paging param ) {
-//		logger.info("param : {}", param);
-//		
-//		Paging paging = rentService.getPaging(param);
-//		logger.info("paging : {}", paging);
-//		
-//		List<Map<String, Object>> list = rentService.getCarList(paging);
-//		logger.info("list : {}", list);
-//		
-//		model.addAttribute("paging", paging);
-//		model.addAttribute("list", list);
-//		return "rent/list";
-//	}
 	
 	@RequestMapping("/view")
 	public void rentView( Model model, Car car ) {

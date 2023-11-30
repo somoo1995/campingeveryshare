@@ -161,6 +161,12 @@ $(function() {
     })
    
    //검색
+	$("#search-query").keydown(function (e) {
+		if(e.key === 'Enter') {
+			$("#btnSearch").click()
+		}	
+	})
+   
    $("#btnSearch").click(function() {
       
       $form = $("<form>").attr({
