@@ -141,57 +141,23 @@ function loadList(areaCate) {
 		<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
 	</div>
 	
-<!-- 	<div class="selectSEL" style="display: none;"> -->
-<!-- 		<select class="form-select" name="areaSelect" id="areaCateSeo"> -->
-<!-- 			<option>전체</option>       -->
-<!-- 			<option value="1">강남구</option>       -->
-<!-- 			<option value="2">강동구</option>       -->
-<!-- 			<option value="3">강북구</option>       -->
-<!-- 			<option value="4">강서구</option>       -->
-<!-- 			<option value="5">관악구</option>       -->
-<!-- 			<option value="6">광진구</option>       -->
-<!-- 			<option value="7">구로구</option>       -->
-<!-- 			<option value="8">금천구</option>       -->
-<!-- 			<option value="9">노원구</option>       -->
-<!-- 			<option value="10">도봉구</option>       -->
-<!-- 			<option value="11">동대문구</option>       -->
-<!-- 			<option value="12">동작구</option>       -->
-<!-- 			<option value="13">마포구</option>       -->
-<!-- 			<option value="14">서대문구</option>       -->
-<!-- 			<option value="15">서초구</option>       -->
-<!-- 			<option value="16">성동구</option>       -->
-<!-- 			<option value="17">성북구</option>       -->
-<!-- 			<option value="18">송파구</option>       -->
-<!-- 			<option value="19">양천구</option>       -->
-<!-- 			<option value="20">영등포구</option>       -->
-<!-- 			<option value="21">용산구</option>       -->
-<!-- 			<option value="22">은평구</option>       -->
-<!-- 			<option value="23">종로구</option>       -->
-<!-- 		</select> -->
-<!-- 	</div> -->
-	
-<!-- 	<div class="selectICN" style="display: none;"> -->
-<!-- 		<select class="form-select" name="areaSelect" id="areaCateIn"> -->
-<!-- 			<option>전체</option>       -->
-<!-- 			<option value="1">중구</option>       -->
-<!-- 			<option value="2">남동구</option>       -->
-<!-- 			<option value="3">동구</option>       -->
-<!-- 			<option value="4">미추홀구</option>       -->
-<!-- 			<option value="5">부평구</option>       -->
-<!-- 			<option value="6">서구</option>       -->
-<!-- 			<option value="7">연수구</option>       -->
-<!-- 			<option value="8">계양구</option>       -->
-<!-- 		</select> -->
-<!-- 	</div> -->
 	
 </div>
 
 <div class="clearfix"></div>
 
-<%-- <c:import url="./list.jsp" /> --%>
+<c:if test="${not empty hasData and hasData  }">
+	<div id="resultList"></div>
+</c:if>
 
-<div id="resultList"></div>
+<c:if test="${empty hasData or not hasData }">
+	<div class="rentList">
+		<strong>등록된 캠핑카가 없습니다!</strong><br>
+		<span>캠핑카를 등록하시겠어요?</span><br>
+		<a href="/car/main" class="exploreButton">살펴보기</a>
+	</div>
 
+</c:if>
 
 </div><!-- .container end -->
 

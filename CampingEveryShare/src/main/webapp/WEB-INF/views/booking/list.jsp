@@ -56,6 +56,17 @@
 	/* 채워진 별로 이미지 변경 */
 	background-image: url(/resources/img/star_full.png);
 }
+
+.booking-container {
+	display: flex;
+/* 	justify-content: space-between; */
+	align-items: center;
+}
+
+.booking-thumbnail {
+	width: 225px;
+	height: 202px;
+}
 </style>
 
 <script type="text/javascript">
@@ -70,27 +81,20 @@ $(function() {
 		
 		var rentNo = $(this).closest(".review").attr("data-no")
 		var stars = $(".review[data-no='" + rentNo + "'] .star")
-// 		var reviewContainer = $(".review[data-no='" + rentNo + "']")
 		
-		//클릭된 별이 몇 번째 칸인지 알아내기
 		idx = $(this).index();
 		
-		//모두 투명하게 만들기
-// 		$(".star").removeClass("on")
 		stars.removeClass("on")
 		
-		//클릭이 된 곳까지 채워진 별로 만들기
 		for(var i=0; i<=idx; i++) {
-// 			$(".star").eq(i).addClass("on")
 			stars.eq(i).addClass("on")
 		}
 		
 		rate = (idx+1)/2
 		
-		console.log("클릭된 별의 위치 : " + idx)
-		console.log("점수로 변환 : " + (idx+1)/2)
+// 		console.log("클릭된 별의 위치 : " + idx)
+// 		console.log("점수로 변환 : " + (idx+1)/2)
 	})
-	
 	
 	$(".btnReview").click(function() {
 		var rentNo = $(this).attr("data-no")
@@ -104,7 +108,6 @@ $(function() {
 	})
 	
 	$(".btnReviewWrite").click(function() {
-		
 		var rentNo = $(this).attr("data-no")
 		var reviewContainer = $(".review[data-no='" + rentNo + "']")
 		var content = reviewContainer.find(".content").val()
@@ -113,8 +116,6 @@ $(function() {
 			alert("내용을 작성하세요")
 			return
 		}
-		
-		console.log("review click - rate : " + rate)
 		
 	      $.ajax({
 	          type: "post"
@@ -148,18 +149,10 @@ $(function() {
 	
 })
 
-</script>
-
-
-<script type="text/javascript">
-
+<!-- 예약 취소 -->
 $(function() {
 	
 	$(".btnCancel").click(function() {
-		
-		console.log($(this).attr("data-uid"))
-		console.log($(this).attr("data-id"))
-		console.log($(this).attr("data-car"))
 		
 		var userId = $(this).attr("data-id")
 		var rentNo = $(this).attr("data-no")
@@ -194,10 +187,6 @@ $(function() {
 })
 
 function sendNotification(userId, carNo) {
-   
-// 	console.log(userid)
-// 	console.log(rentno)
-	
     $.ajax({
         type: "post"
         , url: "/alert/sendnotification"
@@ -210,11 +199,9 @@ function sendNotification(userId, carNo) {
         , dataType: "json"
         , success: function(  ) {
            console.log("send Notification - AJAX 성공")
-
         }
         , error: function() {
            console.log("AJAX 실패")
-
         }
      })
    
@@ -226,6 +213,11 @@ function sendNotification(userId, carNo) {
 <c:if test="${not empty hasData and hasData }">
 <div class="bookingList mb-5">
 	<c:forEach var="list" items="${list }">
+	<div class="booking-container">
+	<div class="booking-thumbnail">
+	<img class="preview" src="/upload/${list.THUMBNAILNAME}"/>
+	</div>
+	<div class="booking-detail">
 	<ul >
 		<li style="font-size: 30px; font-weight: bold;">${list.CARNAME }</li>
 		<li style="font-size: 25px;">${list.LOCATION } ${list.AREA }</li>
@@ -238,31 +230,21 @@ function sendNotification(userId, carNo) {
 		<fmt:parseDate value="${list.START_DATE }" var="startDate" pattern="yyyy-MM-dd"/>
 		<fmt:formatNumber value="${(endDate.time - startDate.time) / (1000 * 60 * 60 * 24)}" pattern="###"/>박
 		<c:set var="night" value="${(endDate.time - startDate.time) / (1000 * 60 * 60 * 24)}"/>
-		<fmt:formatNumber value="${night+1 }" pattern="###"/>일 )
+		<fmt:formatNumber value="${night+1 }" pattern="###"/>일
+		)
 		</li>
-<%-- 		<li>${list.END_DATE - list.START_DATE }</li> --%>
-<!-- 		<li> -->
-<!-- 		예약일 :  -->
-<%-- 		<fmt:parseDate value="${list.BOOKING_DATE }" var="booking" pattern="yyyy-MM-dd HH:mm"/> --%>
-<%-- 		<fmt:formatDate value="${booking }" pattern="yyyy-MM-dd HH:mm"/> --%>
-<!-- 		</li> -->
 		<c:choose>
-<%-- 			<c:when test="${empty param.status || param.status == 'now'}"> --%>
 			<c:when test="${paging.category == 0}">
-			<li class="mt-3"> <button class="btn btn-sm btn-success">메시지</button> | <button class="btn btn-sm btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> </li>
+			<li class="mt-3"> <button class="btn btn-success">메시지</button> | <button class="btn btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> </li>
 			</c:when>
-<%-- 			<c:when test="${param.status == 'history' }"> --%>
 			<c:when test="${paging.category == 1 }">
 				<c:if test="${empty list.REVIEW }">
-				<li class="btnReview mt-3 btn btn-sm btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</li>	
+				<li class="btnReview mt-3 btn btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</li>	
 				</c:if>
 				<c:if test="${not empty list.REVIEW }">
-				<li class="btnReviewRead mt-3 btn btn-sm btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</li>	
+				<li class="btnReviewRead mt-3 btn btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</li>	
 				</c:if>
 			</c:when>
-<%-- 			<c:when test="${paging.category == 1 }"> --%>
-			
-<%-- 			</c:when> --%>
 		</c:choose>
 	</ul>
 	
@@ -287,7 +269,8 @@ function sendNotification(userId, carNo) {
 				</div>
 				</div> 
 				</div><!-- .review end -->
-	
+	</div><!-- .booking-detail -->
+	</div><!-- .booking-container -->
 	<hr>
 	</c:forEach>
 </div>
