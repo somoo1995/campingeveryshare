@@ -6,6 +6,13 @@
 <c:import url="../layout/header.jsp" />
 
 <style>
+
+.pageTitle h6 {
+	color: #A4A4A4; 
+	font-weight: 200; 
+	font-size: 20px;
+}
+
 .button-group {
   display: flex; 
 }
@@ -131,7 +138,7 @@ function loadBooking() {
 
     <div class="pageTitle">
          <h3 id="pageTitle">내 예약</h3>
-         <h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑카 예약 내역을 확인할 수 있습니다</h6>
+         <h6>캠핑카 예약 내역을 확인할 수 있습니다</h6>
     </div >
         
     <div class="button-group mt-5">
