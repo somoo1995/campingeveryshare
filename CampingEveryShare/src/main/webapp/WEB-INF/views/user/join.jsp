@@ -19,6 +19,117 @@
 }
 </style>
 
+<style>
+
+.container {
+    min-width: 1300px;
+    /* margin-left: -10px; */
+    /* margin-right: 0px; */
+    /* background-color: pink; */
+    display: grid;
+    padding: 0px;
+}
+
+    
+div.profile-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-content: stretch;
+    grid-column-gap: 40px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+}
+
+div.profileGroup {
+	border-radius: 70%;
+}
+div.profileImg {
+	width: 200px;
+	height: 200px;
+	border-radius: 70%;
+  	overflow: hidden;  
+/*     outline: 3px solid #2cb9789e; */
+    margin-bottom: 20px;
+}
+
+
+#profile {
+	margin-left: 85px;
+    margin-top: -40px;
+    
+}
+
+[type="radio"] {
+  vertical-align: middle;
+  appearance: none;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 50%;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+[type="radio"]:checked {
+  border: 0.4em solid #2ecc71;
+}
+
+div.button {
+	min-width: 1300px;
+	margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+
+div.inputForm_all {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(49%, auto));
+    justify-content: space-between;
+}
+
+span.border {
+	width: 80px;
+	height: 58px;
+	overflow: hidden;
+}
+
+input.border border-success-subtle {
+	height: 60px;
+}
+
+.invalid-feedback {
+	margin: 0px;
+	padding: 0px;
+}
+
+#sendEmailButton {
+	margin: 0px;
+	padding: 0px;
+}
+
+.btn:disabled {
+    color: #ffffff;
+    background-color: #3da903;
+    border-radius: 10%;
+    height: 60px;
+    width: 80px;
+    height: 57px;
+    overflow: hidden;
+}
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 99%;
+    margin: 5px;
+}
+.joinButton {
+    min-width: 1300px;
+    margin: 0px;
+    padding: 0px;
+    height: 60px;
+}
+</style>
+
 <script type="text/javascript">
 
 function checkDuplicate(input, url, displayBlockId, emptyMessage, successMessage, failureMessage, errorMessage) {
@@ -386,62 +497,44 @@ function emailDupleCheck(input) {
 <div class="container">
 	<div class="pageTitle">
 		<h3 id="pageTitle">회원가입</h3>
-		<hr>
 	</div>
 
 
 
-	<div class="col-md-6 input-group has-validation">
-		<span class="border border-success-subtle input-group-text"
-			id="basic-addon1">
-			<div class="p-2">
-				<ul>
-					<li><label for="profile" class="col-form-label" width="200"
-						height="150">프로필 사진*</label></li>
-				</ul>
-			</div>
-			<ul>
-				<li><img src="/resources/img/profile1.png" alt="프로필1"
-					class="profile1" id="profile-img-1" width="190" height="150">
-				</li>
-				<li><input class="form-check-input" type="radio" name="profile"
-					id="profile" value="1" checked="checked"></li>
-			</ul>
-
-			<ul>
-				<li><img src="/resources/img/profile2.png" alt="프로필2"
-					class="profile2" id="profile-img-2" width="190" height="150">
-				</li>
-				<li><input class="form-check-input" type="radio" name="profile"
-					id="profile" value="2"></li>
-			</ul>
-
-			<ul>
-				<li><img src="/resources/img/profile3.png" alt="프로필3"
-					class="profile3" id="profile-img-3" width="190" height="150">
-				</li>
-				<li><input class="form-check-input" type="radio" name="profile"
-					id="profile" value="3"></li>
-			</ul>
-
-			<ul>
-				<li><img src="/resources/img/profile4.png" alt="프로필4"
-					class="profile4" id="profile-img-4" width="190" height="150">
-				</li>
-				<li><input class="form-check-input" type="radio" name="profile"
-					id="profile" value="4"></li>
-			</ul>
-
-			<ul>
-				<li><img src="/resources/img/profile5.png" alt="프로필5"
-					class="profile5" id="profile-img-5" width="190" height="150">
-				</li>
-				<li><input class="form-check-input" type="radio" name="profile"
-					id="profile" value="5"></li>
-			</ul>
-
-		</span>
+	<div class="profile-container">
+        <div class="profileGroup">
+        <div class="profileImg">
+		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
+		</div>
+		   <input  id="profile" type="radio" name="profile" value="1" checked="checked" >
+        </div>
+        <div class="profileGroup">
+        <div class="profileImg">
+		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="200" height="200">
+		</div>
+		   <input  id="profile"  type="radio" name="profile" value="2" >
+        </div>
+        <div class="profileGroup">
+        <div class="profileImg">
+		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="200" height="200">
+		</div>
+		   <input  id="profile"  type="radio" name="profile" value="3" >
+        </div>
+        <div class="profileGroup">
+        <div class="profileImg">
+		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="200" height="200">
+		</div>
+		   <input  id="profile"  type="radio" name="profile" value="4" >
+        </div>
+        <div class="profileGroup">
+        <div class="profileImg">
+		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="200" height="200">
+		</div>
+		   <input  id="profile"  type="radio" name="profile" value="5" >
+        </div>
 	</div>
+
+	<div class="inputForm_all">
 
 
 	<div class="col-md-6 input-group has-validation">
@@ -463,6 +556,28 @@ function emailDupleCheck(input) {
 			<p id="idDupleText"></p>
 		</div>
 	</div>
+	
+	<div class="input-group has-validation">
+		<span class="border border-success-subtle input-group-text"
+			id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg"
+				width="50" height="40" fill="currentColor" class="bi bi-person"
+				viewBox="0 0 16 16">
+			<path
+					d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+		</svg>
+		</span>
+		<div class="form-floating is-invalid">
+			<input type="text" id="userNick" name="userNick"
+				class="border border-success-subtle form-control"
+				onblur="nickDupleCheck(this)" required> <label
+				for="floatingInputGroup2">닉네임*</label>
+		</div>
+		<div id="nickDupleBlock" class="invalid-feedback"
+			style="display: none">
+			<p id="nickDupleText"></p>
+		</div>
+	</div>
+	
 
 
 	<div class="input-group has-validation">
@@ -539,7 +654,8 @@ function emailDupleCheck(input) {
 			<p id="emailDupleText"></p>
 		</div>
 	</div>
-
+	
+	
 	<div class="input-group has-validation">
 		<span class="border border-success-subtle input-group-text"
 			id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg"
@@ -550,44 +666,18 @@ function emailDupleCheck(input) {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-			<input type="text" class="border border-success-subtle form-control"
-				id="userName" name="userName" onblur="nameCheck(this)" required>
+			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck(this)" required>
 			<label for="floatingInputGroup2">이름*</label>
 		</div>
-		<div id="nameDupleBlock" class="invalid-feedback"
-			style="display: none">
+		<div id="nameDupleBlock" class="invalid-feedback" style="display: none">
 			<p id="nameDupleText"></p>
 		</div>
 	</div>
 
 	<div class="input-group has-validation">
-		<span class="border border-success-subtle input-group-text"
-			id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg"
-				width="50" height="40" fill="currentColor" class="bi bi-person"
-				viewBox="0 0 16 16">
-			<path
-					d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-		</svg>
-		</span>
-		<div class="form-floating is-invalid">
-			<input type="text" id="userNick" name="userNick"
-				class="border border-success-subtle form-control"
-				onblur="nickDupleCheck(this)" required> <label
-				for="floatingInputGroup2">닉네임*</label>
-		</div>
-		<div id="nickDupleBlock" class="invalid-feedback"
-			style="display: none">
-			<p id="nickDupleText"></p>
-		</div>
-	</div>
-
-	<div class="input-group has-validation">
-		<span class="border border-success-subtle input-group-text"
-			id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg"
-				width="50" height="40" fill="currentColor"
-				class="bi bi-calendar-heart" viewBox="0 0 16 16">
-	 		<path fill-rule="evenodd"
-					d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+		<span class="border border-success-subtle input-group-text" id="basic-addon1"> 
+		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16">
+	 		<path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
 		</svg>
 		</span>
 		<div class="form-floating is-invalid birth">
@@ -650,8 +740,10 @@ function emailDupleCheck(input) {
 				for="floatingInputGroup2">연락처</label>
 		</div>
 	</div>
+	
+	</div><!--inputForm_all  -->
 
-	<div class="form-floating is-invalid birth">
+	<div class="button">
 		<button id="joinButton"
 			class="border-success-subtle form-control btn btn-outline-success">캠핑
 			시작하기</button>

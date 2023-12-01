@@ -72,7 +72,7 @@ select {
 
 <div>
 
-<form id="fileForm" action="./write" method="post">
+<form id="fileForm" action="./update" method="post">
 
  
 <input type="hidden" name="adminCode" value="${adminCode }" >
@@ -94,7 +94,7 @@ select {
 
 <div class="text-center">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
-	<a href="/share/list"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
+	<a href="/notice/list"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
 </div>
 
 </form>

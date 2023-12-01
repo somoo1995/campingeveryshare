@@ -35,9 +35,9 @@ public class HomeController {
 	public void noLogin() {}
 	
 	@GetMapping("/search")
-	public String search( Paging param, @RequestParam(value = "query", required = false) String query ) {
-		logger.info("query : {}", query);
-		logger.info("param : {}", param);
+	public String search(  Model model, Paging param, @RequestParam(value = "query", required = false) String query ) {
+//		logger.info("query : {}", query);
+//		logger.info("param : {}", param);
 		
 		return "mypage/search";
 	}
@@ -58,7 +58,7 @@ public class HomeController {
 			hasData = true; 
 		}
 		logger.info("paging : {}", paging);
-		logger.info("hasData : {}", hasData);
+//		logger.info("hasData : {}", hasData);
 		
 		List<Map<String, Object>> list = searchService.getList(paging);
 		

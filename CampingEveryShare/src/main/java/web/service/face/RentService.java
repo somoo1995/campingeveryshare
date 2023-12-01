@@ -14,7 +14,7 @@ import web.util.Paging;
 
 public interface RentService {
 
-	public Paging getPaging(Paging param, String location);
+	public Paging getPaging(Paging param);
 
 	public List<Map<String, Object>> getCarList(Paging paging);
 
@@ -27,7 +27,7 @@ public interface RentService {
 	public User getGuestInfo(User user);
 
 	public void cancelBooking(Rent rent);
-
+  
 	public Map<String, Object> getReviewInfo(Car car);
 
 	public int checkHeart(Car car);
@@ -37,6 +37,4 @@ public interface RentService {
 	public int changeHeart(Heart heart);
 
 //	public void income(Income income);
-
-
 }

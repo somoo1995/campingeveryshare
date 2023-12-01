@@ -6,6 +6,7 @@
   
 <mapper namespace="web.dao.face.CarDao">
 	
+
    <sql id="selectCar">
       SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL
       ,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE
@@ -48,6 +49,7 @@
          AND rnum BETWEEN #{startNo } AND #{endNo }
       </where>
    </select>
+
 	
 	<select id="selectByCarNo" parameterType="Car" resultType="Car">
 		<include refid="selectCar" />
@@ -71,7 +73,7 @@
 			SELECT file_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO boardfiletb ( file_no, board_no, origin_name, stored_name,board_cate )
-		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName},1 )
+		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, 1 )
 	</insert>
 	
 	<select id="selectBycarNumber" parameterType="Car">

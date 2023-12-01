@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 
-<link rel="stylesheet" href="../resources/css/group.css?after">
+<link rel="stylesheet" href="../resources/css/group.css">
 
 <!-- <link rel="stylesheet" href="../resources/css/font.css?after"> -->
 
@@ -44,8 +44,8 @@ $(() => {
 		   ],
 // 		   fontNames: ['Source Han Sans KR Light', 'Source Han Sans KR Normal', 'Source Han Sans KR Regular', 'Source Han Sans KR Heavy', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K SemiBold', 'Source Han Serif K Heavy'],
 // 		   fontNamesIgnoreCheck: ['Source Han Sans KR Light', 'Source Han Sans KR Normal', 'Source Han Sans KR Regular', 'Source Han Sans KR Bold', 'Source Han Sans KR Heavy', 'Source Han Serif K Light', 'Source Han Serif K Regular', 'Source Han Serif K SemiBold', 'source-han-serif-korean', 'Source Han Serif K Heavy'],
-		   fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather'],
-  		fontNamesIgnoreCheck: ['Merriweather'],
+		   fontNames: ['sans-serif', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather'],
+//   		fontNamesIgnoreCheck: ['Merriweather'],
 		   fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
 		   popover: {
 			   image: [
@@ -72,6 +72,26 @@ $(() => {
 
 });
 
+function checkCharacterCount(input) {
+    var titleValue = input.value;
+
+    // 최대 글자 수 체크
+    if (titleValue.length > 20) {
+        // 20자를 초과하면 입력을 제한
+        input.value = titleValue.substring(0, 20);
+        
+        // 메시지 표시
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'block';
+        displayBlock.textContent = "제목은 최대 20글자까지 가능합니다.";
+    } else {
+        // 입력이 제한되지 않으면 메시지 숨김
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'none';
+    }
+}
+
+
 
 </script>
 
@@ -83,9 +103,8 @@ $(() => {
 <hr>
 
 <div>
-
 <form id="fileForm" action="./write" method="post" enctype="multipart/form-data">
-<input type="text" class="recruitStatus"  readonly="readonly" value=" 모집 현황" style="width: 100px; color: forestgreen;">
+<input type="text" class="recruitStatus" maxlength="20" readonly="readonly" value=" 모집 현황" style="width: 100px; color: forestgreen;">
 |
 <label><input type="radio" name="recruitStatus" value="0" checked="checked">모집 중</label>
 <label><input type="radio" name="recruitStatus" value="1">모집 완료</label>
@@ -126,9 +145,12 @@ $(() => {
 <!-- </div> -->
 
 <div class="form-group mb-3">
-<!-- 	<label class="form-label" for="title">제목</label> -->
-	<input type="text" class="form-control" name="title" id="title">
+    <input type="text" class="form-control" name="title" id="title" 
+    oninput="checkCharacterCount(this)" placeholder="최대 20글자">
+    <div id="titleDupleBlock" style="color: red;"></div>
 </div>
+
+
 
 <div class="form-group mb-3">
 <!-- 	<label class="form-label" for="content">본문</label> -->

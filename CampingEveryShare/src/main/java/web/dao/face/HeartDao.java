@@ -54,6 +54,14 @@ public interface HeartDao {
 	 * @return - 받아온 리스트
 	 */
 	public List<Map<String, Object>> selectShareAll(Paging paging);
+
+	/**
+	 * 로그인한 아이디가 찜 했는지 조회
+	 * 
+	 * @param heart - 조회할 아이디
+	 * @return - 했으면 1 / 안했으면 0
+	 */
+	public int selectCntHeartList(Heart heart);
 	
 
 

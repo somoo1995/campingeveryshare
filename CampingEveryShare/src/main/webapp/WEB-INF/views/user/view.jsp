@@ -19,6 +19,7 @@ pageEncoding="UTF-8"%>
     border-color: #78cc71;
 }
 </style>
+
 <style>
 .container {
     min-width: 1300px;
@@ -41,7 +42,7 @@ div.profileGroup {
 	height: 200px;
 	border-radius: 70%;
 	overflow: hidden;
-    outline: 3px solid #2cb9789e;
+/*     outline: 3px solid #2cb9789e; */
 }
 
 div.inputForm_all {
@@ -141,8 +142,6 @@ $(document).ready(function() {
     // 프로필 값을 가지는 라디오 버튼을 체크
     $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
     
-    // 프로필 값을 가지는 라디오 버튼을 체크
-    $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
 
     // 나머지 프로필 이미지 및 라디오 버튼 숨김 처리
     $("input[name='profile']").each(function() {
@@ -231,28 +230,27 @@ $(document).ready(function() {
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">마이페이지</h3>
-	<hr>	
 	</div>
 	
 	<div class="profile-container">
         <div class="profileGroup">
-		   <img src="/resources/img/profile1.png" alt="프로필1" id="profile-img-1" width="200" height="200">
+		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
 		   <input type="radio" name="profile" value="1" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="200" height="200">
+		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="200" height="200">
 		   <input type="radio" name="profile" value="2" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile3.png" alt="프로필3" id="profile-img-3" width="200" height="200">
+		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="200" height="200">
 		   <input type="radio" name="profile" value="3" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile4.png" alt="프로필4" id="profile-img-4" width="200" height="200">
+		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="200" height="200">
 		   <input type="radio" name="profile" value="4" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile5.png" alt="프로필5" id="profile-img-5" width="200" height="200">
+		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="200" height="200">
 		   <input type="radio" name="profile" value="5" disabled>
         </div>
 	</div>
@@ -403,7 +401,7 @@ $(document).ready(function() {
 		</svg>
 		</div>
 		<div class="input">
-		    <label>연락처</label>
+		    <label>연락처 +82</label>
 			<input  type="number" id="phone" name="phone" value="${login.phone }" disabled>
 	  	</div>
 	</div>

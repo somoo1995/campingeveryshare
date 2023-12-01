@@ -56,12 +56,11 @@
 
 <div id="report">
 <div id="reportIn">
-<form id="reportForm" action="/market/report" method="post">
+<form id="reportFormMarket" action="/market/report" method="post">
 <div>
 <input type="hidden" value="${board.boardNo }" name="boardNo">
 <input type="hidden" value="${board.userId }" name="userId">
 <input type="hidden" value="${board.boardCate }" name="boardCate">
-${board }
 	<c:if test="${board.boardCate eq 3 }">
 	중고장터의 
 	</c:if>

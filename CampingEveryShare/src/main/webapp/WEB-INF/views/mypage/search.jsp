@@ -9,29 +9,37 @@ pageEncoding="UTF-8"%>
 <style type="text/css">
 
 .button-group {
-  display: flex; /* 버튼을 한 줄로 나란히 배열 */
-  align-items: flex-end; /* 아랫선을 맞추기 위해 추가 */
+  display: flex; 
+  align-items: flex-end; 
 }
 
 .button {
-  background-color: gray; /* 버튼 배경색 */
-  color: white; /* 글자색 */
-  text-align: center; /* 글자 가운데 정렬 */
-  padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
-  text-decoration: none; /* 텍스트 밑줄 제거 */
-  border: none; /* 테두리 없음 */
-  cursor: pointer; /* 마우스 오버 시 커서 변경 */
-  width: 150px;
-  height: 50px;
+	background-color: #efefef; 
+	color: #3A3A3A; 
+	text-align: center; 
+	padding: 10px 20px; 
+	text-decoration: none; 
+	border: none; 
+	cursor: pointer; 
+	width: 150px;
+	height: 50px;
+	transition: background-color 0.3s;
 }
 
 .button.active {
-  background-color: #2ECC71; /* 활성화된 버튼의 배경색 변경 */
+  background-color: #228b22;
+  color: white;
   width: 200px;
   height: 80px;
   font-size: 25px;
   font-weight: bold;
 }
+
+.button:hover {
+  background-color: #228b22;
+  color: white;
+}
+
 </style>
 
 
@@ -96,7 +104,7 @@ $(function() {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3 id="pageTitle">검색어 "${param.query }"에 대한 검색 결과입니다.</h3>
-<hr>
+<!-- <hr> -->
 </div>
 
     <div class="button-group mt-5">

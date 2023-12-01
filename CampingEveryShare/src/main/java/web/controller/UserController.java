@@ -180,6 +180,7 @@ public class UserController {
 
 	@PostMapping("/update")
 	public String userUpdateProc(@ModelAttribute User updateUser, @SessionAttribute("loginId") String loginId,
+//			@SessionAttribute("loginProfile") String loginProfile,
 			@RequestParam(value = "userPwConfirm", required = false) String userPwConfirm, HttpSession session,
 			Model model) {
 		logger.info("update[POST]");
@@ -306,15 +307,19 @@ public class UserController {
 		// [세션] 로그인 인증 결과
 		if (!isLogin) {
 			return "loginfalse";
-			
+			  
 		} else if (loginInfo.getUserStatus() == 1) {
 			return "false";
 		}
+		
 		session.setAttribute("isLogin", isLogin);
 		session.setAttribute("loginId", loginInfo.getUserId());
 		session.setAttribute("loginNick", loginInfo.getUserNick());
+		session.setAttribute("loginProfile", loginInfo.getProfile());
 		logger.info("session : " + session.getAttribute("loginId"));
 		logger.info("session : " + session.getAttribute("loginNick"));
+		logger.info("session : " + session.getAttribute("loginProfile"));
+
 
 		logger.info("로그인 성공");
 		return "true";
@@ -328,10 +333,7 @@ public class UserController {
 	    logger.info("카카오회원가입");
 	    // TODO: 회원가입 처리 로직 구현
 	    
-		// 회원가입 처리
-//		boolean isLogin = userService.login(signup);
 
-//	    User loginInfo = userService.kakaoInfo(signup);
 		boolean joinResult = userService.kakaoJoin(signup);
 
 		
@@ -344,21 +346,7 @@ public class UserController {
 		}
 
 
-//	     예시: 회원가입 성공 시 로그인 처리
 
-//	    if (isLogin && loginInfo.getUserStatus() != 1) {
-//	        session.setAttribute("isLogin", isLogin);
-//	        session.setAttribute("loginId", loginInfo.getUserId());
-//	        session.setAttribute("loginNick", loginInfo.getUserNick());
-//	        logger.info("session: " + session.getAttribute("loginId"));
-//	        logger.info("session: " + session.getAttribute("loginNick"));
-//
-//	        logger.info("카카오 회원가입 및 로그인 성공");
-//	        return "{\"success\":true}";
-//	    } else {
-//	        // 회원가입 실패 또는 탈퇴 회원인 경우
-//	        return "{\"success\":false}";
-//	    }
 	}
 
 	

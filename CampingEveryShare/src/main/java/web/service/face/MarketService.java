@@ -32,7 +32,23 @@ public interface MarketService {
 	 * @return - 페이징 계산이 완료된 객쳉
 	 */
 	public Paging getPaging(Paging param);
-	
+
+//	/**
+//	 * location 페이징 계산
+//	 * 
+//	 * @param param - curPage 정보를 담고있는 객체
+//	 * @return - 페이징 계산이 완료된 객쳉
+//	 */	
+//	public Paging getPagingByLoc(Paging param);
+//
+//	/**
+//	 * location에 따른 게시글 전체 리스트
+//	 * 
+//	 * @param paging - 페이징 객체
+//	 * @return - 조회된 게시글 리스트
+//	 */
+//	public List<Map<String, Object>> loclist(Paging paging);
+
 	/**
 	 * marketList 글 제목 클릭시 게시글 상세 조회
 	 * 
@@ -212,6 +228,15 @@ public interface MarketService {
 	 * @return - true : 신고 함 / false : 신고 안함
 	 */
 	public boolean reportCnt(Report report);
+	/**
+	 * 로그인 한 아이디가 찜 했는지 조회 (리스트에서 보여야함)
+	 * 
+	 * @param heart - 유저 ID
+	 * @return - 했으면 1 / 안했으면 0
+	 */
+	public boolean heartCntList(Heart heart);
+
+
 	
 	
 	
