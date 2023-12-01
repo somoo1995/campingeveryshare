@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.Heart;
 import web.dto.Income;
 import web.dto.Rent;
 import web.dto.Review;
@@ -32,6 +33,8 @@ public interface RentService {
 	public int checkHeart(Car car);
 
 	public BoardFile getFileInfo(Car car);
+
+	public int changeHeart(Heart heart);
 
 //	public void income(Income income);
 
