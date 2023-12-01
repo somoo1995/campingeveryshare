@@ -142,6 +142,10 @@
 	margin-left: 10px;
 }
 
+.btnReviewRead {
+	background-color:  #efefef;
+	color:  #3A3A3A;
+}
 
 </style>
 
@@ -281,24 +285,34 @@ function sendNotification(userId, carNo) {
         }
      })
    
+// 	$("#openModalBtn").click(function() {
+// 		console.log("click")
+// 		openModal()
+// 	})  
+
+     
+     
 }
 
 //Open Modal
-document.getElementById('openModalBtn').addEventListener('click', openModal)
+//     document.getElementById('openModalBtn').addEventListener('click', openModal)
+// document.addEventListener('DOMContentLoaded', function() {
+//     console.log("Button clicked!")
+// })
 
 // Close Modal
 function closeModal() {
-    document.getElementById('myModal').style.display = 'none'
+    document.getElementById('cancelModal').style.display = 'none'
 }
 
 // Open Modal Function
 function openModal() {
-    document.getElementById('myModal').style.display = 'block'
+    document.getElementById('cancelModal').style.display = 'block'
 }
 
 // Close Modal if Click Outside Modal Content
 window.onclick = function(event) {
-    var modal = document.getElementById('myModal')
+    var modal = document.getElementById('cancelModal')
     if (event.target === modal) {
         modal.style.display = 'none'
     }
@@ -338,11 +352,11 @@ window.onclick = function(event) {
 			<button class="btn btn-success">메시지</button> 
 <%-- 			| <button class="btn btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> --%>
 <!-- 			| <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cancelBookingModal">TEST</button> -->
-			| <button class="btn btn-success" id="openModalBtn">취소</button>
+			| <button class="btn btn-success openModalBtn" id="openModalBtn" onclick="openModal()">취소</button>
 			</c:when>
 			<c:when test="${paging.category == 1 }">
 				<c:if test="${empty list.REVIEW }">
-				<button class="btnReview mt-3 btn btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</button>	
+				<button class="btnReview mt-3 btn btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰 작성</button>	
 				</c:if>
 				<c:if test="${not empty list.REVIEW }">
 				<button class="btnReviewRead mt-3 btn btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</button>	
@@ -350,17 +364,17 @@ window.onclick = function(event) {
 			</c:when>
 		</c:choose>
 		
-<!-- 취소 모달 -->
-<div id="myModal" class="modal">
-    <div class="modal-message">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <p>정말 취소하시겠습니까?</p>
-        <div class="modal-btn-group">
-        <button class="btn btn-success btnModal btnCancelConfirm" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">확인</button>
-        <button class="btn btn-success btnModal btnCancelClose" onclick="closeModal()">취소</button>
-    	</div>
-    </div>
-</div>
+		<!-- 취소 모달 -->
+		<div id="cancelModal" class="modal">
+		    <div class="modal-message">
+		        <span class="close" onclick="closeModal()">&times;</span>
+		        <p>정말 취소하시겠습니까?</p>
+		        <div class="modal-btn-group">
+		        <button class="btn btn-success btnModal btnCancelConfirm" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">확인</button>
+		        <button class="btn btn-success btnModal btnCancelClose" onclick="closeModal()">취소</button>
+		    	</div>
+		    </div>
+		</div>
 							
 		</div><!-- .booking-btns -->
 	</div><!-- .booking-container -->
@@ -414,3 +428,7 @@ window.onclick = function(event) {
 	</c:when>
 </c:choose>
 </c:if>
+
+<script type="text/javascript">
+
+</script>

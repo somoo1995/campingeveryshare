@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,36 +58,6 @@ public class PaymentController {
 			return iamportClient.paymentByImpUid(imp_uid);
 	}
 	
-//	@PostMapping("/confirm")
-//	@ResponseBody
-//	public void payment( String merchantUid, String impUid ) {
-//		logger.info("impUid : {} ", impUid);
-//		logger.info("merchantUid : {} ", merchantUid);
-//		
-//		RestTemplate restTemplate = new RestTemplate();
-//		
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		
-//		JSONObject body = new JSONObject();
-//		body.put("imp_key", "2441044643164541");
-//		body.put("imp_secret", "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX");
-////		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-////		body.add("imp_key", "2441044643164541");
-////		body.add("imp_secret", "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX");
-//		
-//		HttpEntity<JSONObject> entity = new HttpEntity<>(body, headers);
-////		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
-//		ResponseEntity<JSONObject> token = restTemplate.postForEntity("https://api.iamport.kr/users/getToken", entity, JSONObject.class);
-//		
-//		logger.info("token :{}", token);
-//		logger.info("token :{}", token.getStatusCode());
-//		logger.info("token :{}", token.getStatusCodeValue());
-//		logger.info("token :{}", token.getBody());
-//		logger.info("token :{}", token.getBody().get("response"));
-//		
-//	}
-
 	
 	@PostMapping(value="/cancel")
 	@ResponseBody
@@ -100,14 +71,12 @@ public class PaymentController {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status","error"));
 		}
 		
 		rentService.cancelBooking(rent);
 		
-//		return ResponseEntity.ok().build();
 		return ResponseEntity.ok(Map.of("status","success"));
-//		return "redirect:/booking/main";
 		
 	}
 	

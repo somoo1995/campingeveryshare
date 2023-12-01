@@ -151,6 +151,7 @@ $(function() {
 		<c:if test="${list.ALERT_STATUS eq 0 }"> <div id="newIcon"><div id="newIcon-text">NEW</div></div> </c:if>
 			<c:if test="${list.BOARD_CATE eq 1 }"> 대여</c:if>
 			<c:if test="${list.BOARD_CATE eq 7 }"> 캠핑카</c:if>
+			<c:if test="${list.BOARD_CATE eq 8 }"> 출금 요청</c:if>
 			| ${list.CARNAME }
 		</li>
 		<li class="data-time"">
@@ -159,10 +160,11 @@ $(function() {
 		</li>
 		<li class="data-message">
 			<c:if test="${list.CONTENT eq 1 }">승인 요청이 완료되었습니다</c:if>
-			<c:if test="${list.CONTENT eq 2 }">승인 요청이 보류되었습니다</c:if>
+			<c:if test="${list.CONTENT eq 2 }">캠핑카 정보 수정 후 다시 등록해주세요</c:if>
 			<c:if test="${list.CONTENT eq 3 }">승인 요청이 거절되었습니다</c:if>
 			<c:if test="${list.CONTENT eq 4 }">새로운 예약이 생성되었습니다</c:if>
 			<c:if test="${list.CONTENT eq 5 }">캠핑카 예약이 취소되었습니다</c:if>
+			<c:if test="${list.CONTENT eq 6 }">요청하신 출금 신청이 완료되었습니다</c:if>
 		</li>
 
 	</ul>
