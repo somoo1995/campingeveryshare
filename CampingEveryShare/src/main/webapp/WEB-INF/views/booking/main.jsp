@@ -7,60 +7,67 @@
 
 <style>
 .button-group {
-  display: flex; /* 버튼을 한 줄로 나란히 배열 */
+  display: flex; 
 }
 
 .button {
-  background-color: gray; /* 버튼 배경색 */
-  color: white; /* 글자색 */
-  text-align: center; /* 글자 가운데 정렬 */
-  padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
-  text-decoration: none; /* 텍스트 밑줄 제거 */
-  border: none; /* 테두리 없음 */
-  cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  background-color: #efefef; 
+  color: #3A3A3A; 
+  text-align: center; 
+  padding: 10px 20px; 
+  text-decoration: none;
+  border: none; 
+  cursor: pointer; 
   width: 150px;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+	background-color: #228b22;
+	color: white; 
 }
 
 .button.active {
-  background-color: #2ECC71; /* 활성화된 버튼의 배경색 변경 */
+	background-color: #228b22;
+	color: white;
 }
 
 .rentList {
     height: 500px;
     text-align: center;
-    padding: 20px; /* 패딩 추가 */
-    margin-top: 20px; /* 상단 여백 추가 */
-    display: flex; /* flexbox 레이아웃 사용 */
-    flex-direction: column; /* 아이템을 수직으로 정렬 */
-    justify-content: center; /* 세로 방향 가운데 정렬 */
+    padding: 20px; 
+    margin-top: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
 }
 
 .rentList span {
-    display: block; /* 각 span을 블록 요소로 만듦 */
-    margin-bottom: 5px; /* 아래쪽 여백 추가 *ㅇㅇ/
+    display: block; 
+    margin-bottom: 5px; 
 }
 
 .rentList strong {
-    font-size: 24px; /* 글자 크기 조정 */
-    margin-bottom: 10px; /* 아래쪽 여백 추가sy */
+    font-size: 24px; 
+    margin-bottom: 10px; 
 }
 
 .rentList a {
-    background-color: #2ECC71; /* 버튼 배경색 */
-    color: white; /* 글자색 */
-    padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
-    text-decoration: none; /* 텍스트 밑줄 제거 */
-    border: none; /* 테두리 없음 */
-    border-radius: 4px; /* 버튼 모서리 둥글게 */
-    margin-top: 15px; /* 상단 여백 추가 */
-    width: 200px; /* 버튼 너비 설정 */
-    display: block; /* 블록 요소로 만듦 */
-    margin-left: auto; /* 왼쪽 여백 자동 조정 */
-    margin-right: auto; /* 오른쪽 여백 자동 조정 */
-    transition: background-color 0.3s; /* 호버 효과 부드럽게 */
+    background-color: #228b22; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border: none; 
+    border-radius: 4px; 
+    margin-top: 15px; 
+    width: 200px; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+    transition: background-color 0.3s; 
 }
 .rentList a:hover {
-    background-color: #45a049; /* 버튼 호버시 색상 변경 */
+    background-color: #157347; 
 }
 
 </style>
@@ -124,6 +131,7 @@ function loadBooking() {
 
     <div class="pageTitle">
          <h3 id="pageTitle">내 예약</h3>
+         <h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑카 예약 내역을 확인할 수 있습니다</h6>
     </div >
         
     <div class="button-group mt-5">
