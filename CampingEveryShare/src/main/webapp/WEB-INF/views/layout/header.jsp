@@ -267,13 +267,15 @@ $(function() {
 </div><!-- header-container -->
 
 <div class="main-category-menu mt-3">
-   <a href="/rent/list">🌿캠핑카 대여</a>
+	<div class="stick">
+   <a href="/rent/list">캠핑카 대여</a>
    
-   <a href="/share/list">🌿캠핑존 공유</a>
+   <a href="/share/list">캠핑존 공유</a>
    
-   <a href="/market/list">🌿중고장터</a>
+   <a href="/market/list">중고장터</a>
    
-   <a href="/group/list">🌿캠핑모집</a>
+   <a href="/group/list">캠핑모집</a>
+   </div>
 </div><!-- main-category-menu -->
 
 <div class="search" id="search">
