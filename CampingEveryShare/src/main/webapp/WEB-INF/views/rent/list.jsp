@@ -61,8 +61,8 @@ pageEncoding="UTF-8"%>
 	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.CAR_NO }'">
 		<div class="info">
 
-	    <h6>👤 : ${car.userId}</h6>
-		    <c:set var="formattedPrice" value="${car.price }" />
+	    <h6>👤 : ${car.USER_ID }</h6>
+		    <c:set var="formattedPrice" value="${car.PRICE }" />
 
 			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
 			<h6 style="color:
@@ -85,9 +85,19 @@ pageEncoding="UTF-8"%>
 			</h6>
 			
 		</div>
-		<div>
-		<img class="preview" src="/resources/img/noimg.png"/>
-		</div>
+		
+		
+   <c:if test="${not empty car.THUMBNAILNAME }">
+      <div>
+          <img class="preview" src="/upload/${car.THUMBNAILNAME }"/>
+      </div>
+    </c:if>
+    <c:if test="${empty car.THUMBNAILNAME }">
+      <div>
+          <img class="preview" src="/resources/img/noimg.png"/>
+      </div>
+    </c:if>
+		
 		<div class="info">
 		
 		<h6 class="title">🚗 : ${car.CAR_NAME }</h6>
@@ -142,5 +152,6 @@ pageEncoding="UTF-8"%>
   </c:if>
 	
 </c:forEach>
-
-	<c:import url="../layout/paginationAjax.jsp" />
+<div class="mt-5">
+ <c:import url="../layout/paginationAjax.jsp" />
+</div>

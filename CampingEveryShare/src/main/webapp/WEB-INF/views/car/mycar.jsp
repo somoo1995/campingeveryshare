@@ -61,8 +61,11 @@
     .carImg img{
     	width: 300px;
     	height: 270px;
+    }
+    .carImg{
+    	width: 300px;
+    	height: 270px;
     	border: 1px solid #ccc;
-    	padding: 5px;
     	background-color: white;
     }
     .carSum{
@@ -74,8 +77,10 @@
    	  border: none; /* 기존의 테두리를 제거합니다. */
 	  height: 1px; /* 선의 두께를 지정합니다. */
 	  background-color: #ff0000; /* 원하는 색상으로 배경색을 지정합니다. */
-	  margin-top: 20px; /* 상단 여백을 추가합니다. */
-	  margin-bottom: 20px; /* 하단 여백을 추가합니다. */
+	  margin-top: -8px; /* 상단 여백을 추가합니다. */
+	  margin-bottom: 0px; /* 하단 여백을 추가합니다. */
+	  margin-left: 0px;
+	  width: 800px;
     }
     
     .carStatus{
@@ -90,6 +95,8 @@
     .carDone{
     	display: flex;
     	justify-content: space-between;
+    	margin-top: -3px;
+    	
     }
     .carList button{
         background-color: #007bff; /* 파란색 배경 */
@@ -112,6 +119,12 @@
     }
     .carStatus button{
     	cursor: default;
+    }
+    .carTitle h3{
+    	margin-left: 5px;
+    }
+    .carPrice h3{
+    	margin-left: 5px;
     }
     
 </style>

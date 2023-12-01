@@ -133,11 +133,13 @@ $(document).ready(function () {
 		})
 		
 	})
-	$("#btnMyHistory").click();
+	$("#btnMyCar").click();
     var params = new URLSearchParams(window.location.search);
     if (params.get('autoClick') === 'btnMyCar') {
         // 특정 요소에 대한 클릭 이벤트를 트리거
         $('#btnMyCar').click();
+    }else if(params.get('autoClick') === 'btnMySell'){
+    	$("#btnMySell").click();
     }
 	
 	
@@ -155,21 +157,21 @@ $(document).ready(function () {
     <div class="status-card">
         <img src="/resources/img/ongoing.png" alt="진행중" />
         <div class="text-container">
-            <p>10</p>
+            <p>${index.ongoing }</p>
             <label>진행중</label>
         </div>
     </div>
     <div class="status-card">
         <img src="/resources/img/ongoing.png" alt="완료" />
         <div class="text-container">
-            <p>1</p>
+            <p>${index.done }</p>
             <label>완료</label>
         </div>
     </div>
     <div class="status-card">
         <img src="/resources/img/ongoing.png" alt="취소" />
         <div class="text-container">
-            <p>10</p>
+            <p>${index.cancel }</p>
             <label>취소</label>
         </div>
     </div>
@@ -190,19 +192,6 @@ $(document).ready(function () {
 
 
 </div><!-- .container -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <br>
 <br>

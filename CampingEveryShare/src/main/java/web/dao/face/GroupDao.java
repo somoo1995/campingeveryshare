@@ -22,10 +22,11 @@ public interface GroupDao {
 	
 	/**
 	 * 조회된 게시글 수 조회 (페이징)
+	 * @param param 
 	 * 
 	 * @return - 총 게시글 수
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging param);
 	
 	/**
 	 * 클릭한 게시물 상세조회

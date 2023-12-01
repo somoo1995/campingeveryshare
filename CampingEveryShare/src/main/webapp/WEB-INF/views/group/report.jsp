@@ -20,14 +20,14 @@
 
 <div id="report">
 <div id="reportIn">
-<form id="reportForm" action="/market/report" method="post">
+<form id="reportFormGroup" action="/group/report" method="post">
 <div>
 <input type="hidden" value="${board.boardNo }" name="boardNo">
 <input type="hidden" value="${board.userId }" name="userId">
 <input type="hidden" value="${board.boardCate }" name="boardCate">
-${board }
+
 	<c:if test="${board.boardCate eq 4 }">
-	중고장터의 
+	모집게시판의 
 	</c:if>
 	[${board.title }] 게시물의 신고 이유를 적어주세요.<br>
 	( 허위 신고시 사이트의 온전한 기능을 사용할 수 없습니다.)

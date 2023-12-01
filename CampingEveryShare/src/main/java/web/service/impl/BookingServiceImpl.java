@@ -29,6 +29,8 @@ public class BookingServiceImpl implements BookingService {
 
 		} else if (status != null && status.equals("history")) {
 			param.setCategory(1);
+		} else if (status != null && status.equals("cancel")) {
+			param.setCategory(2);
 		}
 		
 		logger.info("param : {}", param);

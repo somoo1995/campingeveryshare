@@ -21,13 +21,31 @@ public interface MarketDao {
 	 */
 	public List<Map<String, Object>> selectMarketAll(Paging paging);
 	
+//	/**
+//	 * location에 따른 전체 리스트
+//	 * 
+//	 * @param paging - 페이징 객체
+//	 * @param board 
+//	 * @return - 조회된 게시글 전체
+//	 */
+//	public List<Map<String, Object>> selectMarketAllByLoc(Paging paging);
+
 	/**
 	 * 조회된 게시글 수 조회 (페이징)
+	 * @param param 
 	 * 
 	 * @return - 총 게시글 수
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging param);
 	
+//	/**
+//	 * location 조회된 게시글 수 조회 (페이징)
+//	 * @param param 
+//	 * 
+//	 * @return - 총 게시글 수
+//	 */	
+//	public int selectCntAllByLoc(Paging param);
+
 	/**
 	 * 클릭한 게시물 상세조회
 	 * 
@@ -131,6 +149,8 @@ public interface MarketDao {
 	 * @param market - price 정보
 	 */
 	public void updateMarketPrice(Market market);
+
+
 
 	
 	

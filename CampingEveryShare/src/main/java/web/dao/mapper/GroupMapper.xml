@@ -30,6 +30,9 @@
 			<where>
 				AND board_cate = 4
 				AND delete_status = 0
+				<if test = "location != '20' and location != 0">
+				AND location = #{location }
+				</if>
 				<if test="search != null and !''.equals(search)">
 					AND title LIKE '%' || (#{search }) || '%' 
 				</if>
@@ -40,9 +43,13 @@
 
   	</select>
   
-  	<select id="selectCntAll" resultType="int">
+  	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging" >
   		SELECT count(*) FROM boardtb
   		WHERE board_cate = 4
+  		AND delete_status = 0
+  		<if test = "location != '20' and location != 0">
+		AND location = #{location }
+		</if>
   	</select>
   
   	<select id="selectBoardView" resultType="board" parameterType="board">

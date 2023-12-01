@@ -7,9 +7,12 @@
 <mapper namespace="web.dao.face.CarDao">
 	
 	<sql id="selectCar">
-		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, DELETE_STATUS
-		FROM cartb
-
+		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL
+		,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE
+		,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET
+		,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, DELETE_STATUS
+		, (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = C.car_no ORDER BY file_no) WHERE rnum = 1) AS thumbnailname
+		FROM cartb C
 	</sql>
 
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
@@ -17,8 +20,8 @@
 		<where>
 			AND car_status = 2
 			AND delete_status = 0
-			<if test="category != 0">
-				AND location = #{category }
+			<if test="location != 0">
+				AND location = #{location }
 			</if>
 		</where>
 	</select>
@@ -32,8 +35,8 @@
 					AND car_name LIKE '%' || (#{search }) || '%'
 				</if>
 <!-- 				<if test="category !=null and !''.equals(category)"> -->
-				<if test="category != 0">
-					AND location = #{category }
+				<if test="location != 0">
+					AND location = #{location }
 				</if>
 				AND delete_status = 0
 			</where>
@@ -66,7 +69,7 @@
 			SELECT file_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO boardfiletb ( file_no, board_no, origin_name, stored_name,board_cate )
-		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName},1 )
+		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, 1 )
 	</insert>
 	
 	<select id="selectBycarNumber" parameterType="Car">
@@ -227,5 +230,193 @@ SELECT count(*) from(
         INNER JOIN boardfiletb F ON C.car_no = F.board_no
         INNER JOIN usertb U ON R.user_id = U.user_id
     WHERE C.user_id = #{userId})
+</select>
+
+<select id="selectOngoing" parameterType="User">
+SELECT count(*) FROM(
+SELECT
+    R.rent_no
+    FROM renttb R
+    INNER JOIN cartb C ON C.car_no = R.car_no
+    INNER JOIN usertb U ON C.user_id = U.user_id
+    WHERE U.user_id = #{userId}
+    AND R.rent_status = 0)
+</select>
+
+<select id="selectDone" parameterType="User">
+SELECT count(*) FROM(
+SELECT
+    R.rent_no
+    FROM renttb R
+    INNER JOIN cartb C ON C.car_no = R.car_no
+    INNER JOIN usertb U ON C.user_id = U.user_id
+    WHERE U.user_id = #{userId}
+    AND R.rent_status = 1)
+</select>
+
+<select id="selectCancel" parameterType="User">
+SELECT count(*) FROM(
+SELECT
+    R.rent_no
+    FROM renttb R
+    INNER JOIN cartb C ON C.car_no = R.car_no
+    INNER JOIN usertb U ON C.user_id = U.user_id
+    WHERE U.user_id = #{userId}
+    AND R.rent_status = 2)
+</select>
+
+<select id="getAvalible" parameterType="User" resultType="Integer"> <!-- 출금 가능 수익금 -->
+SELECT 
+    SUM(I.deduct_amount) 
+FROM incometb I
+INNER JOIN renttb R ON R.rent_no = I.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON C.user_id = U.user_id
+WHERE C.user_id = #{userId}
+AND I.income_status = 0
+</select>
+<select id="getExpectation" parameterType="User" resultType="Integer"><!-- 예상 수익금 -->
+SELECT 
+    SUM(R.amount * 0.9)
+FROM renttb R
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = #{userId}
+AND R.rent_status = 0
+ORDER BY R.rent_status
+</select> 
+<select id="getTotal" parameterType="User" resultType="Integer"><!-- 총 수익금 -->
+SELECT --총 수익금
+    SUM(I.deduct_amount)
+FROM incometb I
+INNER JOIN renttb R ON I.rent_no = R.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = 'user2'
+</select> 
+<select id="selectCntProceedsList" parameterType="User"> <!-- 총 판매현황 -->
+SELECT count(*) FROM(
+    SELECT 
+    R.rent_status,
+    R.amount AS price,
+    R.amount*0.9 deduct_price,
+    C.car_number,
+    R.booking_date,
+    I.income_status
+FROM renttb R
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+LEFT JOIN incometb I ON I.rent_no = R.rent_no
+WHERE C.user_id = #{userId}
+ORDER BY R.rent_status ASC)
+</select>
+<select id="selectProceedsList" parameterType="User" resultType="Map">
+WITH PaginatedSell AS(
+SELECT 
+    R.rent_status,
+    R.amount AS price,
+    R.amount*0.9 deduct_price,
+    C.car_number,
+    TO_CHAR(R.booking_date, 'YYYY-MM-DD') AS booking_date,
+    I.income_status,
+    R.rent_no,
+    ROW_NUMBER() OVER(ORDER BY R.rent_status, I.income_status ASC) AS RNUM
+FROM renttb R
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+LEFT JOIN incometb I ON I.rent_no = R.rent_no
+WHERE C.user_id = #{user.userId}
+)
+SELECT * FROM PaginatedSell
+WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
+<select id="selectAccount" parameterType="User" resultType="String">
+SELECT 
+    A.bank_account || ' ' || A.bank_name AS combined_info
+FROM accounttb A
+INNER JOIN usertb U ON U.user_id = A.user_id
+WHERE A.user_id = #{userId}
+</select>
+
+<select id="commit" parameterType="java.util.List">
+    UPDATE incometb
+    SET income_status = 1 ,
+    post_date = SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul'
+    WHERE rent_no IN
+    <foreach collection="list" item="rentNo" open="(" separator="," close=")">
+        #{rentNo}
+    </foreach>
+</select>
+<select id="selectCntWithdrawList" parameterType="User">
+SELECT count(*) FROM(
+SELECT 
+    I.deduct_amount,
+    TO_CHAR(I.post_date,'YYYY-MM-DD') as post_date,
+    I.income_status,
+    C.car_number,
+    ROW_NUMBER() OVER(ORDER BY I.income_status DESC) AS RNUM
+FROM incometb I
+INNER JOIN renttb R ON R.rent_no = I.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = #{userId}
+AND (I.income_status = 1 or I.income_status = 2))
+</select>
+
+<select id="selectWithdrawList" parameterType="User">
+WITH PaginatedSell AS(
+SELECT 
+    I.deduct_amount,
+    TO_CHAR(I.post_date,'YYYY-MM-DD') as post_date,
+    I.income_status,
+    C.car_number,
+    ROW_NUMBER() OVER(ORDER BY I.income_status) AS RNUM
+FROM incometb I
+INNER JOIN renttb R ON R.rent_no = I.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = #{user.userId}
+AND (I.income_status = 1 or I.income_status = 2)
+)
+SELECT * FROM PaginatedSell
+WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
+
+<select id="selectCntChargeList" parameterType="User">
+SELECT count(*) FROM(
+SELECT 
+    I.income_status,
+    I.amount,
+    I.deduct_amount,
+    (I.amount-I.deduct_amount) AS charge,
+    C.car_number
+FROM incometb I
+INNER JOIN renttb R ON R.rent_no = I.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = #{userId}
+AND (I.income_status = 1 or I.income_status = 2)
+)
+</select>
+
+<select id="selectChargeList" parameterType="User">
+WITH PaginatedSell AS(
+SELECT 
+    I.deduct_amount,
+    I.amount,
+    (I.amount-I.deduct_amount) AS charge,
+    TO_CHAR(I.post_date,'YYYY-MM-DD') as post_date,
+    I.income_status,
+    C.car_number,
+    ROW_NUMBER() OVER(ORDER BY I.income_status) AS RNUM
+FROM incometb I
+INNER JOIN renttb R ON R.rent_no = I.rent_no
+INNER JOIN cartb C ON C.car_no = R.car_no
+INNER JOIN usertb U ON U.user_id = C.user_id
+WHERE C.user_id = #{user.userId}
+AND (I.income_status = 1 or I.income_status = 2)
+)
+SELECT * FROM PaginatedSell
+WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
 </select>
 </mapper>

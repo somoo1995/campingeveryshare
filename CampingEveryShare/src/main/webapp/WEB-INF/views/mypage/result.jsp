@@ -92,6 +92,20 @@ select {
 	text-align: center;
 }
 
+.no-result {
+	
+}
+
+.no-result strong {
+	color: #929292;
+	font-size: 18px;
+}
+
+.no-result img {
+	width:150px;
+	height: 150px;
+}
+
 
 </style>
 
@@ -101,38 +115,28 @@ select {
 
 <c:choose>
 	<c:when test="${empty hasData or not hasData }">
-		<div class="wrap-result text-center mb-5">
-			<strong style="color: #ccc;">검색 결과가 없습니다</strong><br>
+		<div class="no-result text-center mb-5">
+			<img alt="noResult" src="./resources/img/no-result-gray.png"><br>
+			<strong>찾으시는 검색 결과가 없습니다</strong><br>
+			<strong>다른 게시판을 확인 해보세요</strong><br>
 		</div>
 	</c:when>
 
 
 	<c:when test="${paging.category eq 1 }">
 		<c:import url="/WEB-INF/views/rent/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
 	</c:when>
 	
 	<c:when test="${paging.category eq 2 }">
 		<c:import url="/WEB-INF/views/share/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
 	</c:when>
 	
 	<c:when test="${paging.category eq 3 }">
 		<c:import url="/WEB-INF/views/market/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
 	</c:when>
 	
 	<c:when test="${paging.category eq 4 }">
 		<c:import url="/WEB-INF/views/group/list.jsp" />
-		<c:if test="${paging.totalCount gt 20 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
 	</c:when>
 
 </c:choose>

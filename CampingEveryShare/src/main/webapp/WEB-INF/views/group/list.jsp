@@ -33,7 +33,9 @@ pageEncoding="UTF-8"%>
 	</tr>
 </thead>
 
+<div id=resultList>
 <tbody>
+
 <c:forEach var="board" items="${list }">
 	<tr> 
 		<td style="text-align: center;">${board.BOARD_NO }</td>
@@ -49,9 +51,8 @@ pageEncoding="UTF-8"%>
 		</td>
 		<td class="title">
 		<a href="./view?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
-		<div style="font-weight: bold; font-size: 17px; margin-right: 13px;">[${board.LOCATION_NAME}]</div>
+		<div style="font-weight: bold; font-size: 17px; margin-right: 13px; color: gray">[${board.LOCATION_NAME}]</div>
 		<div>${board.TITLE }</div>
-		</div>
 		</a>
 		</td>
 		<td style="text-align: center;">${board.USER_NICK }</td>
@@ -71,9 +72,14 @@ pageEncoding="UTF-8"%>
 		<td style="text-align: center;">${board.RECOM }</td>
 	</tr>
 </c:forEach>
+</div>
 </tbody>
+</div>
 </table>
+
 </div><!-- .tb -->
+
 </form>
+<c:import url="../layout/paginationAjax.jsp" />
 
 

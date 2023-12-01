@@ -53,6 +53,34 @@ public interface CarDao {
 	public List<Map<String, Object>> selectRentList(@Param("user") User user, @Param("paging") Paging paging);
 
 	public int selectCntLentList(User user);
+
+	public int selectOngoing(User user);
+
+	public int selectDone(User user);
+
+	public int selectCancel(User user);
+
+	public Integer getAvalible(User user);
+
+	public Integer getExpectation(User user);
+
+	public Integer getTotal(User user);
+
+	public int selectCntProceedsList(User user);
+
+	public List<Map<String, Object>> selectProceedsList(@Param("user") User user, @Param("paging") Paging paging);
+
+	public String selectAccount(User user);
+
+	public void commit(List<String> rentNos);
+
+	public int selectCntWithdrawList(User user);
+
+	public List<Map<String, Object>> selectWithdrawList(@Param("user") User user, @Param("paging") Paging paging);
+
+	public int selectCntChargeList(User user);
+
+	public List<Map<String, Object>> selectChargeList(@Param("user") User user, @Param("paging") Paging paging);
 	
 
 }
