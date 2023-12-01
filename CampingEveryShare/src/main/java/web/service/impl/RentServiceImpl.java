@@ -12,6 +12,7 @@ import web.dao.face.CarDao;
 import web.dao.face.IncomeDao;
 import web.dao.face.RentDao;
 import web.dao.face.ReviewDao;
+import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.Income;
 import web.dto.Rent;
@@ -77,5 +78,23 @@ public class RentServiceImpl implements RentService {
 	public void cancelBooking(Rent rent) {
 		rentDao.updateCancel(rent);
 	}
+	@Override
+	public Map<String, Object> getReviewInfo(Car car) {
+		return rentDao.selectReviewInfoBycarNo(car);
+	}
+
+	@Override
+	public int checkHeart(Car car) {
+		// TODO Auto-generated method stub
+		return rentDao.selectCntHeartByUserId(car);
+	}
+
+	@Override
+	public BoardFile getFileInfo(Car car) {
+		
+		return rentDao.selectFileByCarNo(car);
+	}
+
+
 
 }

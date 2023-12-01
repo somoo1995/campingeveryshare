@@ -419,4 +419,18 @@ AND (I.income_status = 1 or I.income_status = 2)
 SELECT * FROM PaginatedSell
 WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
 </select>
+<select id="selectAccountByUserId" parameterType="Account">
+SELECT count(*) FROM(SELECT * FROM accounttb WHERE user_id = #{userId})
+</select>
+<update id="updateAccount" parameterType="Account">
+UPDATE accounttb
+SET bank_account = #{bankAccount}, bank_name = #{bankName}
+WHERE user_id = #{userId}
+</update>
+
+<insert id="insertAccount" parameterType="Account">
+INSERT INTO accounttb(account_no,user_id,bank_account,bank_name)
+VALUES(account_seq.nextval,#{userId},#{bankAccount},#{bankName})
+</insert>
+
 </mapper>
