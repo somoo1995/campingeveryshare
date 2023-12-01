@@ -46,10 +46,12 @@ function loadGroupList() {
 }
 
 </script>
-<style type="text/css">
 
+
+<style type="text/css">
 .row {
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .write-container {
@@ -154,7 +156,6 @@ select {
     background-color: #1d731d; 
     color: white;
 }
-
 
 </style>
 
