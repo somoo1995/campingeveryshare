@@ -256,14 +256,21 @@ public class GroupController {
 	}
 
 	@RequestMapping("/report")
-	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {}
+	public void report(Board board, Model model, Report report, HttpSession session, ModelAndView mav) {
+		
+		logger.info("board : {} " + board.toString());
+		logger.info("model : {} " + model.toString());
+		logger.info("report : {} " + report.toString());
+	}
 	
 	@PostMapping("/report")
 	public String reportProc(Board board, Model model, Report report, HttpSession session) {
 		
 		report.setRuserId((String) session.getAttribute("loginId"));
 		report.setVuserId(board.getUserId());
-		
+		logger.info("board : {} " + board.toString());
+		logger.info("model : {} " + model.toString());
+		logger.info("report : {} " + report.toString());
 		groupService.insertReport(report);
 		return"redirect:./view?boardNo=" + board.getBoardNo();
 	}

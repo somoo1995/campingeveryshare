@@ -111,7 +111,7 @@
 			SELECT file_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO boardfiletb ( file_no, origin_name, stored_name , board_no, board_cate)
-		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, #{boardCate})
+		VALUES ( #{fileNo}, #{originName}, #{storedName}, #{boardNo}, 2)
 	</insert>  
 
 	<insert id="insertSharePaid" parameterType="share">
