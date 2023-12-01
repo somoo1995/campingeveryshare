@@ -5,6 +5,8 @@ import java.util.Map;
 
 import web.dto.Admin;
 import web.dto.Board;
+import web.dto.Car;
+import web.dto.Income;
 import web.dto.User;
 import web.util.Paging;
 
@@ -68,5 +70,11 @@ public interface AdminDao {
 	public int selectCntAllMycar(Paging param);
 
 	public List<Map<String, Object>> selectAllMycar(Paging paging);
+
+	public void carStatusToTwo(Car car);
+
+	public void carStatusToThree(Car car);
+
+	public void incomeStatusToTwo(Income income);
 
 }

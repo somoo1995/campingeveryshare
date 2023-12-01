@@ -35,7 +35,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 		int totalCount = noticeDao.selectCntAll();
 
-		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 10, 4);
 		
 		return paging;
 	}

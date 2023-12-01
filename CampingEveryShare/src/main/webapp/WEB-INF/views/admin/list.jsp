@@ -57,10 +57,12 @@ $(()=>{
 		
 		var userId = $(this).attr('data-userid')
 	    var status = $(this).attr('data-status')
-	       
+	    var isConfirmed = confirm("해당 회원을 탈퇴시키겠습니까?");
+	    
 		console.log(userId)
 		console.log(status)
 		
+		if (isConfirmed) {
 		$.ajax({
 			type: "get"
 			, url: "./userstatus"
@@ -92,7 +94,7 @@ $(()=>{
 				console.log("실패");
 			}
 		}); //ajax end
-		
+	  }
 	}) //$(".btnUserStatus").click() end
 	
 }); //function end
@@ -161,10 +163,10 @@ $(()=>{
 	  <td id="table_body">
 	  <c:choose>
         <c:when test="${user.USER_STATUS eq 0 }">
-   		 <button class="btn btn-danger btnUserStatus" data-vuserid="${user.USER_ID }" data-status="${user.USER_STATUS }">회원 탈퇴</button>
+   		 <button class="btn btn-danger btnUserStatus" data-userid="${user.USER_ID }" data-status="${user.USER_STATUS }">회원 탈퇴</button>
 		</c:when>
 		<c:when test="${user.USER_STATUS eq 1 }">
-   			 <button class="btn btn-warning btnUserStatus" data-vuserid="${user.USER_ID }" data-status="${user.USER_STATUS }">회원 복구</button>
+   			 <button class="btn btn-warning btnUserStatus" data-userid="${user.USER_ID }" data-status="${user.USER_STATUS }">회원 복구</button>
 		</c:when>
 	  </c:choose>
 	  </td>  

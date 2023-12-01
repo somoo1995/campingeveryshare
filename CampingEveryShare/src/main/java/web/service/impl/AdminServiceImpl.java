@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import web.dao.face.AdminDao;
 import web.dto.Admin;
 import web.dto.Board;
+import web.dto.Car;
+import web.dto.Income;
 import web.dto.User;
 import web.service.face.AdminService;
 import web.util.Paging;
@@ -46,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
 
 		//페이징 객체 생성
 		//페이징 계산하기
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 10, 4);
 		paging.setSearch(param.getSearch());	 // 검색어 설정
 		paging.setCategory(param.getCategory()); // 추가된 부분: 게시판 카테고리 설정
 		
@@ -75,14 +77,9 @@ public class AdminServiceImpl implements AdminService {
 		
 		int totalCount = adminDao.selectCntAllReport(param);
 
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 10, 4);
 		paging.setSearch(param.getSearch());
 		paging.setCategory(param.getCategory()); // 추가된 부분: 게시판 카테고리 설정
-		
-//		String search = param.getSearch();
-//		int category = param.getCategory();
-//		logger.info("검색어: {}", search); // 로그로 검색어 확인
-//		logger.info("검색어 카테고리: {}", category); // 로그로 검색어 카테고리 확인
 		
 		return paging;
 	}
@@ -98,9 +95,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		int totalCount = adminDao.selectCntAllIncome(param);
 
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 10, 4);
 		paging.setSearch(param.getSearch());
-		paging.setCategory(param.getCategory());
 
 		return paging;
 	}
@@ -160,7 +156,6 @@ public class AdminServiceImpl implements AdminService {
 			
 			return true;
 		}
-		
 	}
 
 
@@ -170,16 +165,10 @@ public class AdminServiceImpl implements AdminService {
 		int totalCount = adminDao.selectCntAllMycar(param);
 
 		//페이징 객체 생성
-		//페이징 계산하기
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(totalCount, param.getCurPage(), 10, 4);
 		paging.setSearch(param.getSearch());	 // 검색어 설정
-		paging.setCategory(param.getCategory()); // 추가된 부분: 게시판 카테고리 설정
-		
-//		String search = param.getSearch();
-//		int category = param.getCategory();
-//		logger.info("검색어: {}", search); // 로그로 검색어 확인
-//		logger.info("검색 카테고리: {}", category); // 로그로 검색 카테고리 확인
-		
+//		paging.setCategory(param.getCategory()); // 추가된 부분: 게시판 카테고리 설정
+				
 		return paging;
 	}
 
@@ -191,6 +180,26 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
-	
+	@Override
+	public void carAllowStatus(Car car) {
+		
+		adminDao.carStatusToTwo(car);
+	}
+
+
+	@Override
+	public void carHoldStatus(Car car) {
+		
+		adminDao.carStatusToThree(car);
+	}
+
+
+	@Override
+	public void incomePermitStatus(Income income) {
+
+		adminDao.incomeStatusToTwo(income);
+	}
+
+
 	
 }

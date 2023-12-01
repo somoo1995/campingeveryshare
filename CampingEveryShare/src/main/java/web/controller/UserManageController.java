@@ -122,8 +122,6 @@ public class UserManageController {
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("report", report);
 		
-		
-	
 	}
 	
 	@RequestMapping("/income")
@@ -161,7 +159,6 @@ public class UserManageController {
 		model.addAttribute("mycarList", mycarList);
 		model.addAttribute("car", car);
 		
-		logger.info("car : {}", car);
 		logger.info("mycarList : {}", mycarList);
 		logger.info("paging {} :" + paging.toString());
 		logger.info("model {} :" + model.toString());
@@ -204,8 +201,39 @@ public class UserManageController {
 	    return mav;
 	}
 	
-	
-	
+	@RequestMapping("/allow")
+	public void mycarAllowStatus(Car car) {
 		
+		logger.info("carAllow 제대로 나오니 : {}", car);
+		
+		adminService.carAllowStatus(car);
+	    
+	    logger.info("carAllow car_status 내놔 : {}", car);
+	    
+	}
+	
+	@RequestMapping("/hold")
+	public void mycarHoldStatus(Car car) {
+		
+		logger.info("carHold 제대로 나오니 : {}", car);
+		
+		adminService.carHoldStatus(car);
+	    
+	    logger.info("carHold car_status 내놔 : {}", car);
+	    
+	}
+
+	@RequestMapping("/permit")
+	public void incomePermitStatus(Income income) {
+		
+		logger.info("income 제대로 나오니 : {}", income);
+		
+		adminService.incomePermitStatus(income);
+	    
+	    logger.info("income income_status 내놔 : {}", income);
+	    
+	}
+	
+	
 	
 } // UserManageController end

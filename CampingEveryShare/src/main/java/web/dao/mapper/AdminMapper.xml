@@ -45,24 +45,14 @@
 	</if>
 </sql>
 
-
 <sql id="searchIncome">
-	<if test="search != null and !''.equals(search)">
-		<choose>
+		<if test="search != null and !''.equals(search)">
+		 <choose>
             <when test="category == 1">
-                <where> AND A.user_id like '%' || (#{search}) || '%'</where>
+                <where> AND user_id like '%' || (#{search}) || '%'</where>
             </when>
-            <when test="category == 2">
-                <where> AND A.bank_account like '%' || (#{search}) || '%'</where>
-            </when>
-            <when test="category == 0">
-            	<where>AND A.user_id like '%' || (#{search}) || '%'
-            	OR A.bank_account like '%' || (#{search}) || '%'
-            	</where>
-			</when>
 		</choose>
 	</if>
-
 </sql>
 
 
@@ -73,19 +63,8 @@
 </sql>
 
 
-<sql id="selectIncome">
-	SELECT income_no, rent_no, amount, income_status, post_date
-</sql>
-
-
 <sql id="selectMycar">
-	SELECT CAR_NO, USER_ID, CAR_NAME, CAR_NUMBER, CAR_SIZE, LOCATION
-	,AREA, AREA_DETAIL, PICKUP_TIME_START, PICKUP_TIME_END
-	,CAR_PAX, CAR_SPAX, CAR_BEDS, PRICE, EXTRA_PRICE
-	,CAR_ELEC, CAR_WATER, CAR_TABLE, CAR_SINK, CAR_KITCHEN
-	,CAR_TEMP, CAR_SHOWER, CAR_TOILET, CAR_PET, CAR_SMOKE, CAR_STATUS
-	,CONTENT,DELETE_STATUS
-		FROM cartb
+	SELECT * FROM cartb
 </sql>
 
 <sql id="searchMycar">
@@ -168,40 +147,37 @@
 	
 
 <select id="selectCntAllIncome" resultType="int" parameterType="web.util.Paging">
-SELECT count(*) FROM (
-	SELECT income_no, rent_no, amount, income_status, post_date,
-        (SELECT user_id FROM renttb WHERE rent_no = I.rent_no) AS user_id,
-        (SELECT bank_name FROM accounttb A WHERE A.user_id = 
-            (SELECT user_id FROM usertb U WHERE U.user_id = 
-                (SELECT user_id FROM cartb C WHERE C.user_id = 
-                    (SELECT user_id FROM renttb R WHERE R.rent_no = 
-                        (SELECT rent_no FROM incometb WHERE rent_no = R.rent_no)
-                    )
-                )
-            )
-        ) AS bank_name,
-     	 (SELECT bank_account FROM accounttb A WHERE A.user_id = 
-            (SELECT user_id FROM usertb U WHERE U.user_id = 
-                (SELECT user_id FROM cartb C WHERE C.user_id = 
-                    (SELECT user_id FROM renttb R WHERE R.rent_no = 
-                        (SELECT rent_no FROM incometb WHERE rent_no = R.rent_no)
-                    )
-                )
-            )
-  		 ) AS bank_account
-	FROM incometb I
-	<include refid="searchIncome" />
+	SELECT count(*) FROM (
+		SELECT I.income_no
+		, I.rent_no
+		, I.amount
+		, I.income_status
+		, CAST(I.post_date AS DATE) AS post_date
+		, I.deduct_amount
+		, R.user_id 
+		FROM incometb I
+		INNER JOIN renttb R ON I.rent_no = R.rent_no
+		WHERE I.income_status > 0
+		<include refid="searchIncome" />
+		ORDER BY I.income_no DESC
 )
 </select>
 
 <select id="selectAllIncome" resultType="map" parameterType="web.util.Paging">
 	SELECT * FROM (
 	    SELECT rownum rnum, B.* FROM (
-	    	<include refid="selectIncome" />
-	    	, user_id, bank_name
-	  	 	FROM incometb
-	  	 	<include refid="searchIncome" />
-			ORDER BY income_no DESC
+	    	SELECT I.income_no
+		, I.rent_no
+		, I.amount
+		, I.income_status
+		, CAST(I.post_date AS DATE) AS post_date
+		, I.deduct_amount
+		, R.user_id 
+		FROM incometb I
+		INNER JOIN renttb R ON I.rent_no = R.rent_no
+		WHERE I.income_status > 0 
+		<include refid="searchIncome" />
+		ORDER BY I.income_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
@@ -209,7 +185,7 @@ SELECT count(*) FROM (
 <select id="selectCntAllMycar" resultType="int" parameterType="web.util.Paging">
 	SELECT count(*) FROM (
 		<include refid="selectMycar" />
-		WHERE car_status > 0
+		 WHERE car_status = 1 or car_status = 2
 		<include refid="searchMycar" />
 	)
 </select>
@@ -217,11 +193,11 @@ SELECT count(*) FROM (
 
 <select id="selectAllMycar" resultType="map" parameterType="web.util.Paging">
 	 SELECT * FROM (
-        SELECT rownum rnum, B.* FROM (
-            <include refid="selectMycar" />
-            WHERE car_status > 0
-            <include refid="searchMycar" />
-            ORDER BY car_no DESC
+	 SELECT rownum rnum, B.* FROM (
+		<include refid="selectMycar" />
+        WHERE car_status = 1 or car_status = 2
+        <include refid="searchMycar" />
+        ORDER BY car_no DESC
         ) B
     ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 </select>
@@ -272,6 +248,24 @@ SELECT count(*) FROM (
 		WHERE board_no = #{boardNo}
   		AND board_cate = #{boardCate}
 	</update>
+		
+	<update id="carStatusToTwo" parameterType="Car">
+		UPDATE cartb
+		SET car_status = 2
+		WHERE car_no = #{carNo}
+	</update>
 
+	<update id="carStatusToThree" parameterType="Car">
+		UPDATE cartb
+		SET car_status = 3
+		WHERE car_no = #{carNo}
+	</update>
+	
+	<update id="incomeStatusToTwo" parameterType="Income">
+		UPDATE incometb
+		SET income_status = 2,
+		post_date = SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul'
+		WHERE income_no = #{incomeNo}
+	</update>	
 
 </mapper>

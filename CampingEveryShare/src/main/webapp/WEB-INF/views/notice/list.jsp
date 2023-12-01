@@ -20,11 +20,7 @@ pageEncoding="UTF-8"%>
 }
 </style>
 
-
-
-
 <div class="container">
-
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
@@ -76,10 +72,8 @@ pageEncoding="UTF-8"%>
 </table>
 </form>
 
-
-
-
-
+</div>
 </div><!-- .container -->
 <c:import url="../layout/pagination.jsp" />
+
 <c:import url="../layout/footer.jsp" />

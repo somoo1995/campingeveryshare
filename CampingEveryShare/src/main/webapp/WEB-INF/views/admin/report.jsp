@@ -65,10 +65,12 @@ $(()=>{
 		
 		var userId = $(this).attr('data-vuserid')
 	    var status = $(this).attr('data-status')
+	    var isConfirmed = confirm("해당 회원을 탈퇴시키겠습니까?");
 	       
 		console.log(userId)
 		console.log(status)
 		
+		if (isConfirmed) {
 		$.ajax({
 			type: "get"
 			, url: "./userstatus"
@@ -100,7 +102,7 @@ $(()=>{
 				console.log("실패");
 			}
 		}); //ajax end
-		
+	  }
 	}) //$(".btnUserStatus").click() end
 	
 }); //function end
@@ -113,6 +115,7 @@ $(()=>{
 		var boardNo = $(this).attr('data-boardno')
 		var boardCate = $(this).attr('data-cate')
 	    var status = $(this).attr('data-status')
+	    var isConfirmed = confirm("해당 글을 삭제하시겠습니까?");
 	       
 		console.log(boardNo)
 		console.log(boardCate)

@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 #search{
    width: 300px;
 }
-#head, #table_body{
+#head, #body{
 	text-align: center;
 }
 
@@ -33,62 +33,84 @@ $(() => {
    //검색 버튼 클릭
    $("#btnSearch").click(() => {
    const searchValue = $("#searchInput").val();
-   const typeCategory = $("#typeCategory").val();
-   
-   if(!typeCategory){
-      alert("검색 카테고리를 선택해주세요!");
-      return false;
-   }
    
    if(!searchValue){
       alert("검색어를 입력해주세요!");
       return false;
    }
    
-   console.log("검색어:", searchValue, "검색 카테고리:", typeCategory); // 확인용 로그
-   location.href = "./list?search=" + searchValue + "&category=" + typeCategory;
+   console.log("검색어:", searchValue); // 확인용 로그
+   location.href = "./mycar?search=" + searchValue;
    });
 
 })
 </script>
 
 <script type="text/javascript">
-$(() => {
-     $(".deleteInfoButton").click(function() {
-       // 삭제할 사용자의 아이디를 가져옴
-       var userId = $(this).data('userid');
-       console.log("클릭됨");
+$(()=>{	
+	$(".btnAllow").click(function (){
+		
+		var carNo = $(this).attr('data-carno')
+		var carStatus = $(this).attr('data-status')
+		var isConfirmed = confirm("승인 하시겠습니까?");
+	       
+		console.log(carNo)
+ 		console.log(carStatus)
+		
+		if (isConfirmed) {
+		$.ajax({
+			type: "get"
+			, url: "./allow"
+			, data: { 
+				carNo: carNo,
+	            carStatus: carStatus
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
 
-       // 확인 대화상자 표시
-       var isConfirmed = confirm("정말로 탈퇴시키겠습니까?");
+					$(".btnAllow[data-carno='" + carNo + "']")
+					.removeClass("btn-info")
+					.addClass("btn-primary disabled")
+					.html('승인 완료');
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	  }
+	}) //$(".btnAllow").click() end
+	
+}); //function end
+</script>
 
-       if (isConfirmed) {
-         $.ajax({
-           type: "post",
-           url: "/admin/delete",
-           data: {
-             userId: userId
-           },
-           success: function(response) {
-             console.log("서버 응답:", response);
-             console.log("파싱된 응답:", response);
-			 location.reload(true);
-             if (response === "done") {
- //              console.log("회원탈퇴가 성공적으로 이루어졌습니다!");
-               alert("회원탈퇴가 성공적으로 이루어졌습니다!");
-             } else if (response === "undone") {
- //              console.log("회원탈퇴 실패.");
-               alert("회원탈퇴 실패, 비밀번호를 확인해주세요");
-             }
-           },
-           error: function(error) {
-             console.log("AJAX 실패")
-           }
-         });
-       }
-     });
-   });
-   
+<script type="text/javascript">
+$(()=>{	
+	$(".btnHold").click(function (){
+		
+		var isConfirmed = confirm("수정 요청을 하시겠습니까?");
+				
+		if (isConfirmed) {
+		$.ajax({
+			type: "get"
+			, url: "./hold"
+			, data: { 
+				carNo: carNo,
+	            carStatus: carStatus
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("수정 요청");
+				//	location.reload(true);
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	  }
+	}) //$(".btnHold").click() end
+	
+}); //function end
 </script>
 
 
@@ -99,22 +121,21 @@ $(() => {
 
 <div id="searchDiv"> 
    <input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="아이디 조회"/>
-   <button id="btnSearch" class="btn btn-primary">검색</button>
+   <!--  <button class="btn"><img src="/resources/img/admin_search.png"></button>-->
+   <button class="btn">검색</button>
 </div>
 
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
    <col width="5%">
-   <col width="7%">
-   <col width="13%">
    <col width="10%">
-   <col width="7%">
+   <col width="15%">
+   <col width="15%">
+   <col width="10%">
    <col width="5%">
-   <col width="7%">
-   <col width="9%">
-   <col width="9%">
-   <col width="18%">
    <col width="10%">
+   <col width="15%">
+   <col width="15%">
 </colgroup>
 
 <thead>
@@ -126,38 +147,35 @@ $(() => {
       <th>차량타입</th>
       <th>지역</th>
       <th>지역구</th>
-      <th>성수기가격</th>
-      <th>비수기가격</th>
-      <th>내용</th>
       <th>승인</th>
+      <th>승인 보류</th>
    </tr>
 </thead>
 <tbody>
 <c:forEach var="car" items="${mycarList }">
-   <tr> 
-      <td id="table_body">${car.RNUM }</td>
-      <td id="table_body">${car.USER_ID }</td>
-      <td id="table_body">${car.CAR_NAME }</td>
-      <td id="table_body">${car.CAR_NUMBER }</td>
-      <td id="table_body">${car.CAR_SIZE }</td>
-      <td id="table_body">${car.LOCATION }</td>
-      <td id="table_body">${car.AREA }</td>
-      <td id="table_body">${car.MAX_PRICE }</td>
-      <td id="table_body">${car.MIN_PRICE }</td>
-      <td>${car.CONTENT }</td>
-      <td id="table_body">
-		 <c:choose>
-         <c:when test="${car.CAR_STATUS eq 1 }">
-   			 <button class="btn warning btnCarStatus" data-userid="${car.USER_ID }" data-status="${car.CAR_STATUS }">승인</button>
-		</c:when>
-		<c:when test="${car.CAR_STATUS eq 2 }">
-   			 <button class="btn btn-primary btnCarStatus" data-userid="${car.USER_ID }" data-status="${car.CAR_STATUS }">승인 완료</button>
-		</c:when>
-		<c:when test="${car.CAR_STATUS eq 3 }">
-   			 <button class="btn btn-danger btnCarStatus" data-userid="${car.USER_ID }" data-status="${car.CAR_STATUS }">판매 보류</button>
-		</c:when>
-		</c:choose>
-		</td> 
+   <tr id="body"> 
+      <td>${car.RNUM }</td>
+      <td>${car.USER_ID }</td>
+      <td>
+      	<a href="/car/mycar?carNo=${car.CAR_NO }">${car.CAR_NAME }</a>
+      </td>
+      <td>${car.CAR_NUMBER }</td>
+      <td>${car.CAR_SIZE }</td>
+      <td>${car.LOCATION }</td>
+      <td>${car.AREA }</td>
+      <td>
+      		<c:if test="${car.CAR_STATUS == 1  }">
+   		  <button class="btn btn-info btnAllow" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">승인</button>      		
+      		</c:if>
+      		<c:if test="${car.CAR_STATUS == 2  }">
+   		  <button class="btn btn-info btnAllow disabled" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">승인완료</button>      		      		
+      		</c:if>
+   	  </td>
+   	  <td>
+   	  		<c:if test="${car.CAR_STATUS == 1 or  car.CAR_STATUS == 2 }">
+   		  <button class="btn btn-danger btnHold" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">수정 요청</button>   	  		
+   	  		</c:if>
+   	  </td>
    </tr>
 </c:forEach>
 </tbody>

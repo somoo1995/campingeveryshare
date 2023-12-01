@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/header.jsp" />
+<c:import url="../layout/adminheader.jsp" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- include summernote css/js -->
@@ -66,20 +66,20 @@ select {
 
 
 <!-- 작성 공간 -->
-<div class="pageTitle">
-<h3 id="pageTitle">공지사항 작성</h3>
+<div class="adminpageTitle">
+<h3 id="adminpageTitle">공지사항 작성</h3>
 <hr>
 
 <div>
 
-<form id="fileForm" action="./write" method="post">
+<form id="fileForm" action="./noticewrite" method="post">
 
  
 <input type="hidden" name="adminCode" value="${adminCode }" >
 <input type="hidden" name="boardCate" value="5" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${adminCode }">
+	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="작성자">
 </div>
 
 <div class="form-group mb-3">
@@ -94,7 +94,7 @@ select {
 
 <div class="text-center">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
-	<a href="/share/list"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
+	<a href="./noticelist"><button type="button" class="btn btn-danger" id="btnCancel">취소</button></a>
 </div>
 
 </form>
@@ -102,9 +102,6 @@ select {
 
 
 </div>
-
-
-
 
 </div><!-- .container -->
 
