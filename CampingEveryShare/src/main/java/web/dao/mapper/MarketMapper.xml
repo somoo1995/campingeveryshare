@@ -32,8 +32,8 @@
 			<where>
 				AND board_cate = 3
 				AND delete_status = 0
-				<if test="category != '20' ">
-                    AND location = #{category}
+				<if test="location != '20' and location != 0">
+                    AND location = #{location}
                 </if>
                 <if test="search != null and !''.equals(search)">
 					AND title LIKE '%' || (#{search }) || '%' 
@@ -49,8 +49,8 @@
   		SELECT count(*) FROM boardtb
   		WHERE board_cate =3
   		AND delete_status =0
-        <if test="category != '20'">
-        AND location = #{category}
+        <if test="location != '20' and location != 0">
+        AND location = #{location}
    		</if>
   	</select>
   	

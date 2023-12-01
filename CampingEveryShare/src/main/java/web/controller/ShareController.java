@@ -39,12 +39,12 @@ public class ShareController {
 	
 	@GetMapping("list")
 	public String shareList(Paging param, Model model, Board board, HttpSession session) {
-		
+//		logger.info("param : {} ", param);
 		param.setType((String) session.getAttribute("loginId"));
-		param.setCategory(board.getLocation());
+//		logger.info("param : {} ", param);
 
 		Paging paging = shareService.getPaging( param );
-		paging.setCategory(board.getLocation());
+		paging.setLocation(board.getLocation());
 		paging.setType((String) session.getAttribute("loginId"));
 		logger.info("paging : {}", paging);
 		
@@ -85,7 +85,7 @@ public class ShareController {
 	
 	@PostMapping("list")
 	public String locList(Paging param, Model model, Board board, HttpSession session) {
-		
+		logger.info("param : {} ", param);
 		param.setType((String) session.getAttribute("loginId"));
 
 		Paging paging = shareService.getPaging( param );

@@ -67,6 +67,11 @@
 	width: 225px;
 	height: 202px;
 }
+
+.booking-detail {
+	margin-left: 30px;
+}
+
 </style>
 
 <script type="text/javascript">

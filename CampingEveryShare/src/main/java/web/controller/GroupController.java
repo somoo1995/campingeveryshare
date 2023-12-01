@@ -39,10 +39,10 @@ public class GroupController {
 	@GetMapping("list")
 	public String groupList(Paging param, Model model, Board board) {
 		logger.info("board : {} ", board.getLocation());
-		param.setCategory(board.getLocation());
+		param.setLocation(board.getLocation());
 		logger.info("param : {}", param);
 		Paging paging = groupService.getPaging( param );
-		paging.setCategory(param.getCategory());
+		paging.setLocation(param.getLocation());
 		logger.info("paging : {}", paging);
 		
 		
