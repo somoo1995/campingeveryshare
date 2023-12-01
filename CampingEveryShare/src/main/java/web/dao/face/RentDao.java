@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.Heart;
 import web.dto.Rent;
 import web.dto.User;
 import web.util.Paging;
@@ -28,6 +29,10 @@ public interface RentDao {
 	public int selectCntHeartByUserId(Car car);
 
 	public BoardFile selectFileByCarNo(Car car);
+
+	public void insertHeartByUserId(Heart heart);
+
+	public void deleteHeartByUserId(Heart heart);
 
 
 

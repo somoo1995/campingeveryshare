@@ -14,6 +14,7 @@ import web.dao.face.RentDao;
 import web.dao.face.ReviewDao;
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.Heart;
 import web.dto.Income;
 import web.dto.Rent;
 import web.dto.User;
@@ -93,6 +94,21 @@ public class RentServiceImpl implements RentService {
 	public BoardFile getFileInfo(Car car) {
 		
 		return rentDao.selectFileByCarNo(car);
+	}
+
+	@Override
+	public int changeHeart(Heart heart) {
+		Car car = new Car();
+		car.setCarNo(heart.getHeartNo());
+		car.setUserId(heart.getUserId());
+		if(rentDao.selectCntHeartByUserId(car) == 0) {
+			rentDao.insertHeartByUserId(heart);
+			return 1;
+		}else {
+			rentDao.deleteHeartByUserId(heart);
+			return 0;
+		}
+		
 	}
 
 

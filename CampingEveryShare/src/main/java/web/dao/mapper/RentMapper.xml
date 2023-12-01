@@ -104,7 +104,7 @@
 	
 	<select id="selectCntHeartByUserId" parameterType="Car"> <!-- 리뷰 여부 확인 -->
 	SELECT COUNT(H.heart_no) from hearttb H
-	WHERE heart_no = 101
+	WHERE heart_no = #{carNo}
 	AND user_id = #{userId}
 	</select>
 	
@@ -113,4 +113,16 @@
 	WHERE board_no = #{carNo}
 	AND board_cate = 1
 	</select>
+	
+	<insert id="insertHeartByUserId" parameterType="Heart">
+	INSERT INTO hearttb(user_id,heart_no,board_cate)
+	VALUES(#{userId},#{heartNo},1)
+	</insert>
+	
+	<delete id="deleteHeartByUserId" parameterType="Heart">
+	DELETE hearttb
+	WHERE user_id = #{userId}
+	AND heart_no = #{heartNo}
+	AND board_cate = 1
+	</delete>
 </mapper>

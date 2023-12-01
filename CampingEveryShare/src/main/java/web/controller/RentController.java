@@ -16,10 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import web.dto.BoardFile;
 import web.dto.Car;
+import web.dto.Heart;
 import web.dto.Income;
 import web.dto.Rent;
 import web.dto.User;
@@ -138,6 +141,19 @@ public class RentController {
 		model.addAttribute("list", list);
 		
 		return "rent/review";
+	}
+	
+	@RequestMapping("/heart")
+	@ResponseBody
+	public String heart(Heart heart) {
+		logger.info(heart.toString());
+		int heartInfo = 0;
+		heartInfo = rentService.changeHeart(heart);
+		if(heartInfo == 1) {
+			return "done";
+		}else {
+			return "cancel";
+		}
 	}
 	
 
