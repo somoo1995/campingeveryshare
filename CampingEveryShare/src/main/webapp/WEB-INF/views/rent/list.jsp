@@ -152,5 +152,6 @@ pageEncoding="UTF-8"%>
   </c:if>
 	
 </c:forEach>
-
+<div class="mt-5">
  <c:import url="../layout/paginationAjax.jsp" />
+</div>

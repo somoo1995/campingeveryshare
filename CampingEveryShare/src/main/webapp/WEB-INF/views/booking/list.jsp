@@ -10,11 +10,6 @@
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<!-- <script -->
-<!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
-<!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
-<!--   crossorigin="anonymous"></script> -->
-
 <style type="text/css">
 
 .review { 
@@ -59,7 +54,7 @@
 
 .booking-container {
 	display: flex;
-/* 	justify-content: space-between; */
+/*  	justify-content: space-between;  */
 	align-items: center;
 }
 
@@ -70,7 +65,83 @@
 
 .booking-detail {
 	margin-left: 30px;
+	width: 700px;
 }
+
+.booking-btns {
+	margin-top: 115px;
+}
+
+.btn {
+	background-color: #228b22;
+	border: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.modal-message {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 10px;
+	border-radius: 5px;
+    width: 20%;
+    height: 180px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-message p {
+	font-size: 20px;
+ 	text-align: center;
+ 	margin-top: 45px;
+ 	margin-bottom: 35px;
+ 	color: #3A3A3A;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: end;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btnModal {
+	background-color: #1ABA00;
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-btn-group {
+	text-align: center;
+}
+
+.btnModal:hover {
+	text-align: center;
+	background-color: #228b22;
+}
+
+.btnCancelConfirm {
+	margin-left: -5px;
+}
+
+.btnCancelClose {
+	margin-left: 10px;
+}
+
 
 </style>
 
@@ -157,7 +228,7 @@ $(function() {
 <!-- 예약 취소 -->
 $(function() {
 	
-	$(".btnCancel").click(function() {
+	$(".btnCancelConfirm").click(function() {
 		
 		var userId = $(this).attr("data-id")
 		var rentNo = $(this).attr("data-no")
@@ -212,6 +283,27 @@ function sendNotification(userId, carNo) {
    
 }
 
+//Open Modal
+document.getElementById('openModalBtn').addEventListener('click', openModal)
+
+// Close Modal
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none'
+}
+
+// Open Modal Function
+function openModal() {
+    document.getElementById('myModal').style.display = 'block'
+}
+
+// Close Modal if Click Outside Modal Content
+window.onclick = function(event) {
+    var modal = document.getElementById('myModal')
+    if (event.target === modal) {
+        modal.style.display = 'none'
+    }
+}
+
 </script>
 
 
@@ -238,21 +330,40 @@ function sendNotification(userId, carNo) {
 		<fmt:formatNumber value="${night+1 }" pattern="###"/>일
 		)
 		</li>
+	</ul>
+	</div><!-- .booking-detail -->
+		<div class="booking-btns">
 		<c:choose>
 			<c:when test="${paging.category == 0}">
-			<li class="mt-3"> <button class="btn btn-success">메시지</button> | <button class="btn btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> </li>
+			<button class="btn btn-success">메시지</button> 
+<%-- 			| <button class="btn btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> --%>
+<!-- 			| <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cancelBookingModal">TEST</button> -->
+			| <button class="btn btn-success" id="openModalBtn">취소</button>
 			</c:when>
 			<c:when test="${paging.category == 1 }">
 				<c:if test="${empty list.REVIEW }">
-				<li class="btnReview mt-3 btn btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</li>	
+				<button class="btnReview mt-3 btn btn-success" id="btnReview" data-no="${list.RENT_NO }" data-car="${list.CAR_NO }">리뷰</button>	
 				</c:if>
 				<c:if test="${not empty list.REVIEW }">
-				<li class="btnReviewRead mt-3 btn btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</li>	
+				<button class="btnReviewRead mt-3 btn btn-secondary" id="btnReviewRead" data-car="${list.CAR_NO }">리뷰 확인</button>	
 				</c:if>
 			</c:when>
 		</c:choose>
-	</ul>
-	
+		
+<!-- 취소 모달 -->
+<div id="myModal" class="modal">
+    <div class="modal-message">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>정말 취소하시겠습니까?</p>
+        <div class="modal-btn-group">
+        <button class="btn btn-success btnModal btnCancelConfirm" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">확인</button>
+        <button class="btn btn-success btnModal btnCancelClose" onclick="closeModal()">취소</button>
+    	</div>
+    </div>
+</div>
+							
+		</div><!-- .booking-btns -->
+	</div><!-- .booking-container -->
 				<!-- 리뷰 -->
 				<div class="review" data-no="${list.RENT_NO}" >
 				<div class="col-8 mx-auto" >
@@ -270,12 +381,10 @@ function sendNotification(userId, carNo) {
 					<span class="star star_right"></span>
 					</div>
 					<textarea class="content form-control" rows="4" name="content" id="content" placeholder="리뷰 작성하세요" style="resize: none;"></textarea>
-					<div class="text-center mt-3"><button class="btnReviewWrite btn btn-dark btn-sm" id="btnReviewWrite" data-no="${list.RENT_NO}">작성</button></div>
+					<div class="text-center mt-3"><button class="btnReviewWrite btn btn-success btn-sm" id="btnReviewWrite" data-no="${list.RENT_NO}">작성</button></div>
 				</div>
 				</div> 
 				</div><!-- .review end -->
-	</div><!-- .booking-detail -->
-	</div><!-- .booking-container -->
 	<hr>
 	</c:forEach>
 </div>
@@ -283,6 +392,9 @@ function sendNotification(userId, carNo) {
 <c:if test="${paging.totalCount gt 5 }">
 </c:if>
 </c:if>
+
+
+
 
 <c:if test="${empty hasData or not hasData }">
 <c:choose>
