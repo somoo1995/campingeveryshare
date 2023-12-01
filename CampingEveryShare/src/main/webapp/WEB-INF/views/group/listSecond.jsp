@@ -9,6 +9,30 @@ pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="../resources/css/group.css?after">
 
+<style>
+.btn_write {
+    background-color: forestgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.btn_write:hover {
+    background-color: #1d731d;
+    color: white;
+}
+
+.btn_write:active {
+    background-color: #1d731d; 
+    color: white;
+}
+
+</style>
+
 <div class="container">
 
 <!-- 작성 공간 -->
@@ -40,7 +64,7 @@ pageEncoding="UTF-8"%>
 <hr>
 
 <div style="text-align: right; margin-bottom: 10px;">
-<a  href="/market/write?boardCate=3"><button>글쓰기</button></a>
+<a href="/market/write?boardCate=3"><button class="btn_write">글쓰기</button></a>
 </div>
 
 <c:forEach items="${list}" var="board" varStatus="loop">
@@ -53,9 +77,10 @@ pageEncoding="UTF-8"%>
 	<div style="margin-bottom : 10px;">
 	</div>
 	<div class="info">
-    <h6>👤 : ${board.USER_NICK }</h6>
-	<h6>🪙 : ${board.price }</h6>
-	</div>
+    <h6>${board.USER_NICK }</h6>
+	<h6>${board.price }</h6>
+	</div><!-- .info -->
+	
     <c:if test="${not empty board.THUMBNAIL_NAME}">
       <div>
         <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">

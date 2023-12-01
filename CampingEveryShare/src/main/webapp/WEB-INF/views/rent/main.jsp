@@ -54,6 +54,45 @@ pageEncoding="UTF-8"%>
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+.rentList {
+    height: 500px;
+    text-align: center;
+    padding: 20px; /* 패딩 추가 */
+    margin-top: 20px; /* 상단 여백 추가 */
+    display: flex; /* flexbox 레이아웃 사용 */
+    flex-direction: column; /* 아이템을 수직으로 정렬 */
+    justify-content: center; /* 세로 방향 가운데 정렬 */
+}
+
+.rentList span {
+    display: block; /* 각 span을 블록 요소로 만듦 */
+    margin-bottom: 5px; /* 아래쪽 여백 추가 *ㅇㅇ/
+}
+
+.rentList strong {
+    font-size: 24px; /* 글자 크기 조정 */
+    margin-bottom: 10px; /* 아래쪽 여백 추가sy */
+}
+
+.rentList a {
+    background-color: #2ECC71; /* 버튼 배경색 */
+    color: white; /* 글자색 */
+    padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
+    text-decoration: none; /* 텍스트 밑줄 제거 */
+    border: none; /* 테두리 없음 */
+    border-radius: 4px; /* 버튼 모서리 둥글게 */
+    margin-top: 15px; /* 상단 여백 추가 */
+    width: 200px; /* 버튼 너비 설정 */
+    display: block; /* 블록 요소로 만듦 */
+    margin-left: auto; /* 왼쪽 여백 자동 조정 */
+    margin-right: auto; /* 오른쪽 여백 자동 조정 */
+    transition: background-color 0.3s; /* 호버 효과 부드럽게 */
+}
+.rentList a:hover {
+    background-color: #45a049; /* 버튼 호버시 색상 변경 */
+}
+
 </style>
 
 <script type="text/javascript">
@@ -70,7 +109,7 @@ $(function () {
 			$(".selectSEL").hide()
 			$(".selectICN").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 		}
 	})
@@ -81,7 +120,7 @@ $(function () {
 			$(".selectSEL").show()
 			$(".selectICN").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 			
 		}
@@ -93,7 +132,7 @@ $(function () {
 			$(".selectICN").show()
 			$(".selectSEL").hide()
 			areaCate = $('input[name=areaCate]:checked').val()
-			console.log(areaCate)
+			console.log("areaCate : " + areaCate)
 			loadList(areaCate)
 			
 		}
@@ -130,79 +169,36 @@ function loadList(areaCate) {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">대여</h3>
+<h3 id="pageTitle">캠핑카 대여</h3>
 </div>
 
 
 <div class="col-2 mb-3 float-end">
 	<div>
-<!-- 	<select class="form-select"> -->
-<!-- 		<option selected="selected">지역</option> -->
-<!-- 		<option value="1">서울</option> -->
-<!-- 		<option value="2">인천</option> -->
-<!-- 	</select> -->
-	
-	<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked">전체
-	<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1">서울
-	<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
+		<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked">전체
+		<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1">서울
+		<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
 	</div>
 	
-	<div class="selectSEL" style="display: none;">
-		<select class="form-select" name="areaSelect" id="areaCateSeo">
-			<option>전체</option>      
-			<option value="1">강남구</option>      
-			<option value="2">강동구</option>      
-			<option value="3">강북구</option>      
-			<option value="4">강서구</option>      
-			<option value="5">관악구</option>      
-			<option value="6">광진구</option>      
-			<option value="7">구로구</option>      
-			<option value="8">금천구</option>      
-			<option value="9">노원구</option>      
-			<option value="10">도봉구</option>      
-			<option value="11">동대문구</option>      
-			<option value="12">동작구</option>      
-			<option value="13">마포구</option>      
-			<option value="14">서대문구</option>      
-			<option value="15">서초구</option>      
-			<option value="16">성동구</option>      
-			<option value="17">성북구</option>      
-			<option value="18">송파구</option>      
-			<option value="19">양천구</option>      
-			<option value="20">영등포구</option>      
-			<option value="21">용산구</option>      
-			<option value="22">은평구</option>      
-			<option value="23">종로구</option>      
-		</select>
-	</div>
-	
-	<div class="selectICN" style="display: none;">
-		<select class="form-select" name="areaSelect" id="areaCateIn">
-			<option>전체</option>      
-			<option value="1">중구</option>      
-			<option value="2">남동구</option>      
-			<option value="3">동구</option>      
-			<option value="4">미추홀구</option>      
-			<option value="5">부평구</option>      
-			<option value="6">서구</option>      
-			<option value="7">연수구</option>      
-			<option value="8">계양구</option>      
-		</select>
-	</div>
 	
 </div>
 
 <div class="clearfix"></div>
 
-<%-- <c:import url="./list.jsp" /> --%>
+<c:if test="${not empty hasData and hasData  }">
+	<div id="resultList"></div>
+</c:if>
 
-<div id="resultList"></div>
+<c:if test="${empty hasData or not hasData }">
+	<div class="rentList">
+		<strong>등록된 캠핑카가 없습니다!</strong><br>
+		<span>캠핑카를 등록하시겠어요?</span><br>
+		<a href="/car/main" class="exploreButton">살펴보기</a>
+	</div>
 
+</c:if>
 
 </div><!-- .container end -->
 
-<c:if test="${paging.totalCount gt 9 }">
-	<c:import url="../layout/pagination.jsp" />
-</c:if>
 
 <c:import url="../layout/footer.jsp" />

@@ -49,10 +49,10 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Paging getPaging(Paging param) {
 
-		int totalCount = groupDao.selectCntAll();
+		int totalCount = groupDao.selectCntAll(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 15, param.getPageCount());
-		
+		paging.setLocation(param.getLocation());
 		return paging;
 	}
 

@@ -1,6 +1,7 @@
 package web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,11 @@ public class AlertServiceImpl implements AlertService {
 	@Autowired AlertDao alertDao;
 
 	@Override
-	public List<Alert> getList(Alert alert) {
-		return alertDao.selectByUser(alert);
+	public List<Map<String, Object>> getList(Alert alert) {
+		
+		List<Map<String, Object>> list = alertDao.selectByUser(alert);
+		
+		return list;
 	}
 
 	@Override

@@ -7,7 +7,44 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
+<script type="text/javascript">
+$(function() {
+    // 셀렉트 박스 변경 이벤트 핸들러
+    $("#location").change(function() {
+        // 선택된 옵션의 값을 가져옴
+        var selectedLocation = $(this).val();
 
+        // Ajax 호출
+        $.ajax({
+            type: "post",
+            url: "/share/list",  // 실제 컨트롤러 URL로 변경
+            data: {
+                location: selectedLocation,
+//                 category: selectedLocation,
+                // 여기에 필요한 다른 파라미터 추가 가능
+            },
+            dataType: "html",
+            success: function(res) {
+                console.log("AJAX 성공");
+                // 성공 시 받은 데이터를 처리
+                $("#resultList").html(res);
+            },
+            error: function() {
+                console.log("AJAX 실패");
+                // 실패 시 처리
+            }
+        });
+    });
+
+    // 초기 로딩
+    loadGroupList();
+});
+
+function loadGroupList() {
+    // 페이지 로딩 시에도 초기 데이터를 불러올 수 있음
+    $("#location").trigger("change");
+}
+</script>
 <style type="text/css">
 
 .row {
@@ -95,6 +132,29 @@ select {
 	width: 100px;
 	text-align: center;
 }
+
+.btn_write {
+    background-color: forestgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.btn_write:hover {
+    background-color: #1d731d;
+    color: white;
+}
+
+.btn_write:active {
+    background-color: #1d731d; 
+    color: white;
+}
+
+
 </style>
 
 
@@ -106,11 +166,11 @@ select {
 <h3 id=pageTitle>캠핑존 공유 게시판</h3>
 <hr>
 <div class="select">
-<label><input type="radio" id="paid" name="paid" value="1" checked="checked">전체</label>
-<label><input type="radio" id="paid" name="paid" value="2">무료</label>
-<label><input type="radio" id="paid" name="paid" value="3">유료</label>
-<select name="locCate" id="locCate">
-     <option>지역</option>
+<!-- <label><input type="radio" id="paid" name="paid" value="1" checked="checked">전체</label> -->
+<!-- <label><input type="radio" id="paid" name="paid" value="2">무료</label> -->
+<!-- <label><input type="radio" id="paid" name="paid" value="3">유료</label> -->
+<select name="location" id="location">
+     <option value="20">전체</option>
      <option value="10">강원</option>
      <option value="9">경기</option>
      <option value="16">경남</option>
@@ -132,12 +192,11 @@ select {
 </div>
 <hr>
 <div style="text-align: right; margin-bottom: 10px;">
-<a href="/share/write?boardCate=2"><button>글쓰기</button></a>
+<a href="/share/write?boardCate=2"><button class="btn_write">글쓰기</button></a>
 </div>
 
-<c:import url="./list.jsp"></c:import>
+<div class="resultList" id="resultList"></div>
 
 
 </div><!-- .container -->
-<c:import url="../layout/pagination.jsp" />
 <c:import url="../layout/footer.jsp" />
