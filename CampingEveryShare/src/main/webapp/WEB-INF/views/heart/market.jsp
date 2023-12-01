@@ -161,7 +161,6 @@ select {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-
 <c:forEach items="${list}" var="board" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">

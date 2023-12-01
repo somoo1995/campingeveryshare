@@ -261,7 +261,7 @@ $(() => {
 <div>
 	<!-- 신고 -->
 	<c:if test="${not (empty loginId or loginId eq board.userId)}">
-	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModal" class="btn" id="reportbtn"></button>
+	    <button data-bs-toggle="modal" data-bs-target="#deleteUserModalGroup" class="btn" id="reportbtn"></button>
 	</c:if>
 </div>
 <hr>

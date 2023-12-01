@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import web.dto.Account;
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
@@ -81,6 +82,12 @@ public interface CarDao {
 	public int selectCntChargeList(User user);
 
 	public List<Map<String, Object>> selectChargeList(@Param("user") User user, @Param("paging") Paging paging);
+
+	public int selectAccountByUserId(Account account);
+
+	public void insertAccount(Account account);
+
+	public void updateAccount(Account account);
 	
 
 }

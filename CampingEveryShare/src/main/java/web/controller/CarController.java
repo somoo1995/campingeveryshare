@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import web.dto.Account;
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
@@ -314,6 +315,9 @@ public class CarController {
 		log.info(param.toString());
 		log.info("이거 클릭하는고얌");
 		int category = param.getCategory();
+		if(category == 0) {
+			category = 1;
+		}
 		if(category == 1) { // 카테고리가 수익금 내역일 때
 			List<Map<String,Object>> target = new ArrayList<Map<String,Object>>();
 			Paging proPaging = carService.getPaging(param, user);
@@ -353,6 +357,15 @@ public class CarController {
 	    log.info(rentNos.toString());
 	    carService.commit(rentNos);
 	    return "success";
+	}
+	
+	@RequestMapping("/regiAccount")
+	@ResponseBody
+	public String regiAccount(Account account,HttpSession session) {
+		account.setUserId((String)session.getAttribute("loginId"));
+		carService.changeAccount(account);
+		log.info(account.toString());
+		return null;
 	}
 }
 

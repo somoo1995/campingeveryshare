@@ -57,14 +57,16 @@
 			            (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = B.board_no ORDER BY file_no) WHERE rnum = 1) AS "THUMBNAIL_NAME",
 			            (SELECT loc_name_ko FROM location_category WHERE loc_cate = B.location) AS "LOCATION_NAME",
 			            (SELECT paid FROM sharetb WHERE board_no = B.board_no) AS "PAID",
-			            (SELECT COUNT(*) FROM hearttb WHERE heart_no = B.board_no AND board_cate = #{category} AND H.user_id = #{type}) AS "HEARTID"
-			            
+						(SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+						 FROM hearttb H2
+						 WHERE H2.heart_no = B.board_no AND H2.board_cate = #{category } AND H2.user_id = #{type }) AS "HEARTID",
+						 (SELECT price FROM markettb WHERE board_no = B.board_no) AS "PRICE"
 			        FROM hearttb H
 			         INNER JOIN boardtb B ON B.board_no = H.heart_no
 			        WHERE H.board_cate = #{category }
 			            AND B.delete_status = 0
 			            AND H.user_id = #{type }
-			            AND H.board_cate = #{category }
+			            AND H.board_cate = #{category }	
 			        ORDER BY H.heart_no DESC
 			    ) A
 			) WHERE rnum BETWEEN #{startNo} AND #{endNo}

@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import web.controller.CarController;
 import web.dao.face.CarDao;
+import web.dto.Account;
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
@@ -233,6 +234,19 @@ public class CarServiceImpl implements CarService {
 	public List<Map<String, Object>> getChargeInfo(User user, Paging chargePaging) {
 		
 		return carDao.selectChargeList(user,chargePaging);
+	}
+
+	@Override
+	public void changeAccount(Account account) {
+		int checkAccount = 0;
+		checkAccount = carDao.selectAccountByUserId(account);
+		
+		if(checkAccount == 0) {
+			carDao.insertAccount(account);
+		}else {
+			carDao.updateAccount(account);
+		}
+		
 	}
 
 }

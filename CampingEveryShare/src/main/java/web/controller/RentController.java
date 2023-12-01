@@ -1,10 +1,13 @@
 package web.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.Income;
 import web.dto.Rent;
@@ -59,16 +63,39 @@ public class RentController {
 	}
 	
 	@RequestMapping("/view")
-	public void rentView( Model model, Car car ) {
+	public void rentView( Model model, Car car,HttpSession session) {
+		Map<String,Object> target =new HashMap<String, Object>(); // 모델로 넘겨줄 맵 생성
+		User user = new User();
+		int heartCheck = 0;
+		if(session.getAttribute("loginId") != null) {
+			car.setUserId((String)session.getAttribute("loginId"));
+			heartCheck = 0;
+			heartCheck = rentService.checkHeart(car);
+		}
 		logger.info("carNo : {}", car);
+		logger.info("---------------------------");
+		// 캠핑카 정보 
+		car = rentService.view(car); 
+		//평균 리뷰점수와 리뷰갯수
+		Map<String,Object> reviewInfo = new HashMap<String, Object>();
+		reviewInfo = rentService.getReviewInfo(car);
+		BoardFile file = rentService.getFileInfo(car);
 		
-		car = rentService.view(car);
+		
+		target.put("car", car);
+		target.put("heart", heartCheck);
+		target.put("reviewInfo", reviewInfo);
+		target.put("file", file);
+		
+		
+		
+		logger.info(target.toString());
 		List<Rent> list = rentService.getRentList(car);
 				
-		logger.info("car : {}", car);
-		
-		model.addAttribute("car", car);
+//		logger.info("car : {}", car);
+		model.addAttribute("target",target);
 		model.addAttribute("list", list);
+		model.addAttribute("car",car);
 		
 	}
 	
