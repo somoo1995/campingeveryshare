@@ -299,7 +299,7 @@ $(function() {
          <c:when test="${empty isLogin or not isLogin }">
          <div class="profile_box">
          <div class="box"  data-profile-number="2">
-		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="150" height="150">
+		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="150" height="150">
          </div><!-- .box -->
          </div><!-- .profile_box -->
          
@@ -316,19 +316,19 @@ $(function() {
      <!-- 프로필 사진 -->        
     <div class="profile_box">
         <div class="box" data-profile-number="1">
-		   <img src="/resources/img/profile1.png" alt="프로필1" id="profile-img-1" width="150" height="150" >
+		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="150" height="150" >
         </div>
         <div class="box"  data-profile-number="2">
-		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="150" height="150">
+		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="150" height="150">
         </div>
         <div class="box"  data-profile-number="3">
-		   <img src="/resources/img/profile3.png" alt="프로필3" id="profile-img-3" width="150" height="150">
+		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="150" height="150">
         </div>
         <div class="box" data-profile-number="4">
-		   <img src="/resources/img/profile4.png" alt="프로필4" id="profile-img-4" width="150" height="150">
+		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="150" height="150">
         </div>
         <div class="box" data-profile-number="5">
-		   <img src="/resources/img/profile5.png" alt="프로필5" id="profile-img-5" width="150" height="150" >
+		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="150" height="150" >
         </div>
 	</div>
 	

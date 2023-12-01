@@ -235,23 +235,23 @@ $(document).ready(function() {
 	
 	<div class="profile-container">
         <div class="profileGroup">
-		   <img src="/resources/img/profile1.png" alt="프로필1" id="profile-img-1" width="200" height="200">
+		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
 		   <input type="radio" name="profile" value="1" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile2.png" alt="프로필2" id="profile-img-2" width="200" height="200">
+		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="200" height="200">
 		   <input type="radio" name="profile" value="2" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile3.png" alt="프로필3" id="profile-img-3" width="200" height="200">
+		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="200" height="200">
 		   <input type="radio" name="profile" value="3" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile4.png" alt="프로필4" id="profile-img-4" width="200" height="200">
+		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="200" height="200">
 		   <input type="radio" name="profile" value="4" disabled>
         </div>
         <div class="profileGroup">
-		   <img src="/resources/img/profile5.png" alt="프로필5" id="profile-img-5" width="200" height="200">
+		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="200" height="200">
 		   <input type="radio" name="profile" value="5" disabled>
         </div>
 	</div>
