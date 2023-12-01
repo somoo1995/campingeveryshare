@@ -361,6 +361,7 @@ $(function() {
       <hr class="hr_info">
       </div> <!-- .profile-info end -->
    
+   		<div class="">
       <div class="mt-5 my_list"><!-- grid 사용 -->
    
 		<!-- 예약 아이콘 -->
@@ -404,7 +405,7 @@ $(function() {
 		<!-- 찜 -->
 		<div class="heart_container">
 			<div class="heart">
-			<img class="heart_icon" alt="heart_icon" src="/resources/img/heart_2.png" width="50px" height="50px">
+			<img class="heart_icon" alt="heart_icon" src="/resources/img/heart_5.png" width="50px" height="50px">
 			</div>
 			<span class="heart_letter">찜</span>
 		</div>

@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 		</td>
 		<td class="title">
 		<a href="./view?boardNo=${board.BOARD_NO }" style="text-decoration: none; ">
-		<div style="font-weight: bold; font-size: 17px; margin-right: 13px;">[${board.LOCATION_NAME}]</div>
+		<div style="font-weight: bold; font-size: 17px; margin-right: 13px; color: gray">[${board.LOCATION_NAME}]</div>
 		<div>${board.TITLE }</div>
 		</a>
 		</td>
