@@ -20,12 +20,12 @@
 
 <div id="report">
 <div id="reportIn">
-<form id="reportForm" action="/group/report" method="post">
+<form id="reportFormGroup" action="/group/report" method="post">
 <div>
 <input type="hidden" value="${board.boardNo }" name="boardNo">
 <input type="hidden" value="${board.userId }" name="userId">
 <input type="hidden" value="${board.boardCate }" name="boardCate">
-${board }
+
 	<c:if test="${board.boardCate eq 4 }">
 	모집게시판의 
 	</c:if>
