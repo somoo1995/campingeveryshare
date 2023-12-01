@@ -22,7 +22,7 @@ $(function() {
             url: "/group/list",  // 실제 컨트롤러 URL로 변경
             data: {
                 location: selectedLocation,
-                category: selectedLocation,
+//                 category: selectedLocation,
                 // 여기에 필요한 다른 파라미터 추가 가능
             },
             dataType: "html",

@@ -43,10 +43,10 @@ public class MarketController {
 		
 		param.setType((String) session.getAttribute("loginId"));
 //		logger.info("paramId : {}", param.getType());
-		param.setCategory(board.getLocation());
+//		param.setCategory(board.getLocation());
 		Paging paging = marketService.getPaging( param );
 //		logger.info("paging : {}", paging);
-		paging.setCategory(board.getLocation());
+		paging.setLocation(board.getLocation());
 		paging.setType((String) session.getAttribute("loginId"));
 //		logger.info("paramId : {}", param.getType());
 

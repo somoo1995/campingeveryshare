@@ -48,8 +48,8 @@ public class HomeController {
 			Paging param, 
 			@RequestParam(value = "query", required = false) String query 
 			) {
-//		logger.info("query : {}", query);
-//		logger.info("param : {}", param);
+		logger.info("query : {}", query);
+		logger.info("param : {}", param);
 		
 		Paging paging = searchService.getPaging(param, query);
 		
@@ -57,12 +57,12 @@ public class HomeController {
 		if( paging.getTotalCount() > 0 ) {
 			hasData = true; 
 		}
-//		logger.info("paging : {}", paging);
+		logger.info("paging : {}", paging);
 //		logger.info("hasData : {}", hasData);
 		
 		List<Map<String, Object>> list = searchService.getList(paging);
 		
-//		logger.info("list : {}", list);
+		logger.info("list : {}", list);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("hasData", hasData);

@@ -116,23 +116,23 @@ select {
 	
 	<c:when test="${paging.category eq 2 }">
 		<c:import url="/WEB-INF/views/share/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
+<%-- 		<c:if test="${paging.totalCount gt 9 }"> --%>
+<%-- 			<c:import url="../layout/paginationAjax.jsp" /> --%>
+<%-- 		</c:if> --%>
 	</c:when>
 	
 	<c:when test="${paging.category eq 3 }">
 		<c:import url="/WEB-INF/views/market/list.jsp" />
-		<c:if test="${paging.totalCount gt 9 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
+<%-- 		<c:if test="${paging.totalCount gt 9 }"> --%>
+<%-- 			<c:import url="../layout/paginationAjax.jsp" /> --%>
+<%-- 		</c:if> --%>
 	</c:when>
 	
 	<c:when test="${paging.category eq 4 }">
 		<c:import url="/WEB-INF/views/group/list.jsp" />
-		<c:if test="${paging.totalCount gt 20 }">
-			<c:import url="../layout/paginationAjax.jsp" />
-		</c:if>
+<%-- 		<c:if test="${paging.totalCount gt 20 }"> --%>
+<%-- 			<c:import url="../layout/paginationAjax.jsp" /> --%>
+<%-- 		</c:if> --%>
 	</c:when>
 
 </c:choose>

@@ -63,7 +63,7 @@ public class MarketServiceImpl implements MarketService {
 		int totalCount = marketDao.selectCntAll(param);
 
 		Paging paging = new Paging(totalCount, param.getCurPage(), 9, param.getPageCount());
-		paging.setCategory(param.getCategory());
+		paging.setLocation(param.getLocation());
 		
 		return paging;
 	}
