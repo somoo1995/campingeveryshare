@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
-<link rel="stylesheet" href="../resources/css/group.css?after">
+<link rel="stylesheet" href="../resources/css/group.css">
 <script type="text/javascript">
 
 $(function() {
@@ -53,7 +53,7 @@ function loadGroupList() {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3>모집 게시판</h3>
-<h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6>
+<!-- <h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6> -->
 <hr>
 <!-- <div> -->
 <!-- 	<input type="radio" class="recruitStatus" id="payAll" name="recruitStatus" value="2" checked="checked">전체 -->
@@ -62,7 +62,8 @@ function loadGroupList() {
 <!-- </div> -->
 <div>
 
-<select name="location" id="location">
+<div class="loc_group_fin">
+<select class="loc_group" name="location" id="location">
      <option value="20">전체</option>
      <option value="10">강원</option>
      <option value="9">경기</option>

@@ -145,20 +145,21 @@ select {
     color: white;
     border: none;
     cursor: pointer;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 20px;
-    border-radius: 6px;
+    border-radius: 10px;
+    padding: 5px;
 }
 
-/* .btn:hover { */
-/*     background-color: #04883C; 마우스 호버 시 배경 색상 변경 */
-/*     color: white; */
-/* } */
+.btn_write:hover {
+    background-color: #1d731d;
+    color: white;
+}
 
-/* .btn:active { */
-/*     background-color: #2ECC71; 버튼을 클릭할 때 배경 색상 변경 */
-/*     color: white; */
-/* } */
+.btn_write:active {
+    background-color: #1d731d; 
+    color: white;
+}
 
 .btn_edit{
 	background-color: #0d6efd;
@@ -396,4 +397,9 @@ fieldset {
 
 #location option:hover {
     background-color: green; /* 원하는 배경색으로 변경하세요 */
+}
+
+.loc_group_fin {
+	display: grid;
+	justify-content: end;
 }

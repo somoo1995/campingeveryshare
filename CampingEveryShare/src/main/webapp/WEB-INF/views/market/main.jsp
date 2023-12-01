@@ -133,6 +133,29 @@ select {
 	width: 100px;
 	text-align: center;
 }
+
+.btn_write {
+    background-color: forestgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.btn_write:hover {
+    background-color: #1d731d;
+    color: white;
+}
+
+.btn_write:active {
+    background-color: #1d731d; 
+    color: white;
+}
+
+
 </style>
 
 
@@ -170,7 +193,7 @@ select {
 <hr>
 
 <div style="text-align: right; margin-bottom: 10px;">
-<a  href="/market/write?boardCate=3"><button>글쓰기</button></a>
+<a  href="/market/write?boardCate=3"><button class="btn_write">글쓰기</button></a>
 </div>
 
 <div class="resultList" id="resultList"></div>

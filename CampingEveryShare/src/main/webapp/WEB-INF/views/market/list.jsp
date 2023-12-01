@@ -82,9 +82,14 @@ $(()=>{
     border-right: 1px solid #D3D3D3;
 }
 
-.write-container:hover {
-    border-color: #82EB5A;
-}
+ .write-container:hover { 
+     transform: scale(1.1);
+     border: 2px solid #D3D3D3;
+ } 
+
+ .write-container:active { 
+     background-color: #efefef;
+ } 
 
 .col-md-4 {
     margin-right: 30px;
@@ -118,10 +123,10 @@ $(()=>{
 	white-space: nowrap;
 }
 .view {
-	font-size: 15px;
+	font-size: 16px;
 }
 .write{
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .info {
@@ -152,6 +157,17 @@ select {
 	width: 100px;
 	text-align: center;
 }
+
+.price {
+	border-radius: 30px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.title_design {
+	cursor: pointer;
+}
+
 </style>
 
 <div id="resultList">
@@ -165,41 +181,53 @@ select {
 	<div style="margin-bottom : 10px;">
 	</div>
 	<div class="info">
-    <h6>👤 : ${board.USER_NICK } </h6>
+
+<!-- 가격 -->
+<c:set var="formattedPrice" value="${board.PRICE}" />
+<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
+
+<c:set var="bgColor">
+    <c:choose>
+        <c:when test="${formattedPrice >= 100000}">
+            #f3367e
+        </c:when>
+        <c:when test="${formattedPrice > 50000}">
+            #2d87fc
+        </c:when>
+        <c:when test="${formattedPrice >= 10000}">
+            #39cb01
+        </c:when>
+        <c:otherwise>
+            #000000 <!-- 기본값 -->
+        </c:otherwise>
+    </c:choose>
+</c:set>
+
+<h6 class="price" style="color: white; background-color: ${bgColor};">
+    <!-- 가격 -->
+    ${price}원
+</h6>
+
+
+	<!-- 조회수 -->
+    <h6 class="view"><span style="color: #06b500; font-weight: bold;">조회
+	<span style="color: gray;"> |</span></span> ${board.HIT}</h6>
+
+	<!-- 찜 -->
 	<c:if test="${board.HEARTID eq 0  }">
 		<c:if test="${isLogin }">
-			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartNone.png"> : ${board.HEART }</span>
+			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartNone.png"> ${board.HEART }</span>
 		</c:if>
 	</c:if>
 	<c:if test="${board.HEARTID eq 1  }">
 		<c:if test="${isLogin }">
-			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartOn.png"> : ${board.HEART }</span>
+			<span class="btnHeart" data-no="${board.BOARD_NO }" data-cate="${board.BOARD_CATE }"><img class="heartOn" id="${board.BOARD_NO }" src="/resources/img/heartOn.png"> ${board.HEART }</span>
 		</c:if>	
 	</c:if>
 	<c:if test="${empty isLogin}">
-	    <h6><img class="heartOn" src="/resources/img/heartOn.png"> : ${board.HEART }</h6>
+	    <h6><img class="heartOn" src="/resources/img/heartOn.png"> ${board.HEART }</h6>
 	</c:if>	
     
-    <c:set var="formattedPrice" value="${board.PRICE}" />
-	<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
-	<h6 style="color:
-	    <c:choose>
-	        <c:when test="${formattedPrice >= 100000}">
-	            #C71585
-	        </c:when>
-	        <c:when test="${formattedPrice > 50000}">
-	            #3232FF
-	        </c:when>
-	        <c:when test="${formattedPrice >= 10000}">
-	            #6ED746
-	        </c:when>
-	        <c:otherwise>
-	            #000000 <!-- 기본값 -->
-	        </c:otherwise>
-	    </c:choose>
-	;">
-	🪙 : ${price } 원
-	</h6>
 	</div>
     <c:if test="${not empty board.THUMBNAIL_NAME}">
       <div>
@@ -216,16 +244,27 @@ select {
       </div>
     </c:if>
     <div style="width: 354px;">
-    <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}">
-      <h6 class="title">제목 : ${board.TITLE }</h6>
-    </a>
+<%--     <a href="/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}"> --%>
+<%--       <h6 class="title">[${board.LOCATION_NAME }] ${board.TITLE }</h6>   --%>
+<!--     </a> -->
 
+    <span class="title_design" onclick="location.href='/market/view?boardNo=${board.BOARD_NO}&boardCate=${board.BOARD_CATE}'">
+      <h6 class="title">
+      <span style="color: #06b500; font-weight: bold;">[${board.LOCATION_NAME }]</span> ${board.TITLE }</h6>  
+    </span>    
+<%--     <h6 class="location">${board.LOCATION_NAME }</h6> --%>
     </div>
     <div class="info">
-    <h6 class="location">🗺️  ${board.LOCATION_NAME }</h6>
-    <h6 class="good">💬  메세지 자리</h6>
-    <h6 class="view">🔭  ${board.HIT}</h6>
-    <h6 class="write">✏️
+    <!-- 	닉네임 -->
+    <h6><span style="color: #06b500; font-weight: bold;">작성자
+	<span style="color: gray;"> |</span></span> ${board.USER_NICK } </h6>
+    <!-- 메세지 -->
+<!--     <h6 class="good">💬  메세지 자리</h6> -->
+	
+	<!-- 작성일 -->
+    <h6 class="write"><span style="color: #06b500; font-weight: bold; font-size: 16px;">작성일 
+    <span style="color: gray; font-weight: bold;">|</span></span>
+    
       <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
       <fmt:formatDate value="${board.POST_DATE }" pattern="yyyyMMdd" var="write"/>
       <c:choose>
