@@ -12,15 +12,6 @@ pageEncoding="UTF-8"%>
     align-self: stretch;
     justify-content: flex-end;
 }
-
-#nameDupleBlock {
-/* 	margin-top: 20px; */
-}
-
-div.position-absolute top-50 end-0 translate-middle-y {
-	margin-top: -50px;
-
-}
 </style>
 <script type="text/javascript">
 	function checkDuplicate(input, url, displayBlockId, emptyMessage, successMessage, failureMessage) {
@@ -246,8 +237,8 @@ div.position-absolute top-50 end-0 translate-middle-y {
         <div class="border border-success-subtle form-control">
            <label class="floatingInputGroup2">인증번호*</label>
          <input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
-          </div>
          <span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+          </div>
 	<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
 	    <p id="emailDupleText"></p>
 	</div>
