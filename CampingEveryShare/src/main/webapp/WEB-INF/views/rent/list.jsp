@@ -150,7 +150,7 @@ pageEncoding="UTF-8"%>
 		
 		<div class="info">
 		<h6 class="carName">${car.CAR_NAME }</h6>
-		<h6><span>호스트</span> | ${car.USER_ID }</h6>	
+		<h6><span>호스트</span> | ${car.HOSTNICK }</h6>	
 		</div>
 		<div class="info">
 		<h6><span>위치</span> |
