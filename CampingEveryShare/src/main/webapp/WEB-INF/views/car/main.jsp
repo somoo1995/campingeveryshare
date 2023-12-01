@@ -190,7 +190,6 @@ $(document).ready(function () {
 	
 	<div class="mySell"></div>
 
-
 </div><!-- .container -->
 
 <br>

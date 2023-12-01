@@ -89,5 +89,27 @@
 			AND rent_no = #{rentNo }
 		</where>
 	</update>
-
+	<select id="selectReviewInfoBycarNo" parameterType="Car"> <!-- 평균 별점과 리뷰 갯수 -->
+	SELECT
+    ROUND (SUM(R.RATE) / COUNT(R.RATE),1) AS avearge_rate,
+    COUNT(R.RATE) AS review_num
+    FROM reviewtb R
+    INNER JOIN renttb RT ON R.rent_no = RT.rent_no
+    INNER JOIN cartb C ON C.car_no = RT.car_no
+    INNER JOIN usertb U ON U.user_id = C.user_id
+	WHERE C.user_id = #{userId}
+	GROUP BY C.car_no 
+	</select>
+	
+	<select id="selectCntHeartByUserId" parameterType="Car"> <!-- 리뷰 여부 확인 -->
+	SELECT COUNT(H.heart_no) from hearttb H
+	WHERE heart_no = 101
+	AND user_id = #{userId}
+	</select>
+	
+	<select id="selectFileByCarNo" parameterType="Car">
+	SELECT * FROM boardfiletb
+	WHERE board_no = #{carNo}
+	AND board_cate = 1
+	</select>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Account;
 import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.User;
@@ -49,6 +50,8 @@ public interface CarService {
 	List<Map<String, Object>> getWithdrawoInfo(User user, Paging withPaging);
 
 	List<Map<String, Object>> getChargeInfo(User user, Paging chargePaging);
+
+	void changeAccount(Account account);
 
 
 }

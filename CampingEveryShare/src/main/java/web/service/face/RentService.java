@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.BoardFile;
 import web.dto.Car;
 import web.dto.Income;
 import web.dto.Rent;
@@ -25,6 +26,12 @@ public interface RentService {
 	public User getGuestInfo(User user);
 
 	public void cancelBooking(Rent rent);
+
+	public Map<String, Object> getReviewInfo(Car car);
+
+	public int checkHeart(Car car);
+
+	public BoardFile getFileInfo(Car car);
 
 //	public void income(Income income);
 

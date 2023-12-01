@@ -3,6 +3,14 @@
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.StringTokenizer" %>
+<%
+    String areaDetail = "${car.areaDetail}";
+    StringTokenizer st = new StringTokenizer(areaDetail, "#");
+    st.nextToken(); // 첫 번째 토큰을 건너뜁니다.
+    String secondPart = st.hasMoreTokens() ? st.nextToken() : "";
+    String thirdPart = st.hasMoreTokens() ? st.nextToken() : "";
+%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <c:import url="../layout/header.jsp" />
 <style>
@@ -448,16 +456,21 @@ $(function() {
 <div class="test">
 <div class="left">
 <div class="title">
-<h2>캠핑카 제목</h2>
+<h2>${car.carName }</h2>
 <div class="heart">
+<c:if test="${target.heart == 1}">
 <img alt="이미지없음" src="/resources/img/heart.png">
+</c:if>
+<c:if test="${target.heart == 0}">
+<img alt="이미지없음" src="/resources/img/heart_2.png">
+</c:if>
 </div>
 </div>
 <div class="userNickName">
-<h6>유저닉네임</h6>
+<h6>${car.userId }</h6>
 </div>
 <div class="carPhoto">
-<img alt="이미지없음" src="/resources/img/sample-car-photo.png">
+<img alt="이미지없음" src="${pageContext.request.contextPath}/upload/${target.file.storedName}">
 </div>
 <div class="review-wrapper">
 <div class="reviewStar">
@@ -477,10 +490,10 @@ $(function() {
 </div>
 </div>
 <div class="reviewAverage">
-<span>평균별점 : 00점</span>
+<span>평균별점 : ${target.reviewInfo.AVEARGE_RATE}점</span>
 </div>
 <div class="reviewNum">
-<span>리뷰00건</span>
+<span>리뷰${target.reviewInfo.REVIEW_NUM}건</span>
 </div>
 </div>
 <div class="category">
@@ -499,7 +512,7 @@ $(function() {
 
 </div>
 <div id="content" class="content">
-콘텐트
+${car.content }
 </div>
 <div id="refund" class="refund">
 환불정책
@@ -511,17 +524,20 @@ $(function() {
 리뷰 보일곳
 </div>
 
-
 </div>
 
 <div class="right">
-<span>오른쪽</span>
 <div class="detailInfo">
 <h3>세부사항</h3>
 <hr>
 <ul>
-<li>대여장소 : 상세주소..</li>
-<li>차량 유형 : 중형 / 대형</li>
+<li>대여장소 : <%= secondPart %> <%= thirdPart %></li>
+<c:if test="${car.carSize == 1 }">
+<li>차량 유형 : 소형</li>
+</c:if>
+<c:if test="${car.carSize == 2 }">
+<li>차량 유형 : 대형</li>
+</c:if>
 <li>탑승 인원 : 최대 x명</li>
 <li>취침 인원 : 최대 x명</li>
 <li>침대수 : x개</li>
