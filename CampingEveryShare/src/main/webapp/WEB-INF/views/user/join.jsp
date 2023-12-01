@@ -48,14 +48,14 @@ div.profileImg {
 	height: 200px;
 	border-radius: 70%;
   	overflow: hidden;  
-    outline: 3px solid #2cb9789e;
+/*     outline: 3px solid #2cb9789e; */
     margin-bottom: 20px;
 }
 
 
 #profile {
-	margin-left: 100px;
-    margin-top: 10px;
+	margin-left: 85px;
+    margin-top: -40px;
     
 }
 
@@ -81,10 +81,53 @@ div.button {
 
 div.inputForm_all {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+    grid-template-columns: repeat(auto-fill, minmax(49%, auto));
+    justify-content: space-between;
 }
 
+span.border {
+	width: 80px;
+	height: 58px;
+	overflow: hidden;
+}
 
+input.border border-success-subtle {
+	height: 60px;
+}
+
+.invalid-feedback {
+	margin: 0px;
+	padding: 0px;
+}
+
+#sendEmailButton {
+	margin: 0px;
+	padding: 0px;
+}
+
+.btn:disabled {
+    color: #ffffff;
+    background-color: #3da903;
+    border-radius: 10%;
+    height: 60px;
+    width: 80px;
+    height: 57px;
+    overflow: hidden;
+}
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 99%;
+    margin: 5px;
+}
+.joinButton {
+    min-width: 1300px;
+    margin: 0px;
+    padding: 0px;
+    height: 60px;
+}
 </style>
 
 <script type="text/javascript">
@@ -112,6 +155,7 @@ function checkDuplicate(input, url, displayBlockId, emptyMessage, successMessage
             if (response === "false") {
                 console.log(failureMessage);
                 displayBlock.text(failureMessage).css("color", "red"); // 실패메시지
+                
             } else {
                 console.log(successMessage);
                 displayBlock.text(successMessage).css("color", "green");	//성공메시지
@@ -197,29 +241,53 @@ function emailVerifyCheck() {
 }
 
 
-// 이메일 중복 체크
 function emailDupleCheck(input) {
-	//input값이 이메일 형태에 맞을때에만 중복 체크를 진행한다.
-	 if (!emailPatternCheck.test($("#email").val())) {
-		return;
-	 }
-	
-	
-    checkDuplicate(
-        input,
-        "/user/emailCheck/",
-        "emailDupleBlock",
-        "이메일을 입력해 주세요.",
-        "사용가능한 이메일입니다",
-        "이미 등록된 이메일입니다"
-    );
- // 이메일이 사용 가능한 경우에만 인증 코드 발송 버튼 활성화
-    if ($("#emailDupleBlock").text() === "사용 가능한 이메일입니다.") {
-        $("#sendEmailButton").prop("disabled", true);
-    } else {
-        $("#sendEmailButton").prop("disabled", false);
+    if (!emailPatternCheck.test($("#email").val())) {
+        return;
     }
+
+    var emailInput = $("#email");
+    var resultElementId = "emailDupleBlock";
+    var displayBlock = $("#" + resultElementId);
+    var url = "/user/emailCheck/";
+    
+    var value = emailInput.val();
+    console.log("emailDupleCheck::" + value);
+
+    displayBlock.show();
+
+    if (value.trim() == '') {
+        displayBlock.text("이메일을 입력해 주세요.").css("color", "red");
+        $("#sendButton").css("display", "none");
+        return;
+    }
+
+    $.ajax({
+        type: "get",
+        url: url + value,
+        dataType: "text",
+        success: function (response) {
+            console.log(response);
+            if (response === "false") {
+                console.log("이미 등록된 이메일입니다.");
+                displayBlock.text("이미 등록된 이메일입니다.").css("color", "red");
+                $("#sendButton").css("display", "none");
+            } else {
+                console.log("사용 가능한 이메일입니다.");
+                displayBlock.text("사용 가능한 이메일입니다.").css("color", "green");
+                $("#sendButton").css("display", "block");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: " + status + " - " + error);
+            displayBlock.text("에러가 발생했습니다.").css("color", "red");
+            $("#sendButton").css("display", "none");
+        }
+    });
 }
+
+	 
+
 
     
     // 이름 체크
@@ -362,6 +430,8 @@ function emailDupleCheck(input) {
 	}
 	
     $(document).ready(function () {
+    	
+    	
 
 		// 이메일 인증 코드 발송 버튼 클릭 시 타이머 설정
 	    var emailVerificationTimer;
@@ -454,7 +524,6 @@ function emailDupleCheck(input) {
 <div class="container">
 	<div class="pageTitle">
 		<h3 id="pageTitle">회원가입</h3>
-		<hr>
 	</div>
 
 
@@ -464,7 +533,7 @@ function emailDupleCheck(input) {
         <div class="profileImg">
 		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
 		</div>
-		   <input  id="profile" type="radio" name="profile" value="1" >
+		   <input  id="profile" type="radio" name="profile" value="1" checked="checked" >
         </div>
         <div class="profileGroup">
         <div class="profileImg">
@@ -592,13 +661,13 @@ function emailDupleCheck(input) {
 		<div class="form-floating is-invalid">
 			<input type="email" class="border border-success-subtle form-control" name="email" id="email" oninput="emailDupleCheck(this)" required="required"> 
 			<label class="floatingInputGroup2">이메일*</label>
-			<button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송" disabled="disabled">인증코드 발송</button>
 		</div>
-		
-		<div class="border border-success-subtle form-control">
-			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span> 
-			<label class="floatingInputGroup2">인증번호*</label> 
+		<div id="sendButton" class="sendEmail" style="display: none">
+			<button id="sendEmailButton" class="border border-success-subtle form-control btn btn-danger" type="button" value="인증코드 발송" disabled="disabled">인증코드 발송</button>
+		</div >
+		<div class="form-floating is-invalid">
 			<input type="text" class="border border-success-subtle form-control" id="codeInput" onblur="emailVerifyCheck()" required="required" disabled="disabled">
+			<label class="floatingInputGroup2">인증번호*</label> 
 		</div>
 		
 		<div id="emailDupleBlock" class="invalid-feedback" style="display: none">
@@ -617,23 +686,18 @@ function emailDupleCheck(input) {
 		</svg>
 		</span>
 		<div class="form-floating is-invalid">
-			<input type="text" class="border border-success-subtle form-control"
-				id="userName" name="userName" onblur="nameCheck(this)" required>
+			<input type="text" class="border border-success-subtle form-control" id="userName" name="userName" onblur="nameCheck(this)" required>
 			<label for="floatingInputGroup2">이름*</label>
 		</div>
-		<div id="nameDupleBlock" class="invalid-feedback"
-			style="display: none">
+		<div id="nameDupleBlock" class="invalid-feedback" style="display: none">
 			<p id="nameDupleText"></p>
 		</div>
 	</div>
 
 	<div class="input-group has-validation">
-		<span class="border border-success-subtle input-group-text"
-			id="basic-addon1"> <svg xmlns="http://www.w3.org/2000/svg"
-				width="50" height="40" fill="currentColor"
-				class="bi bi-calendar-heart" viewBox="0 0 16 16">
-	 		<path fill-rule="evenodd"
-					d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+		<span class="border border-success-subtle input-group-text" id="basic-addon1"> 
+		<svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16">
+	 		<path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
 		</svg>
 		</span>
 		<div class="form-floating is-invalid birth">

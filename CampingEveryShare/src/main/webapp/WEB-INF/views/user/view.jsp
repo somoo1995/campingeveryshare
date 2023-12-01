@@ -42,7 +42,7 @@ div.profileGroup {
 	height: 200px;
 	border-radius: 70%;
 	overflow: hidden;
-    outline: 3px solid #2cb9789e;
+/*     outline: 3px solid #2cb9789e; */
 }
 
 div.inputForm_all {
@@ -230,7 +230,6 @@ $(document).ready(function() {
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">마이페이지</h3>
-	<hr>	
 	</div>
 	
 	<div class="profile-container">

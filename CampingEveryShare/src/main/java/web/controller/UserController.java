@@ -180,6 +180,7 @@ public class UserController {
 
 	@PostMapping("/update")
 	public String userUpdateProc(@ModelAttribute User updateUser, @SessionAttribute("loginId") String loginId,
+//			@SessionAttribute("loginProfile") String loginProfile,
 			@RequestParam(value = "userPwConfirm", required = false) String userPwConfirm, HttpSession session,
 			Model model) {
 		logger.info("update[POST]");
