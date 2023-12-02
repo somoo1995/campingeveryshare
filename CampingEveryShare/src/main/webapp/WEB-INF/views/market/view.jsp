@@ -183,6 +183,7 @@ $(() => {
    border: 1px solid #C7C8C9;
    border-radius: 30px;
    padding-bottom: 20px;
+   margin-bottom: 10.67px;
 }
 
 .status_1 {
@@ -313,6 +314,7 @@ $(() => {
 /*     background-color: pink;  */
    display: flex;
    align-items: center;
+   min-width: 1070px;
 }
 
 .writer_info {
@@ -532,7 +534,7 @@ $(() => {
    <div class="subtitle">
    <div class="show_profile">
    <!-- 프로필 사이즈 가로 세로 각각 100px -->   
-   <img alt="profile" src="../resources/img/profile1.jpg" width="100px" height="100px" >
+<!--    <img alt="profile" src="../resources/img/profile1.jpg" width="100px" height="100px" > -->
 
    <div class="other_info">
    <div class="writer_info">
@@ -553,8 +555,10 @@ $(() => {
    </div><!-- .board_info -->
    </div><!-- .user_con -->
    </div><!-- .other_info -->
-
-   <c:if test="${loginId eq board.userId}">
+ 
+   </div><!-- .show_profile -->
+   
+      <c:if test="${loginId eq board.userId}">
    <div class="edit">
    <a class="edit_a" href="./update?boardNo=${board.boardNo }">수정</a>
    </div><!-- .edit -->
@@ -562,9 +566,8 @@ $(() => {
    <div class="delete">
    <a class="delete_a" href="./delete?boardNo=${board.boardNo }">삭제</a>
    </div><!-- .delelte -->
-   </c:if>   
-
-   </div><!-- .show_profile -->
+   </c:if>  
+   
       </div><!-- .subtitle -->
         <hr>
    <div class="content">     
@@ -619,10 +622,7 @@ $(() => {
 
 	<button id="btnHeart" class="btn"></button>
 </div>
-	<c:if test="${loginId eq board.userId}">
-	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
-	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
-	</c:if>
+
 </div>
 <div>
 	<!-- 신고 -->
@@ -631,7 +631,6 @@ $(() => {
 	</c:if>
 </div>
 
-<hr>
 <div>
 
 	<!-- 비로그인상태 -->
@@ -654,7 +653,7 @@ $(() => {
 			<input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
 		</div>
 		<div class="col-9">
-			<textarea class="form-control" id="commentContent"></textarea>
+			<textarea style="height: 100px; resize: none;" class="form-control" id="commentContent"></textarea>
 		</div>
 		<button id="btnCommInsert" class="btn btn-primary col-1">입력</button>
 	</div>	<!-- 댓글 입력 end -->

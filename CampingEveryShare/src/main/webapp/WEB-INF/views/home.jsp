@@ -231,14 +231,14 @@ $(function(){
 	min-width: 400px;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .zone {
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 	
 }
 
@@ -246,14 +246,14 @@ $(function(){
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .recruit {
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .main {
@@ -302,7 +302,7 @@ p {
   text-align: center; /* 텍스트 중앙 정렬 */
   margin-top: 40px;
   min-width: 1300px;
-  box-shadow: 5px 5px 20px 0px #5e5e5e;
+/*    box-shadow: 5px 5px 20px 0px #5e5e5e;  */
   
 }
 
@@ -313,13 +313,13 @@ p {
 
 	<div class="main">
 		<div class="slider-main" id="slider-main">
-		<div class="image"><img alt="camp1" src="/resources/img/mainabout.png"></div>
-		<div class="image"><img alt="camp2" src="/resources/img/mainsung.png"></div>
-		<div class="image"><img alt="camp3" src="/resources/img/mainda.png"></div>
-		<div class="image"><img alt="camp4" src="/resources/img/mainkyung.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/mainji.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/mainso.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/mainhye.png"></div>
+		<div class="image"><img alt="camp1" src="/resources/img/aboutus0.png"></div>
+		<div class="image"><img alt="camp2" src="/resources/img/aboutus1.png"></div>
+		<div class="image"><img alt="camp3" src="/resources/img/aboutus2.png"></div>
+		<div class="image"><img alt="camp4" src="/resources/img/aboutus3.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/aboutus4.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/aboutus5.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/aboutus6.png"></div>
 		<div class="image"><img alt="camp5" src="/resources/img/mainme.png"></div>
 		</div><!-- slider-div -->
 	</div><!-- .main -->

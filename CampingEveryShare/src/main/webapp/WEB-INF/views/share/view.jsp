@@ -281,6 +281,7 @@ $(() => {
    border: 1px solid #C7C8C9;
    border-radius: 30px;
    padding-bottom: 20px;
+   margin-bottom: 20px;
 }
 
 .status_1 {
@@ -411,6 +412,7 @@ $(() => {
 /*     background-color: pink;  */
    display: flex;
    align-items: center;
+   min-width: 1070px;
 }
 
 .writer_info {
@@ -681,7 +683,9 @@ $(() => {
    </div><!-- .user_con -->
    </div><!-- .other_info -->
 
-   <c:if test="${loginId eq board.userId}">
+   </div><!-- .show_profile -->
+   
+      <c:if test="${loginId eq board.userId}">
    <div class="edit">
    <a class="edit_a" href="./update?boardNo=${board.boardNo }">수정</a>
    </div><!-- .edit -->
@@ -689,9 +693,8 @@ $(() => {
    <div class="delete">
    <a class="delete_a" href="./delete?boardNo=${board.boardNo }">삭제</a>
    </div><!-- .delelte -->
-   </c:if>   
-
-   </div><!-- .show_profile -->
+   </c:if>  
+   
       </div><!-- .subtitle -->
         <hr>
    <div class="content">     
@@ -746,8 +749,8 @@ $(() => {
 </div><!-- .report -->
 </div><!-- .wr -->
 </div><!-- .view_container -->
-<hr>
 
+<div>
 	<!-- 비로그인상태 -->
 	<div class="not_login">
 	<c:if test="${not isLogin }">
@@ -768,7 +771,7 @@ $(() => {
 			<input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
 		</div>
 		<div class="col-9">
-			<textarea class="form-control" id="commentContent"></textarea>
+			<textarea style="height: 100px; resize: none;" class="form-control" id="commentContent"></textarea>
 		</div>
 		<button id="btnCommInsert" class="btn btn-primary col-1">입력</button>
 	</div>	<!-- 댓글 입력 end -->
@@ -819,7 +822,6 @@ $(() => {
 	</table><!-- 댓글 리스트 end -->
 
 </div><!-- 댓글 처리 end -->
-</div>
 
 
 </div><!-- .container -->
