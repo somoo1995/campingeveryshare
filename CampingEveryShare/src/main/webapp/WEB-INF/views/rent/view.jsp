@@ -814,7 +814,7 @@ margin-top: 9px;
 
 </div>
 <div class="reqButton">
-<button class="btn btn-success">문의하기</button> 
+<button class="btn btn-success"><a href="/message/list?boardNo=${car.carNo }&boardCate=1&receiverId=${car.userId}&title=${car.carName}&nick=${car.userId}&profile=3">문의하기</a></button> 
 <button class="btn btn-success" onclick="requestPay()">결제하기</button> 
 
 </div>

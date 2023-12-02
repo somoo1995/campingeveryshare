@@ -305,7 +305,7 @@ $(document).ready(function () {
       <span>거래금액 : ${list.AMOUNT }</span>
     </div> <!-- carPrice div end -->
     <div class="messageSend">
-      <button class="btn btn-primary message-button">메세지</button>
+      <button class="btn btn-primary message-button"><a href="/message/list?boardNo=${list.CAR_NO }&boardCate=1&receiverId=${list.USER_ID}&title=${list.CAR_NAME}&nick=${list.USER_NICK}&profile=${list.PROFILE}">메세지</a></button>
     </div> <!-- newDivNearCarPrice div end -->
     <c:if test="${list.RENT_STATUS == 0 }">
     <div class="cancel">
@@ -319,7 +319,7 @@ $(document).ready(function () {
 
 <div class="userProfile"> <!-- userProfile div -->
 <div class="userImg">
-<img alt="이미지 없음" src="/resources/img/profile${list.PROFILE}.png">
+<img alt="이미지 없음" src="/resources/img/profile${list.PROFILE}.jpg">
 </div>
 <div class="userNick">
 <span>${list.USER_NICK }</span>
