@@ -6,11 +6,15 @@
   
   <mapper namespace = "web.dao.face.MsgDao">
   
-  <resultMap id="egomap" type="map">
+<resultMap id="egomap" type="map">
     <result property="roomNo" column="ROOM_NO"/>
     <result property="otherUserId" column="OTHER_USER_ID"/>
+    <result property="profile" column="PROFILE"/>
+    <result property="userNick" column="USER_NICK"/>
+    <result property="boardCate" column="BOARD_CATE"/>
+    <result property="boardNo" column="BOARD_NO"/>
+    <result property="title" column="TITLE"/>
     <result property="lastMessageTime" column="LAST_MESSAGE_TIME"/>
-    <!-- CLOB 데이터를 String으로 매핑 -->
     <result property="messagePreview" column="MESSAGE_PREVIEW" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
     <result property="msgStatus" column="MSG_STATUS"/>
 </resultMap>
@@ -22,6 +26,17 @@ SELECT
         WHEN r.ROOM_id1 = #{userId} THEN r.ROOM_id2
         ELSE r.ROOM_id1
     END AS OTHER_USER_ID,
+    u.PROFILE, 
+    u.user_nick,
+    m.board_cate,
+    m.board_no,
+    CASE
+        WHEN m.board_cate IN (2, 3, 4)
+        THEN B.title
+        WHEN m.board_cate = 1 AND c.car_no = m.board_no
+        THEN c.car_name
+        ELSE NULL 
+    END AS title, 
     m.POST_DATE AS LAST_MESSAGE_TIME,
     m.CONTENT AS MESSAGE_PREVIEW,
     CASE
@@ -36,9 +51,18 @@ SELECT
 FROM 
     roomTB r
 JOIN 
-    (SELECT ROOM_NO, WRITER_ID, RECEIVER_ID, CONTENT, POST_DATE,
+    (SELECT ROOM_NO, WRITER_ID, RECEIVER_ID, CONTENT, POST_DATE, board_no, board_cate,
             ROW_NUMBER() OVER (PARTITION BY ROOM_NO ORDER BY POST_DATE DESC) AS rn
      FROM msgTB) m ON r.ROOM_NO = m.ROOM_NO AND m.rn = 1
+JOIN
+    USERTB u ON u.USER_ID = CASE 
+                                WHEN r.ROOM_id1 = #{userId} THEN r.ROOM_id2
+                                ELSE r.ROOM_id1
+                            END
+LEFT JOIN 
+    boardtb B ON M.board_no = B.board_no AND m.board_cate IN (2, 3, 4)
+LEFT JOIN 
+    cartb c ON m.board_no = c.car_no
 WHERE 
     #{userId} IN (r.room_id1, r.room_id2)
 

@@ -111,6 +111,12 @@ public class RentServiceImpl implements RentService {
 		
 	}
 
+	@Override
+	public Object checkHeartList(Heart target) {
+		
+		return rentDao.selectCntHeartList(target);
+	}
+
 
 
 }

@@ -125,4 +125,15 @@
 	AND heart_no = #{heartNo}
 	AND board_cate = 1
 	</delete>
+	
+	<select id="selectCntHeartList" parameterType="Heart" resultType="int">
+	SELECT count(*) FROM(
+	SELECT * FROM hearttb
+	WHERE user_id = #{userId}
+	AND heart_no = #{heartNo}
+	AND board_cate = 1
+	)
+	</select>
+	
+	
 </mapper>

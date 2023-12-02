@@ -88,7 +88,7 @@ public class ChatController {
 		System.out.println("userId : " + userInfo.get("userId"));
 		String userId = (String) userInfo.get("userId");
 		System.out.println("roomNo : " + userInfo.get("roomNo"));
-		String roomNo = (String) userInfo.get("roomNo");
+		String roomNo = userInfo.get("roomNo").toString();
 		String status = userId + "#" +roomNo;
 		userConnections.put(userId, status);
 		headerAccessor.getSessionAttributes().put("currentUserId", status);
