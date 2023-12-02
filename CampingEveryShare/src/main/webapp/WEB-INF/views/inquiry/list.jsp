@@ -20,9 +20,6 @@ pageEncoding="UTF-8"%>
 }
 </style>
 
-
-
-
 <div class="container">
 
 
@@ -31,7 +28,7 @@ pageEncoding="UTF-8"%>
 <h3 id=pageTitle>고객문의</h3>
 
 <div style="text-align: right; margin-bottom: 10px;">
-<a  href="/inquiry/write?boardCate=6"><button>글쓰기</button></a>
+<a  href="/inquiry/write?boardCate=6"><button class="btn btn-primary">글쓰기</button></a>
 </div>
 
 <form action="web.dao.face.InquiryDao" method="get" >
@@ -100,10 +97,6 @@ pageEncoding="UTF-8"%>
 </tbody>
 </table>
 </form>
-
-
-
-
 
 </div><!-- .container -->
 <c:import url="../layout/pagination.jsp" />
