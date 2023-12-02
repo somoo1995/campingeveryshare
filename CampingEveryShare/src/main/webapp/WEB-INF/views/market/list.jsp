@@ -198,7 +198,7 @@ select {
             #39cb01
         </c:when>
         <c:otherwise>
-            #000000 <!-- 기본값 -->
+        	#a401cb
         </c:otherwise>
     </c:choose>
 </c:set>
