@@ -226,12 +226,13 @@ label {
 	    	$("#profile-" + userProfile).prop("checked", true);
 	    	
 			$("#updateButton").click(function () {
-	            // phone 인풋의 값이 비어있으면 0을 넣어줌
+				// phone 인풋의 값이 비어있으면 0을 넣어줌
 	            if ($("#phone").val().trim() === '') {
 	                $("#phone").val('0');
 	            }
 
 	         // 로그인 아이디가 '.k'로 끝나는지 확인
+// 	            if (typeof update.userId === 'string' && update.userId.endsWith('.k')) {
 	            if (update.userId.endsWith('.k')) {
 	                // '.k'로 끝나는 경우, 비밀번호 확인 로직을 건너뛰고 바로 수정 로직으로 이동
 	                console.log("로그인 아이디가 '.k'로 끝납니다. 비밀번호 확인을 생략합니다.");
@@ -261,6 +262,8 @@ label {
 	                return false;
 	            }
 	           }
+	            alert("회원정보가 성공적으로 수정되었습니다.");
+	            return;
 
 	        });
 	    });
