@@ -167,8 +167,11 @@ select {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id=pageTitle>캠핑존 공유 게시판</h3>
-<hr>
+<h3 id=pageTitle>캠핑존 공유</h3>
+<h6>캠핑 떠나기 좋은 곳이 여기 있어요!</h6>
+</div>
+
+
 <div class="select">
 <!-- <label><input type="radio" id="paid" name="paid" value="1" checked="checked">전체</label> -->
 <!-- <label><input type="radio" id="paid" name="paid" value="2">무료</label> -->
@@ -194,7 +197,7 @@ select {
      <option value="11">충북</option>
  </select>
 </div>
-<hr>
+
 <div style="text-align: right; margin-bottom: 10px;">
 <a href="/share/write?boardCate=2"><button class="btn_write">글쓰기</button></a>
 </div>
@@ -202,5 +205,4 @@ select {
 <div class="resultList" id="resultList"></div>
 
 
-</div><!-- .container -->
 <c:import url="../layout/footer.jsp" />

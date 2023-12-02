@@ -1,6 +1,7 @@
 package web.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,14 @@ public class RentController {
 	@Autowired ReviewService reviewService;
 	
 	@RequestMapping("/list")
-	public String rentHandler(Model model, Paging param, HttpServletRequest request) {
+	public String rentHandler(Model model, Paging param, HttpServletRequest request, HttpSession session) {
 	    logger.info("param : {}", param);
 
 	    Paging paging = rentService.getPaging(param);
 	    logger.info("paging : {}", paging);
-	    
+	    //
+
+	    //
 		boolean hasData = false;
 		if( paging.getTotalCount() > 0 ) {
 			hasData = true; 
@@ -51,7 +54,23 @@ public class RentController {
 
 	    List<Map<String, Object>> list = rentService.getCarList(paging);
 	    logger.info("list : {}", list);
-
+	    logger.info("--------------------");
+	    if(session.getAttribute("loginId") != null) {
+	    	for (Map<String, Object> map : list) {
+		        Heart heart = new Heart();
+		        heart.setUserId((String)(session.getAttribute("loginId")));
+		        heart.setBoardCate(1);
+		        heart.setHeartNo((Integer.parseInt(map.get("CAR_NO").toString())));
+		        map.put("HEART", rentService.checkHeartList(heart));
+		    }
+	    }else {
+	       	for (Map<String, Object> map : list) {
+		        map.put("HEART", 0);
+		    }
+	    }
+	    
+	    logger.info(list.toString());
+	    logger.info("하트 들어오는지 확인할것");
 	    model.addAttribute("paging", paging);
 	    model.addAttribute("hasData", hasData);
 	    model.addAttribute("list", list);

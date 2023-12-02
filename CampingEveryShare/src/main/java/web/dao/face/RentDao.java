@@ -34,6 +34,8 @@ public interface RentDao {
 
 	public void deleteHeartByUserId(Heart heart);
 
+	public Object selectCntHeartList(Heart target);
+
 
 
 }

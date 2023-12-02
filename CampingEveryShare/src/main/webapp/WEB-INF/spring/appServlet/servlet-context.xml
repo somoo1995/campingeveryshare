@@ -38,6 +38,12 @@
 			<mapping path="/heart/**"/>
 			<beans:bean class="web.interceptor.LoginInterceptor"/>
 		</interceptor>
+		<!-- 관리자 인터셉터 설정 -->
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/login"/>
+			<beans:bean class="web.interceptor.AdminInterceptor"/>
+		</interceptor>
 	</interceptors>
    
    

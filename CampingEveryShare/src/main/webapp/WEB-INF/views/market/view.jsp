@@ -493,7 +493,6 @@ $(() => {
 <h3 style="color: forestgreen; font-weight: 600; font-size: 40px; margin-bottom: 20px;">중고장터</h3>
 <!-- <h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">모집 게시글을 조회합니다.</h6> -->
 <!-- <hr> -->
-
 <div class="wr">
 
 <!-- 본문 내용 -->

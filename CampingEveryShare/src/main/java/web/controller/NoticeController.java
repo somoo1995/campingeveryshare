@@ -102,11 +102,11 @@ public class NoticeController {
 		model.addAttribute("admin", admin);
 	}
 	
-	@GetMapping("admin/write")
+	@GetMapping("admin/noticewrite")
 	public void write() {
 	}
 	
-	@PostMapping("admin/write")
+	@PostMapping("admin/noticewrite")
 	public String noticeWrite(
 			Admin admin
 			, Board board
@@ -123,7 +123,7 @@ public class NoticeController {
 		return "redirect:/admin/noticeview?boardNo=" + board.getBoardNo();
 	}
 
-	@GetMapping("admin/update")
+	@GetMapping("admin/noticeupdate")
 	public String update(Board board, Admin admin, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
@@ -143,10 +143,10 @@ public class NoticeController {
 		model.addAttribute("admin", admin);
 
 		
-		return "/admin/update";
+		return "/admin/noticeupdate";
 	}
 	
-	@PostMapping("admin/update")
+	@PostMapping("admin/noticeupdate")
 	public String updateProc(
 			Admin admin
 			, Board board
@@ -163,7 +163,7 @@ public class NoticeController {
 		return"redirect:/admin/noticeview?boardNo=" + board.getBoardNo();
 	}
 	
-	@RequestMapping("admin/delete")
+	@RequestMapping("admin/noticedelete")
 	public String deleteNotice(Board board, Model model) {
 		if( board.getBoardNo() < 1 ) {
 			return "/admin/noticelist";

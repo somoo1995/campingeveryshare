@@ -145,7 +145,7 @@ function deleteComment(commNo) {
 <div>
 	<button id="btnRecom" class="btn"></button>
 </div>
-	<c:if test="${loginId eq board.userId}">
+	<c:if test="${loginId eq board.userId or isAdmin}">
 	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
 	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 	</c:if>
@@ -153,15 +153,14 @@ function deleteComment(commNo) {
 <hr>
 <div>
 
-	<!-- 비로그인상태 -->
-	<c:if test="${not isLogin }">
+<!-- 비로그인상태 -->
+	<c:if test="${not isLogin or not isAdmin }">
 	<strong>로그인이 필요합니다</strong><br>
-	<button onclick='location.href="/user/login";'>로그인</button>
-	<button onclick='location.href="/user/join";'>회원가입</button>
+	<button class="btn btn-warning" onclick='location.href="/";'>로그인</button>
 	</c:if>
-	
+		
 <!-- 	로그인상태  -->
-	<c:if test="${isLogin }">
+	<c:if test="${isLogin or isAdmin }">
 <!-- 	댓글 입력 -->
 	<div class="row justify-content-around align-items-center">
 	<input type="hidden" value="${loginId }" >

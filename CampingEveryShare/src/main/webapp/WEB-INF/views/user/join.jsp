@@ -334,7 +334,7 @@ function emailDupleCheck(input) {
         // 비밀번호가 정규식과 일치하는지 확인
         if (!passwordRegex.test(userPw)) {
             console.log("안전한 비밀번호를 입력하세요.");
-            pwDupleBlock.text("안전한 비밀번호를 입력하세요.");
+            pwDupleBlock.text("대소문자 알파벳과 숫자, 특수 문자 중에서 8자 이상의 비밀번호를 작성해주세요.");
             // TODO: ptag 표시
             return;
         }

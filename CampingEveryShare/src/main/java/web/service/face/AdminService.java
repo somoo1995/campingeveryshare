@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Admin;
+import web.dto.Board;
+import web.dto.Car;
+import web.dto.Income;
 import web.dto.User;
 import web.util.Paging;
 
@@ -56,9 +59,28 @@ public interface AdminService {
 
 	public Paging getPagingIncome(Paging param);
 	
-	public boolean updateUserStatus(String userId);
-	
 	public boolean joinIdCheck(String userId);
-
+	
+	public boolean deleteUserStatus(User user);
+	
+	public boolean deleteBoardStatus(Board board);
+	
+	public Paging getPagingMycar(Paging param);
+	
+	public List<Map<String, Object>> mycarList(Paging paging);
+	
+	public void carAllowStatus(Car car);
+	
+	/**
+	 * car_status를 승인 대기 or 승인 완료 -> 신청 상태로 되돌리기
+	 * 
+	 * @param car
+	 */
+	public void carHoldStatus(Car car);
+	
+	public void incomePermitStatus(Income income);
+	
+	public boolean deleteCarStatus(Car car);
+	
 
 }

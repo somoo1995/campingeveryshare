@@ -313,57 +313,56 @@ $(function() {
             <span onclick="location.href='/user/join'">회원가입</span>
             </div>
          </c:when>
+         
+         
          <c:when test="${not empty isLogin and isLogin }">
      
-     <!-- 프로필 사진 -->        
-    <div class="profile_box">
-        <div class="box" data-profile-number="1">
-		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="150" height="150" >
-        </div>
-        <div class="box"  data-profile-number="2">
-		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="150" height="150">
-        </div>
-        <div class="box"  data-profile-number="3">
-		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="150" height="150">
-        </div>
-        <div class="box" data-profile-number="4">
-		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="150" height="150">
-        </div>
-        <div class="box" data-profile-number="5">
-		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="150" height="150" >
-        </div>
-	</div>
+		     <!-- 프로필 사진 -->        
+		    <div class="profile_box">
+		        <div class="box" data-profile-number="1">
+				   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="150" height="150" >
+		        </div>
+		        <div class="box"  data-profile-number="2">
+				   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="150" height="150">
+		        </div>
+		        <div class="box"  data-profile-number="3">
+				   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="150" height="150">
+		        </div>
+		        <div class="box" data-profile-number="4">
+				   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="150" height="150">
+		        </div>
+		        <div class="box" data-profile-number="5">
+				   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="150" height="150" >
+		        </div>
+			</div>
 	
             <div class="mb-5"> <span style="font-weight: 500;">${loginNick }</span>님</div>
             
-            <c:if test="${not empty isLogin and isLogin }">
+
             <div class="mt-5"></div>
             
             <div class="btn_test">
-
                <div id="userStatusContainer"></div>
-               
                <input type="checkbox" id="toggle_test" hidden class="tglStatus"> 
-               
                <label for="toggle_test" class="toggleSwitch">
                  <span class="toggleButton"></span>
                </label>
-            </div><!-- .btn_test -->
+            </div> <!-- .btn_test -->
 
-            </c:if>
+
             
             <div class="sm_menu">
             <span onclick="location.href='/user/view'" class="myInfo">내 정보</span>
-            
             <span onclick="location.href='/user/logout'" class="logout">로그아웃</span>
             </div>
             
          </c:when>
       </c:choose>
+      
       <hr class="hr_info">
       </div> <!-- .profile-info end -->
    
-   		<div class="">
+
       <div class="mt-5 my_list"><!-- grid 사용 -->
    
 		<!-- 예약 아이콘 -->
@@ -417,18 +416,22 @@ $(function() {
 			<!-- 알림 숫자 -->
 			<div id="new-alert"></div>
 			<!-- 알림 아이콘 -->
+		         
+			<c:if test="${empty isLogin or not isLogin }">
+			<div class="alarm">
+				<img class="alert_icon" alt="alert_icon" src="/resources/img/alarm_2.png" onclick="location.href='/mypage/fail'" width="50px" height="50px">
+			</div>
+			<span onclick="location.href='/mypage/fail'">알림</span>
+			</c:if>
+			
+			<c:if test="${not empty isLogin and isLogin }">
 			<div class="alarm">
 				<img class="alert-open alert_icon" alt="alert_icon" src="/resources/img/alarm_2.png" width="50px" height="50px">
 			</div>
-		         
-			<c:if test="${not empty isLogin and isLogin }">
 			<span class="alert-open">알림</span>
 			<div id="alert" class="alert-list"></div>
 			</c:if>
 			
-			<c:if test="${empty isLogin or not isLogin }">
-			<span class="alert-open" onclick="location.href='/mypage/fail'">알림</span>
-			</c:if>
 		</div><!-- .alert_container -->
       
 	</div><!-- .mt-5 my_list -->

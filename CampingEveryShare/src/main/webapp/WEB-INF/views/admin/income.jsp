@@ -1,4 +1,5 @@
-
+<%@page import="java.util.Date"%>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,20 +23,104 @@ pageEncoding="UTF-8"%>
 #search{
 	width: 300px;
 }
+#head, #body{
+	text-align: center;
+}
+
+
 </style>
 
 
 <script type="text/javascript">
 $(() => {
-	//검색 버튼 클릭
-	$("#btnSearch").click(() => {
-	const searchValue = $("#searchInput").val();
-	const incomeCategory = $("#incomeCategory").val();
-	console.log("검색어:", searchValue, "게시판 카테고리:", incomeCategory); // 확인용 로그
-	location.href = "./income?search=" + searchValue + "&category=" + incomeCategory;
-	});
+   //검색 버튼 클릭
+   $("#btnSearch").click(() => {
+   const searchValue = $("#searchInput").val();
+   const typeCategory = $("#typeCategory").val();
+   
+   if(!searchValue){
+      alert("검색어를 입력해주세요!");
+      return false;
+   }
+   
+   console.log("검색어:", searchValue, "검색 카테고리:", typeCategory); // 확인용 로그
+   location.href = "./income?search=" + searchValue + "&category=" + typeCategory;
+   });
+
 })
 </script>
+
+<script type="text/javascript">
+$(()=>{	
+	$(".btnPermit").click(function (){
+		
+		var incomeNo = $(this).attr('data-incomeno')
+		var incomeStatus = $(this).attr('data-status')
+		var userId = $(this).attr('data-userid')
+		var rentNo = $(this).attr('data-rentno')
+		var isConfirmed = confirm("출금 승인 하시겠습니까?");
+	       
+		console.log(incomeNo)
+ 		console.log(incomeStatus)
+		
+		if (isConfirmed) {
+		$.ajax({
+			type: "get"
+			, url: "./permit"
+			, data: { 
+				incomeNo: incomeNo,
+				incomeStatus: incomeStatus
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
+					sendNotification(userId, rentNo)
+
+					$(".btnPermit[data-incomeno='" + incomeNo + "']")
+					.addClass("btn-primary disabled")
+					.html('출금 완료');
+					
+					location.reload(true);
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	  } //if end
+	
+
+	
+		
+	}) //$(".btnPermit").click() end
+	
+	  //알람보내기
+	  function sendNotification(userId, rentNo) {
+	
+	    $.ajax({
+	        type: "post"
+	        , url: "/alert/sendnotification"
+	        , data: {
+	           userId: userId,
+	           boardCate: 7,
+	           boardNo: rentNo,
+	           content: 1
+	        }
+	        , dataType: "json"
+	        , success: function(  ) {
+	           console.log("send Notification - AJAX 성공")
+
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+
+	        }
+	     })
+	   
+	}
+	
+}); //function end
+</script>
+
 
 
 <div class="container">
@@ -44,51 +129,59 @@ $(() => {
 <h3 id=adminpageTitle>관리자 수익관리</h3>
 
 <div id="searchDiv">
-	 <select id="incomeCategory" class="form-select">
-        <option value="0">--아이디+계좌번호--</option>
+ <select id="typeCategory" class="form-select">
         <option value="1">아이디</option>
-        <option value="2">계좌번호</option>
     </select>
-    
-	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="조회"/>
+	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="검색어 입력"/>
 	<button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
 
-<form action="web.dao.face.adminDao" method="get" >
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
-	<col width="10%">
 	<col width="15%">
-	<col width="15%">
-	<col width="15%">
-	<col width="15%">
-	<col width="15%">
+	<col width="20%">
+	<col width="30%">
+	<col width="20%">
 	<col width="15%">
 </colgroup>
 
-<thead>
+<thead id="head">
 	<tr>
 		<th>No.</th>
 		<th>신청자ID</th>
-		<th>은행명</th>
-		<th>계좌번호</th>
-		<th>신청금액</th>
+		<th>출금예정금액</th>
 		<th>신청날짜</th>
 		<th>승인 확인</th>
 	</tr>
 </thead>
 <tbody>
 <c:forEach var="income" items="${incomeList }">
-	<tr> 
+	<tr id="body"> 
 		<td>${income.RNUM }</td>
 		<td>${income.USER_ID }</td>
-		<td>${income.BANK_NAME }</td>
-		<td>${income.BANK_ACCOUNT }</td>
-		<td>${income.MONEY }</td>
-		<td>${income.MONEY_DATE }</td>
 		<td>
-		<button type="button" id="basic_button" class="btn btn-info">승인</button>
+		<fmt:formatNumber value="${income.DEDUCT_AMOUNT }" pattern="#,###"/>
+		</td>
+		<td>
+			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
+       		<fmt:formatDate value="${income.POST_DATE }" pattern="yyyyMMdd" var="write"/>
+        	<c:choose>
+        		<c:when test="${write lt current }">
+        			<fmt:formatDate value="${income.POST_DATE }" pattern="yyyy-MM-dd"/>
+        		</c:when>
+        		<c:when test="${write eq current }">
+        			<fmt:formatDate value="${income.POST_DATE }" pattern="HH:mm"/>
+        		</c:when>
+        	</c:choose>  
+		</td>
+		<td>
+		<c:if test="${income.INCOME_STATUS == 1  }">
+		<button type="button" class="btn btn-primary btnPermit" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }" data-userid="${income.USER_ID }" data-rentno="${income.RENT_NO }">출금 승인</button>
+		</c:if>
+		<c:if test="${income.INCOME_STATUS == 2  }">
+		<button type="button" class="btn btn-primary btnPermit disabled" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }" data-userid="${income.USER_ID }" data-rentno="${income.RENT_NO }">출금 완료</button>
+		</c:if>
 		</td>  
 	</tr>
 </c:forEach>
@@ -96,13 +189,11 @@ $(() => {
 </table>
 <small class="float-end mb-3">total : ${paging.totalCount }</small>
 
-</form>
 </div>
-
 
 </div><!-- .container -->
 
-<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+<c:import url="/WEB-INF/views/layout/pagination.jsp" >
     <c:param name="url" value="./income" />
 </c:import>
 

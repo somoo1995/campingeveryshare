@@ -13,8 +13,43 @@ pageEncoding="UTF-8"%>
 	text-align: center;
 }
 
-
 </style>
+
+<script type="text/javascript">
+$(()=>{	
+	$(".btnBoardStatus").click(function (){
+		
+		var boardNo = $(this).attr('data-boardno')
+		var boardCate = $(this).attr('data-cate')
+	    var status = $(this).attr('data-status')
+	    var isConfirmed = confirm("해당 글을 삭제하시겠습니까?");
+	       
+		console.log(boardNo)
+		console.log(boardCate)
+		console.log(status)
+		
+		$.ajax({
+			type: "get"
+			, url: "./boardstatus"
+			, data: { 
+				boardNo: boardNo,
+				boardCate: boardCate,
+	            deleteStatus: status
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+				console.log("성공");
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+		
+	}) //$(".btnUserStatus").click() end
+	
+}); //function end
+</script>
 
 
 <div class="container">
@@ -57,27 +92,17 @@ pageEncoding="UTF-8"%>
 
 
 <div class="text-center">
-	<a href="/admin/noticelist" class="btn btn-secondary">목록</a>
+	<a href="./noticelist" class="btn btn-secondary">목록</a>
 <div>
+
 </div>
-	<c:choose>
-	    <c:when test="${empty adminCode or adminCode ne admin.adminCode}">
-	        <!-- adminCode가 비어 있거나 adminCode와 admin.adminCode가 일치하지 않을 때는 버튼을 표시하지 않음 -->
-	    </c:when>
-	    <c:otherwise>
-	        <!-- adminCode가 존재하고 adminCode와 admin.adminCode가 일치하는 경우에만 버튼을 표시 -->
-		<a href="/admin/update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
-		<a href="/admin/delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>    </c:otherwise>
-	</c:choose>
+	<a href="/admin/noticeupdate?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
+	<a href="/admin/noticedelete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 </div>
 
 </div>
 
 
 </div><!-- .container -->
-
-<c:import url="/WEB-INF/views/layout/pagination.jsp" >
-    <c:param name="url" value="/admin/noticeview" />
-</c:import>
 
 <c:import url="../layout/footer.jsp" />
