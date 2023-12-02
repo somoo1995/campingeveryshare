@@ -31,12 +31,18 @@
 <script type="text/javascript">
 $(document).ready(function () {
     // 서버에서 로그인 여부 확인
+    var isAdmin = <%= session.getAttribute("isAdmin") %>;
     var isLogin = <%= session.getAttribute("isLogin") %>;
 
     // 만약 로그인 상태라면 메뉴를 보이도록 설정
     if (isLogin) {
         $("#adminMenu").show();
     }
+    
+    if (isLogin) {
+        $("#adminMenu").hide();
+    }
+    
 });
 </script>
 
@@ -58,10 +64,9 @@ $(document).ready(function () {
 
 <a href="/admin/list">🩵회원 관리</a>
 
-<!-- 글 작성 링크 이후 수정 -->
 <a href="/admin/notice">🩵공지사항</a>
 
-<a href="/admin/qna">🩵고객문의</a>
+<a href="/inquiry/list">고객문의</a>
 
 <a href="/admin/report">🩵신고 관리</a>
 
