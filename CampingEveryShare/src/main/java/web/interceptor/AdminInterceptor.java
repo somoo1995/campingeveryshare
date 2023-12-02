@@ -19,7 +19,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		if( session.getAttribute("isAdmin") == null ) {
 			logger.info(" >> 접속 불가 : 관리자 권한이 필요합니다");
-			response.sendRedirect("/user/failnotice");
+			response.sendRedirect("/admin/failnotice");
 			return false;
 		}
 		

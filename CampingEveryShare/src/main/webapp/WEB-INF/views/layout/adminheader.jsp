@@ -35,7 +35,7 @@ $(document).ready(function () {
     var isLogin = <%= session.getAttribute("isLogin") %>;
 
     // 만약 로그인 상태라면 메뉴를 보이도록 설정
-    if (isLogin) {
+    if (isAdmin) {
         $("#adminMenu").show();
     }
     
@@ -56,15 +56,16 @@ $(document).ready(function () {
 	<img alt="header" class="header-img" src="/resources/img/header_blue.png" width="1300" height="250">
 </div>
 
+<c:if test="${isAdmin }">
 <!--  style="display: none;" -->
 <div id="adminMenu" class="main-category-menu mt-3">
 
 <!-- 캠핑카 관리 링크 이후 수정 -->
-<a href="admin/test">캠핑카 관리</a>
+<a href="/admin/mycar">캠핑카 관리</a>
 
 <a href="/admin/list">회원 관리</a>
 
-<a href="/admin/notice">공지사항</a>
+<a href="/admin/noticelist">공지사항</a>
 
 <a href="/inquiry/list">고객문의</a>
 
@@ -75,6 +76,8 @@ $(document).ready(function () {
 <a href="/">사용자 페이지</a>
 
 </div>
+</c:if>
+
 </header>
 
 </div>
