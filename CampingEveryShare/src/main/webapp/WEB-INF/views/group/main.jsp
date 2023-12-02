@@ -50,6 +50,13 @@ function loadGroupList() {
 </script>
 <div class="container">
 
+<style type="text/css">
+
+select {
+margin-bottom: 15px;
+}
+</style>
+
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3>모집 게시판</h3>
