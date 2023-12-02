@@ -248,6 +248,8 @@ $(() => {
 </div>
 
 <div class="text-center">
+	
+	<a href="/message/list?boardNo=${board.boardNo }&boardCate=3&receiverId=${board.userId}&title=${board.title}&nick=${user.userNick}&profile=1" class="btn btn-secondary">메세지보내기</a>
 	<a href="./list" class="btn btn-secondary">목록</a>
 <div>
 	<button id="btnRecom" class="btn"></button>
