@@ -140,9 +140,9 @@ public class RentController {
 	
 	@Transactional                                                                                                     
 	@RequestMapping("/book")
-	public String book( Model model, Rent rent, String startDate, @SessionAttribute("loginId") String userId, Income income ) {
+	public String book( Model model, Rent rent, @SessionAttribute("loginId") String userId, Income income ) {
 		rent.setUserId(userId);
-//		logger.info("rent : {}", rent);
+		logger.info("rent : {}", rent);
 		
 		rentService.book(rent);
 
