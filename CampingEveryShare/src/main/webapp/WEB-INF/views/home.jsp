@@ -231,14 +231,14 @@ $(function(){
 	min-width: 400px;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .zone {
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 	
 }
 
@@ -246,14 +246,14 @@ $(function(){
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .recruit {
 	background-color: #fff;
 	min-height: 500px;
 	min-width: 400px;
-	box-shadow: 5px 5px 20px 0px #5e5e5e;
+/* 	box-shadow: 5px 5px 20px 0px #5e5e5e; */
 }
 
 .main {
@@ -302,7 +302,7 @@ p {
   text-align: center; /* 텍스트 중앙 정렬 */
   margin-top: 40px;
   min-width: 1300px;
-/*   box-shadow: 5px 5px 20px 0px #5e5e5e; */
+/*    box-shadow: 5px 5px 20px 0px #5e5e5e;  */
   
 }
 
