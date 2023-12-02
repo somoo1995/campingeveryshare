@@ -285,20 +285,8 @@ function sendNotification(userId, carNo) {
         }
      })
    
-// 	$("#openModalBtn").click(function() {
-// 		console.log("click")
-// 		openModal()
-// 	})  
-
-     
      
 }
-
-//Open Modal
-//     document.getElementById('openModalBtn').addEventListener('click', openModal)
-// document.addEventListener('DOMContentLoaded', function() {
-//     console.log("Button clicked!")
-// })
 
 // Close Modal
 function closeModal() {
@@ -349,9 +337,7 @@ window.onclick = function(event) {
 		<div class="booking-btns">
 		<c:choose>
 			<c:when test="${paging.category == 0}">
-			<button class="btn btn-success">메시지</button> 
-<%-- 			| <button class="btn btn-success btnCancel" data-uid="${list.MERCHANT_UID }" data-no="${list.RENT_NO }" data-id="${list.HOSTID }" data-car="${list.CAR_NO }">취소</button> --%>
-<!-- 			| <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cancelBookingModal">TEST</button> -->
+			<button class="btn btn-success" onclick="location.href='/message/list?boardNo=${list.RENT_NO }&boardCate=1&recevierId=${list.HOSTID }'">메시지</button> 
 			| <button class="btn btn-success openModalBtn" id="openModalBtn" onclick="openModal()">취소</button>
 			</c:when>
 			<c:when test="${paging.category == 1 }">

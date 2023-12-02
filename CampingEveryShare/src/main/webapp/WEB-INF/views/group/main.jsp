@@ -53,8 +53,8 @@ function loadGroupList() {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3>모집 게시판</h3>
-<!-- <h6 style="color: #A4A4A4; font-weight: 200; font-size: 20px;">캠핑 모집 게시글을 작성하고 조회할 수 있습니다.</h6> -->
-<hr>
+<h6>함께 캠핑을 떠나 보는건 어때요?</h6>
+<!-- <hr> -->
 <!-- <div> -->
 <!-- 	<input type="radio" class="recruitStatus" id="payAll" name="recruitStatus" value="2" checked="checked">전체 -->
 <!-- 	<input type="radio" class="recruitStatus" id="payNo" name="recruitStatus" value="0"> 모집 중 -->
@@ -84,7 +84,6 @@ function loadGroupList() {
      <option value="11">충북</option>
  </select>
 </div>
-<hr>
 <div style="text-align: right; margin-bottom: 10px;">
 <a  href="/group/write?boardCate=4"><button class="btn_write">글쓰기</button></a>
 </div>
