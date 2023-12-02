@@ -2,7 +2,40 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<style>
+.pagination {
+    display: flex;
+    justify-content: center;
+}
 
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    color: #28a745; 
+    background-color: #fff; 
+    border: 1px solid #28a745;  
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.page-link.active {
+    background-color: #218838;
+     border: 1px solid #dee2e6; 
+    color: #ffffff; 
+}
+
+.page-link.disabled {
+    color: #6c757d; 
+    background-color: #f8f9fa; 
+     border: 1px solid #dee2e6; 
+    cursor: not-allowed;
+}
+
+</style>
 <script type="text/javascript">
 $(function() {
 		
