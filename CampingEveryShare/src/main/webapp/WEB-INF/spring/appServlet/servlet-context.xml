@@ -42,6 +42,7 @@
 		<interceptor>
 			<mapping path="/admin/**"/>
 			<exclude-mapping path="/admin/login"/>
+			<exclude-mapping path="/admin/failnotice"/>
 			<beans:bean class="web.interceptor.AdminInterceptor"/>
 		</interceptor>
 	</interceptors>

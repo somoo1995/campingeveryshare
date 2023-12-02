@@ -136,7 +136,6 @@ $(()=>{
       <th>이름</th>
       <th>이메일</th>
       <th>회원상태</th>
-      <th>수정</th>
       <th>탈퇴</th>
    </tr>
 </thead>
@@ -155,11 +154,6 @@ $(()=>{
          <td>탈퇴</td>
       </c:when>
       </c:choose>
-      <td>
-         <a href="/user/update?userId=${user.USER_ID }">
-         <button type="button" class="btn btn-info">수정</button>
-         </a>
-      </td>
 	  <td id="table_body">
 	  <c:choose>
         <c:when test="${user.USER_STATUS eq 0 }">
