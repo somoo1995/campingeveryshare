@@ -337,7 +337,7 @@ window.onclick = function(event) {
 		<div class="booking-btns">
 		<c:choose>
 			<c:when test="${paging.category == 0}">
-			<button class="btn btn-success" onclick="location.href='/message/list?boardNo=${list.RENT_NO }&boardCate=1&recevierId=${list.HOSTID }&title=${list.CARNAME }&nick=${list.HOSTNICK }&profile=3'">메시지 ${list.HOSTID }</button> 
+			<button class="btn btn-success" onclick="location.href='/message/list?boardNo=${list.RENT_NO }&boardCate=1&recevierId=${list.HOSTID }&title=${list.CARNAME }&nick=${list.HOSTNICK }&profile=3'">메시지</button> 
 			| <button class="btn btn-success openModalBtn" id="openModalBtn" onclick="openModal()">취소</button>
 			</c:when>
 			<c:when test="${paging.category == 1 }">
