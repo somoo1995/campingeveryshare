@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -96,7 +97,7 @@ public class AlertController {
     
     @PostMapping(value = "/sendnotification")
     @ResponseBody
-    public void sendNotification( Alert alert, HttpServletResponse resp ) {
+    public ResponseEntity<Map<String,Object>> sendNotification( Alert alert, HttpServletResponse resp ) {
     	logger.info("alert : {}", alert);
     	
     	alertService.sendAlert(alert);
@@ -118,7 +119,7 @@ public class AlertController {
 			}
     		
     	}
-    	
+		return ResponseEntity.ok(Map.of("status","success"));
 	}
     
 	private void sendInitEvent( SseEmitter sseEmitter ) {

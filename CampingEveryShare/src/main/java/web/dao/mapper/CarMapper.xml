@@ -6,46 +6,50 @@
   
 <mapper namespace="web.dao.face.CarDao">
 	
-	<sql id="selectCar">
-		SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL
-		,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE
-		,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET
-		,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, DELETE_STATUS
-		, (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = C.car_no ORDER BY file_no) WHERE rnum = 1) AS thumbnailname
-		FROM cartb C
-	</sql>
 
-	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
-		SELECT count(*) FROM cartb
-		<where>
-			AND car_status = 2
-			AND delete_status = 0
-			<if test="location != 0">
-				AND location = #{location }
-			</if>
-		</where>
-	</select>
+   <sql id="selectCar">
+      SELECT CAR_NO,USER_ID,CAR_NAME,CAR_NUMBER,CAR_SIZE,LOCATION,AREA,AREA_DETAIL
+      ,PICKUP_TIME_START,PICKUP_TIME_END,CAR_PAX,CAR_SPAX,CAR_BEDS,PRICE,EXTRA_PRICE
+      ,CAR_ELEC,CAR_WATER,CAR_TABLE,CAR_SINK,CAR_KITCHEN,CAR_TEMP,CAR_SHOWER,CAR_TOILET
+      ,CAR_PET,CAR_SMOKE,CAR_STATUS,CONTENT, DELETE_STATUS
+      , (SELECT stored_name FROM (SELECT stored_name, ROWNUM as rnum FROM boardfiletb WHERE board_no = C.car_no ORDER BY file_no) WHERE rnum = 1) AS thumbnailname
+      , (SELECT user_nick FROM usertb U WHERE U.user_id = C.user_id) as hostnick
+      FROM cartb C
+   </sql>
+
+   <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+      SELECT count(*) FROM cartb
+      <where>
+         AND car_status = 2
+         AND delete_status = 0
+         <if test="location != 0">
+            AND location = #{location }
+         </if>
+      </where>
+   </select>
 	
-	<select id="selectAll" parameterType="web.util.Paging" resultType="map">
-		SELECT * FROM (
-		SELECT rownum rnum, R.* FROM (
-			<include refid="selectCar" />
-			<where>
-				<if test="search != null and !''.equals(search)">
-					AND car_name LIKE '%' || (#{search }) || '%'
-				</if>
-<!-- 				<if test="category !=null and !''.equals(category)"> -->
-				<if test="location != 0">
-					AND location = #{location }
-				</if>
-				AND delete_status = 0
-			</where>
-			ORDER BY car_no DESC
-		) R )
-		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
-		</where>
-	</select>
+   <select id="selectAll" parameterType="web.util.Paging" resultType="map">
+      SELECT * FROM (
+      SELECT rownum rnum, R.* FROM (
+         <include refid="selectCar" />
+         <where>
+            <if test="search != null and !''.equals(search)">
+               AND car_name LIKE '%' || (#{search }) || '%'
+            </if>
+<!--             <if test="category !=null and !''.equals(category)"> -->
+            <if test="location != 0">
+               AND location = #{location }
+            </if>
+            AND car_status = 2
+            AND delete_status = 0
+         </where>
+         ORDER BY car_no DESC
+      ) R )
+      <where>
+         AND rnum BETWEEN #{startNo } AND #{endNo }
+      </where>
+   </select>
+
 	
 	<select id="selectByCarNo" parameterType="Car" resultType="Car">
 		<include refid="selectCar" />
@@ -419,4 +423,18 @@ AND (I.income_status = 1 or I.income_status = 2)
 SELECT * FROM PaginatedSell
 WHERE RNUM BETWEEN #{paging.startNo} AND #{paging.endNo}
 </select>
+<select id="selectAccountByUserId" parameterType="Account">
+SELECT count(*) FROM(SELECT * FROM accounttb WHERE user_id = #{userId})
+</select>
+<update id="updateAccount" parameterType="Account">
+UPDATE accounttb
+SET bank_account = #{bankAccount}, bank_name = #{bankName}
+WHERE user_id = #{userId}
+</update>
+
+<insert id="insertAccount" parameterType="Account">
+INSERT INTO accounttb(account_no,user_id,bank_account,bank_name)
+VALUES(account_seq.nextval,#{userId},#{bankAccount},#{bankName})
+</insert>
+
 </mapper>

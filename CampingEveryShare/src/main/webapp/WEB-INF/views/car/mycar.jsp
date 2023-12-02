@@ -77,9 +77,9 @@
    	  border: none; /* 기존의 테두리를 제거합니다. */
 	  height: 1px; /* 선의 두께를 지정합니다. */
 	  background-color: #ff0000; /* 원하는 색상으로 배경색을 지정합니다. */
-	  margin-top: -8px; /* 상단 여백을 추가합니다. */
+	  margin-top: 0px; /* 상단 여백을 추가합니다. */
 	  margin-bottom: 0px; /* 하단 여백을 추가합니다. */
-	  margin-left: 0px;
+	  margin-left: -30px;
 	  width: 800px;
     }
     

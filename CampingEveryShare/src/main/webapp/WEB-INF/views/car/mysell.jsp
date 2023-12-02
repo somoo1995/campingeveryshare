@@ -138,12 +138,121 @@
 	font-weight: 600;
 	font-size: 1.3em;
 }
+.custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-modal-content {
+    background-color: #fff;
+    margin: 5% auto; /* 모달의 위치를 위로 조정 */
+    padding: 30px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.modal-body input,
+.modal-body select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#applyButton {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#applyButton:hover {
+    background-color: #0056b3;
+}
+
+.close-button {
+    color: #000;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script>
 var category;
 var sellFlag;
 $(document).ready(function() {
-    // 선택된 rent_no를 저장할 배열
+    $(".request").click(function() {
+        // 사용자 정의 모달을 표시
+        $("#customModal").css("display", "flex");
+    });
+
+    // 모달 닫기 버튼 클릭 이벤트
+    $(".close-button").click(function() {
+        // 모달 숨기기
+        $("#customModal").css("display", "none");
+    });
+    
+    $("#applyButton").click(function() {
+        // 여기에 신청 로직 추가
+        // 예: 계좌번호와 은행 정보 수집 및 처리
+        var accountNumber = $("#accountNumber").val();
+    	if(accountNumber === ''){
+    		alert("계좌를 입력해주세요")
+    		return;
+    	}
+        var bank = $("#bankSelect").val();
+        if(bank === '0'){
+        	alert("은행을 선택해주세요!")
+        	return;
+        }
+        console.log("계좌번호: " + accountNumber + ", 은행: " + bank);
+
+        $.ajax({
+        	type: "post"
+        	,url: "/car/regiAccount"
+        	,data:{
+        		bankAccount: accountNumber,
+        		bankName: bank
+        	}
+        	,success: function(res){
+        		console.log("/car/regiAccount AJAX성공")
+        		$("#customModal").css("display", "none");
+        		alert("출금계좌 신청/변경이 완료되었습니다.");
+        		location.href = location.pathname + "?autoClick=btnMySell";
+        	},error: function(res){
+        		console.log("/car/regiAccount AJAX 실패")
+        	}
+        })
+    });
+    
     var selectedRentNos = [];
 
     // 체크박스 변경 이벤트
@@ -256,9 +365,6 @@ $(document).ready(function() {
 		$(".withdraw").css("background-color","#5882FA");
 	}else if(category === 3){
 		$(".charge").css("background-color","#5882FA");
-	}
-	if(category === 0){
-		$('.proceeds').click();
 	}
 });
 
@@ -378,10 +484,47 @@ $(document).ready(function() {
 <span>출금계좌 :${indexInfo.account }</span>
 </div>
 <div class="account-change-button">
-<button class="btn btn-primary">출금계좌 신청/변경하기</button>
+<button class="btn btn-primary request">출금계좌 신청/변경하기</button>
 </div>
 <div class="apply-button">
 <button class="btn btn-primary commit">출금신청하기</button>
 </div>
 </div>
+
 </div><!-- cell-wrap div end --><!-- 전체 div end -->
+<div id="customModal" class="custom-modal" style="display:none;">
+    <div class="custom-modal-content">
+        <span class="close-button">&times;</span>
+        <h2>출금계좌 신청/변경</h2>
+        <hr>
+        <div class="modal-body">
+            <input type="text" placeholder="계좌번호" id="accountNumber">
+            <select id="bankSelect">
+            	<option value="0">----은행명----</option>
+			    <option value="KB국민은행">KB국민은행</option>
+			    <option value="신한은행">신한은행</option>
+			    <option value="우리은행">우리은행</option>
+			    <option value="하나은행">하나은행</option>
+			    <option value="SC제일은행">SC제일은행</option>
+			    <option value="케이뱅크">케이뱅크</option>
+			    <option value="카카오뱅크">카카오뱅크</option>
+			    <option value="토스뱅크">토스뱅크</option>
+			    <option value="한국산업은행">한국산업은행</option>
+			    <option value="중소기업은행">중소기업은행</option>
+			    <option value="한국수출입은행">한국수출입은행</option>
+			    <option value="NH농협은행">NH농협은행</option>
+			    <option value="수협은행">수협은행</option>
+			    <option value="대구은행">대구은행</option>
+			    <option value="부산은행">부산은행</option>
+			    <option value="경남은행">경남은행</option>
+			    <option value="광주은행">광주은행</option>
+			    <option value="전북은행">전북은행</option>
+			    <option value="제주은행">제주은행</option>
+			</select>
+            <button id="applyButton" class="btn btn-primary">신청하기</button>
+        </div>
+    </div>
+</div>
+
+
+

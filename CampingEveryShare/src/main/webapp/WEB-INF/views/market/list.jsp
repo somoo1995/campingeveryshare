@@ -263,7 +263,7 @@ select {
 	
 	<!-- 작성일 -->
     <h6 class="write"><span style="color: #06b500; font-weight: bold; font-size: 16px;">작성일 
-    <span style="color: gray; font-weight: bold;">|</span></span>
+    <span style="color: gray;">|</span></span>
     
       <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
       <fmt:formatDate value="${board.POST_DATE }" pattern="yyyyMMdd" var="write"/>

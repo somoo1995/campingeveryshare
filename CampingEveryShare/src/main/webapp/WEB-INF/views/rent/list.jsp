@@ -19,7 +19,13 @@ pageEncoding="UTF-8"%>
 
 .list-container:hover {
 	cursor: pointer;
+	transform: scale(1.1);
+    border: 2px solid #D3D3D3;
 }
+
+.list-container:active { 
+     background-color: #efefef;
+ } 
 
 .preview {
 	margin: 15px auto 15px auto;
@@ -35,10 +41,12 @@ pageEncoding="UTF-8"%>
 }
 
 .info {
-    display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
-    justify-content: space-between; /* 요소 간에 공간을 균등하게 배치 */
-    align-items: center; /* 수직 가운데 정렬 */
-   	margin: 15px auto 15px auto;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-left: 15px; 
+    margin-right: 15px;
+    margin-bottom: 5px; 
     
 }
 .title {
@@ -46,46 +54,62 @@ pageEncoding="UTF-8"%>
     color: black;
     font-weight: bold;
     font-size: 25px;
-    text-align: left;
+	white-space: nowrap;
+}
+
+.info span {
+	color: #06b500;
+	font-weight: bold;
+
+}
+
+.carName {
+    font-size: 18px;
+    width: 180px;
     overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	text-align: left;
 }
-</style>
 
+.option {
+/* 	color: #1ABA00; */
+	color: #3A3A3A;
+	font-weight: bold;
+	border-radius:60px;
+/* 	background-color: #D7FFE9; */
+	background-color: #efefef;
+	padding: 5px;
+}
+
+/* 하트 버튼 */
+.heartOn {
+	width: 25px;
+	height: 25px;
+}
+
+.heartNone {
+    width: 25px; 
+    height: 25px; 
+}
+
+.btnHeart {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+}
+
+.btnHeart img:hover{
+	cursor: pointer;
+}
+
+</style>
 
 <c:forEach items="${list }" var="car" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">
   </c:if>
 	<div class="list-container" onclick="location.href='/rent/view?carNo=${car.CAR_NO }'">
-		<div class="info">
-
-	    <h6>👤 : ${car.USER_ID }</h6>
-		    <c:set var="formattedPrice" value="${car.PRICE }" />
-
-			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
-			<h6 style="color:
-			    <c:choose>
-			        <c:when test="${formattedPrice >= 250000}">
-			            #C71585
-			        </c:when>
-			        <c:when test="${formattedPrice > 150000}">
-			            #3232FF
-			        </c:when>
-			        <c:when test="${formattedPrice >= 100000}">
-			            #6ED746
-			        </c:when>
-			        <c:otherwise>
-			            #000000 <!-- 기본값 -->
-			        </c:otherwise>
-			    </c:choose>
-			;">
-			💸 1박 / ${price } 원
-			</h6>
-			
-		</div>
-		
 		
    <c:if test="${not empty car.THUMBNAILNAME }">
       <div>
@@ -97,13 +121,39 @@ pageEncoding="UTF-8"%>
           <img class="preview" src="/resources/img/noimg.png"/>
       </div>
     </c:if>
+    
+    	<div class="info">
+    	
+	    	<!-- 가격 -->
+		    <c:set var="formattedPrice" value="${car.PRICE }" />
+			<fmt:formatNumber value="${formattedPrice}" pattern="#,###" var="price" />
+			<h6 class="title">${price } 원 / 1박</h6>	
+			
+			<!-- 하트 -->
+			<img class="heartOn" src="/resources/img/heartOn.png">
+			
+<%-- 			<c:if test="${car.HEARTID eq 0  }"> --%>
+<%-- 				<c:if test="${isLogin }"> --%>
+<%-- 					<span class="btnHeart" data-no="${car.BOARD_NO }" data-cate="${car.BOARD_CATE }"><img class="heartOn" id="${car.BOARD_NO }" src="/resources/img/heartNone.png"> ${car.HEART }</span> --%>
+<%-- 				</c:if> --%>
+<%-- 			</c:if> --%>
+<%-- 			<c:if test="${car.HEARTID eq 1  }"> --%>
+<%-- 				<c:if test="${isLogin }"> --%>
+<%-- 					<span class="btnHeart" data-no="${car.BOARD_NO }" data-cate="${car.BOARD_CATE }"><img class="heartOn" id="${car.BOARD_NO }" src="/resources/img/heartOn.png"> ${car.HEART }</span> --%>
+<%-- 				</c:if>	 --%>
+<%-- 			</c:if> --%>
+<%-- 			<c:if test="${empty isLogin}"> --%>
+<%-- 			    <h6><img class="heartOn" src="/resources/img/heartOn.png"> ${car.HEART }</h6> --%>
+<%-- 			</c:if>	 --%>
+			
+		</div>
 		
 		<div class="info">
-		
-		<h6 class="title">🚗 : ${car.CAR_NAME }</h6>
+		<h6 class="carName">${car.CAR_NAME }</h6>
+		<h6><span>호스트</span> | ${car.HOSTNICK }</h6>	
 		</div>
 		<div class="info">
-		<h6>🗺️ :
+		<h6><span>위치</span> |
 			<c:if test="${car.LOCATION eq 1 }">서울
 				<c:if test="${car.AREA eq 1}">강남구</c:if>
 				<c:if test="${car.AREA eq 2}">강동구</c:if>
@@ -142,7 +192,9 @@ pageEncoding="UTF-8"%>
 			</c:if>
 		 </h6>
 		 <div>
-			<h6>👨‍👩‍👧‍👦 : ${car.CAR_PAX }명</h6>
+			<h6 class="option">${car.CAR_PAX }인</h6>
+<%-- 			<h6 class="option">${car.CAR_PAX }명</h6> --%>
+<%-- 			<h6 class="option">${car.CAR_PAX }명</h6> --%>
 		 </div>
 		</div>		
 	</div>

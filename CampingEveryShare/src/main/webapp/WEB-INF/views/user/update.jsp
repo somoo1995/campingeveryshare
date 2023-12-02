@@ -43,14 +43,15 @@ div.profileImg {
 	height: 200px;
 	border-radius: 70%;
   	overflow: hidden;  
-    outline: 3px solid #2cb9789e;
+/*     outline: 3px solid #2cb9789e; */
     margin-bottom: 20px;
 }
 
 
-#profile {
-	margin-left: 100px;
-    margin-top: 10px;
+input.profileInput {
+	margin-left: 85px;
+    margin-top: -40px;
+    
     
 }
 
@@ -214,11 +215,15 @@ label {
 	    }
 
 	    $(document).ready(function () {
-		    // 사용자의 프로필 값을 가져옴
-		    var userProfile = "${updateUser.profile}";
-		
-		    // 프로필 값을 가지는 라디오 버튼을 체크
-		    $("input[name='profile'][value='" + userProfile + "']").prop("checked", true);
+	    	
+	    	// 사용자의 프로필 값을 가져옴
+	    	var userProfile = "${updateUser.profile}";
+
+	    	// 로그를 추가하여 userProfile 값 확인
+	    	console.log("User Profile:", userProfile);
+
+	    	// 프로필 값을 가지는 라디오 버튼을 체크
+	    	$("#profile-" + userProfile).prop("checked", true);
 	    	
 			$("#updateButton").click(function () {
 	            // phone 인풋의 값이 비어있으면 0을 넣어줌
@@ -226,6 +231,14 @@ label {
 	                $("#phone").val('0');
 	            }
 
+	         // 로그인 아이디가 '.k'로 끝나는지 확인
+	            if (update.userId.endsWith('.k')) {
+	                // '.k'로 끝나는 경우, 비밀번호 확인 로직을 건너뛰고 바로 수정 로직으로 이동
+	                console.log("로그인 아이디가 '.k'로 끝납니다. 비밀번호 확인을 생략합니다.");
+	                // 필요한 경우 여기에 특별한 동작이나 로직을 추가하세요.
+	            } else {
+	            // '.k'로 끝나지 않는 경우, 비밀번호 확인 로직 수행
+	            
 	            // 비밀번호 값을 가져오는 부분 수정
 	            var userPw = $("#userPw").val();
 	            var userPwConfirm = $("#userPwConfirm").val();
@@ -247,7 +260,7 @@ label {
 	                alert("비밀번호를 형식에 맞게 입력해주세요");
 	                return false;
 	            }
-
+	           }
 
 	        });
 	    });
@@ -296,43 +309,43 @@ label {
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">회원정보 수정</h3>
-	<hr>	
 	</div>
 		
 <div class="updateform">
 
-	<div class="profile-container">
-        <div class="profileGroup">
+<div class="profile-container">
+    <div class="profileGroup">
         <div class="profileImg">
-		   <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
-		</div>
-		   <input  id="profile" type="radio" name="profile" value="1" >
+            <img src="/resources/img/profile1.jpg" alt="프로필1" id="profile-img-1" width="200" height="200">
         </div>
-        <div class="profileGroup">
+        <input class="profileInput" id="profile-1" type="radio" name="profile" value="1">
+    </div>
+    <div class="profileGroup">
         <div class="profileImg">
-		   <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="200" height="200">
-		</div>
-		   <input  id="profile"  type="radio" name="profile" value="2" >
+            <img src="/resources/img/profile2.jpg" alt="프로필2" id="profile-img-2" width="200" height="200">
         </div>
-        <div class="profileGroup">
+        <input class="profileInput"  id="profile-2" type="radio" name="profile" value="2">
+    </div>
+    <div class="profileGroup">
         <div class="profileImg">
-		   <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="200" height="200">
-		</div>
-		   <input  id="profile"  type="radio" name="profile" value="3" >
+            <img src="/resources/img/profile3.jpg" alt="프로필3" id="profile-img-3" width="200" height="200">
         </div>
-        <div class="profileGroup">
+        <input class="profileInput"  id="profile-3" type="radio" name="profile" value="3">
+    </div>
+    <div class="profileGroup">
         <div class="profileImg">
-		   <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="200" height="200">
-		</div>
-		   <input  id="profile"  type="radio" name="profile" value="4" >
+            <img src="/resources/img/profile4.jpg" alt="프로필4" id="profile-img-4" width="200" height="200">
         </div>
-        <div class="profileGroup">
+        <input class="profileInput"  id="profile-4" type="radio" name="profile" value="4">
+    </div>
+    <div class="profileGroup">
         <div class="profileImg">
-		   <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="200" height="200">
-		</div>
-		   <input  id="profile"  type="radio" name="profile" value="5" >
+            <img src="/resources/img/profile5.jpg" alt="프로필5" id="profile-img-5" width="200" height="200">
         </div>
-	</div>
+        <input class="profileInput"  id="profile-5" type="radio" name="profile" value="5">
+    </div>
+</div>
+
 	
 	<div class="inputForm_all">
 		

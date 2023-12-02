@@ -49,6 +49,7 @@ function loadGroupList() {
 
 .row {
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .write-container {
@@ -154,6 +155,9 @@ select {
     color: white;
 }
 
+.result_list {
+	
+}
 
 </style>
 
