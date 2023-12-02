@@ -5,8 +5,8 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <c:import url="../layout/header.jsp" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 .test{
    display: flex;
