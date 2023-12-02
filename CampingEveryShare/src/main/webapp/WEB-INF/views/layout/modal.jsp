@@ -35,12 +35,12 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteUserModal">공유 신고하기</h1>
+        <h1 class="modal-title fs-5" id="deleteUserModal">신고하기</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <%@ include file="/WEB-INF/views/share/report.jsp" %>
-        <button form="reportForm" id="DeleteUserOkBtn" class="btn float-end" data-bs-target="#deleteUserOkModal" data-bs-toggle="modal">공유 확인</button>
+        <button form="reportForm" id="DeleteUserOkBtn" class="btn float-end" data-bs-target="#deleteUserOkModal" data-bs-toggle="modal">확인</button>
      </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
       </div>
       <div class="modal-body">
       신고되었습니다!<br><br>
-      <button id="footerDeleteOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">공유 확인</button>
+      <button id="footerDeleteOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
@@ -65,12 +65,12 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteUserModalMarket">마켓 신고하기</h1>
+        <h1 class="modal-title fs-5" id="deleteUserModalMarket">신고하기</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <%@ include file="/WEB-INF/views/market/report.jsp" %>
-        <button form="reportFormMarket" id="DeleteUserOkBtnMarket" class="btn float-end" data-bs-target="#deleteUserOkModalMarket" data-bs-toggle="modal">마켓 확인</button>
+        <button form="reportFormMarket" id="DeleteUserOkBtnMarket" class="btn float-end" data-bs-target="#deleteUserOkModalMarket" data-bs-toggle="modal">확인</button>
      </div>
     </div>
   </div>
@@ -83,7 +83,7 @@
       </div>
       <div class="modal-body">
       신고되었습니다!<br><br>
-      <button id="footerDeleteOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">마켓 확인</button>
+      <button id="footerDeleteOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
@@ -93,12 +93,12 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteUserModalGroup">모집 신고하기</h1>
+        <h1 class="modal-title fs-5" id="deleteUserModalGroup">신고하기</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <%@ include file="/WEB-INF/views/group/report.jsp" %>
-        <button form="reportFormGroup" id="DeleteUserOkBtnGroup" class="btn float-end" data-bs-target="#deleteUserOkModalGroup" data-bs-toggle="modal">모집 확인</button>
+        <button form="reportFormGroup" id="DeleteUserOkBtnGroup" class="btn float-end" data-bs-target="#deleteUserOkModalGroup" data-bs-toggle="modal">확인</button>
      </div>
     </div>
   </div>
@@ -111,7 +111,7 @@
       </div>
       <div class="modal-body">
       신고되었습니다!<br><br>
-      <button id="footerDeleteOkBtnGroup" type="button" class="btn float-end" data-bs-dismiss="modal">모집확인</button>
+      <button id="footerDeleteOkBtnGroup" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
       </div>
     </div>
   </div>

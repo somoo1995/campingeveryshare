@@ -7,6 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#reportForm").submit(function(event) {
+      // reasonDetail이 비어 있는지 확인
+      if ($("#reasonDetail").val().trim() === "") {
+        // 비어 있다면 기본값으로 설정
+        $("#reasonDetail").val("내용없음");
+      }
+      // 폼 제출 계속 진행
+      return true;
+    });
+  });
+</script>
+
 <style type="text/css">
 /* 버튼 크기 */
 :root {

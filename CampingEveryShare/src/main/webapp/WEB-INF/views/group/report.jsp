@@ -8,12 +8,64 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#reportFormGroup").submit(function(event) {
+      // reasonDetail이 비어 있는지 확인
+      if ($("#reasonDetail1").val().trim() === "") {
+        // 비어 있다면 기본값으로 설정
+        $("#reasonDetail1").val("내용없음");
+      }
+      // 폼 제출 계속 진행
+      return true;
+    });
+  });
+</script>
+<style type="text/css">
+/* 버튼 크기 */
+:root {
+  --button-width: 400px;
+  --button-height:50px;
+}
+
+/* 바깥 div */
+#report{
+   margin: 0 auto;
+   border: 3px solid #2ECC71;
+   width: calc(var(--button-width) + 13px);
+   height: calc(var(--button-height)*5 + 169px);
+   border-radius: 5px; 
+}
+/* 안쪽 div */
+#reportIn{
+   margin: 0 3px;
+   margin-top: 8px;
+}
+
+/* 버튼 스타일 */
+#reportBtn1, #reportBtn2{
+   border-radius: 5px;
+   width: var(--button-width);
+   height: var(--button-height);
+   border: 0;
+   font-size: 25px;
+   margin-bottom: 8px;
+}
+/* 버튼 2번 색깔 */
+#reportBtn2{
+   background-color: #2ECC71;
+   color: white;
+}
+
+</style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 
 </script>
+
 
 </head>
 <body>
@@ -44,7 +96,7 @@
 </select>
 </div>
 <div>
-	<textarea class="form-control" name="reasonDetail" id="reasonDetail" placeholder="기타 사유를 적어주세요"></textarea>
+	<textarea class="form-control" name="reasonDetail" id="reasonDetail1" placeholder="기타 사유를 적어주세요"></textarea>
 </div>
  
    
