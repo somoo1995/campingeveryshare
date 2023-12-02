@@ -8,6 +8,8 @@ pageEncoding="UTF-8"%>
 
 <!-- js 시작 -->
 <script type="text/javascript">
+
+
 $(function(){
   $('#slider-main').slick({
       slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
