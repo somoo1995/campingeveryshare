@@ -60,19 +60,19 @@ $(document).ready(function () {
 <div id="adminMenu" class="main-category-menu mt-3">
 
 <!-- 캠핑카 관리 링크 이후 수정 -->
-<a href="admin/test">🩵캠핑카 관리</a>
+<a href="admin/test">캠핑카 관리</a>
 
-<a href="/admin/list">🩵회원 관리</a>
+<a href="/admin/list">회원 관리</a>
 
-<a href="/admin/notice">🩵공지사항</a>
+<a href="/admin/notice">공지사항</a>
 
 <a href="/inquiry/list">고객문의</a>
 
-<a href="/admin/report">🩵신고 관리</a>
+<a href="/admin/report">신고 관리</a>
 
-<a href="/admin/income">🩵수익 관리</a>
+<a href="/admin/income">수익 관리</a>
 
-<a href="/">🩵사용자 페이지</a>
+<a href="/">사용자 페이지</a>
 
 </div>
 </header>
