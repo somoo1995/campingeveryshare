@@ -217,6 +217,13 @@ function sendNotification(userId, rentNo) {
 $(document).ready(function () {
 	  $(".cancel-button").click(function() {
 	      console.log("취소버튼 클릭됨")
+	      if (confirm("취소 하시겠습니까?")) {
+			    // 사용자가 '확인' 버튼을 클릭했을 때 수행할 동작
+			} else {
+			    // 사용자가 '취소' 버튼을 클릭했을 때 수행할 동작
+			    alert("작업이 취소되었습니다.");
+			    return;
+			}
 	      console.log($(this).attr("data-uid")) // 머천트 아이디
 	      console.log($(this).attr("data-id")) //사는놈 아이디
 	      var button = $(this); // 'this'를 button 변수에 저장

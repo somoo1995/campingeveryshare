@@ -95,7 +95,7 @@
     .carDone{
     	display: flex;
     	justify-content: space-between;
-    	margin-top: -3px;
+    	margin-top: 5px;
     	
     }
     .carList button{

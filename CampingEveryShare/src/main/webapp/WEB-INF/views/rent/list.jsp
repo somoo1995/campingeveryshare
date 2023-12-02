@@ -101,8 +101,10 @@ pageEncoding="UTF-8"%>
 }
 
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-$(function(){
+
+$(document).ready(function(){
 	$('.heartClass').click(function(event){
 		event.stopPropagation()
 		var clickedImg = $(this).find('img');

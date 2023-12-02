@@ -328,6 +328,13 @@ $(document).ready(function() {
   });
   
   $('.btn.btn-success.save-button').click(function(event) {
+      if (confirm("저장 하시겠습니까?")) {
+		    // 사용자가 '확인' 버튼을 클릭했을 때 수행할 동작
+		} else {
+		    // 사용자가 '취소' 버튼을 클릭했을 때 수행할 동작
+		    alert("작업이 취소되었습니다.");
+		    return;
+		}
        event.preventDefault();
 
        // FormData 객체를 생성하고 폼 데이터를 추가합니다.
@@ -498,6 +505,7 @@ $(document).ready(function() {
             	   alert('이미 등록된 차량입니다.');
             	   return;
                }
+               alert("저장이 완료되었습니다.");
            },
            error: function(xhr, status, error) {
                console.error("에러 발생:", error);
@@ -508,6 +516,13 @@ $(document).ready(function() {
    });
   
   $('.btn.btn-success.update-button').click(function(event) {
+      if (confirm("변경 하시겠습니까?")) {
+		    // 사용자가 '확인' 버튼을 클릭했을 때 수행할 동작
+		} else {
+		    // 사용자가 '취소' 버튼을 클릭했을 때 수행할 동작
+		    alert("작업이 취소되었습니다.");
+		    return;
+		}
       event.preventDefault();
 
       // FormData 객체를 생성하고 폼 데이터를 추가합니다.
@@ -673,6 +688,7 @@ $(document).ready(function() {
            	   alert('이미 등록된 차량입니다.');
            	   return;
               }
+     		alert("변경이 완료되었습니다.");
           },
           error: function(xhr, status, error) {
               console.error("에러 발생:", error);
@@ -689,6 +705,13 @@ $(document).ready(function() {
   $(".btn.btn-primary.approve-button").click(function(event){
      event.preventDefault();
      console.log("승인요청 버튼 클릭됨");
+     if (confirm("승인 신청을 하시겠습니까?")) {
+		    // 사용자가 '확인' 버튼을 클릭했을 때 수행할 동작
+		} else {
+		    // 사용자가 '취소' 버튼을 클릭했을 때 수행할 동작
+		    alert("작업이 취소되었습니다.");
+		    return;
+		}
      var carNumberValue = $('input[name="carNumber"]').val();
      console.log(carNumberValue)
      
@@ -699,6 +722,7 @@ $(document).ready(function() {
          success: function(response) {
         	 console.log("approve AJAX 성공")
              console.log("서버로부터의 응답:", response);
+    		 alert("승인이 완료 되었습니다.");
           
              }
          ,
