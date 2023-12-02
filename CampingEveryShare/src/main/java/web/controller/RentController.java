@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -39,9 +41,10 @@ public class RentController {
 	@Autowired ReviewService reviewService;
 	
 	@RequestMapping("/list")
-	public String rentHandler(Model model, Paging param, HttpServletRequest request, HttpSession session) {
+	public String rentHandler(Model model, Paging param, HttpSession session,HttpServletRequest request,
+			@RequestParam(value="heartCheck", required=false,defaultValue="undo")String heartCheck) {
 	    logger.info("param : {}", param);
-
+	    logger.info("heartCheck : {}",heartCheck );
 	    Paging paging = rentService.getPaging(param);
 	    logger.info("paging : {}", paging);
 	    //
@@ -69,12 +72,26 @@ public class RentController {
 		    }
 	    }
 	    
+	    if(heartCheck.equals("do")) {
+	    	List<Map<String, Object>> filteredList = list.stream()
+	    	        .filter(map -> map.containsKey("HEART") && Objects.equals(map.get("HEART"), 1))
+	    	        .collect(Collectors.toList());
+	    	logger.info("하트가 1인것만!!");
+		    logger.info(filteredList.toString());
+		    Paging heartPaging = new Paging(list.size(), param.getCurPage(), 9, 10);
+		    model.addAttribute("paging",heartPaging);
+		    model.addAttribute("list",filteredList);
+		    return "rent/list";
+	    }
+	    
+	    
+	    
+	    
 	    logger.info(list.toString());
 	    logger.info("하트 들어오는지 확인할것");
 	    model.addAttribute("paging", paging);
 	    model.addAttribute("hasData", hasData);
 	    model.addAttribute("list", list);
-
 	    if (request.getMethod().equals("GET")) {
 	        return "rent/main";
 	    } else if (request.getMethod().equals("POST")) {

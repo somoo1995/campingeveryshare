@@ -39,12 +39,8 @@ pageEncoding="UTF-8"%>
 
 function rent() {
     $.ajax({
-        type: "post",
-        url: "/heart/rent",
-        data: {
-            boardCate: $(".button.active").data("category"),
-            userId : "${loginId}",
-        },
+        type: "get",
+        url: "/rent/list?heartCheck=do",
         dataType: "html",
         success: function(res) {
             console.log("AJAX 성공");
