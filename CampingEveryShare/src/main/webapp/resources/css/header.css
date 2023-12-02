@@ -83,6 +83,12 @@
 	font-size: 40px;
 }
 
+.pageTitle h6 {
+	color: #A4A4A4; 
+	font-weight: 200; 
+	font-size: 20px;
+}
+
 .wrap-menu {
 	position: absolute;
 	top: 60px;

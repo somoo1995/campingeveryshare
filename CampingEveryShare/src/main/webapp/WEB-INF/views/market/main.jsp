@@ -168,7 +168,9 @@ select {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3 id=pageTitle>중고장터 게시판</h3>
-<hr>
+<h6>캠핑에 필요한 물품을 찾아보세요!</h6>
+</div>
+
 <div class="select">
 <select name="location" id="location">
      <option value="20">전체</option>
@@ -191,7 +193,6 @@ select {
      <option value="11">충북</option>
  </select>
 </div>
-<hr>
 
 <div style="text-align: right; margin-bottom: 10px;">
 <a  href="/market/write?boardCate=3"><button class="btn_write">글쓰기</button></a>
@@ -201,8 +202,4 @@ select {
 
 
 
-
-
-
-</div><!-- .container -->
 <c:import url="../layout/footer.jsp" />
