@@ -34,6 +34,7 @@ pageEncoding="UTF-8"%>
 .title h2{
 }
 .heart{
+	margin-right: 10px;
 }
 .heart img{
    margin-top: 5px;
@@ -199,7 +200,10 @@ input[type="number"] {
 	text-align: center;
 }
 
-
+.reqButton a {
+    text-decoration: none; /* 밑줄 없애기 */
+    color: white; /* 링크의 텍스트 색상을 검은색으로 변경 */
+}
 
 
 </style>
@@ -438,27 +442,6 @@ $(function() {
       
    }
 
-   // function getBookedList() {
-      
-//       $.ajax({
-//            type: "post"
-//            , url: "/rent/view"
-//            , data: {
-//             carNo: ${car.carNo},
-//          }
-//            , dataType: "json"
-//            , success: function( res ) {
-//             console.log("AJAX 성공")
-//             buildCalendar()
-//            }
-//            , error: function() {
-//               console.log("AJAX 실패")
-
-//            }
-//       })
-      
-   // }
-
    function loadReview() {
       
        $.ajax({
@@ -581,7 +564,6 @@ $(function() {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<h3 id="pageTitle">대여 상세 보기</h3>
 <hr>
 </div>
 <div class="test">

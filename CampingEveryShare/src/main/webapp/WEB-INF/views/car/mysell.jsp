@@ -27,22 +27,35 @@
 	height: 100px;
 	background-color: #E6E6E6;
 }
+.available span{
+	font-weight: 600;
+	font-size: 1.5em;
+}
 .expectation{
 	width: 200px;
 	height: 100px;
 	background-color: #E6E6E6;
+}
+.expectation span{
+	font-weight: 600;
+	font-size: 1.5em;
 }
 .total{
 	width: 200px;
 	height: 100px;
 	background-color: #E6E6E6;
 }
+.total span{
+	font-weight: 600;
+	font-size: 1.5em;
+}
 .cell-wrap{
 	width: 1280px;
 	height: 1500px;
-	background-color: #E6E6E6;
 	display: flex;
 	flex-direction: column;
+	border-radius: 20px;
+	border: 1px solid #e3e3e3;
 }
 .link-wrap{
 	width: 1280px;
@@ -54,7 +67,14 @@
 	margin-top: 40px;
 	width: 200px;
 	height: 100px;
-	background-color: white;
+	border: 1px solid;
+	padding-top: 25px;
+	text-align: center;
+}
+
+.proceeds span, .withdraw span, .charge span{
+	font-weight: 600;
+	font-size: 1.5em;
 }
 .proceeds:hover, .withdraw:hover, .charge:hover{
 	cursor: pointer;
@@ -129,7 +149,7 @@
 	margin-top: -50px;
 }
 .sellPagination{
-	margin-left: 450px;
+	margin-left: 0px;
 }
 .commit{
 	display: none;
@@ -360,11 +380,13 @@ $(document).ready(function() {
 	console.log("카테고리 값 확인")
 	if(category ===1){
 		$(".proceeds").css("background-color","#5882FA");
-		$('.commit').show()
+		$('.commit').show();
 	}else if(category === 2){
 		$(".withdraw").css("background-color","#5882FA");
+		$('.commit').hide();
 	}else if(category === 3){
 		$(".charge").css("background-color","#5882FA");
+		$('.commit').hide();
 	}
 });
 
@@ -388,13 +410,13 @@ $(document).ready(function() {
 <div class="cell-wrap"> <!-- cell-wrap div --><!-- 전체 div -->
 <div class="link-wrap"> <!-- ling-wrap div -->
 <div class="proceeds">
-수익금 내역
+<span>수익금 내역</span>
 </div>
 <div class="withdraw">
-출금 내역
+<span>출금 내역</span>
 </div>
 <div class="charge">
-호스팅별 수수료 계산서
+<span>호스팅별 수수료 계산서</span>
 </div>
 </div> <!-- ling-wrap div end -->
 <hr>
