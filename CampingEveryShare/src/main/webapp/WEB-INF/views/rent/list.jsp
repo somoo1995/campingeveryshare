@@ -83,15 +83,12 @@ pageEncoding="UTF-8"%>
 }
 
 /* 하트 버튼 */
-.heartOn {
+
+.heartClass img{
 	width: 25px;
 	height: 25px;
 }
 
-.heartNone {
-    width: 25px; 
-    height: 25px; 
-}
 
 .btnHeart {
 	display: grid;
@@ -104,7 +101,42 @@ pageEncoding="UTF-8"%>
 }
 
 </style>
-
+<script>
+$(function(){
+	$('.heartClass').click(function(event){
+		event.stopPropagation()
+		var clickedImg = $(this).find('img');
+		console.log("하트버튼 클릭됨");
+		var heartNo = $(this).data("no");
+		var userId = $(this).data("id");
+		if(!userId){
+			alert("로그인이 필요한 서비스입니다.")
+			return;
+		}
+		$.ajax({
+			type: "post"
+		   ,url: "/rent/heart"
+		   ,data:{
+			   userId:userId,
+			   heartNo: heartNo
+		   }
+		   ,success:function(res){
+			   console.log("/rent/heart AJAX성공");
+			   console.log(res);
+			   if(res ==='done'){
+				   clickedImg.attr("src","/resources/img/heartOn.png")
+			   }else if(res==="cancel"){
+				   clickedImg.attr("src","/resources/img/heartNone.png")
+			   }
+			   
+		   },error: function(){
+			   console.log("/rent/heart AJAX실패");
+		   }
+		})
+		
+	})
+})
+</script>
 <c:forEach items="${list }" var="car" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">
@@ -130,21 +162,14 @@ pageEncoding="UTF-8"%>
 			<h6 class="title">${price } 원 / 1박</h6>	
 			
 			<!-- 하트 -->
-			<img class="heartOn" src="/resources/img/heartOn.png">
-			
-<%-- 			<c:if test="${car.HEARTID eq 0  }"> --%>
-<%-- 				<c:if test="${isLogin }"> --%>
-<%-- 					<span class="btnHeart" data-no="${car.BOARD_NO }" data-cate="${car.BOARD_CATE }"><img class="heartOn" id="${car.BOARD_NO }" src="/resources/img/heartNone.png"> ${car.HEART }</span> --%>
-<%-- 				</c:if> --%>
-<%-- 			</c:if> --%>
-<%-- 			<c:if test="${car.HEARTID eq 1  }"> --%>
-<%-- 				<c:if test="${isLogin }"> --%>
-<%-- 					<span class="btnHeart" data-no="${car.BOARD_NO }" data-cate="${car.BOARD_CATE }"><img class="heartOn" id="${car.BOARD_NO }" src="/resources/img/heartOn.png"> ${car.HEART }</span> --%>
-<%-- 				</c:if>	 --%>
-<%-- 			</c:if> --%>
-<%-- 			<c:if test="${empty isLogin}"> --%>
-<%-- 			    <h6><img class="heartOn" src="/resources/img/heartOn.png"> ${car.HEART }</h6> --%>
-<%-- 			</c:if>	 --%>
+			<div data-no="${car.CAR_NO }" data-id="${sessionScope.loginId }"class="heartClass">
+			<c:if test="${car.HEART == 1 }">
+			<img src="/resources/img/heartOn.png">						
+			</c:if>
+			<c:if test="${car.HEART == 0 }">
+			<img src="/resources/img/heartNone.png">						
+			</c:if>
+			</div>
 			
 		</div>
 		

@@ -56,6 +56,10 @@ pageEncoding="UTF-8"%>
 .msgprofile {
   border: 1px solid;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .container {
@@ -174,9 +178,27 @@ pageEncoding="UTF-8"%>
 .msgObject-username, .messagePreview {
   white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
 }
+
+.userImg img{
+	width: 200px;
+	height: 200px;
+	border-radius: 70%;
+}
+.pros{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid;
+	background-color: #04B404;
+	width: 296px;
+}
+.userNick{
+	width: 296px;
+	background-color: white;
+	text-align: center;
+}
 </style>
 
-User
 <script >
 var roomNo;
 var currentUserId;
@@ -192,6 +214,11 @@ var newRoom
 var makingRoom = false;
 var newChatMessage;
 var sendNewFlag = 0;
+var newBoardNo;
+var newTitle;
+var newBoardCate;
+var newNick;
+var newProfile;
 function scrollToBottom() {
     var messagesContainer = $('.messages-container');
     messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
@@ -330,20 +357,27 @@ function onReceivedId(payload){
 	    console.log("룸넘버는!!!!!!")
 	    console.log(testMsg.roomNo)
 	    roomNo = testMsg.roomNo;
+	    
 	    if(currentUserId === testMsg.writerId){
 	    	var ID = testMsg.receiverId
 	    }else{
 	    	var ID = testMsg.writerId
 	    }
+
 	    var formattedDate = dateFormatter.format(date);
 	    var chatRoomDiv = $('<div>')
         .addClass('msgObject')
         .attr('room_no',  testMsg.roomNo.toString())
+	    .attr('data-board-no', newBoardNo) // boardNo 데이터 속성 추가
+	    .attr('data-title', newTitle) // title 데이터 속성 추가
+	    .attr('data-board-cate', newBoardCate) // boardCate 데이터 속성 추가
+	    .attr('data-nick', testMsg.userNick) // nick 데이터 속성 추가
+	    .attr('data-profile', testMsg.profile) // profile 데이터 속성 추가
         .append(
-            $('<img>').attr('src', '/resources/img/chunsic.png').addClass('msgObject-img'),
+            $('<img>').attr('src', '/resources/img/profile'+newProfile+'.jpg').addClass('msgObject-img'),
             $('<div>').addClass('msgObject-content')
                 .append(
-                    $('<div>').addClass('msgObject-username').text(ID),
+                    $('<div>').addClass('msgObject-username').text(newUserNick),
                     $('<div>').addClass('messagePreview').text(messagePreview)
                 ),
             $('<div>').addClass('lastMessageTime').text(formattedDate)
@@ -423,6 +457,54 @@ $(document).ready(function() {
 
 		$('.msgObjects').on('click', '.msgObject', function() {
 	    roomNo = $(this).attr('room_no');
+	   	var boardNo = $(this).data("boardNo");
+	   	var title = $(this).data("title");
+	   	var boardCate = $(this).data("boardCate");
+	    var nick = $(this).data("nick");
+	    var profile = $(this).data("profile")
+	    $('.userImg img').attr('src', '/resources/img/profile' + profile + '.jpg');
+	    $('.userNick span').text(nick);
+	    var categoryText = '';
+	    switch (boardCate) {
+	        case 1:
+	            categoryText = '캠핑카 대여';
+	            break;
+	        case 2:
+	            categoryText = '캠핑존 공유';
+	            break;
+	        case 3:
+	            categoryText = '캠핑인원 모집';
+	            break;
+	        case 4:
+	            categoryText = '중고장터';
+	            break;
+	        default:
+	            categoryText = '기타';
+	    }
+	    $('.category h2').text(categoryText);
+	    
+	    var linkUrl = '';
+	    switch (boardCate) {
+	        case 1:
+	            linkUrl = '/rent/view?carNo=' + boardNo;
+	            break;
+	        case 2:
+	            linkUrl = '/share/view?boardNo=' + boardNo+'&boardCate='+boardCate
+	            break;
+	        case 3:
+	            linkUrl = '/market/view?boardNo=' + boardNo+'&boardCate='+boardCate
+	            break;
+	        case 4:
+	            linkUrl = '/group/view?boardNo=' + boardNo+'&boardCate='+boardCate
+	            break;
+	    }
+	    $('.link h2 a').attr('href', linkUrl).text(title);
+	   	console.log("ajax 시작전 데이터 체크");
+	   	console.log(boardNo)
+	   	console.log(title)
+	   	console.log(boardCate)
+	   	console.log(nick)
+	   	console.log(profile)
 	    
 	    lastSentRoomNo = $(this).attr('room_no');
 	    // Hide the prompt and show the message content
@@ -497,7 +579,6 @@ $(document).ready(function() {
 	console.log("현재 아이디로 구독 완료")
     var newMaking = '<c:out value="${newMaking}" escapeXml="false"/>';
     if(newMaking) {
-    	console.log("이부분이 문제야")
         newRoom = JSON.parse(newMaking);
         console.log(newRoom.newBoardCate);
         console.log(newRoom.newBoardNo);
@@ -507,7 +588,51 @@ $(document).ready(function() {
         $('.msginput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.');
         $('.msgPrompt').addClass('hidden');
         $('.msgcontent, .msgprofile').removeClass('hidden');
-        // $(this).css('background-color','white'); // $(this)는 여기서 문맥에 맞지 않을 수 있습니다.
+        newBoardNo = newRoom.newBoardNo
+        newTitle = newRoom.newTitle
+        console.log("이거 왜 안 들어옴?")
+        console.log(newTitle);
+        newBoardCate = newRoom.newBoardCate
+        newNick = newRoom.newNick
+        newProfile = newRoom.newProfile
+	    $('.userImg img').attr('src', '/resources/img/profile' + newProfile + '.jpg');
+	    $('.userNick span').text(newNick);
+	    var categoryText = '';
+	    switch (newBoardCate) {
+	        case 1:
+	            categoryText = '캠핑카 대여';
+	            break;
+	        case 2:
+	            categoryText = '캠핑존 공유';
+	            break;
+	        case 3:
+	            categoryText = '캠핑인원 모집';
+	            break;
+	        case 4:
+	            categoryText = '중고장터';
+	            break;
+	        default:
+	            categoryText = '기타';
+	    }
+	    $('.category h2').text(categoryText);
+	    
+	    var linkUrl = '';
+	    switch (newBoardNo) {
+	        case 1:
+	            linkUrl = '/rent/view?carNo=' + newBoardNo;
+	            break;
+	        case 2:
+	            linkUrl = '/share/view?boardNo=' + newBoardNo+'&boardCate='+boardCate
+	            break;
+	        case 3:
+	            linkUrl = '/market/view?boardNo=' + newBoardNo+'&boardCate='+boardCate
+	            break;
+	        case 4:
+	            linkUrl = '/group/view?boardNo=' + newBoardNo+'&boardCate='+boardCate
+	            break;
+	    }
+	    $('.link h2 a').attr('href', linkUrl).text(newTitle);
+        
     }
     var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'
     if(targetRoomNo){
@@ -554,10 +679,10 @@ $(document).ready(function() {
   <!-- 나머지 msglist 내용 -->
 <div class="msgObjects">
   <c:forEach var="list" items="${list}">
-    <div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}">
-      <img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
+    <div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}" data-board-no=${list.boardNo } data-title=${list.title } data-board-cate=${list.boardCate } data-nick=${list.userNick } data-profile=${list.profile }>
+	 <img src="/resources/img/profile${list.profile}.jpg" alt="Profile Image" class="msgObject-img">
       <div class="msgObject-content">
-        <div class="msgObject-username">${list.otherUserId}</div>
+        <div class="msgObject-username">${list.userNick}</div>
         <div class="messagePreview">
           <c:choose>
             <c:when test="${fn:length(list.messagePreview) > 10}">
@@ -590,9 +715,26 @@ $(document).ready(function() {
   </form>
 </div>
 </div>
-
 <div class="msgprofile hidden">
+
+<div class="pros">
+<div class="userImg">
+<img alt="이미지 없음" src="/resources/img/profile1.jpg">
 </div>
+<div class="userNick">
+<span>유저닉</span>
+</div>
+</div>
+
+<div class="category">
+<h2>카테고리 들어갈곳</h2>
+</div>
+<div class="link">
+<h2><a href="링크">글제목 들어갈곳</a></h2>
+</div>
+
+</div>
+
 </div>
 
 

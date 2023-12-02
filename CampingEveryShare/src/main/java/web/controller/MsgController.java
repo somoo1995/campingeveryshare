@@ -36,7 +36,10 @@ public class MsgController {
 	public String Msg(HttpSession session, Model model,
 			@RequestParam(value = "boardNo", required = false, defaultValue = "0") int boardNo,
 			@RequestParam(value = "boardCate", required = false, defaultValue = "0") int boardCate,
-			@RequestParam(value = "receiverId", required = false,defaultValue = "anonymous") String receiverId) throws JsonProcessingException {
+			@RequestParam(value = "receiverId", required = false,defaultValue = "anonymous") String receiverId,
+			@RequestParam(value = "title", required = false, defaultValue = "unknown") String title,
+			@RequestParam(value = "nick", required = false, defaultValue = "unknown") String nick,
+			@RequestParam(value = "profile", required = false, defaultValue = "unknown") String profile) throws JsonProcessingException {
 		User user = new User();
 		user.setUserId(session.getAttribute("loginId").toString());
 //		logger.info(session.getAttribute("loginId").toString());
@@ -49,6 +52,9 @@ public class MsgController {
 			map.put("newReceiverId", receiverId);
 			map.put("newBoardCate",boardCate);
 			map.put("newWriterId", user.getUserId());
+			map.put("newTitle", title);
+			map.put("newNick", nick);
+			map.put("newProfile", profile);
 			Integer checkRoom = 0;
 			logger.info("이부분 나오냐?");
 			if(msgService.checkNewRoom(map) != null) {
@@ -84,5 +90,14 @@ public class MsgController {
 		logger.info(msgload.toString());
 		return msgload;
 		
+	}
+	
+	@RequestMapping("/getNick")
+	@ResponseBody
+	public Map<String,Object> getNick(@RequestParam("targetId") String targetId){
+		logger.info(targetId);
+		logger.info("getNikc 오냐!!");
+		
+		return null;
 	}
 }
