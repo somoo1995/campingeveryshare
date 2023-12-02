@@ -97,7 +97,7 @@ public class AlertController {
     
     @PostMapping(value = "/sendnotification")
     @ResponseBody
-    public ResponseEntity<Map<String,Object>> sendNotification( Alert alert, HttpServletResponse resp ) {
+    public void sendNotification( Alert alert, HttpServletResponse resp ) {
     	logger.info("alert : {}", alert);
     	
     	alertService.sendAlert(alert);
@@ -119,7 +119,6 @@ public class AlertController {
 			}
     		
     	}
-		return ResponseEntity.ok(Map.of("status","success"));
 	}
     
 	private void sendInitEvent( SseEmitter sseEmitter ) {
