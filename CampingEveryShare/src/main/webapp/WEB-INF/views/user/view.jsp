@@ -229,7 +229,7 @@ $(document).ready(function() {
 
 <div class="container">
 	<div class="pageTitle">
-	<h3 id="pageTitle">마이페이지</h3>
+	<h3 id="pageTitle">내 정보</h3>
 	</div>
 	
 	<div class="profile-container">

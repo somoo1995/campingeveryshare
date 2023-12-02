@@ -343,8 +343,7 @@ pageEncoding="UTF-8"%>
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">비밀번호 찾기</h3>
-	<a>비밀번호는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a>
-	<hr>	
+	<a style="color: green; font-weight: bold;">비밀번호는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a>
 	</div>
 
 <div class="col-6 mx-auto my-5">
