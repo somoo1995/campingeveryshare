@@ -78,7 +78,7 @@ $(()=>{
     </c:when>
     <c:otherwise>
         <!-- adminCode가 존재하고 adminCode와 admin.adminCode가 일치하는 경우에만 버튼을 표시 -->
-        <a href="./write?boardCate=5"><button>글쓰기</button></a>
+        <a href="./noticewrite?boardCate=5"><button class="btn btn-primary">글쓰기</button></a>
     </c:otherwise>
 </c:choose>
 </div>
@@ -138,7 +138,6 @@ $(()=>{
 
 
 </table>
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
 
 
 </div>
@@ -147,7 +146,7 @@ $(()=>{
 
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" >
-    <c:param name="url" value="./list" />
+    <c:param name="url" value="./noticelist" />
 </c:import>
 
 <c:import url="../layout/footer.jsp" />

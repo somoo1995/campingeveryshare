@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Admin;
+import web.dto.Board;
+import web.dto.Car;
 import web.dto.Income;
+import web.dto.Recom;
 import web.dto.Report;
 import web.dto.User;
 import web.service.face.AdminService;
@@ -39,16 +43,16 @@ public class UserManageController {
 		return adminService.loginCheck(admin);
 	}
 	
-	@GetMapping("/idCheck/{userId}")
-	   @ResponseBody
-	   public boolean joinIdDuplicateCheck(@PathVariable String userId) {
-	      return adminService.joinIdCheck(userId);
-	   }
+//	@GetMapping("/idCheck/{userId}")
+//	   @ResponseBody
+//	   public boolean joinIdDuplicateCheck(@PathVariable String userId) {
+//	      return adminService.joinIdCheck(userId);
+//	   }
 	
 	@GetMapping("/login")
 	public void login(HttpSession session) {
 		logger.info("login[GET]");
-		session.invalidate();
+//		session.invalidate();
 	}
 	
 	@PostMapping("/login")
@@ -118,12 +122,6 @@ public class UserManageController {
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("report", report);
 		
-		//확인용
-//		logger.info("report : {}", report);
-//		logger.info("reportList : {}", reportList);
-//		logger.info("paging {} :" + paging.toString());
-//		logger.info("model {} :" + model.toString());
-	
 	}
 	
 	@RequestMapping("/income")
@@ -147,26 +145,114 @@ public class UserManageController {
 	
 	}
 	
-	@PostMapping("/list")
-	@ResponseBody
-	public String deleteuser(@RequestParam("userId") String userId, Model model) {
+	@RequestMapping("/mycar")
+	public void list(Model model, Paging param, Car car) {
 		
-		//무언가 단단히 잘못되었다.
+		//페이징 계산
+		Paging paging = adminService.getPagingMycar( param );
+		logger.info("paging : {}", paging);
 		
-		boolean isDeleted = adminService.updateUserStatus(userId);
-
-	    if (isDeleted) {
-	        model.addAttribute("deleteuser", isDeleted);
-	        logger.info("회원상태1로변경");
-	        return "done";
-	       } else {
-	       model.addAttribute("error", "비밀번호를 확인해주세요");
-	       logger.info("회원상태 변경 실패");
-	       return "undone";
-	       }
-	    
-	    
+		//게시글 목록 조회
+		List<Map<String, Object>> mycarList = adminService.mycarList(paging);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("mycarList", mycarList);
+		model.addAttribute("car", car);
+		
+		logger.info("mycarList : {}", mycarList);
+		logger.info("paging {} :" + paging.toString());
+		logger.info("model {} :" + model.toString());
+	
 	}
+	
+	
+	@RequestMapping("/userstatus")
+	public ModelAndView toggleDeleteStatus(Report report, User user, Model model, ModelAndView mav) {
 		
+		logger.info("user 제대로 나오니 : {}", user);
+		
+//		user.setUserId(report.getVuserId());
+//		user.setUserStatus(user.getUserStatus());
+
+		//글 삭제 상태 토글
+	    boolean result = adminService.deleteUserStatus(user);
+	    
+	    logger.info("user user_status 내놔 : {}", user);
+	    
+	    mav.addObject("result", result);
+	    mav.setViewName("jsonView");
+	    
+	    return mav;
+	}
+	
+	@RequestMapping("/boardstatus")
+	public ModelAndView toggleBoardStatus(Report report, Board board, Model model, ModelAndView mav) {
+		
+		logger.info("board 제대로 나오니 : {}", board);
+		
+		//글 삭제 상태 토글
+	    boolean result = adminService.deleteBoardStatus(board);
+	    
+	    logger.info("board delete_status 내놔 : {}", board);
+	    
+	    mav.addObject("result", result);
+	    mav.setViewName("jsonView");
+	    
+	    return mav;
+	}
+	
+	@RequestMapping("/allow")
+	public String mycarAllowStatus(Car car) {
+		
+		logger.info("carAllow 제대로 나오니 : {}", car);
+		
+		adminService.carAllowStatus(car);
+	    
+	    logger.info("carAllow car_status 내놔 : {}", car);
+	    
+	    return "jsonView";
+	}
+	
+	@RequestMapping("/hold")
+	public String mycarHoldStatus(Car car) {
+		
+		logger.info("carHold 제대로 나오니 : {}", car);
+		
+		adminService.carHoldStatus(car);
+	    
+	    logger.info("carHold car_status 내놔 : {}", car);
+	    
+	    return "jsonView";
+	}
+	
+	@RequestMapping("/carStatus")
+	public ModelAndView toggleDeleteStatus(Car car, Model model, ModelAndView mav) {
+		
+		logger.info("car 제대로 나오니 : {}", car);
+		
+		//글 삭제 상태 토글
+	    boolean result = adminService.deleteCarStatus(car);
+	    
+	    logger.info("car delete_status 내놔 : {}", car);
+	    
+	    mav.addObject("result", result);
+	    mav.setViewName("jsonView");
+	    
+	    return mav;
+	}
+
+	@RequestMapping("/permit")
+	public String incomePermitStatus(Income income) {
+		
+		logger.info("income 제대로 나오니 : {}", income);
+		
+		adminService.incomePermitStatus(income);
+	    
+	    logger.info("income income_status 내놔 : {}", income);
+	    
+	    return "jsonView";
+	}
+	
+	
 	
 } // UserManageController end

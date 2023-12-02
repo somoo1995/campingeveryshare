@@ -79,7 +79,7 @@ select {
 <input type="hidden" name="boardCate" value="5" >
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="${adminCode }">
+	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="관리자">
 </div>
 
 <div class="form-group mb-3">

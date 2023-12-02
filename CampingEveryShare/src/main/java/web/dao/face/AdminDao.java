@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Admin;
+import web.dto.Board;
+import web.dto.Car;
+import web.dto.Income;
 import web.dto.User;
 import web.util.Paging;
 
@@ -48,14 +51,36 @@ public interface AdminDao {
 
 	public int selectCntAllIncome(Paging param);
 
-	/**
-	 * 회원 상태 0:활성 -> 1:탈퇴로 변경
-	 * 
-	 * @param user - user 객체
-	 */
-	public void updateUserStatus(User user);
-
 	public User selectById(String userId);
 
 	public int selectCntUserId(String userId);
+
+	public int checkStatus(User user);
+
+	public void statusToZero(User user);
+
+	public void statusToOne(User user);
+
+	public int checkBoardStatus(Board board);
+
+	public void BoardstatusToZero(Board board);
+
+	public void BoardstatusToOne(Board board);
+
+	public int selectCntAllMycar(Paging param);
+
+	public List<Map<String, Object>> selectAllMycar(Paging paging);
+
+	public void carStatusToTwo(Car car);
+
+	public void carStatusToThree(Car car);
+
+	public void incomeStatusToTwo(Income income);
+
+	public int checkCarDeleteStatus(Car car);
+
+	public void carDeletestatusToZero(Car car);
+
+	public void carDeletestatusToOne(Car car);
+
 }

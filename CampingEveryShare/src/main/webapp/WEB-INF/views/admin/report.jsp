@@ -14,18 +14,8 @@ pageEncoding="UTF-8"%>
 /* } */
 
 /* 검색 바깥 div */
-#searchDiv{
-	display: inline-block;
-	float: right;
-}
-/* 검색 input */
-#searchInput{
-	display: inline-block;
-	width: 300px;
-}
-/* 검색 버튼 */
-#btnSearch{
-	margin-top: -5px;
+#body, #head {
+	text-align: center;
 }
 
 </style>
@@ -52,6 +42,104 @@ $(() => {
 
 </script>
 
+<script type="text/javascript">
+$(()=>{	
+	$(".btnUserStatus").click(function (){
+		
+		var userId = $(this).attr('data-vuserid')
+	    var status = $(this).attr('data-status')
+	    var isConfirmed = confirm("해당 회원을 탈퇴시키겠습니까?");
+	       
+		console.log(userId)
+		console.log(status)
+		
+		if (isConfirmed) {
+		$.ajax({
+			type: "get"
+			, url: "./userstatus"
+			, data: { 
+				userId: userId,
+	             userStatus: status
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+	//				console.log("성공");
+					
+				if( data.result ) { //탈퇴 성공
+					$(".btnUserStatus[data-vuserid='" + userId + "']")
+					.removeClass("btn-danger")
+					.addClass("btn-warning")
+					.html('회원 복구');
+				
+				} else { //복구 성공
+					$(".btnUserStatus[data-vuserid='" + userId + "']")
+					.removeClass("btn-warning")
+					.addClass("btn-danger")
+					.html('회원 탈퇴');
+				} //if end
+				
+	//			location.reload(true);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	  }
+	}) //$(".btnUserStatus").click() end
+	
+}); //function end
+</script>
+
+<script type="text/javascript">
+$(()=>{	
+	$(".btnBoardStatus").click(function (){
+		
+		var boardNo = $(this).attr('data-boardno')
+		var boardCate = $(this).attr('data-cate')
+	    var status = $(this).attr('data-status')
+	    var isConfirmed = confirm("해당 글을 삭제하시겠습니까?");
+	       
+		console.log(boardNo)
+		console.log(boardCate)
+		console.log(status)
+		
+		$.ajax({
+			type: "get"
+			, url: "./boardstatus"
+			, data: { 
+				boardNo: boardNo,
+				boardCate: boardCate,
+	            deleteStatus: status
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					
+				if( data.result ) { //글 삭제 성공
+					$(".btnBoardStatus[data-boardno='" + boardNo + "'][data-cate='" + boardCate + "']")
+					.removeClass("btn-danger")
+					.addClass("btn-warning")
+					.html('글 복구');
+				} else { //복구 성공
+					$(".btnBoardStatus[data-boardno='" + boardNo + "'][data-cate='" + boardCate + "']")
+					.removeClass("btn-warning")
+					.addClass("btn-danger")
+					.html('글 삭제');
+				} //if end
+				
+	//			location.reload(true);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+		
+	}) //$(".btnUserStatus").click() end
+	
+}); //function end
+</script>
+
 
 <div class="container">
 
@@ -72,21 +160,21 @@ $(() => {
 </div>
 
 
-<form action="web.dao.face.adminDao" method="get" >
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
 	<col width="5%">
-	<col width="15%">
+	<col width="12%">
 	<col width="10%">
-	<col width="25%">
-	<col width="16%">
-	<col width="7%">
-	<col width="7%">
+	<col width="24%">
 	<col width="15%">
+	<col width="7%">
+	<col width="7%">
+	<col width="10%">
+	<col width="10%">
 </colgroup>
 
 <thead>
-	<tr>
+	<tr id="head">
 		<th>No.</th>
 		<th>신고사유</th>
 		<th>카테고리</th>
@@ -94,34 +182,35 @@ $(() => {
 		<th>신고일</th>
 		<th>게시자</th>
 		<th>신고자</th>
-		<th>관리</th>
+		<th>탈퇴</th>
+		<th>삭제</th>
 	</tr>
 </thead>
 <tbody>
 <c:forEach var="report" items="${reportList }">
 	<tr> 
-		<td>${report.RNUM }</td>
+		<td id="body">${report.RNUM }</td>
 		<c:choose>
 		<c:when test="${report.REASON == 1 }">
-			<td>허위 사실 유포</td>
+			<td id="body">허위 사실 유포</td>
 		</c:when>
 		<c:when test="${report.REASON == 2 }">
-			<td>음란성 및 선정성</td>
+			<td id="body">음란성 및 선정성</td>
 		</c:when>
 		<c:when test="${report.REASON == 3 }">
-			<td>지나친 욕설 포함</td>
+			<td id="body">지나친 욕설 포함</td>
 		</c:when>
 		<c:when test="${report.REASON == 4 }">
-			<td>지나친 혐오성</td>
+			<td id="body">지나친 혐오성</td>
 		</c:when>
 		<c:when test="${report.REASON == 5 }">
-			<td>저치관련 게시물</td>
+			<td id="body">저치관련 게시물</td>
 		</c:when>
 		<c:when test="${report.REASON == 6 }">
-			<td>상업적 광고 홍보</td>
+			<td id="body">상업적 광고 홍보</td>
 		</c:when>
 		<c:when test="${report.REASON == 7 }">
-			<td>
+			<td id="body">
 			<!-- 버튼 트리거 모달 -->
 			<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportDetailModal" onclick="openReportDetailModal('${report.REASON_DETAIL}')">
 			<div>기타</div>
@@ -129,33 +218,50 @@ $(() => {
 			</td>
 		</c:when>
 		</c:choose>
-				<c:choose>
+		<c:choose>
 		<c:when test="${report.BOARD_CATE == 1 }">
-			<td>대여</td>
+			<td id="body">대여</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 2 }">
-			<td>캠핑존</td>
+			<td id="body">캠핑존</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 3 }">
-			<td>중고장터</td>
+			<td id="body">중고장터</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 4 }">
-			<td>모집</td>
+			<td id="body">모집</td>
 		</c:when>
 		</c:choose>
 		<td>
-			<a href="./view?boardNo=${report.BOARD_NO }&boardCate=${report.BOARD_CATE }">${report.REPORT_TITLE }</a>
+			<a href="/share/view?boardNo=${report.BOARD_NO }&boardCate=${report.BOARD_CATE }">${report.REPORT_TITLE }</a>
 		</td>
-		<td>
+		<td id="body">
 		<fmt:parseDate value="${report.REPORT_DATE }" var="date" pattern="yyyy-MM-dd HH:mm"/>
       	<fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm"/>
 		</td>
-		<td>${report.VUSER_ID }</td>
-		<td>${report.RUSER_ID }</td>
-		<td>
-		<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-report-detail="${report.REASON_DETAIL}">
-		<div>회원 탈퇴</div></button>
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#deleteBoardModal">글 삭제</button>
+		<td id="body">${report.VUSER_ID }</td>
+		<td id="body">${report.RUSER_ID }</td>
+		
+		<td id="body">
+		 <c:choose>
+         <c:when test="${report.USER_STATUS eq 0 }">
+   			 <button class="btn btn-danger btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 탈퇴</button>
+		</c:when>
+		<c:when test="${report.USER_STATUS eq 1 }">
+   			 <button class="btn btn-warning btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 복구</button>
+		</c:when>
+		</c:choose>
+		</td>
+		
+		<td id="body">
+		<c:choose>
+         <c:when test="${report.DELETE_STATUS eq 0 }">
+   			 <button class="btn btn-danger btnBoardStatus" data-boardno="${report.BOARD_NO }" data-cate="${report.BOARD_CATE }" data-status="${report.DELETE_STATUS }">글 삭제</button>
+		</c:when>
+		<c:when test="${report.DELETE_STATUS eq 1 }">
+   			 <button class="btn btn-warning btnBoardStatus" data-boardno="${report.BOARD_NO }" data-cate="${report.BOARD_CATE }" data-status="${report.DELETE_STATUS }">글 복구</button>
+		</c:when>
+		</c:choose>
 		</td>  
 	</tr>
 </c:forEach>
@@ -163,14 +269,13 @@ $(() => {
 </table>
 <small class="float-end mb-3">total : ${paging.totalCount }</small>
 
-</form>
 </div>
 
 
 </div><!-- .container -->
 
 
-<c:import url="/WEB-INF/views/layout/adminPaginationSearch.jsp" >
+<c:import url="/WEB-INF/views/layout/pagination.jsp" >
     <c:param name="url" value="./report" />
 </c:import>
 
