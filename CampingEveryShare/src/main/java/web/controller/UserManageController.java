@@ -202,7 +202,7 @@ public class UserManageController {
 	}
 	
 	@RequestMapping("/allow")
-	public void mycarAllowStatus(Car car) {
+	public String mycarAllowStatus(Car car) {
 		
 		logger.info("carAllow 제대로 나오니 : {}", car);
 		
@@ -210,10 +210,11 @@ public class UserManageController {
 	    
 	    logger.info("carAllow car_status 내놔 : {}", car);
 	    
+	    return "jsonView";
 	}
 	
 	@RequestMapping("/hold")
-	public void mycarHoldStatus(Car car) {
+	public String mycarHoldStatus(Car car) {
 		
 		logger.info("carHold 제대로 나오니 : {}", car);
 		
@@ -221,10 +222,27 @@ public class UserManageController {
 	    
 	    logger.info("carHold car_status 내놔 : {}", car);
 	    
+	    return "jsonView";
+	}
+	
+	@RequestMapping("/carStatus")
+	public ModelAndView toggleDeleteStatus(Car car, Model model, ModelAndView mav) {
+		
+		logger.info("car 제대로 나오니 : {}", car);
+		
+		//글 삭제 상태 토글
+	    boolean result = adminService.deleteCarStatus(car);
+	    
+	    logger.info("car delete_status 내놔 : {}", car);
+	    
+	    mav.addObject("result", result);
+	    mav.setViewName("jsonView");
+	    
+	    return mav;
 	}
 
 	@RequestMapping("/permit")
-	public void incomePermitStatus(Income income) {
+	public String incomePermitStatus(Income income) {
 		
 		logger.info("income 제대로 나오니 : {}", income);
 		
@@ -232,6 +250,7 @@ public class UserManageController {
 	    
 	    logger.info("income income_status 내놔 : {}", income);
 	    
+	    return "jsonView";
 	}
 	
 	

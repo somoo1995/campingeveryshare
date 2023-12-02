@@ -266,6 +266,24 @@
 		SET income_status = 2,
 		post_date = SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul'
 		WHERE income_no = #{incomeNo}
+	</update>
+	
+	<select id="checkCarDeleteStatus" resultType="int" parameterType="Car">
+  		SELECT delete_status
+  		FROM cartb
+  		WHERE car_no = #{carNo}
+  	</select>
+  	
+  	<update id="carDeletestatusToOne" parameterType="Car">
+		UPDATE cartb
+		SET delete_status = 1
+		WHERE car_no = #{carNo}}
+	</update>
+	
+	<update id="carDeletestatusToZero" parameterType="Car">
+		UPDATE cartb
+		SET delete_status = 0
+		WHERE car_no = #{carNo}
 	</update>	
 
 </mapper>

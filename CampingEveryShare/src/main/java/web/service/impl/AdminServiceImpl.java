@@ -201,5 +201,28 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
+	@Override
+	public boolean deleteCarStatus(Car car) {
+		
+		logger.info("car 가기 전: {}", car);
+		
+		int status = adminDao.checkCarDeleteStatus(car);
+		
+		logger.info("car 간 후: {}", car);
+		
+		if(status > 0) {
+		adminDao.carDeletestatusToZero(car);
+		
+			return false;
+			
+		} else {
+			adminDao.carDeletestatusToOne(car);
+			
+			return true;
+		}
+		
+	}
+
+
 	
 }

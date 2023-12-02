@@ -80,5 +80,7 @@ public interface AdminService {
 	
 	public void incomePermitStatus(Income income);
 	
+	public boolean deleteCarStatus(Car car);
+	
 
 }

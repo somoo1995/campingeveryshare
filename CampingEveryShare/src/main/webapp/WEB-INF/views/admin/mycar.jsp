@@ -52,6 +52,7 @@ $(()=>{
 		
 		var carNo = $(this).attr('data-carno')
 		var carStatus = $(this).attr('data-status')
+		var userId = $(this).attr('data-userid')
 		var isConfirmed = confirm("승인 하시겠습니까?");
 	       
 		console.log(carNo)
@@ -68,6 +69,7 @@ $(()=>{
 			, dataType: "json"
 			, success: function( data ) {
 					console.log("성공");
+					sendNotification(userId, carNo)
 
 					$(".btnAllow[data-carno='" + carNo + "']")
 					.removeClass("btn-info")
@@ -81,6 +83,32 @@ $(()=>{
 	  }
 	}) //$(".btnAllow").click() end
 	
+		
+	//알람보내기
+	  function sendNotification(userId, carNo) {
+	
+	    $.ajax({
+	        type: "post"
+	        , url: "/alert/sendnotification"
+	        , data: {
+	           userId: userId,
+	           boardCate: 7,
+	           boardNo: carNo,
+	           content: 1
+	        }
+	        , dataType: "json"
+	        , success: function(  ) {
+	           console.log("send Notification - AJAX 성공")
+
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+
+	        }
+	     })
+	   
+	} //알림 end
+	
 }); //function end
 </script>
 
@@ -88,6 +116,9 @@ $(()=>{
 $(()=>{	
 	$(".btnHold").click(function (){
 		
+		var carNo = $(this).attr('data-carno')
+		var carStatus = $(this).attr('data-status')
+		var userId = $(this).attr('data-userid')
 		var isConfirmed = confirm("수정 요청을 하시겠습니까?");
 				
 		if (isConfirmed) {
@@ -101,6 +132,13 @@ $(()=>{
 			, dataType: "json"
 			, success: function( data ) {
 					console.log("수정 요청");
+					sendNotification(userId, carNo)
+					
+					$(".btnHold[data-carno='" + carNo + "']")
+					.removeClass("btn-warning")
+					.addClass("btn-warning disabled")
+					.html('요청 완료');
+					
 				//	location.reload(true);
 			}
 			, error: function() {
@@ -110,9 +148,107 @@ $(()=>{
 	  }
 	}) //$(".btnHold").click() end
 	
+	
+	//알람보내기
+	  function sendNotification(userId, carNo) {
+	
+	    $.ajax({
+	        type: "post"
+	        , url: "/alert/sendnotification"
+	        , data: {
+	           userId: userId,
+	           boardCate: 7,
+	           boardNo: carNo,
+	           content: 2
+	        }
+	        , dataType: "json"
+	        , success: function(  ) {
+	           console.log("send Notification - AJAX 성공")
+
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+
+	        }
+	     })
+	   
+	} //알림 end
+	
 }); //function end
 </script>
 
+
+<script type="text/javascript">
+$(()=>{	
+	$(".btnCancel").click(function (){
+		
+		var carNo = $(this).attr('data-carno')
+		var deleteStatus = $(this).attr('data-deletestatus')
+		var userId = $(this).attr('data-userid')
+		var isConfirmed = confirm("해당 캠핑카를 삭제 하시겠습니까?");
+				
+		if (isConfirmed) {
+		$.ajax({
+			type: "get"
+			, url: "./carStatus"
+			, data: { 
+				carNo: carNo,
+	            deleteStatus: deleteStatus
+ 			}
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
+					
+					if( data.result ) { //탈퇴 성공
+						$(".btnCancel[data-carno='" + carNo + "']")
+						.removeClass("btn-danger")
+						.addClass("btn-warning")
+						.html('캠핑카 복구');
+						sendNotification(userId, carNo)
+					
+					} else { //복구 성공
+						$(".btnCancel[data-carno='" + carNo + "']")
+						.removeClass("btn-warning")
+						.addClass("btn-danger")
+						.html('캠핑카 삭제');
+					} //if end
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	  }
+	}) //$(".btnCancel").click() end
+	
+	
+	//알람보내기
+	  function sendNotification(userId, carNo) {
+	
+	    $.ajax({
+	        type: "post"
+	        , url: "/alert/sendnotification"
+	        , data: {
+	           userId: userId,
+	           boardCate: 7,
+	           boardNo: carNo,
+	           content: 5
+	        }
+	        , dataType: "json"
+	        , success: function(  ) {
+	           console.log("send Notification - AJAX 성공")
+
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+
+	        }
+	     })
+	   
+	} //알림 end
+	
+}); //function end
+</script>
 
 <div class="container">
 
@@ -122,7 +258,7 @@ $(()=>{
 <div id="searchDiv"> 
    <input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="아이디 조회"/>
    <!--  <button class="btn"><img src="/resources/img/admin_search.png"></button>-->
-   <button class="btn">검색</button>
+   <button class="btn btn-primary">검색</button>
 </div>
 
 <table class="table table-striped table-hover table-sm" >
@@ -134,8 +270,9 @@ $(()=>{
    <col width="10%">
    <col width="5%">
    <col width="10%">
-   <col width="15%">
-   <col width="15%">
+   <col width="10%">
+   <col width="10%">
+   <col width="10%">
 </colgroup>
 
 <thead>
@@ -148,7 +285,8 @@ $(()=>{
       <th>지역</th>
       <th>지역구</th>
       <th>승인</th>
-      <th>승인 보류</th>
+      <th>수정</th>
+      <th>취소</th>
    </tr>
 </thead>
 <tbody>
@@ -165,16 +303,27 @@ $(()=>{
       <td>${car.AREA }</td>
       <td>
       		<c:if test="${car.CAR_STATUS == 1  }">
-   		  <button class="btn btn-info btnAllow" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">승인</button>      		
+   		  <button class="btn btn-info btnAllow" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }" data-userid="${car.USER_ID }">승인</button>      		
       		</c:if>
       		<c:if test="${car.CAR_STATUS == 2  }">
-   		  <button class="btn btn-info btnAllow disabled" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">승인완료</button>      		      		
+   		  <button class="btn btn-info btnAllow disabled" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }" data-userid="${car.USER_ID }" >승인 완료</button>      		      		
       		</c:if>
    	  </td>
    	  <td>
    	  		<c:if test="${car.CAR_STATUS == 1 or  car.CAR_STATUS == 2 }">
-   		  <button class="btn btn-danger btnHold" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }">수정 요청</button>   	  		
+   		  <button class="btn btn-warning btnHold" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }" data-userid="${car.USER_ID }">수정 필요</button>   	  		
    	  		</c:if>
+   	  		<c:if test="${car.CAR_STATUS == 3 }">
+   		  <button class="btn btn-warning btnHold disabled" data-carno="${car.CAR_NO }" data-status="${car.CAR_STATUS }" data-userid="${car.USER_ID }">요청 완료</button>   	  		
+   	  		</c:if>
+   	  </td>
+   	  <td>
+      		<c:if test="${car.DELETE_STATUS == 0  }">
+   		  <button class="btn btn-danger btnCancel" data-carno="${car.CAR_NO }" data-deletestatus="${car.DELETE_STATUS }" data-userid="${car.USER_ID }">캠핑카 삭제</button>      		
+      		</c:if>
+      		<c:if test="${car.DELETE_STATUS == 1  }">
+   		  <button class="btn btn-danger btnCancel disabled" data-carno="${car.CAR_NO }" data-deletestatus="${car.DELETE_STATUS }" data-userid="${car.USER_ID }">캠핑카 복구</button>      		      		
+      		</c:if>
    	  </td>
    </tr>
 </c:forEach>

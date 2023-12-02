@@ -14,25 +14,8 @@ pageEncoding="UTF-8"%>
 /* } */
 
 /* 검색 바깥 div */
-.table_top {
+#body, #head {
 	text-align: center;
-}
-#table_body {
-	text-align: center;
-}
-
-#searchDiv{
-	display: inline-block;
-	float: right;
-}
-/* 검색 input */
-#searchInput{
-	display: inline-block;
-	width: 300px;
-}
-/* 검색 버튼 */
-#btnSearch{
-	margin-top: -5px;
 }
 
 </style>
@@ -190,8 +173,8 @@ $(()=>{
 	<col width="10%">
 </colgroup>
 
-<thead class="table_top">
-	<tr>
+<thead>
+	<tr id="head">
 		<th>No.</th>
 		<th>신고사유</th>
 		<th>카테고리</th>
@@ -206,28 +189,28 @@ $(()=>{
 <tbody>
 <c:forEach var="report" items="${reportList }">
 	<tr> 
-		<td id="table_body">${report.RNUM }</td>
+		<td id="body">${report.RNUM }</td>
 		<c:choose>
 		<c:when test="${report.REASON == 1 }">
-			<td id="table_body">허위 사실 유포</td>
+			<td id="body">허위 사실 유포</td>
 		</c:when>
 		<c:when test="${report.REASON == 2 }">
-			<td id="table_body">음란성 및 선정성</td>
+			<td id="body">음란성 및 선정성</td>
 		</c:when>
 		<c:when test="${report.REASON == 3 }">
-			<td id="table_body">지나친 욕설 포함</td>
+			<td id="body">지나친 욕설 포함</td>
 		</c:when>
 		<c:when test="${report.REASON == 4 }">
-			<td id="table_body">지나친 혐오성</td>
+			<td id="body">지나친 혐오성</td>
 		</c:when>
 		<c:when test="${report.REASON == 5 }">
-			<td id="table_body">저치관련 게시물</td>
+			<td id="body">저치관련 게시물</td>
 		</c:when>
 		<c:when test="${report.REASON == 6 }">
-			<td id="table_body">상업적 광고 홍보</td>
+			<td id="body">상업적 광고 홍보</td>
 		</c:when>
 		<c:when test="${report.REASON == 7 }">
-			<td id="table_body">
+			<td id="body">
 			<!-- 버튼 트리거 모달 -->
 			<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportDetailModal" onclick="openReportDetailModal('${report.REASON_DETAIL}')">
 			<div>기타</div>
@@ -237,29 +220,29 @@ $(()=>{
 		</c:choose>
 		<c:choose>
 		<c:when test="${report.BOARD_CATE == 1 }">
-			<td id="table_body">대여</td>
+			<td id="body">대여</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 2 }">
-			<td id="table_body">캠핑존</td>
+			<td id="body">캠핑존</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 3 }">
-			<td id="table_body">중고장터</td>
+			<td id="body">중고장터</td>
 		</c:when>
 		<c:when test="${report.BOARD_CATE == 4 }">
-			<td id="table_body">모집</td>
+			<td id="body">모집</td>
 		</c:when>
 		</c:choose>
 		<td>
 			<a href="/share/view?boardNo=${report.BOARD_NO }&boardCate=${report.BOARD_CATE }">${report.REPORT_TITLE }</a>
 		</td>
-		<td id="table_body">
+		<td id="body">
 		<fmt:parseDate value="${report.REPORT_DATE }" var="date" pattern="yyyy-MM-dd HH:mm"/>
       	<fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm"/>
 		</td>
-		<td id="table_body">${report.VUSER_ID }</td>
-		<td id="table_body">${report.RUSER_ID }</td>
+		<td id="body">${report.VUSER_ID }</td>
+		<td id="body">${report.RUSER_ID }</td>
 		
-		<td id="table_body">
+		<td id="body">
 		 <c:choose>
          <c:when test="${report.USER_STATUS eq 0 }">
    			 <button class="btn btn-danger btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 탈퇴</button>
@@ -270,7 +253,7 @@ $(()=>{
 		</c:choose>
 		</td>
 		
-		<td id="table_body">
+		<td id="body">
 		<c:choose>
          <c:when test="${report.DELETE_STATUS eq 0 }">
    			 <button class="btn btn-danger btnBoardStatus" data-boardno="${report.BOARD_NO }" data-cate="${report.BOARD_CATE }" data-status="${report.DELETE_STATUS }">글 삭제</button>

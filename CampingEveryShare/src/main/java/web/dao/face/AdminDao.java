@@ -77,4 +77,10 @@ public interface AdminDao {
 
 	public void incomeStatusToTwo(Income income);
 
+	public int checkCarDeleteStatus(Car car);
+
+	public void carDeletestatusToZero(Car car);
+
+	public void carDeletestatusToOne(Car car);
+
 }

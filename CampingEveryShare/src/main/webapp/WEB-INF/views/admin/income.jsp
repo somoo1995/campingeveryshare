@@ -56,6 +56,8 @@ $(()=>{
 		
 		var incomeNo = $(this).attr('data-incomeno')
 		var incomeStatus = $(this).attr('data-status')
+		var userId = $(this).attr('data-userid')
+		var rentNo = $(this).attr('data-rentno')
 		var isConfirmed = confirm("출금 승인 하시겠습니까?");
 	       
 		console.log(incomeNo)
@@ -72,6 +74,7 @@ $(()=>{
 			, dataType: "json"
 			, success: function( data ) {
 					console.log("성공");
+					sendNotification(userId, rentNo)
 
 					$(".btnPermit[data-incomeno='" + incomeNo + "']")
 					.addClass("btn-primary disabled")
@@ -84,10 +87,36 @@ $(()=>{
 			}
 		}); //ajax end
 	  } //if end
-		
+	
+
 	
 		
 	}) //$(".btnPermit").click() end
+	
+	  //알람보내기
+	  function sendNotification(userId, rentNo) {
+	
+	    $.ajax({
+	        type: "post"
+	        , url: "/alert/sendnotification"
+	        , data: {
+	           userId: userId,
+	           boardCate: 7,
+	           boardNo: rentNo,
+	           content: 1
+	        }
+	        , dataType: "json"
+	        , success: function(  ) {
+	           console.log("send Notification - AJAX 성공")
+
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+
+	        }
+	     })
+	   
+	}
 	
 }); //function end
 </script>
@@ -148,10 +177,10 @@ $(()=>{
 		</td>
 		<td>
 		<c:if test="${income.INCOME_STATUS == 1  }">
-		<button type="button" class="btn btn-primary btnPermit" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }">출금 승인</button>
+		<button type="button" class="btn btn-primary btnPermit" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }" data-userid="${income.USER_ID }" data-rentno="${income.RENT_NO }">출금 승인</button>
 		</c:if>
 		<c:if test="${income.INCOME_STATUS == 2  }">
-		<button type="button" class="btn btn-primary btnPermit disabled" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }">출금 완료</button>
+		<button type="button" class="btn btn-primary btnPermit disabled" data-incomeno="${income.INCOME_NO }" data-status="${income.INCOME_STATUS }" data-userid="${income.USER_ID }" data-rentno="${income.RENT_NO }">출금 완료</button>
 		</c:if>
 		</td>  
 	</tr>
