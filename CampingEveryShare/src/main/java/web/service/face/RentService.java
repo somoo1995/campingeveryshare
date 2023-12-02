@@ -36,5 +36,7 @@ public interface RentService {
 
 	public int changeHeart(Heart heart);
 
+	public Object checkHeartList(Heart target);
+
 //	public void income(Income income);
 }
