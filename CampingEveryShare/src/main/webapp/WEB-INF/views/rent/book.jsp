@@ -115,9 +115,9 @@ $(function() {
 
 })	
 
-    // list 변수를 JavaScript에서 사용할 수 있도록 정의
-    var list = <%= new Gson().toJson(list) %>
-    var car = <%= new Gson().toJson(car) %>
+// list 변수를 JavaScript에서 사용할 수 있도록 정의
+var list = <%= new Gson().toJson(list) %>
+var car = <%= new Gson().toJson(car) %>
 
 // 달력 생성
 var today = new Date()
