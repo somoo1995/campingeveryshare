@@ -58,10 +58,12 @@
 	align-items: center;
 }
 
-.booking-thumbnail {
+.booking-thumbnail,
+.preview {
 	width: 225px;
 	height: 202px;
 }
+
 
 .booking-detail {
 	margin-left: 30px;
@@ -392,9 +394,6 @@ window.onclick = function(event) {
 <c:if test="${paging.totalCount gt 5 }">
 </c:if>
 </c:if>
-
-
-
 
 <c:if test="${empty hasData or not hasData }">
 <c:choose>

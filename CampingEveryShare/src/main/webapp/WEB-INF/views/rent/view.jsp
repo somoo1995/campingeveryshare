@@ -16,7 +16,9 @@ pageEncoding="UTF-8"%>
    border-radius: 30px;
 }
 .left{
+
 /*    background-color: pink; */
+
     display: flex;
     flex-direction: column;
     width: 900px;
@@ -28,7 +30,9 @@ pageEncoding="UTF-8"%>
    display: flex;
 /*    margin-top: 10px; */
    justify-content: space-between;
+
    border-bottom: 1px solid #BDBDBD;
+
    min-height: 60px;
     padding: 20px; 
 /*    margin-left: 20px; */
@@ -105,18 +109,19 @@ pageEncoding="UTF-8"%>
    background-color: white; /* 배경색 지정 */
    padding: 0px; /* 필요에 따라 패딩 추가 */
 /*    box-shadow: 0 2px 5px rgba(0,0,0,0.2);  */
-   font-size: 24px;
-/*    background-color: #efefef; */
+
+	font-size: 24px;
+/* 	background-color: #efefef; */
 }
 .category div{
-   width: 900px;
-/*    border-right: 1px solid; */
-   height: 50px;
-   text-align: center;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   border-top: 1px solid #BDBDBD;
+	width: 900px;
+/* 	border-right: 1px solid; */
+	height: 50px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-top: 1px solid #BDBDBD;
 }
 
 .category div{
@@ -144,7 +149,9 @@ pageEncoding="UTF-8"%>
    height: auto;
 }
 .right{
+
    width: 400px;
+
     /* margin-left: 10px; */
     display: flex;
     flex-direction: column
@@ -157,9 +164,11 @@ pageEncoding="UTF-8"%>
     padding-top: 10px;
 }
 .carOptions{
-   display: flex;
-   flex-wrap: wrap;
-   padding: 10px;
+
+	display: flex;
+	flex-wrap: wrap;
+	padding: 10px;
+
 }
 .option {
     text-align: center; /* 텍스트 중앙 정렬 */
@@ -206,10 +215,12 @@ input[type="number"] {
    display: flex;
 }
 .reservation_title h2{
-/*    margin-left: 105px; */
-/*    margin-bottom: -10px; */
-/*    margin-top: -31px; */
-   min-height: 97px;
+
+/* 	margin-left: 105px; */
+/* 	margin-bottom: -10px; */
+/* 	margin-top: -31px; */
+	min-height: 97px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,8 +230,10 @@ input[type="number"] {
     font-size: 40px;
 }
 .reqButton{
-   text-align: center;
-   margin-bottom: 20px;
+
+	text-align: center;
+	margin-bottom: 20px;
+
 }
 
 .reqButton a {
@@ -231,68 +244,70 @@ input[type="number"] {
 }
 
 .details {
-   min-height: 97px;
-   border-bottom: 1px solid #BDBDBD;
-   display: flex;
+
+	min-height: 97px;
+	border-bottom: 1px solid #BDBDBD;
+	display: flex;
     align-items: center;
-   justify-content: center;
-   background-color: #ebffeb;
-   border-top-right-radius: 30px;
+	justify-content: center;
+	background-color: #ebffeb;
+	border-top-right-radius: 30px;
 }
 
 /* .head_sm { */
-/*    min-height: 210px; */
+/* 	min-height: 210px; */
 /* } */
 
 .option-title {
-   min-height: 97px;
-   font-weight: bold;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   border-bottom: 1px solid #BDBDBD;
-   background-color: #ebffeb;
+	min-height: 97px;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid #BDBDBD;
+	background-color: #ebffeb;
 }
 
 .contentButton .refundButton .cautionButton .reviewButton {
-   width: 225px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+	width: 225px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .contentButton  {
-   border-right: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
 }
 
 .refundButton {
-   border-right: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
 }
 
 .cautionButton {
-   border-right: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
 }
 
 .reviewButton {
-   border-right: 1px solid #BDBDBD;
+	border-right: 1px solid #BDBDBD;
 }
 
 .bookInfo {
-   padding: 20px;
-   font-size: 20px;
+	padding: 20px;
+	font-size: 20px;
 }
 
 .content {
-   border-bottom: 1px solid #BDBDBD;
+	border-bottom: 1px solid #BDBDBD;
 }
 
 .p_style {
-   padding: 40px;
-   font-size: 20px;
+	padding: 40px;
+	font-size: 20px;
 }
 
 .rentList {
-   display: flex;
+	display: flex;
+
     justify-content: center;
     align-items: center;
     padding: 40px;
@@ -770,18 +785,22 @@ data-no="${car.carNo }" class="heart">
 </div>
 
 </div><!-- .category -->
+
 <div id="map" style="width:100%;height:400px;"></div>  
 <div style="padding: 0px; overflow: auto;" id="content" class="content">
+
 ${car.content }
 </div>
 <div id="refund" class="refund">
 <div>
 <h3 style="border-bottom: 1px solid #BDBDBD;
-   padding: 20px;
-   text-align: center;
-   font-weight: bold;
-   font-size: 24px;
-   background-color: forestgreen;">환불 정책</h3>
+
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">환불 정책</h3>
+
 <!-- <hr> -->
 
 <div class="p_style">
@@ -802,11 +821,13 @@ ${car.content }
 </div>
 <div id="caution" class="caution">
 <h3 style="border-bottom: 1px solid #BDBDBD;
-   padding: 20px;
-   text-align: center;
-   font-weight: bold;
-   font-size: 24px;
-   background-color: forestgreen;">유의사항</h3>
+
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">유의사항</h3>
+
 <!-- <hr> -->
 <div style="padding: 40px; font-size: 20px;">
 <ol>
@@ -821,11 +842,13 @@ ${car.content }
 <!-- <hr> -->
 <div class="review-title">
 <h3 style="border-bottom: 1px solid #BDBDBD;
-   padding: 20px;
-   text-align: center;
-   font-weight: bold;
-   font-size: 24px;
-   background-color: forestgreen;">이용 후기</h3>
+
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">이용 후기</h3>
+
 </div>
 <div id="reviewList" class="reviewList">
 </div>

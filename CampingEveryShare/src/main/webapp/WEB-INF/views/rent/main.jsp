@@ -17,6 +17,7 @@ pageEncoding="UTF-8"%>
 .locationSelect {
 	text-align: end;
 	margin-right: 15px;
+	font-size: 20px;
 }
 
 input[type="radio"]:checked {
@@ -143,9 +144,9 @@ function loadList(areaCate) {
 
 
 <div class="col-2 mb-3 float-end locationSelect">
-		<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked">전체
-		<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1">서울
-		<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2">인천
+		<input type="radio" class="areaCate" id="areaAll" name="areaCate" value="0" checked="checked"> 전체
+		<input type="radio" class="areaCate" id="areaSEL" name="areaCate" value="1"> 서울
+		<input type="radio" class="areaCate" id="areaICN" name="areaCate" value="2"> 인천
 </div>
 
 <div class="clearfix"></div>

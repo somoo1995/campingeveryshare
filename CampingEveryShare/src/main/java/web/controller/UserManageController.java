@@ -86,6 +86,11 @@ public class UserManageController {
 		
 	}
 	
+	@RequestMapping("/failnotice")
+	public void failNotice() {
+		
+	}
+	
 	@RequestMapping("/list")
 	public void list(Model model, Paging param, User user) {
 		

@@ -735,8 +735,10 @@ $(() => {
    
       </div><!-- .subtitle -->
         <hr>
+
    <div class="content" style="overflow: auto;">   
    <div id="map" style="width:70%;height:400px;"></div>  
+
        ${board.content }  
        </div><!-- .content -->
 <div class="file_fin">

@@ -7,13 +7,18 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/adminheader.jsp" />
 
 <style>
-/* .form-control{ */
-/* 	display: inline-block; */
-/*     width: 236px; */
-/*     margin-top: 15px; */
-/* } */
-
-/* 검색 바깥 div */
+#searchDiv{
+      display: flex;
+      width: 60%;
+      margin-left: 0;
+      margin-bottom: 20px;
+}
+#select, #input{
+	width : 25%;
+}
+#btnSearch{
+	width: 10%:
+}
 #body, #head {
 	text-align: center;
 }
@@ -67,14 +72,14 @@ $(()=>{
 					
 				if( data.result ) { //탈퇴 성공
 					$(".btnUserStatus[data-vuserid='" + userId + "']")
-					.removeClass("btn-danger")
+					.removeClass("btn-primary")
 					.addClass("btn-warning")
 					.html('회원 복구');
 				
 				} else { //복구 성공
 					$(".btnUserStatus[data-vuserid='" + userId + "']")
 					.removeClass("btn-warning")
-					.addClass("btn-danger")
+					.addClass("btn-primary")
 					.html('회원 탈퇴');
 				} //if end
 				
@@ -147,7 +152,7 @@ $(()=>{
 <h3 id=adminpageTitle>관리자 신고 관리</h3>
 
 <div id="searchDiv">
-	 <select id="boardCategory" class="form-select">
+	 <select id="select" class="form-select">
         <option value="0">--전체--</option>
         <option value="1">대여</option>
         <option value="2">캠핑존 공유</option>
@@ -155,7 +160,7 @@ $(()=>{
         <option value="4">모집</option>
     </select>
     
-	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="신고받은 회원 조회"/>
+	<input class="form-control" id="input" value="${param.search }" placeholder="신고받은 회원 조회"/>
 	<button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
@@ -173,8 +178,8 @@ $(()=>{
 	<col width="10%">
 </colgroup>
 
-<thead>
-	<tr id="head">
+<thead id="head">
+	<tr>
 		<th>No.</th>
 		<th>신고사유</th>
 		<th>카테고리</th>
@@ -245,7 +250,7 @@ $(()=>{
 		<td id="body">
 		 <c:choose>
          <c:when test="${report.USER_STATUS eq 0 }">
-   			 <button class="btn btn-danger btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 탈퇴</button>
+   			 <button class="btn btn-primary btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 탈퇴</button>
 		</c:when>
 		<c:when test="${report.USER_STATUS eq 1 }">
    			 <button class="btn btn-warning btnUserStatus" data-vuserid="${report.VUSER_ID }" data-status="${report.USER_STATUS }">회원 복구</button>
@@ -267,7 +272,7 @@ $(()=>{
 </c:forEach>
 </tbody>
 </table>
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
+<small class="float-end mb-3">total : ${paging.totalCount }</small><br><br>
 
 </div>
 
@@ -297,5 +302,5 @@ $(()=>{
 </div>
 
 
-
+<br>
 <c:import url="../layout/footer.jsp" />

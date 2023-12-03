@@ -40,6 +40,16 @@ pageEncoding="UTF-8"%>
 	/* 채워진 별로 이미지 변경 */
 	background-image: url(/resources/img/star_full.png);
 }
+
+.rentList {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    font-size: 20px;
+    flex-direction: column;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -121,9 +131,9 @@ $(function() {
 
 <c:if test="${empty list }">
 		<div class="rentList">
-			<strong>작성된 리뷰가 없습니다!</strong><br>
-			<span>이용 후기를 작성하시겠어요?</span><br>
-			<a href="/booking/main" class="exploreButton">내 예약</a>
+			<div style="font-weight: bold;">작성된 후기가 없습니다!</div>
+			<div>이용 후기를 작성하시겠어요? <a href="/booking/main" class="exploreButton">내 예약</a></div>
+<!-- 			<div><a href="/booking/main" class="exploreButton">내 예약</a></div> -->
 		</div>
 </c:if>
 

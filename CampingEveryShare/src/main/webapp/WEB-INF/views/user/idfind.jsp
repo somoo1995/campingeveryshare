@@ -215,8 +215,7 @@ pageEncoding="UTF-8"%>
 <div class="container">
 	<div class="pageTitle">
 	<h3 id="pageTitle">아이디 찾기</h3>
-<!-- 	<a>아이디는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a> -->
-	<hr>	
+	<a style="color: green; font-weight: bold;">아이디는 가입시 입력한 이메일을 통해 찾을 수 있습니다</a>
 	</div>
 <div class="idfind-form col-6 mx-auto my-5">
 <!-- <form id="idfind" action="./idfind" method="POST" name="idfind"> -->

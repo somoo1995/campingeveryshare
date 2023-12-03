@@ -8,25 +8,22 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/adminheader.jsp" />
 
 <style>
-.form-control{
-	display: inline-block;
-    width: 236px;
-    margin-top: 15px;
+#searchDiv{
+      display: flex;
+      width: 60%;
+      margin-left: 0;
+      margin-bottom: 20px;
 }
-.searchDiv{
-	margin-left: 756px;
-	margin-bottom: 15px;
+#select, #input{
+	width : 25%;
 }
-#type{
-	width: 150px;
+#btnSearch{
+	width: 10%:
 }
-#search{
-	width: 300px;
-}
+
 #head, #body{
 	text-align: center;
 }
-
 
 </style>
 
@@ -101,9 +98,9 @@ $(()=>{
 	        , url: "/alert/sendnotification"
 	        , data: {
 	           userId: userId,
-	           boardCate: 7,
+	           boardCate: 8,
 	           boardNo: rentNo,
-	           content: 1
+	           content: 6
 	        }
 	        , dataType: "json"
 	        , success: function(  ) {
@@ -129,10 +126,10 @@ $(()=>{
 <h3 id=adminpageTitle>관리자 수익관리</h3>
 
 <div id="searchDiv">
- <select id="typeCategory" class="form-select">
+ <select id="select" class="form-select">
         <option value="1">아이디</option>
     </select>
-	<input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="검색어 입력"/>
+	<input class="form-control" type="text" id="input" value="${param.search }" placeholder="검색어 입력"/>
 	<button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
@@ -187,7 +184,7 @@ $(()=>{
 </c:forEach>
 </tbody>
 </table>
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
+<small class="float-end mb-3">total : ${paging.totalCount }</small><br><br>
 
 </div>
 
@@ -197,4 +194,5 @@ $(()=>{
     <c:param name="url" value="./income" />
 </c:import>
 
+<br>
 <c:import url="../layout/footer.jsp" />
