@@ -67,7 +67,7 @@ $(document).ready(function () {
 
 <a href="/admin/noticelist">공지사항</a>
 
-<a href="/inquiry/list">고객문의</a>
+<a href="/admin/inquirylist">고객문의</a>
 
 <a href="/admin/report">신고 관리</a>
 
