@@ -441,7 +441,10 @@ $(function() {
       <div class="fin">
 	      <span onclick="location.href='/notice/list'">공지사항</span>
 	      <span onclick="location.href='/inquiry/list'">고객문의</span>
-	      <span onclick="location.href='/admin/login'">관리자 페이지</span>
+	     	 <c:if test="${empty isLogin or isAdmin }">
+	    	  <span onclick="location.href='/admin/login'">관리자 페이지</span>
+	    	  </c:if>
+	    	  <br>
       </div><!-- .fin -->
       
       </div><!-- .wrap-menu -->

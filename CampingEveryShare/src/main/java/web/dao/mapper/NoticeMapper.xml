@@ -55,7 +55,6 @@
 			, user_id
 			FROM boardtb
 			WHERE board_cate = 5
-			AND delete_status = 0
 			ORDER BY board_no DESC
 	    ) B
 	) WHERE rnum BETWEEN #{startNo} AND #{endNo}

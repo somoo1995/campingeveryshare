@@ -7,21 +7,19 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/adminheader.jsp" />
 
 <style>
-.form-control{
-   display: inline-block;
-    width: 236px;
-    margin-top: 15px;
+#searchDiv{
+      display: flex;
+      width: 60%;
+      margin-left: 0;
+      margin-bottom: 20px;
 }
-.searchDiv{
-   margin-left: 756px;
-   margin-bottom: 15px;
+#select, #input{
+	width : 25%;
 }
-#type{
-   width: 150px;
+#btnSearch{
+	width: 10%:
 }
-#search{
-   width: 300px;
-}
+
 #head, #body{
 	text-align: center;
 }
@@ -107,26 +105,25 @@ $(()=>{
 <h3 id=adminpageTitle>관리자 회원관리</h3>
 
 <div id="searchDiv">
-    <select id="typeCategory" class="form-select">
+    <select id="select" class="form-select">
         <option value="0">--전체--</option>
         <option value="1">아이디</option>
         <option value="2">이름</option>
         <option value="3">이메일</option>
     </select>
     
-   <input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="조회"/>
+   <input id="input" class="form-control" value="${param.search }" placeholder="조회"/>
    <button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
 <table class="table table-striped table-hover table-sm" >
 <colgroup>
-   <col width="10%">
-   <col width="20%">
-   <col width="20%">
-   <col width="20%">
-   <col width="10%">
-   <col width="10%">
-   <col width="10%">
+   <col width="5%">
+   <col width="15%">
+   <col width="15%">
+   <col width="25%">
+   <col width="15%">
+   <col width="15%">
 </colgroup>
 
 <thead id="head">
@@ -169,7 +166,7 @@ $(()=>{
 </tbody>
 
 </table>
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
+<small class="float-end mb-3">total : ${paging.totalCount }</small><br><br>
 
 </div>
 
@@ -179,4 +176,5 @@ $(()=>{
     <c:param name="url" value="./list" />
 </c:import>
 
+<br>
 <c:import url="../layout/footer.jsp" />

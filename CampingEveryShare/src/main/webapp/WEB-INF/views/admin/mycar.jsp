@@ -7,21 +7,19 @@ pageEncoding="UTF-8"%>
 <c:import url="../layout/adminheader.jsp" />
 
 <style>
-.form-control{
-   display: inline-block;
-    width: 236px;
-    margin-top: 15px;
+#searchDiv{
+      display: flex;
+      width: 60%;
+      margin-left: 0;
+      margin-bottom: 20px;
 }
-.searchDiv{
-   margin-left: 756px;
-   margin-bottom: 15px;
+#select, #input{
+	width : 25%;
 }
-#type{
-   width: 150px;
+#btnSearch{
+	width: 10%:
 }
-#search{
-   width: 300px;
-}
+
 #head, #body{
 	text-align: center;
 }
@@ -33,14 +31,15 @@ $(() => {
    //검색 버튼 클릭
    $("#btnSearch").click(() => {
    const searchValue = $("#searchInput").val();
+   const typeCategory = $("#typeCategory").val();
    
    if(!searchValue){
       alert("검색어를 입력해주세요!");
       return false;
    }
    
-   console.log("검색어:", searchValue); // 확인용 로그
-   location.href = "./mycar?search=" + searchValue;
+   console.log("검색어:", searchValue, "검색 카테고리:", typeCategory); // 확인용 로그
+   location.href = "./income?search=" + searchValue + "&category=" + typeCategory;
    });
 
 })
@@ -255,10 +254,12 @@ $(()=>{
 <div class="adminpageTitle">
 <h3 id=adminpageTitle>관리자 캠핑카관리</h3>
 
-<div id="searchDiv"> 
-   <input class="form-control" type="text" id="searchInput" value="${param.search }" placeholder="아이디 조회"/>
-   <!--  <button class="btn"><img src="/resources/img/admin_search.png"></button>-->
-   <button class="btn btn-primary">검색</button>
+<div id="searchDiv">
+ 	<select id="select" class="form-select">
+    	<option value="1">아이디</option>
+    </select>
+   <input class="form-control" id="input" value="${param.search }" placeholder="아이디 조회"/>
+   <button id="btnSearch" class="btn btn-primary">검색</button>
 </div>
 
 <table class="table table-striped table-hover table-sm" >
@@ -330,7 +331,7 @@ $(()=>{
 </tbody>
 
 </table>
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
+<small class="float-end mb-3">total : ${paging.totalCount }</small><br><br>
 
 </div>
 
@@ -340,4 +341,5 @@ $(()=>{
     <c:param name="url" value="./mycar" />
 </c:import>
 
+<br>
 <c:import url="../layout/footer.jsp" />

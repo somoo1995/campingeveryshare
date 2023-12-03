@@ -26,14 +26,13 @@ import web.service.face.InquiryService;
 import web.util.Paging;
 
 @Controller
-@RequestMapping("/inquiry")
 public class InquiryController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Autowired InquiryService inquiryService;
 	@Autowired AdminService adminService;
 	
-	@GetMapping("list")
+	@GetMapping("/inquiry/list")
 	public void inquiryList(Paging param, Admin admin, Model model, Board board, HttpSession session) {
 		
 		logger.info("sessionAd : " + session.getAttribute("adminCode"));
@@ -62,7 +61,7 @@ public class InquiryController {
 		
 	}
 	
-	@GetMapping("view")
+	@GetMapping("/inquiry/view")
 	public String groupView( Board board, BoardFile file, User user, Comm comm, Model model, Admin admin, HttpSession session) {
 	
 		board = inquiryService.inquiryView(board);
@@ -93,11 +92,11 @@ public class InquiryController {
 	}
 	
 	
-	@GetMapping("/write")
+	@GetMapping("/inquiry/write")
 	public void write() {
 	}
 	
-	@PostMapping("/write")
+	@PostMapping("/inquiry/write")
 	public String groupWrite(
 			User user
 			, Board board
@@ -113,10 +112,10 @@ public class InquiryController {
 		
 		inquiryService.inquiryWrite(board, file);
 		
-		return "redirect:./view?boardNo=" + board.getBoardNo();
+		return "redirect:/inquiry/view?boardNo=" + board.getBoardNo();
 	}
 	
-	@GetMapping("/update")
+	@GetMapping("/inquiry/update")
 	public String update(Board board, BoardFile file, User user, Model model, HttpSession session) {
 		
 		if(board.getBoardNo() < 1 ) {
@@ -133,10 +132,10 @@ public class InquiryController {
 		List<BoardFile> boardfile = inquiryService.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
 		
-		return "inquiry/update";
+		return "/inquiry/update";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/inquiry/update")
 	public String updateProc(
 			User user
 			, Board board
@@ -153,21 +152,79 @@ public class InquiryController {
 		
 		inquiryService.updateProc(board, file, delFileNo);
 		
-		return"redirect:./view?boardNo=" + board.getBoardNo();
+		return"redirect:/inquiry/view?boardNo=" + board.getBoardNo();
 	}
 	
-	@RequestMapping("/delete")
+	@RequestMapping("/inquiry/delete")
 	public String delete(Board board, Model model) {
 		if( board.getBoardNo() < 1 ) {
-			return "redirect:./list";
+			return "redirect:/inquiry/list";
 		}
 
 //		groupService.delete(board, boardFile);
 		inquiryService.delete(board);
 		
-		return "redirect:./list";
+		return "redirect:/inquiry/list";
 	}
 
+	@GetMapping("/admin/inquirylist")
+	public void inquiryAdminList(Paging param, Admin admin, Model model, Board board, HttpSession session) {
+		
+		logger.info("sessionAd : " + session.getAttribute("adminCode"));
+		param.setType((String) session.getAttribute("adminCode"));
+
+		Paging paging = inquiryService.getPaging( param );
+		logger.info("paging : {}", paging);
+		admin.setAdminCode((String) session.getAttribute("adminCode"));
+		
+		
+		List<Map<String, Object>> list = inquiryService.list(paging);
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		model.addAttribute("admin", admin);
+
+	     logger.info("sessionId : " + session.getAttribute("loginId"));
+
+//		logger.info("board : {}", board);
+		logger.info("list : {}", list);
+		logger.info("admin : {}", admin);
+//		logger.info("paging {} :" + paging.toString());
+//		logger.info("model {} :" + model.toString());
+		
+	}
+	
+	@GetMapping("/admin/inquiryview")
+	public String inquiryAdminView( Board board, BoardFile file, User user, Comm comm, Model model, Admin admin, HttpSession session) {
+	
+		board = inquiryService.inquiryView(board);
+		user.setUserId(board.getUserId());
+		user = inquiryService.getNick(user);
+		logger.info("board : {}" + board.toString());
+		
+		admin.setAdminCode((String) session.getAttribute("adminCode"));
+		admin = inquiryService.getAdminCode(admin);
+		
+		List<BoardFile> boardFile = inquiryService.fileView(board);
+		model.addAttribute("boardFile", boardFile);
+		logger.info("boarFile : {}", boardFile);
+		
+		
+		//댓글 리스트
+		List<Comm> commList = inquiryService.getCommList(comm);
+		logger.info("user : {} " + user.toString());
+		logger.info("board : {} " + board.toString());
+		logger.info("commList : {} " + commList.toString());
+
+		model.addAttribute("commList", commList);
+		model.addAttribute("board", board);
+		model.addAttribute("user", user);
+		model.addAttribute("admin", admin);
+
+		return "/admin/inquiryview";
+	}
 	
 	
 	
