@@ -168,7 +168,7 @@ $(document).ready(function(){
 			   }else if(res==="cancel"){
 				   clickedImg.attr("src","/resources/img/heartNone.png")
 			   }
-			   
+	
 		   },error: function(){
 			   console.log("/rent/heart AJAX실패");
 		   }
@@ -188,7 +188,7 @@ $(document).ready(function(){
     <c:otherwise>
 		<c:forEach items="${list }" var="car" varStatus="loop">
 		  <c:if test="${loop.index % 3 == 0}">
-		    <div class="row">
+		    <div class="row" style="margin-bottom: 20px;">
 		  </c:if>
 			<div class="list-container" onclick="location.href='/rent/view?carNo=${car.CAR_NO }'">
 				
