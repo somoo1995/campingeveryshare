@@ -82,82 +82,237 @@ function deleteComment(commNo) {
 
 </script>
 
-<style type="text/css">
-.content {
-	min-height: 300px;
+<style>
+.head, .body {
+	text-align: center;
 }
+
+.wr {
+   padding-left: 30px;
+   padding-right: 30px;
+/*    background-color: aqua; */
+   border: 1px solid #C7C8C9;
+   border-radius: 30px;
+   padding-bottom: 20px;
+}
+
+.title {
+	max-width: 1137px;
+    font-weight: bold;
+    font-size: 40px;
+    flex: 1;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.writer_info {
+	display: flex;
+    flex-direction: row;
+    font-size: 20px;
+/*     color: #7A7A7A; */
+   	min-width: 280px;
+}
+
+.board_info {
+	font-size: 20px;
+    margin-left: 10px; 
+}
+
+.subtitle {
+/* 	background-color: antiquewhite; */
+    display: flex;
+    flex
+    /* flex-direction: row; */
+    /* align-items: center; */
+    margin-top: 10px;
+}
+
+.content {
+	overflow: auto;
+}
+
+.list {
+	background-color: #B4B4B4;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    text-align: center;
+    /* margin-left: 719px; */
+    padding: 5px;
+    max-width: 1300;
+    margin-top: 20px;
+}
+
+.list_a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.list_fin {
+    display: grid;
+    justify-content: end;
+}
+
+.edit {
+   background-color: #158EE7; 
+   width: 80px;
+   height: 40px;
+   border-radius: 10px; 
+    text-align: center; 
+/*     margin-left: 719px; */
+    padding: 5px;
+/*     margin-top: -20px; */
+}
+
+.edit:hover {
+   background-color: #1271b7;
+}
+
+ .edit_a { 
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+ } 
+
+.delete {
+   background-color: #E63D3D; 
+   width: 80px;
+   height: 40px;
+   border-radius: 10px; 
+    text-align: center; 
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.delete:hover {
+   background-color: #c93434;
+}
+
+ .delete_a { 
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+ } 
+
+.show_profile {
+	display: flex;
+    align-items: center;
+    min-width: 1070px;
+}
+
+.user_con {
+/*     background-color: magenta;  */
+   display: flex;
+   flex-direction: row;
+}
+
+.not_login {
+	display: grid;
+	justify-content: center;
+}
+
+.not_1 {
+	margin-bottom: 10px;
+	border: none;
+    background-color: #a5c3ff;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 60px;	
+}
+
+.not_2 {
+	border: none;
+    background-color: #c0c0c0;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 60px;
+    margin-bottom: 30px;
+}
+
 </style>
 
 <div class="container">
 
+<div class="adminpageTitle">
+<h3 id=adminpageTitle>고객문의 조회</h3>
 
-<!-- 작성 공간 -->
-<div class="pageTitle">
+<div class="wr">
 
-<h3 id="pageTitle">고객문의 조회</h3>
-<table class="table table-bordered">
-<colgroup>
-	<col style="width: 15%">
-	<col style="width: 35%">
-	<col style="width: 15%">
-	<col style="width: 35%">
-</colgroup>
-	<tr>
-		<th class="table-info">글 유형</th>
-		<td >
-		<c:if test="${board.location eq 0}">비공개</c:if>
-		<c:if test="${board.location eq 18}">공개</c:if>
-		</td>
-		<th class="table-info">작성일</th>
-		<td>
-			<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd"/>	
-        </td>
-	</tr>
-	<tr>
-		<th class="table-info">아이디</th><td>${board.userId }</td>
-		<th class="table-info">닉네임</th><td>${user.userNick }</td>
-	</tr>
-	<tr>
-		<th class="table-info">제목</th><td>${board.title }</td>
-		<th class="table-info">조회수</th><td>${board.hit }</td>
-	</tr>
-	<tr>
-		<th class="table-info">첨부파일</th>
-		<td colspan="3">
-		<c:forEach var="boardFile" items="${boardFile }">
-		<a href="../upload/${boardFile.storedName }" download="${boardFile.originName }">
-		${boardFile.originName }<br>
-		</a>
-		</c:forEach>		
-		</td>
-	</tr>
-	<tr>
-		<th class="table-info">내용</th><td colspan="3">${board.content }</td>
-	</tr>
-</table> 
+	<div class="title">
+		
+		<c:if test="${board.location eq 0}">[비공개]</c:if>
+		<c:if test="${board.location eq 18}">[공개]</c:if>
+		 ${board.title }
+	</div>
+
+
+	<div class="subtitle">
+	
+	<div class="show_profile">
+	<div class="writer_info">
+		${user.userNick} <span style="color: #7A7A7A; margin-left: 5px;">@${board.userId }</span>
+	</div><br>
+	
+	<div class="user_con">
+	<div class="board_info">
+			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
+			<fmt:formatDate value="${board.postDate }" pattern="yyyyMMdd" var="write"/>
+			<c:choose>
+				<c:when test="${write lt current }">
+					<fmt:formatDate value="${board.postDate }" pattern="yyyy-MM-dd HH:mm"/>
+				</c:when>
+				<c:when test="${write eq current }">
+					<fmt:formatDate value="${board.postDate }" pattern="HH:mm"/>
+				</c:when>
+			</c:choose>
+       
+       조회 ${board.hit }
+      </div><!-- .board_info -->
+      </div><!-- .user_con -->
+      </div><!-- .show_profile -->
+   
+   <c:if test="${loginId eq board.userId or isAdmin}">   
+   <div class="edit">
+   <a class="edit_a" href="./update?boardNo=${board.boardNo }">수정</a>
+   </div><!-- .edit -->
+   
+   <div class="delete">
+   <a class="delete_a" href="./delete?boardNo=${board.boardNo }">삭제</a>
+   </div><!-- .delelte -->
+   	</c:if>   
+      </div><!-- .subtitle -->
+        <hr>
+            
+     <div class="content">  
+	${board.content }
+	</div><!-- .content -->
+
+	<div class="list_fin">
+<div class="list">
+<a class="list_a" href="./list">목록</a>
+</div><!-- .list -->
+</div><!-- .list_fin -->	
+</div><!-- .wr -->
+</div><!-- .adminPageTitle -->
 
 <div>
-지도자리!!
-</div>
 
-<div class="text-center">
-	<a href="./list" class="btn btn-secondary">목록</a>
-<div>
-	<button id="btnRecom" class="btn"></button>
-</div>
-	<c:if test="${loginId eq board.userId or isAdmin}">
-	<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
-	<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
-	</c:if>
-</div>
-<hr>
-<div>
-
-<!-- 비로그인상태 -->
+	<!-- 비로그인상태 -->
+	<div class="not_login">
 	<c:if test="${not isLogin or not isAdmin }">
-	<strong>로그인이 필요합니다</strong><br>
-	<button class="btn btn-warning" onclick='location.href="/";'>로그인</button>
+	<strong style="font-weight: bold; margin-top: 23px;">로그인이 필요합니다</strong><br>
+	<button class="not_1" onclick='location.href="/user/login";'>로그인</button>
+	<button class="not_2" onclick='location.href="/user/join";'>회원가입</button>
 	</c:if>
+	</div><!-- .not_login -->
+
+
 		
 <!-- 	로그인상태  -->
 	<c:if test="${isLogin or isAdmin }">
@@ -170,7 +325,7 @@ function deleteComment(commNo) {
 			<input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
 		</div>
 		<div class="col-9">
-			<textarea class="form-control" id="commentContent"></textarea>
+			<textarea style="height: 100px; resize: none;" class="form-control" id="commentContent"></textarea>
 		</div>
 		<button id="btnCommInsert" class="btn btn-primary col-1">입력</button>
 	</div>	<!-- 댓글 입력 end -->

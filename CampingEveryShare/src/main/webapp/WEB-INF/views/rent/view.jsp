@@ -105,7 +105,7 @@ pageEncoding="UTF-8"%>
    border-bottom: 1px solid #BDBDBD;
    position: sticky;
    top: 0;
-   z-index: 1000; /* 다른 요소들 위에 표시되도록 함 */
+   z-index: 999; /* 다른 요소들 위에 표시되도록 함 */
    background-color: white; /* 배경색 지정 */
    padding: 0px; /* 필요에 따라 패딩 추가 */
 /*    box-shadow: 0 2px 5px rgba(0,0,0,0.2);  */
