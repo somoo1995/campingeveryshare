@@ -18,20 +18,23 @@
 	height: 120px;
 	margin-top: 50px;
 	margin-bottom: 20px;
-	justify-content: space-around;
+ 	justify-content: center; 
 	text-align: center;
+	font-size: 12px;
 	
 }
 
 .available .expectation .total {
 	border-radius: 20px;
+ 	border: 1px solid #1aba00; 
 	
 }
 
 .available{
 	width: 200px;
 	height: 100px;
-	background-color: #E6E6E6;
+	background-color: #e4ffd9;
+	border-radius: 10px;
 }
 .available span{
 	font-weight: 600;
@@ -40,7 +43,9 @@
 .expectation{
 	width: 200px;
 	height: 100px;
-	background-color: #E6E6E6;
+	background-color: #e4ffd9;
+	border-radius: 10px;
+/* 	margin-left: 10px; */
 }
 .expectation span{
 	font-weight: 600;
@@ -49,7 +54,8 @@
 .total{
 	width: 200px;
 	height: 100px;
-	background-color: #E6E6E6;
+	background-color: #e4ffd9;
+	border-radius: 10px;
 }
 .total span{
 	font-weight: 600;
@@ -67,7 +73,7 @@
 	width: 1280px;
 	height: 200px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 }
 .proceeds, .withdraw, .charge{
 	margin-top: 40px;
@@ -102,21 +108,27 @@
 	margin-bottom: 3px;
 }
 .apply-wrap{
-	width: 1000px;
-	height: 120px;
-	margin-left: 120px;
+/* 	width: 1000px; */
+/* 	height: 120px; */
+/* 	margin-left: 120px; */
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	padding-top: 30px;
+	column-gap: 150px;
 }
 .account{
 	background-color: white;
 	width: 350px;
 	height: 50px;
-	text-align: center;
-	padding-top: 10px;
+ 	text-align: center; 
+/* 	padding-top: 10px; */
 	font-weight: 400;
 	font-size: 1.3em;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1aba00;
+	
 }
 
 
@@ -125,6 +137,12 @@
 	width: 100px;
 	height:100px;
 	text-align: center;
+	width: 300px;
+    font-size: 15px;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .info-left span{
 	font-size: 1.4em;
@@ -134,9 +152,10 @@
 	border: 1px solid #D8D8D8;
 	width: 900px;
 	height: 100px;
+	font-size: 15px;
 }
 .amount{
-	color: #4d9026;
+	color: #1ABA00;
 	font-weight: 600;
 }
 .canWith{
@@ -229,6 +248,13 @@
     cursor: pointer;
 }
 
+.request {
+	font-size: 20px;
+	background-color: #1aba00;
+	border: none;
+	border-radius: 10px;
+}
+
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -306,7 +332,7 @@ $(document).ready(function() {
 
     $(".proceeds").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#4d9026");
+        $(this).css("background-color", "#1ABA00");
         $('.withdraw').css("background-color","white");
         $('.charge').css("background-color","white");
         category = 1;
@@ -326,7 +352,7 @@ $(document).ready(function() {
     });
     $(".withdraw").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#4d9026");
+        $(this).css("background-color", "#1ABA00");
         $('.charge').css("background-color","white")
         $('.proceeds').css("background-color","white")
         category = 2;
@@ -345,7 +371,7 @@ $(document).ready(function() {
         
     $(".charge").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#4d9026");
+        $(this).css("background-color", "#1ABA00");
         $('.withdraw').css("background-color","white")
         $('.proceeds').css("background-color","white")
         category = 3;
@@ -388,13 +414,13 @@ $(document).ready(function() {
 	console.log(category);
 	console.log("카테고리 값 확인")
 	if(category ===1){
-		$(".proceeds").css("background-color","#4d9026");
+		$(".proceeds").css("background-color","#1ABA00");
 		$('.commit').show();
 	}else if(category === 2){
-		$(".withdraw").css("background-color","#4d9026");
+		$(".withdraw").css("background-color","#1ABA00");
 		$('.commit').hide();
 	}else if(category === 3){
-		$(".charge").css("background-color","#4d9026");
+		$(".charge").css("background-color","#1ABA00");
 		$('.commit').hide();
 	}
 });
@@ -436,30 +462,30 @@ $(document).ready(function() {
 <div class="proceeds-info">
 <div class="info-left">
 <c:if test="${list.RENT_STATUS == 0}">
-<span>진행중</span>
+<span>진행 중</span>
 </c:if>
 <c:if test="${list.RENT_STATUS == 1}">
-<span>이전내역</span>
+<span>이전 내역</span>
 </c:if>
 <c:if test="${list.RENT_STATUS == 2}">
 <span>취소됨</span>
 </c:if>
 </div>
 <div class="info-right">
-<span>수익금 <span class="amount">${list.PRICE }</span><span>원</span></span><br>
-<span>${list.CAR_NUMBER } | 주문 접수일 : ${list.BOOKING_DATE } | 실거래 금액 : ${list.DEDUCT_PRICE }원</span>
+<span style="margin-left: 10px;">수익금 <span class="amount">${list.PRICE }</span><span>원</span></span><br>
+<span style="margin-left: 10px;">${list.CAR_NUMBER } | 주문 접수일 : ${list.BOOKING_DATE } | 실거래 금액 : ${list.DEDUCT_PRICE }원</span>
 <c:if test="${list.INCOME_STATUS == 0 }">
 <input type="checkbox" data-no="${list.RENT_NO }" class="rent-checkbox">
 </c:if> 
 <br>
 <c:if test="${list.INCOME_STATUS == 0 }">
-<span class="canWith">출금가능</span>
+<span style="margin-left: 10px;" class="canWith">출금 가능</span>
 </c:if> 
 <c:if test="${list.INCOME_STATUS == 1 }">
-<span class="waitingWith">출금 대기중</span>
+<span style="margin-left: 10px;" class="waitingWith">출금 대기중</span>
 </c:if> 
 <c:if test="${list.INCOME_STATUS == 2 }">
-<span class="doneWith">출금 완료</span>
+<span style="margin-left: 10px;" class="doneWith">출금 완료</span>
 </c:if> 
 
 </div>
@@ -478,7 +504,7 @@ $(document).ready(function() {
 </c:if>
 </div>
 <div class="info-right">
-<span>${list.CAR_NUMBER } | 출금 신청일 : ${list.POST_DATE } | 출금 금액 : ${list.DEDUCT_AMOUNT }</span>
+<span style="margin-left: 10px;">${list.CAR_NUMBER } | 출금 신청일 : ${list.POST_DATE } | 출금 금액 : ${list.DEDUCT_AMOUNT }</span>
 </div>
 </div>
 </c:forEach>
@@ -512,13 +538,13 @@ $(document).ready(function() {
 
 <div class="apply-wrap">
 <div class="account">
-<span>출금계좌 :${indexInfo.account }</span>
+<span style="font-size: 20px; font-weight: bold;">출금계좌: ${indexInfo.account }</span>
 </div>
 <div class="account-change-button">
-<button class="btn btn-primary request">출금계좌 신청/변경하기</button>
+<button style="padding: 10px; border-radius:10px; background-color: #1aba00; color: #fff; font-size: 20px; font-weight: bold;" class="btn request">출금계좌 신청 / 변경하기</button>
 </div>
 <div class="apply-button">
-<button class="btn btn-primary commit">출금신청하기</button>
+<button style="padding: 11px; border-radius: 10px; background-color: #1aba00; color: #fff; font-size: 20px; font-weight: bold; border: none;" class="btn commit">출금 신청하기</button>
 </div>
 </div>
 

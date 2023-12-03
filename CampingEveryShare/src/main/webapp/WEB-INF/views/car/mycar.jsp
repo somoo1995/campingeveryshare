@@ -17,12 +17,17 @@
     .carRegi {
         width: 1100px;
         height: 150px;
-        background-color: #819FF7;
+/*         background-color: #1ABA00; */
+		border: 2px solid #1ABA00;
+		border-radius: 10px;
         display: flex;
         justify-content: center; /* 가운데 정렬 */
         align-items: center; /* 세로 중앙 정렬 */
-        border: none; /* 테두리 없음 */
     }
+    
+/*     .carRegi:hover { */
+/*     	background-color: #1ABA00; */
+/*     } */
     
     .carRegi a {
         text-decoration: none; /* 링크 밑줄 제거 */
@@ -57,21 +62,31 @@
     	display: flex;
     	background-color: #E6E6E6;
     	margin-bottom: 20px;
+    	border-top-left-radius: 10px;
+    	border-top-right-radius: 10px;
     }
     .carImg img{
     	width: 300px;
     	height: 270px;
+    	border-bottom: 1px solid #ccc;
     }
     .carImg{
     	width: 300px;
     	height: 270px;
-    	border: 1px solid #ccc;
+     	border-bottom: 1px solid #ccc; 
     	background-color: white;
+    	text-align: center;
+    	border-top-left-radius: 10px;
     }
     .carSum{
     	display: flex;
     	flex-direction: column;
     	width: 800px;
+    	background-color: #f2f2f2;
+/*      	border-top-left-radius: 10px;  */
+     	border-top-right-radius: 10px; 
+     	text-align: center;
+     	padding: 10px;
     }
     .carPrice hr{
    	  border: none; /* 기존의 테두리를 제거합니다. */
@@ -99,7 +114,7 @@
     	
     }
     .carList button{
-        background-color: #007bff; /* 파란색 배경 */
+        background-color: #1ABA00; 
         color: white; /* 텍스트 색상 */
         border: none; /* 테두리 제거 */
         padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
@@ -235,7 +250,7 @@ $(document).ready(function(){
   <c:forEach items="${carNoList}" var="list">
     <div class="car-Wrap" data-car-no = "${list.CAR_NUMBER }">
       <div class="carImg">
-        <img src="${pageContext.request.contextPath}/upload/${list.STORED_NAME}" alt="Uploaded Image"/>
+        <img style="border-top-left-radius: 10px;" src="${pageContext.request.contextPath}/upload/${list.STORED_NAME}" alt="Uploaded Image"/>
       </div>
       <div class="carSum">
         <div class="carNo">
@@ -262,15 +277,14 @@ $(document).ready(function(){
         </div>
         <div class="carPrice">
           <h3>1박당 : ${list.PRICE}</h3> <!-- PRIECE를 PRICE로 수정 -->
-          <hr>
         </div>
         <div class="carDone">
         	<c:if test="${list.RENT_COUNT eq 0 }">
-        	<h5>호스팅완료 : 0건</h5>
+        	<h5 style="font-size: 20px;">호스팅 완료 : 0건</h5>
         	</c:if>
         	
         	<c:if test="${list.RENT_COUNT != 0 }">
-          		<h5>호스팅완료 : ${list.RENT_COUNT}건</h5>
+          		<h5 style="font-size: 20px;">호스팅 완료 : ${list.RENT_COUNT}건</h5>
         	</c:if>
           <div class="carManage">
             <button data-car-no="${list.CAR_NUMBER}">편집</button>

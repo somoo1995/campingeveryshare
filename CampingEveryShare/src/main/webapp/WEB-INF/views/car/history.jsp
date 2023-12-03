@@ -42,7 +42,8 @@
 	font-size: 1.7em;
 }
 .carImgHistory{
-	border: 1px solid #dadada;
+	border-top: 1px solid #dadada;
+	border-right: 1px solid #dadada;
 	width: 230px;
 	height: 230px;
 	margin-top: 15px;
@@ -61,6 +62,7 @@
 	height: 299px;
 	margin-left: auto;
 	background-color: #1ABA00;
+	border-top-right-radius: 10px;
 }
 .userImg{
 	position: absolute;
@@ -131,7 +133,7 @@
 }
 .messageSend {
   position: absolute;
-  left: 275px; /* 오른쪽으로 100px 떨어진 위치 */
+  left: 300px; /* 오른쪽으로 100px 떨어진 위치 */
   top: 100px; /* 위쪽으로 100px 떨어진 위치 */
   width: 200px;
   height: 50px;
@@ -279,13 +281,13 @@ $(document).ready(function () {
 <div class="carStatusHistory"> <!-- carStatusHistory div -->
 <c:choose>
 <c:when test="${list.RENT_STATUS == 0 }"> <!-- 거래 상태에 따라 다르게 표시해주는 조건문 -->
-<span>거래 중</span> <!-- 거래중 표시 -->
+<span>거래 중>></span> <!-- 거래중 표시 -->
 </c:when>
 <c:when test="${list.RENT_STATUS == 1 }">
-<span>이전 내역</span> <!-- 이전내역표시 -->
+<span>이전 내역>></span> <!-- 이전내역표시 -->
 </c:when>
 <c:when test="${list.RENT_STATUS == 2 }">
-<span>취소 내역</span> <!-- 이전내역표시 -->
+<span>취소 내역>></span> <!-- 이전내역표시 -->
 </c:when>
 </c:choose>
 </div> <!-- carStatusHistory div end -->
@@ -334,7 +336,8 @@ $(document).ready(function () {
 <img alt="이미지 없음" src="/resources/img/profile${list.PROFILE}.jpg">
 </div>
 <div class="userNick">
-<span>${list.USER_NICK }</span>
+<span>${list.USER_NICK }</span><br>
+<span style="color: #fff; font-size: 15px;">@ ${list.USER_ID}</span>
 </div>
 </div> <!-- userProfile div end -->
 </div><!-- 전체 div end -->
