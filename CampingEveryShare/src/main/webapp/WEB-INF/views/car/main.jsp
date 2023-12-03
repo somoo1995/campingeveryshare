@@ -9,8 +9,13 @@ pageEncoding="UTF-8"%>
 .button-group {
   display: flex; /* 버튼을 한 줄로 나란히 배열 */
 }
+
+.button:a {
+	text-decoration: none;
+}
+
 .button {
-  background-color: gray; /* 버튼 배경색 */
+  background-color: #b8b8b8; /* 버튼 배경색 */
   color: white; /* 글자색 */
   text-align: center; /* 글자 가운데 정렬 */
   padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩 */
@@ -18,9 +23,15 @@ pageEncoding="UTF-8"%>
   border: none; /* 테두리 없음 */
   cursor: pointer; /* 마우스 오버 시 커서 변경 */
   width: 150px;
+  border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+   font-size: 20px;
+    font-weight: bold;
 }
 .button.active {
-  background-color: #2ECC71; /* 활성화된 버튼의 배경색 변경 */
+  background-color: #1ABA00; /* 활성화된 버튼의 배경색 변경 */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px
 }
     .status-container {
         display: flex;
@@ -151,14 +162,13 @@ $(document).ready(function () {
 <!-- 작성 공간 -->
 <div class="pageTitle">
 <h3 id="pageTitle">내 캠핑카</h3>
-<hr>
 </div>
 	<div class="status-container">
     <div class="status-card">
         <img src="/resources/img/ongoing.png" alt="진행중" />
         <div class="text-container">
             <p>${index.ongoing }</p>
-            <label>진행중</label>
+            <label>진행 중</label>
         </div>
     </div>
     <div class="status-card">
@@ -176,12 +186,11 @@ $(document).ready(function () {
         </div>
     </div>
 </div>
-<hr>
 
     <div class="button-group mt-5">
-	    <a class="button active" id="btnMyHistory" >판매내역</a>
+	    <a class="button active" id="btnMyHistory" >판매 내역</a>
 	    <a class="button" id="btnMyCar" >내 캠핑카</a>
-	    <a class="button" id="btnMySell" >수익관리</a>
+	    <a class="button" id="btnMySell" >수익 관리</a>
 	</div>
 	
 	<div class="myHistory"></div>

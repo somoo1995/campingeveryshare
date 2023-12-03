@@ -20,12 +20,15 @@
 	width: 1250px;
 	height: 300px;
 	display: flex;
-	background-color: #D8D8D8;
+/* 	background-color: #D8D8D8; */
 	margin-bottom: 20px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
 }
 .left-wrap{
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-end;
 }
 .carStatusHistory{
 	width: 150px;
@@ -39,11 +42,11 @@
 	font-size: 1.7em;
 }
 .carImgHistory{
-	border: 1px solid;
+	border: 1px solid #dadada;
 	width: 230px;
 	height: 230px;
 	margin-top: 15px;
-	background-color: blue;
+/* 	background-color: blue; */
 	text-align: center;
 }
 .carImgHistory img{
@@ -276,13 +279,13 @@ $(document).ready(function () {
 <div class="carStatusHistory"> <!-- carStatusHistory div -->
 <c:choose>
 <c:when test="${list.RENT_STATUS == 0 }"> <!-- 거래 상태에 따라 다르게 표시해주는 조건문 -->
-<span>거래중</span> <!-- 거래중 표시 -->
+<span>거래 중</span> <!-- 거래중 표시 -->
 </c:when>
 <c:when test="${list.RENT_STATUS == 1 }">
-<span>이전내역</span> <!-- 이전내역표시 -->
+<span>이전 내역</span> <!-- 이전내역표시 -->
 </c:when>
 <c:when test="${list.RENT_STATUS == 2 }">
-<span>취소내역</span> <!-- 이전내역표시 -->
+<span>취소 내역</span> <!-- 이전내역표시 -->
 </c:when>
 </c:choose>
 </div> <!-- carStatusHistory div end -->
@@ -309,10 +312,12 @@ $(document).ready(function () {
 
   <div class="carPrice-wrap"> <!-- carPrice-wrap div -->
     <div class="carPrice"> <!-- carPrice div -->
-      <span>거래금액 : ${list.AMOUNT }</span>
+      <span>거래 금액 : ${list.AMOUNT }</span>
     </div> <!-- carPrice div end -->
     <div class="messageSend">
-      <button class="btn btn-primary message-button"><a href="/message/list?boardNo=${list.CAR_NO }&boardCate=1&receiverId=${list.USER_ID}&title=${list.CAR_NAME}&nick=${list.USER_NICK}&profile=${list.PROFILE}">메세지</a></button>
+      <button class="btn btn-primary message-button"><a 
+      style="text-decoration: none; color: #fff; font-weight: bold; font-size: 20px;"
+      href="/message/list?boardNo=${list.CAR_NO }&boardCate=1&receiverId=${list.USER_ID}&title=${list.CAR_NAME}&nick=${list.USER_NICK}&profile=${list.PROFILE}">메세지</a></button>
     </div> <!-- newDivNearCarPrice div end -->
     <c:if test="${list.RENT_STATUS == 0 }">
     <div class="cancel">
