@@ -39,10 +39,10 @@ pageEncoding="UTF-8"%>
 
 <div id="admin_loginfail_button">
 	<a href="/">
-	<button id="loginButton" class="btn btn-outline-success">메인 페이지로 돌아가기</button>
+	<button id="loginButton" class="btn btn-outline-primary">메인 페이지로 돌아가기</button>
 	</a>
 </div><!-- #admin_loginfail_button -->
 
 </div><!-- .container -->
-
+<br><br><br><br><br>
 <c:import url="../layout/footer.jsp" />

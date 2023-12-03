@@ -3,6 +3,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style type="text/css">
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    color: #2072d8; 
+    background-color: #fff; 
+    border: 1px solid #2072d8;  
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.page-link.active {
+    background-color: #2072d8;
+     border: 1px solid #2072d8; 
+    color: #ffffff; 
+}
+
+.page-link.disabled {
+    color: #6c757d; 
+    background-color: #f8f9fa; 
+     border: 1px solid #dee2e6; 
+    cursor: not-allowed;
+}
+
+</style>
+
 <c:if test="${not empty param.search }">
    <c:set var="searchParam" value="&search=${param.search }" />
 </c:if>
