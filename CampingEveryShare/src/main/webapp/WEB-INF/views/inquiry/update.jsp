@@ -1,8 +1,3 @@
-고객문의 게시판
-게시판 별 썸네일 압축
-검색결과 모집 창 리스트 형식으로 띄워야함
-
-
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
@@ -28,6 +23,25 @@ $(() => {
 		height: 300
 	})
 })
+
+function checkCharacterCount(input) {
+    var titleValue = input.value;
+
+    // 최대 글자 수 체크
+    if (titleValue.length > 20) {
+        // 20자를 초과하면 입력을 제한
+        input.value = titleValue.substring(0, 20);
+        
+        // 메시지 표시
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'block';
+        displayBlock.textContent = "제목은 최대 20글자까지 가능합니다.";
+    } else {
+        // 입력이 제한되지 않으면 메시지 숨김
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'none';
+    }
+}
 </script>
 <style type="text/css">
 .select {
@@ -63,6 +77,11 @@ select {
 .selectmoney{
 	text-align: center;
 }
+
+.form {
+	min-width: 1300px;
+}
+
 </style>
 <div class="container">
 
@@ -72,7 +91,7 @@ select {
 <h3 id="pageTitle">글 수정</h3>
 <hr>
 </div>
-<div class="col-10 mx-auto">
+<div>
 <form action="./update" method="post" enctype="multipart/form-data">
 
  
@@ -80,18 +99,19 @@ select {
 <input type="hidden" name="boardCate" value="6" >
 <input type="hidden" name="loginId" value="${loginId }" >
 
-<div class="form-group mb-3">
-	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" value="${loginNick }">
-</div>
+<!-- <div class="form-group mb-3"> -->
+<!-- 	<label class="form-label">작성자</label> -->
+<%-- 	<input type="text" class="form-control" readonly="readonly" value="${loginNick }"> --%>
+<!-- </div> -->
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title" value="${board.title }">
+    <input type="text" class="form-control" name="title" id="title" 
+    oninput="checkCharacterCount(this)" placeholder="최대 20글자">
+    <div id="titleDupleBlock" style="color: red;"></div>
 </div>
 
 <div id="originFile">
-	<label class="form-label" for="file">첨부파일</label>
+<!-- 	<label class="form-label" for="file">첨부파일</label> -->
 <c:forEach var="boardfile" items="${boardfile }">
 	<div>
 		<a href="./download?fileNo=${boardfile.fileNo }">${boardfile.originName }</a>
@@ -103,7 +123,7 @@ select {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
+<!-- 	<label class="form-label" for="content">본문</label> -->
 	<textarea class="form-control" name="content" id="content">${board.content }</textarea>
 </div>
 

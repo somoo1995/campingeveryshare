@@ -25,6 +25,26 @@ $(() => {
 		height: 300
 	})
 })
+
+function checkCharacterCount(input) {
+    var titleValue = input.value;
+
+    // 최대 글자 수 체크
+    if (titleValue.length > 20) {
+        // 20자를 초과하면 입력을 제한
+        input.value = titleValue.substring(0, 20);
+        
+        // 메시지 표시
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'block';
+        displayBlock.textContent = "제목은 최대 20글자까지 가능합니다.";
+    } else {
+        // 입력이 제한되지 않으면 메시지 숨김
+        var displayBlock = document.getElementById('titleDupleBlock');
+        displayBlock.style.display = 'none';
+    }
+}
+
 </script>
 <style type="text/css">
 .select {
@@ -78,17 +98,18 @@ select {
 <input type="hidden" name="adminCode" value="${adminCode }" >
 <input type="hidden" name="boardCate" value="5" >
 <div class="form-group mb-3">
-	<label class="form-label">작성자</label>
+<!-- 	<label class="form-label">작성자</label> -->
 	<input type="text" class="form-control" name="loginNick" readonly="readonly" value="작성자">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title">
+    <input type="text" class="form-control" name="title" id="title" 
+    oninput="checkCharacterCount(this)" placeholder="최대 20글자">
+    <div id="titleDupleBlock" style="color: red;"></div>
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
+<!-- 	<label class="form-label" for="content">본문</label> -->
 	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
 

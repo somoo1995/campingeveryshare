@@ -150,8 +150,6 @@ function checkCharacterCount(input) {
     <div id="titleDupleBlock" style="color: red;"></div>
 </div>
 
-
-
 <div class="form-group mb-3">
 <!-- 	<label class="form-label" for="content">본문</label> -->
 	<textarea class="form-control" name="content" id="content"></textarea>
