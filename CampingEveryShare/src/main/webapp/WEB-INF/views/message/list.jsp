@@ -498,7 +498,7 @@ $(document).ready(function() {
 	            linkUrl = '/group/view?boardNo=' + boardNo+'&boardCate='+boardCate
 	            break;
 	    }
-	    $('.link h2 a').attr('href', linkUrl).text(title);
+	    $('.link h2 a').attr('href', linkUrl).text("게시글로 이동");
 	   	console.log("ajax 시작전 데이터 체크");
 	   	console.log(boardNo)
 	   	console.log(title)
@@ -590,8 +590,6 @@ $(document).ready(function() {
         $('.msgcontent, .msgprofile').removeClass('hidden');
         newBoardNo = newRoom.newBoardNo
         newTitle = newRoom.newTitle
-        console.log("이거 왜 안 들어옴?")
-        console.log(newTitle);
         newBoardCate = newRoom.newBoardCate
         newNick = newRoom.newNick
         newProfile = newRoom.newProfile
@@ -617,7 +615,7 @@ $(document).ready(function() {
 	    $('.category h2').text(categoryText);
 	    
 	    var linkUrl = '';
-	    switch (newBoardNo) {
+	    switch (newBoardCate) {
 	        case 1:
 	            linkUrl = '/rent/view?carNo=' + newBoardNo;
 	            break;
@@ -631,7 +629,9 @@ $(document).ready(function() {
 	            linkUrl = '/group/view?boardNo=' + newBoardNo+'&boardCate='+boardCate
 	            break;
 	    }
-	    $('.link h2 a').attr('href', linkUrl).text(newTitle);
+	    console.log(linkUrl);
+	    console.log("이곳이 나오는곳이다");
+	    $('.link h2 a').attr('href', linkUrl).text("게시글로 이동");
         
     }
     var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'

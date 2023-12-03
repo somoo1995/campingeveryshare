@@ -16,7 +16,9 @@ pageEncoding="UTF-8"%>
    border-radius: 30px;
 }
 .left{
-/* 	background-color: pink; */
+
+/*    background-color: pink; */
+
     display: flex;
     flex-direction: column;
     width: 900px;
@@ -28,7 +30,9 @@ pageEncoding="UTF-8"%>
    display: flex;
 /*    margin-top: 10px; */
    justify-content: space-between;
-	border-bottom: 1px solid #BDBDBD;
+
+   border-bottom: 1px solid #BDBDBD;
+
    min-height: 60px;
     padding: 20px; 
 /*    margin-left: 20px; */
@@ -38,7 +42,7 @@ pageEncoding="UTF-8"%>
 .title h2{
 }
 .heart{
-	margin-right: 10px;
+   margin-right: 10px;
 }
 .heart img{
    margin-top: 5px;
@@ -105,6 +109,7 @@ pageEncoding="UTF-8"%>
    background-color: white; /* 배경색 지정 */
    padding: 0px; /* 필요에 따라 패딩 추가 */
 /*    box-shadow: 0 2px 5px rgba(0,0,0,0.2);  */
+
 	font-size: 24px;
 /* 	background-color: #efefef; */
 }
@@ -123,10 +128,10 @@ pageEncoding="UTF-8"%>
    cursor: pointer; 
 }
 .category div span{
-	display: block;
-	font-weight: 600;
-	margin-top: 5px;
-	margin-right: 5px;
+   display: block;
+   font-weight: 600;
+   margin-top: 5px;
+   margin-right: 5px;
 }
 
 .content{
@@ -144,22 +149,26 @@ pageEncoding="UTF-8"%>
    height: auto;
 }
 .right{
-	width: 400px;
+
+   width: 400px;
+
     /* margin-left: 10px; */
     display: flex;
     flex-direction: column
 }
 .right h3:nth-of-type(1){
-	margin-bottom: -5px;
+   margin-bottom: -5px;
 }
 .right ul {
     list-style-type: disc; /* 동그라미 불릿 */
     padding-top: 10px;
 }
 .carOptions{
+
 	display: flex;
 	flex-wrap: wrap;
 	padding: 10px;
+
 }
 .option {
     text-align: center; /* 텍스트 중앙 정렬 */
@@ -198,18 +207,20 @@ input[type="number"] {
 }
 
 .review-title span{
-	font-weight: 600;
-	font-size: 1.5em;
-	margin-left: 300px;
+   font-weight: 600;
+   font-size: 1.5em;
+   margin-left: 300px;
 }
 .selectDetail{
-	display: flex;
+   display: flex;
 }
 .reservation_title h2{
+
 /* 	margin-left: 105px; */
 /* 	margin-bottom: -10px; */
 /* 	margin-top: -31px; */
 	min-height: 97px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,8 +230,10 @@ input[type="number"] {
     font-size: 40px;
 }
 .reqButton{
+
 	text-align: center;
 	margin-bottom: 20px;
+
 }
 
 .reqButton a {
@@ -231,6 +244,7 @@ input[type="number"] {
 }
 
 .details {
+
 	min-height: 97px;
 	border-bottom: 1px solid #BDBDBD;
 	display: flex;
@@ -293,6 +307,7 @@ input[type="number"] {
 
 .rentList {
 	display: flex;
+
     justify-content: center;
     align-items: center;
     padding: 40px;
@@ -302,11 +317,60 @@ input[type="number"] {
 </style>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8dbde9a5763083fbca31c3f1098a1682&libraries=services"></script>
 
 <script type="text/javascript">
 
+var secondElement;
 $(function() {
    loadReview()
+   var area = "${car.areaDetail}";
+   var parts = area.split("#"); // '#'을 기준으로 문자열을 나눔
+   secondElement = parts[1]; // 배열의 두 번째 요소를 선택 (인덱스는 0부터 시작)
+
+   console.log(secondElement); // '서울 성동구 서울숲길 17'이 출력될 것임
+   
+   console.log(area);   
+
+
+
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };  
+
+        // 지도를 생성합니다    
+        var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(secondElement, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면 
+             if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">픽업위치</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            } 
+        }); 
    var reviewAverage = $('.reviewAverage span').data("no");
    console.log("평균 별점 : ",reviewAverage);
    var starWidth = reviewAverage/5 * 100;
@@ -374,23 +438,23 @@ $(function() {
    })
    
    $(".heart img").click(function(){
-	   console.log("하트버튼 클릭됨")
-	   var clickedImg = $(this);
-	   var parentDiv = $(this).closest('.heart');
-	   var userId = parentDiv.data("id");
-	   if(!userId){
-		   alert("로그인이 필요한 서비스입니다.")
-		   return;
-	   }
-	   var carNo = parentDiv.data("no");
-	   $.ajax({
-		   type:"post"
-		  ,url: "/rent/heart"
-		  ,data:{
-			  userId: userId,
-			  heartNo: carNo
-		  }
-       	   ,success: function(res){
+      console.log("하트버튼 클릭됨")
+      var clickedImg = $(this);
+      var parentDiv = $(this).closest('.heart');
+      var userId = parentDiv.data("id");
+      if(!userId){
+         alert("로그인이 필요한 서비스입니다.")
+         return;
+      }
+      var carNo = parentDiv.data("no");
+      $.ajax({
+         type:"post"
+        ,url: "/rent/heart"
+        ,data:{
+           userId: userId,
+           heartNo: carNo
+        }
+             ,success: function(res){
            console.log("/rent/heart AJAX 성공");
            console.log(res);
            // 여기에서 이미지 src 변경
@@ -400,9 +464,9 @@ $(function() {
                clickedImg.attr("src", "/resources/img/heart_2.png");
            }
        },error: function(res){
-	   		  console.log("/rent/heart AJAX 실패")
-	   	  }
-	   })
+              console.log("/rent/heart AJAX 실패")
+           }
+      })
    })
    //다누 것들 ------------------------------------------
     $("#btnCal").click(function() {
@@ -721,17 +785,22 @@ data-no="${car.carNo }" class="heart">
 </div>
 
 </div><!-- .category -->
-<div style="overflow: auto;"  id="content" class="content">
+
+<div id="map" style="width:100%;height:400px;"></div>  
+<div style="padding: 0px; overflow: auto;" id="content" class="content">
+
 ${car.content }
 </div>
 <div id="refund" class="refund">
 <div>
 <h3 style="border-bottom: 1px solid #BDBDBD;
+
 	padding: 20px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 24px;
 	background-color: forestgreen;">환불 정책</h3>
+
 <!-- <hr> -->
 
 <div class="p_style">
@@ -752,11 +821,13 @@ ${car.content }
 </div>
 <div id="caution" class="caution">
 <h3 style="border-bottom: 1px solid #BDBDBD;
+
 	padding: 20px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 24px;
 	background-color: forestgreen;">유의사항</h3>
+
 <!-- <hr> -->
 <div style="padding: 40px; font-size: 20px;">
 <ol>
@@ -771,11 +842,13 @@ ${car.content }
 <!-- <hr> -->
 <div class="review-title">
 <h3 style="border-bottom: 1px solid #BDBDBD;
+
 	padding: 20px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 24px;
 	background-color: forestgreen;">이용 후기</h3>
+
 </div>
 <div id="reviewList" class="reviewList">
 </div>
@@ -876,16 +949,16 @@ ${car.content }
 </div>
 <div class="book d-flex flex-column align-items-start">
 
-	<div class="selectDetail">
-	<div class="selectDate">
-		<button id="btnCal" class="btn btn-outline-success mb-3" style="margin-right:35px;">날짜 선택</button>
-	</div>
+   <div class="selectDetail">
+   <div class="selectDate">
+      <button id="btnCal" class="btn btn-outline-success mb-3" style="margin-right:35px;">날짜 선택</button>
+   </div>
     <div class="passengerSelect mb-3">
         인원 선택 : <input type="number" name="carPax" id="carPax" class="form-control w-auto" placeholder="0" min="0" max="${car.carSpax }">
     </div>
 
-	</div>
-	    <div class="calendar mb-3" style="display: none;">
+   </div>
+       <div class="calendar mb-3" style="display: none;">
         <c:import url="./book.jsp"></c:import>
     </div>
     
