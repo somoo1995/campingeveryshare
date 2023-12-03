@@ -22,6 +22,12 @@
 	text-align: center;
 	
 }
+
+.available .expectation .total {
+	border-radius: 20px;
+	
+}
+
 .available{
 	width: 200px;
 	height: 100px;
@@ -67,14 +73,17 @@
 	margin-top: 40px;
 	width: 200px;
 	height: 100px;
-	border: 1px solid;
-	padding-top: 25px;
+/*  	border: 1px solid #efefef; */
+	background-color: #cecece;
+	color: #fff;
+	padding-top: 35px;
 	text-align: center;
+	border-radius: 20px;
 }
 
 .proceeds span, .withdraw span, .charge span{
-	font-weight: 600;
-	font-size: 1.5em;
+	font-weight: 800;
+	font-size: 2em;
 }
 .proceeds:hover, .withdraw:hover, .charge:hover{
 	cursor: pointer;
@@ -127,7 +136,7 @@
 	height: 100px;
 }
 .amount{
-	color: #5882FA;
+	color: #4d9026;
 	font-weight: 600;
 }
 .canWith{
@@ -297,7 +306,7 @@ $(document).ready(function() {
 
     $(".proceeds").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#5882FA");
+        $(this).css("background-color", "#4d9026");
         $('.withdraw').css("background-color","white");
         $('.charge').css("background-color","white");
         category = 1;
@@ -317,7 +326,7 @@ $(document).ready(function() {
     });
     $(".withdraw").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#5882FA");
+        $(this).css("background-color", "#4d9026");
         $('.charge').css("background-color","white")
         $('.proceeds').css("background-color","white")
         category = 2;
@@ -336,7 +345,7 @@ $(document).ready(function() {
         
     $(".charge").click(function() {
         console.log("proceeds 클릭됨");
-        $(this).css("background-color", "#5882FA");
+        $(this).css("background-color", "#4d9026");
         $('.withdraw').css("background-color","white")
         $('.proceeds').css("background-color","white")
         category = 3;
@@ -379,13 +388,13 @@ $(document).ready(function() {
 	console.log(category);
 	console.log("카테고리 값 확인")
 	if(category ===1){
-		$(".proceeds").css("background-color","#5882FA");
+		$(".proceeds").css("background-color","#4d9026");
 		$('.commit').show();
 	}else if(category === 2){
-		$(".withdraw").css("background-color","#5882FA");
+		$(".withdraw").css("background-color","#4d9026");
 		$('.commit').hide();
 	}else if(category === 3){
-		$(".charge").css("background-color","#5882FA");
+		$(".charge").css("background-color","#4d9026");
 		$('.commit').hide();
 	}
 });
@@ -416,7 +425,7 @@ $(document).ready(function() {
 <span>출금 내역</span>
 </div>
 <div class="charge">
-<span>호스팅별 수수료 계산서</span>
+<span>호스팅 수수료 계산서</span>
 </div>
 </div> <!-- ling-wrap div end -->
 <hr>

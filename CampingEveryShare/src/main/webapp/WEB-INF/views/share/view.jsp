@@ -6,178 +6,216 @@ pageEncoding="UTF-8"%>
 
 <c:import url="../layout/header.jsp" />
 
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8dbde9a5763083fbca31c3f1098a1682&libraries=services"></script>
 
 <script type="text/javascript">
 $(()=>{
-	if(${isRecom}) {
-		$("#btnRecom")
-			.addClass("btn-warning")
-			.html('추천 취소');
-	} else {
-		$("#btnRecom")
-			.addClass("btn-primary")
-			.html('추천');
-	}
-	
-	$("#btnRecom").click(()=>{
-		
-		$.ajax({
-			type: "get"
-			, url: "/share/recom"
-			, data: { 
-				userId : "${loginId}",
-				recomNo : ${board.boardNo},
-				boardCate : ${board.boardCate}
- 			}
-			, dataType: "json"
-			, success: function( data ) {
-					console.log("성공");
-	
-				if( data.result ) { //추천 성공
-					$("#btnRecom")
-					.removeClass("btn-primary")
-					.addClass("btn-warning")
-					.html('추천 취소');
-				
-				} else { //추천 취소 성공
-					$("#btnRecom")
-					.removeClass("btn-warning")
-					.addClass("btn-primary")
-					.html('추천');
-				
-				}
-				
-				//추천수 적용
-				$("#recom").html(data.cnt);
-				
-			}
-			, error: function() {
-				console.log("실패");
-			}
-		}); //ajax end
-		
-	}); //$("#btnRecommend").click() end
+	var location = "${board.title}";
+	   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+       mapOption = {
+           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+           level: 3 // 지도의 확대 레벨
+       };  
 
-	$(() => {
-	    if (${isHeart}) {
-	        $("#btnHeart")
-	            .addClass("btn-warning")
-	            .html('찜 취소');
-	    } else {
-	        $("#btnHeart")
-	            .addClass("btn-primary")
-	            .html('찜');
-	    }
+   // 지도를 생성합니다    
+   var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-	    $("#btnHeart").click(() => {
-	        $.ajax({
-	            type: "get",
-	            url: "/share/heart",
-	            data: {
-	                userId: "${loginId}",
-	                heartNo: ${board.boardNo},
-	                boardCate: ${board.boardCate}
-	            },
-	            dataType: "json",
-	            success: function (data) {
-	                console.log("성공");
+   // 주소-좌표 변환 객체를 생성합니다
+   var geocoder = new kakao.maps.services.Geocoder();
 
-	                if (data.hResult) { //찜 성공
-	                    $("#btnHeart")
-	                        .removeClass("btn-primary")
-	                        .addClass("btn-warning")
-	                        .html('찜 취소');
+   // 주소로 좌표를 검색합니다
+   geocoder.addressSearch(location, function(result, status) {
 
-	                } else { //찜 취소 성공
-	                    $("#btnHeart")
-	                        .removeClass("btn-warning")
-	                        .addClass("btn-primary")
-	                        .html('찜');
+       // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
 
-	                }
+           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-	            },
-	            error: function () {
-	                console.log("실패");
-	            }
-	        }); //ajax end
-	    }); //$("#btnHeart").click() end
-	});
+           // 결과값으로 받은 위치를 마커로 표시합니다
+           var marker = new kakao.maps.Marker({
+               map: map,
+               position: coords
+           });
 
-	
-	// 댓글 입력
-	$("#btnCommInsert").click(function() {
-		
-		$.ajax({
-			type: "post"
-			, url: "/comm/insert"
-			, dataType: "json"
-			, data: {
-				userId : "${loginId}",
-				userNick : "${loginNick}",
-				boardNo : ${board.boardNo},
-				content : $("#commentContent").val(),
-				boardCate : ${board.boardCate}
-			}
-			, success: function(res){
-				console.log(res);
-				if(res) {
-					updateCommentList();
-					 $("#commentContent").val('');
-				} else {
-					alert("댓글 등록 실패");
-				
-				}
-			}
-			, error: function() {
-				console.log("error");
-			}
-		});
-		
-		
-	}); //$("#btnCommInsert").click() end
+           // 인포윈도우로 장소에 대한 설명을 표시합니다
+           var infowindow = new kakao.maps.InfoWindow({
+               content: '<div style="width:150px;text-align:center;padding:6px 0;">캠핑존위치</div>'
+           });
+           infowindow.open(map, marker);
+
+           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+           map.setCenter(coords);
+       } 
+   });
+   if(${isRecom}) {
+      $("#btnRecom")
+         .addClass("btn-warning")
+         .html('추천 취소');
+   } else {
+      $("#btnRecom")
+         .addClass("btn-primary")
+         .html('추천');
+   }
+   
+   $("#btnRecom").click(()=>{
+      
+      $.ajax({
+         type: "get"
+         , url: "/share/recom"
+         , data: { 
+            userId : "${loginId}",
+            recomNo : ${board.boardNo},
+            boardCate : ${board.boardCate}
+          }
+         , dataType: "json"
+         , success: function( data ) {
+               console.log("성공");
+   
+            if( data.result ) { //추천 성공
+               $("#btnRecom")
+               .removeClass("btn-primary")
+               .addClass("btn-warning")
+               .html('추천 취소');
+            
+            } else { //추천 취소 성공
+               $("#btnRecom")
+               .removeClass("btn-warning")
+               .addClass("btn-primary")
+               .html('추천');
+            
+            }
+            
+            //추천수 적용
+            $("#recom").html(data.cnt);
+            
+         }
+         , error: function() {
+            console.log("실패");
+         }
+      }); //ajax end
+      
+   }); //$("#btnRecommend").click() end
+
+   $(() => {
+       if (${isHeart}) {
+           $("#btnHeart")
+               .addClass("btn-warning")
+               .html('찜 취소');
+       } else {
+           $("#btnHeart")
+               .addClass("btn-primary")
+               .html('찜');
+       }
+
+       $("#btnHeart").click(() => {
+           $.ajax({
+               type: "get",
+               url: "/share/heart",
+               data: {
+                   userId: "${loginId}",
+                   heartNo: ${board.boardNo},
+                   boardCate: ${board.boardCate}
+               },
+               dataType: "json",
+               success: function (data) {
+                   console.log("성공");
+
+                   if (data.hResult) { //찜 성공
+                       $("#btnHeart")
+                           .removeClass("btn-primary")
+                           .addClass("btn-warning")
+                           .html('찜 취소');
+
+                   } else { //찜 취소 성공
+                       $("#btnHeart")
+                           .removeClass("btn-warning")
+                           .addClass("btn-primary")
+                           .html('찜');
+
+                   }
+
+               },
+               error: function () {
+                   console.log("실패");
+               }
+           }); //ajax end
+       }); //$("#btnHeart").click() end
+   });
+
+   
+   // 댓글 입력
+   $("#btnCommInsert").click(function() {
+      
+      $.ajax({
+         type: "post"
+         , url: "/comm/insert"
+         , dataType: "json"
+         , data: {
+            userId : "${loginId}",
+            userNick : "${loginNick}",
+            boardNo : ${board.boardNo},
+            content : $("#commentContent").val(),
+            boardCate : ${board.boardCate}
+         }
+         , success: function(res){
+            console.log(res);
+            if(res) {
+               updateCommentList();
+                $("#commentContent").val('');
+            } else {
+               alert("댓글 등록 실패");
+            
+            }
+         }
+         , error: function() {
+            console.log("error");
+         }
+      });
+      
+      
+   }); //$("#btnCommInsert").click() end
 
 })
 
 $(()=>{
-	
-	$(".btnHeart").click(()=>{
-		console.log(${isHeart})
-		console.log($(event.currentTarget).attr("data-no"));	
-		var targetNo = $(event.currentTarget).attr("data-no");
-		console.log(targetNo);
-		
-		$.ajax({
-			type: "get"
-			, url: "/market/heart"
-			, data: { 
-				userId : "${loginId}",
+   
+   $(".btnHeart").click(()=>{
+      console.log(${isHeart})
+      console.log($(event.currentTarget).attr("data-no"));   
+      var targetNo = $(event.currentTarget).attr("data-no");
+      console.log(targetNo);
+      
+      $.ajax({
+         type: "get"
+         , url: "/market/heart"
+         , data: { 
+            userId : "${loginId}",
                 heartNo: $(event.currentTarget).attr("data-no"),
                 boardNo: $(event.currentTarget).attr("data-no"),
                 boardCate: $(event.currentTarget).attr("data-cate")
- 			}
-			, dataType: "json"
-			, success: function( data ) {
-					console.log("성공");
-					console.log(data)
-	
-				if (data.hResult == true) { // 찜 성공
-				    console.log("찜성공");
-				    var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
-				    targetImg.attr('src', '/resources/img/heartOn.png');
-				} else { // 찜 취소 성공
-				    console.log("찜취소");
-				    var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
-				    targetImg.attr('src', '/resources/img/heartNone.png');
-				}
-				
-			}
-			, error: function() {
-				console.log("실패");
-			}
-		}); //ajax end
-		
-	}); //$("#btnHeart").click() end
+          }
+         , dataType: "json"
+         , success: function( data ) {
+               console.log("성공");
+               console.log(data)
+   
+            if (data.hResult == true) { // 찜 성공
+                console.log("찜성공");
+                var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
+                targetImg.attr('src', '/resources/img/heartOn.png');
+            } else { // 찜 취소 성공
+                console.log("찜취소");
+                var targetImg = $('.btnHeart[data-no="' + targetNo + '"] img');
+                targetImg.attr('src', '/resources/img/heartNone.png');
+            }
+            
+         }
+         , error: function() {
+            console.log("실패");
+         }
+      }); //ajax end
+      
+   }); //$("#btnHeart").click() end
 
 })
 
@@ -203,22 +241,22 @@ function updateCommentList() {
 
 
 function deleteComment(commNo) {
-	$.ajax({
-		type: "get"
-		, url: "/comm/delete"
-		, dataType: "json"
-		, data: {
+   $.ajax({
+      type: "get"
+      , url: "/comm/delete"
+      , dataType: "json"
+      , data: {
             commNo : commNo
-		
-		},
-		dataType: "html"
-		, success: function(){
-				updateCommentList();
-		}
-		, error: function() {
-			console.log("댓글 삭제 실패");
-		}
-	});
+      
+      },
+      dataType: "html"
+      , success: function(){
+            updateCommentList();
+      }
+      , error: function() {
+         console.log("댓글 삭제 실패");
+      }
+   });
 }
 
 //신고
@@ -265,7 +303,7 @@ $(() => {
 
 <style type="text/css">
 .content {
-	min-height: 300px;
+   min-height: 300px;
 }
 
 .view_container {
@@ -475,8 +513,8 @@ $(() => {
 }
 
 .btn_list {
-	display: flex;
-	justify-content: center;
+   display: flex;
+   justify-content: center;
 }
 
 .recomm_containers {
@@ -554,7 +592,7 @@ $(() => {
 }
 
 .free {
-	background-color: #D7FFE9; 
+   background-color: #D7FFE9; 
     width: 100px; 
     height: 40px; 
     color: #1ABA00;
@@ -578,26 +616,26 @@ $(() => {
     margin-top: 10px; 
     padding: 5px; 
     font-size: 19px;
-    font-weight: bold;	
+    font-weight: bold;   
 }
 
 .not_login {
-	display: grid;
-	justify-content: center;
+   display: grid;
+   justify-content: center;
 }
 
 .not_1 {
-	margin-bottom: 10px;
-	border: none;
+   margin-bottom: 10px;
+   border: none;
     background-color: #a5c3ff;
     color: #fff;
     font-weight: bold;
     padding: 10px;
-    border-radius: 60px;	
+    border-radius: 60px;   
 }
 
 .not_2 {
-	border: none;
+   border: none;
     background-color: #c0c0c0;
     color: #fff;
     font-weight: bold;
@@ -606,7 +644,7 @@ $(() => {
     margin-bottom: 30px;
 }
 
-	
+   
 
 </style>
 
@@ -647,15 +685,15 @@ $(() => {
            ${board.title }<br>
           </div><!-- .title_1 -->
           
-		<!-- 가격 --> 
-			<c:choose>
-			    <c:when test="${share.paid eq 2}">
-			        <div class="free">무료</div>
-			    </c:when>
-			    <c:when test="${share.paid eq 3}">
-			        <div class="free_not">유료</div>
-			    </c:when>
-			</c:choose>
+      <!-- 가격 --> 
+         <c:choose>
+             <c:when test="${share.paid eq 2}">
+                 <div class="free">무료</div>
+             </c:when>
+             <c:when test="${share.paid eq 3}">
+                 <div class="free_not">유료</div>
+             </c:when>
+         </c:choose>
           
 </div><!-- .title -->
    
@@ -697,7 +735,8 @@ $(() => {
    
       </div><!-- .subtitle -->
         <hr>
-   <div class="content">     
+   <div class="content" style="overflow: auto;">   
+   <div id="map" style="width:70%;height:400px;"></div>  
        ${board.content }  
        </div><!-- .content -->
 <div class="file_fin">
@@ -726,8 +765,8 @@ $(() => {
 
 <!-- 찜 -->
 <button id="btnHeart" class="btnHeart">
-<%-- 	<p>${HEARTID}</p> --%>
-<%-- 	<p id=heart style="font-weight: bold;">${board.HEART }</p> --%>
+<%--    <p>${HEARTID}</p> --%>
+<%--    <p id=heart style="font-weight: bold;">${board.HEART }</p> --%>
 </button>
 
 </div><!-- .btn_list -->
@@ -751,75 +790,75 @@ $(() => {
 </div><!-- .view_container -->
 
 <div>
-	<!-- 비로그인상태 -->
-	<div class="not_login">
-	<c:if test="${not isLogin }">
-	<strong style="font-weight: bold;">로그인이 필요합니다</strong><br>
-	<button class="not_1" onclick='location.href="/user/login";'>로그인</button>
-	<button class="not_2" onclick='location.href="/user/join";'>회원가입</button>
-	</c:if>
-	</div><!-- .not_login -->
-	
-<!-- 	로그인상태  -->
-	<c:if test="${isLogin }">
-<!-- 	댓글 입력 -->
-	<div class="row justify-content-around align-items-center">
-	<input type="hidden" value="${loginId }" >
-	<input type="hidden" value="${board.boardCate }">
-	<input type="hidden" value="${board.boardNo }">
-		<div class="col-2">
-			<input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
-		</div>
-		<div class="col-9">
-			<textarea style="height: 100px; resize: none;" class="form-control" id="commentContent"></textarea>
-		</div>
-		<button id="btnCommInsert" class="btn btn-primary col-1">입력</button>
-	</div>	<!-- 댓글 입력 end -->
-	</c:if>
-	
-	<!-- 댓글 리스트 -->
-	<table class="table table-striped table-hover table-condensed text-center" >
-	<colgroup>
-		<col style="width: 15%;">
-		<col style="width: 55%;">
-		<col style="width: 20%;">
-		<col style="width: 10%;">
-	</colgroup>
-	<thead>
-	<tr>
-		<th>작성자</th>
-		<th>댓글</th>
-		<th>작성일</th>
-		<th></th>
-	</tr>
-	</thead>
-	<tbody id="commentBody">
-	<c:forEach items="${commList }" var="comm">
-	<tr data-commentNo="${comm.COMM_NO }">
-		<td>${comm.USER_NICK}</td>
-		<td class="text-start">${comm.CONTENT }</td>
-		<td>
-			<fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
-			<fmt:formatDate value="${comm.POST_DATE }" pattern="yyyyMMdd" var="write"/>
-				<c:choose>
-					<c:when test="${write lt current }">
-						<fmt:formatDate value="${comm.POST_DATE }" pattern="yyyy-MM-dd"/>
-					</c:when>
-					<c:when test="${write eq current }">
-						<fmt:formatDate value="${comm.POST_DATE }" pattern="HH:mm"/>
-					</c:when>
-				</c:choose>
-		</td>
-		<td>
-			<c:if test="${sessionScope.loginId eq comm.USER_ID }">
-			<button class="btn btn-warning btn-xs" onclick="deleteComment(${comm.COMM_NO });">삭제</button>
-			</c:if>
-		</td>
-		
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table><!-- 댓글 리스트 end -->
+   <!-- 비로그인상태 -->
+   <div class="not_login">
+   <c:if test="${not isLogin }">
+   <strong style="font-weight: bold;">로그인이 필요합니다</strong><br>
+   <button class="not_1" onclick='location.href="/user/login";'>로그인</button>
+   <button class="not_2" onclick='location.href="/user/join";'>회원가입</button>
+   </c:if>
+   </div><!-- .not_login -->
+   
+<!--    로그인상태  -->
+   <c:if test="${isLogin }">
+<!--    댓글 입력 -->
+   <div class="row justify-content-around align-items-center">
+   <input type="hidden" value="${loginId }" >
+   <input type="hidden" value="${board.boardCate }">
+   <input type="hidden" value="${board.boardNo }">
+      <div class="col-2">
+         <input type="text" class="form-control" id="commentWriter" value="${loginNick }" readonly="readonly"/>
+      </div>
+      <div class="col-9">
+         <textarea style="height: 100px; resize: none;" class="form-control" id="commentContent"></textarea>
+      </div>
+      <button id="btnCommInsert" class="btn btn-primary col-1">입력</button>
+   </div>   <!-- 댓글 입력 end -->
+   </c:if>
+   
+   <!-- 댓글 리스트 -->
+   <table class="table table-striped table-hover table-condensed text-center" >
+   <colgroup>
+      <col style="width: 15%;">
+      <col style="width: 55%;">
+      <col style="width: 20%;">
+      <col style="width: 10%;">
+   </colgroup>
+   <thead>
+   <tr>
+      <th>작성자</th>
+      <th>댓글</th>
+      <th>작성일</th>
+      <th></th>
+   </tr>
+   </thead>
+   <tbody id="commentBody">
+   <c:forEach items="${commList }" var="comm">
+   <tr data-commentNo="${comm.COMM_NO }">
+      <td>${comm.USER_NICK}</td>
+      <td class="text-start">${comm.CONTENT }</td>
+      <td>
+         <fmt:formatDate value="<%=new Date() %>" pattern="yyyyMMdd" var="current"/>
+         <fmt:formatDate value="${comm.POST_DATE }" pattern="yyyyMMdd" var="write"/>
+            <c:choose>
+               <c:when test="${write lt current }">
+                  <fmt:formatDate value="${comm.POST_DATE }" pattern="yyyy-MM-dd"/>
+               </c:when>
+               <c:when test="${write eq current }">
+                  <fmt:formatDate value="${comm.POST_DATE }" pattern="HH:mm"/>
+               </c:when>
+            </c:choose>
+      </td>
+      <td>
+         <c:if test="${sessionScope.loginId eq comm.USER_ID }">
+         <button class="btn btn-warning btn-xs" onclick="deleteComment(${comm.COMM_NO });">삭제</button>
+         </c:if>
+      </td>
+      
+   </tr>
+   </c:forEach>
+   </tbody>
+   </table><!-- 댓글 리스트 end -->
 
 </div><!-- 댓글 처리 end -->
 
@@ -828,4 +867,3 @@ $(() => {
 
 <c:import url="../layout/modal.jsp" />
 <c:import url="../layout/footer.jsp" />
-
