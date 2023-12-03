@@ -8,6 +8,8 @@ pageEncoding="UTF-8"%>
 
 <!-- js 시작 -->
 <script type="text/javascript">
+
+
 $(function(){
   $('#slider-main').slick({
       slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
@@ -287,14 +289,32 @@ $(function(){
 }
 
 
-p {
+p.big {
 	font-size: 30px;
 	font-weight: bold;
 	text-align: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	color: #3da903;
+	background-color: #d6ffd6;
 }
+
+p.big:hover {
+	color: forestgreen;
+}
+
+p.small {
+	color: #b2b2b2;
+    background-color: #fff6dd;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+}
+
+p.small:hover {
+ 	color: gray; 
+}
+
 
 .middle {
   grid-column: 1 / 3; /* 두 번째 행 전체를 차지하도록 설정 */
@@ -313,14 +333,19 @@ p {
 
 	<div class="main">
 		<div class="slider-main" id="slider-main">
-		<div class="image"><img alt="camp1" src="/resources/img/aboutus0.png"></div>
-		<div class="image"><img alt="camp2" src="/resources/img/aboutus1.png"></div>
-		<div class="image"><img alt="camp3" src="/resources/img/aboutus2.png"></div>
-		<div class="image"><img alt="camp4" src="/resources/img/aboutus3.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/aboutus4.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/aboutus5.png"></div>
-		<div class="image"><img alt="camp5" src="/resources/img/aboutus6.png"></div>
+<!-- 		<div class="image"><img alt="camp1" src="/resources/img/aboutus0.png"></div> -->
+<!-- 		<div class="image"><img alt="camp2" src="/resources/img/aboutus1.png"></div> -->
+<!-- 		<div class="image"><img alt="camp3" src="/resources/img/aboutus2.png"></div> -->
+<!-- 		<div class="image"><img alt="camp4" src="/resources/img/aboutus3.png"></div> -->
+<!-- 		<div class="image"><img alt="camp5" src="/resources/img/aboutus4.png"></div> -->
+<!-- 		<div class="image"><img alt="camp5" src="/resources/img/aboutus5.png"></div> -->
+<!-- 		<div class="image"><img alt="camp5" src="/resources/img/aboutus6.png"></div> -->
 		<div class="image"><img alt="camp5" src="/resources/img/mainme.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/event1.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/event2.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/event3.png"></div>
+		<div class="image"><img alt="camp5" src="/resources/img/event4.png"></div>
+		
 		</div><!-- slider-div -->
 	</div><!-- .main -->
 
@@ -339,8 +364,8 @@ p {
 	<div class="car">
 	<div>
 	<a href="/rent/list" style="text-decoration: none;">
-	<p>이런 캠핑카 어때요?</p>
-	<p style="font-size: 15px; color: #8c9095;">캠핑카 대여하러 가기</p>
+	<p class="big">이런 캠핑카 어때요?</p>
+	<p class="small">캠핑카 대여하러 가기</p>
 	</div>
 	</a>
 		<div class="slider-car" id="slider-car">
@@ -355,8 +380,8 @@ p {
 	<div class="zone">
 	<div>
 	<a href="/share/list" style="text-decoration: none;">
-	<p>이런곳은 어때요?</p>
-	<p style="font-size: 15px; color: #8c9095;">캠핑존 구경하러 가기</p>
+	<p class="big">이런곳은 어때요?</p>
+	<p class="small">캠핑존 구경하러 가기</p>
 	</div>
 	</a>
 		<div class="slider-zone" id="slider-zone">
@@ -371,8 +396,8 @@ p {
 	<div class="market">
 	<div>
 	<a href="/market/list" style="text-decoration: none;">
-	<p>아직 쓸만합니다!</p>
-	<p style="font-size: 15px; color: #8c9095;">장비 구매하러 가기</p>
+	<p class="big">아직 쓸만합니다!</p>
+	<p class="small">장비 구매하러 가기</p>
 	</div>
 	</a>
 		<div class="slider-market" id="slider-market">
@@ -387,8 +412,8 @@ p {
 	<div class="recruit">
 	<div>
 	<a href="/group/list" style="text-decoration: none;">
-	<p>같이 가실래요?</p>
-	<p style="font-size: 15px; color: #8c9095;">파티원 구하러 가기</p>
+	<p class="big">같이 가실래요?</p>
+	<p class="small">파티원 구하러 가기</p>
 	</div>
 	</a>
 		<div class="slider-recruit" id="slider-recruit">

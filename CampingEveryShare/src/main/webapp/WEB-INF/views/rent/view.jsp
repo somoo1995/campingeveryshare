@@ -10,26 +10,30 @@ pageEncoding="UTF-8"%>
 <style>
 .test{
    display: flex;
-   width: 1116px;
-   justify-content: space-between; /* 자식 요소들을 양 끝에 배치 */
+   width: 1300px;
    border: 1px solid #BDBDBD;
    height: auto; /* 높이를 자동으로 설정 */
-   margin-left: 90px;
-   background-color: #FAFAFA;
+   border-radius: 30px;
 }
 .left{
-   display: flex;
-   flex-direction: column;
-   width: 744px;
-   height: auto; /* 높이를 자동으로 설정 */  
-   border-right: 1px solid  #BDBDBD;
+/* 	background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    width: 900px;
+    height: auto;
+    border-right: 1px solid #BDBDBD;
 }
 
 .title{
    display: flex;
-   margin-top: 10px;
+/*    margin-top: 10px; */
    justify-content: space-between;
-   border-bottom: 1px solid #BDBDBD;
+	border-bottom: 1px solid #BDBDBD;
+   min-height: 60px;
+    padding: 20px; 
+/*    margin-left: 20px; */
+   font-weight: bold;
+   align-items: center;
 }
 .title h2{
 }
@@ -38,12 +42,12 @@ pageEncoding="UTF-8"%>
 }
 .heart img{
    margin-top: 5px;
-   width: 50px;
+   width: 30px;
    height: 30px;
    cursor: pointer;
 }
-.userNickName{
-}
+/* .userNickName{ */
+/* } */
 .carPhoto{
    margin-top: 30px;
 }
@@ -54,6 +58,9 @@ pageEncoding="UTF-8"%>
 }
 .review-wrapper{
    display: flex;
+   border-top: 1px solid #BDBDBD;
+   padding-top: 10px;
+   justify-content: center;
 }
 .reviewStar img {
     width: 30px; /* 이미지의 너비 */
@@ -89,21 +96,27 @@ pageEncoding="UTF-8"%>
 }
 .category{
    display: flex;
-   justify-content: space-around;
-   margin-top: 30px;
-   border-bottom: 1px solid;
+/*    justify-content: space-around; */
+   margin-top: 19px;
+   border-bottom: 1px solid #BDBDBD;
    position: sticky;
    top: 0;
    z-index: 1000; /* 다른 요소들 위에 표시되도록 함 */
    background-color: white; /* 배경색 지정 */
    padding: 0px; /* 필요에 따라 패딩 추가 */
-   box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 하단에 그림자 효과 (선택 사항) */
+/*    box-shadow: 0 2px 5px rgba(0,0,0,0.2);  */
+	font-size: 24px;
+/* 	background-color: #efefef; */
 }
 .category div{
-	width: 180px;
-	border-right: 1px solid;
+	width: 900px;
+/* 	border-right: 1px solid; */
 	height: 50px;
 	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-top: 1px solid #BDBDBD;
 }
 
 .category div{
@@ -115,8 +128,11 @@ pageEncoding="UTF-8"%>
 	margin-top: 5px;
 	margin-right: 5px;
 }
+
 .content{
    height: auto;
+   padding: 40px;
+   font-size: 20px;   
 }
 .refund{
    height: auto;
@@ -128,20 +144,22 @@ pageEncoding="UTF-8"%>
    height: auto;
 }
 .right{
-   width: 372px;
-   margin-left: 10px;
-   display: flex;
-   flex-direction: column;
+	width: 400px;
+    /* margin-left: 10px; */
+    display: flex;
+    flex-direction: column
 }
 .right h3:nth-of-type(1){
 	margin-bottom: -5px;
 }
 .right ul {
     list-style-type: disc; /* 동그라미 불릿 */
+    padding-top: 10px;
 }
 .carOptions{
 	display: flex;
 	flex-wrap: wrap;
+	padding: 10px;
 }
 .option {
     text-align: center; /* 텍스트 중앙 정렬 */
@@ -161,11 +179,9 @@ pageEncoding="UTF-8"%>
 .book {
     padding: 20px; /* 패딩 */
     background-color: #f8f9fa; /* 배경색 */
-    border-radius: 10px; /* 둥근 모서리 */
-    margin-top: -20px;
     font-weight: 600;
     font-size: 1.2em;
-    margin-bottom: -68px;
+    border-bottom: 1px solid #BDBDBD;
 }
 
 .calendar {
@@ -180,9 +196,7 @@ pageEncoding="UTF-8"%>
 input[type="number"] {
     margin-left: 10px; /* 인풋과 레이블 간 간격 */
 }
-.review-title{
-	border-bottom: 1px solid black;
-}
+
 .review-title span{
 	font-weight: 600;
 	font-size: 1.5em;
@@ -192,19 +206,98 @@ input[type="number"] {
 	display: flex;
 }
 .reservation_title h2{
-	margin-left: 105px;
-	margin-bottom: -10px;
-	margin-top: -31px;
+/* 	margin-left: 105px; */
+/* 	margin-bottom: -10px; */
+/* 	margin-top: -31px; */
+	min-height: 97px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #BDBDBD;
+    font-weight: bold;
+    border-top: 1px solid #BDBDBD;
+    font-size: 40px;
 }
 .reqButton{
 	text-align: center;
+	margin-bottom: 20px;
 }
 
 .reqButton a {
     text-decoration: none; /* 밑줄 없애기 */
     color: white; /* 링크의 텍스트 색상을 검은색으로 변경 */
+    font-size: 20px;
+    font-weight: bold;
 }
 
+.details {
+	min-height: 97px;
+	border-bottom: 1px solid #BDBDBD;
+	display: flex;
+    align-items: center;
+	justify-content: center;
+	background-color: #ebffeb;
+	border-top-right-radius: 30px;
+}
+
+/* .head_sm { */
+/* 	min-height: 210px; */
+/* } */
+
+.option-title {
+	min-height: 97px;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid #BDBDBD;
+	background-color: #ebffeb;
+}
+
+.contentButton .refundButton .cautionButton .reviewButton {
+	width: 225px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.contentButton  {
+	border-right: 1px solid #BDBDBD;
+}
+
+.refundButton {
+	border-right: 1px solid #BDBDBD;
+}
+
+.cautionButton {
+	border-right: 1px solid #BDBDBD;
+}
+
+.reviewButton {
+	border-right: 1px solid #BDBDBD;
+}
+
+.bookInfo {
+	padding: 20px;
+	font-size: 20px;
+}
+
+.content {
+	border-bottom: 1px solid #BDBDBD;
+}
+
+.p_style {
+	padding: 40px;
+	font-size: 20px;
+}
+
+.rentList {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    font-size: 20px;
+}
 
 </style>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -215,7 +308,7 @@ input[type="number"] {
 $(function() {
    loadReview()
    var reviewAverage = $('.reviewAverage span').data("no");
-   console.log("평균별점 : ",reviewAverage);
+   console.log("평균 별점 : ",reviewAverage);
    var starWidth = reviewAverage/5 * 100;
    console.log(starWidth);
    $('.full-star').css("width", starWidth + "%");
@@ -229,7 +322,7 @@ $(function() {
       $('body,html').animate({
          scrollTop: scrollTo
       },200);
-      $('.contentButton').css("background-color", "#FFFF00");
+      $('.contentButton').css("background-color", "forestgreen");
       $('.refundButton').css("background-color", "white");
       $('.cautionButton').css("background-color", "white");
       $('.reviewButton').css("background-color", "white");
@@ -243,7 +336,7 @@ $(function() {
       $('body,html').animate({
          scrollTop: scrollTo
       },200);
-      $('.refundButton').css("background-color", "#FFFF00");
+      $('.refundButton').css("background-color", "forestgreen");
       $('.contentButton').css("background-color", "white");
       $('.cautionButton').css("background-color", "white");
       $('.reviewButton').css("background-color", "white");
@@ -259,7 +352,7 @@ $(function() {
       $('body,html').animate({
          scrollTop: scrollTo
       },200);
-      $('.cautionButton').css("background-color", "#FFFF00");
+      $('.cautionButton').css("background-color", "forestgreen");
       $('.contentButton').css("background-color", "white");
       $('.reviewButton').css("background-color", "white");
       $('.refundButton').css("background-color", "white");
@@ -274,7 +367,7 @@ $(function() {
       $('body,html').animate({
          scrollTop: scrollTo
       },200);
-      $('.reviewButton').css("background-color", "#FFFF00");
+      $('.reviewButton').css("background-color", "forestgreen");
       $('.contentButton').css("background-color", "white");
       $('.cautionButton').css("background-color", "white");
       $('.refundButton').css("background-color", "white");
@@ -564,12 +657,14 @@ $(function() {
 
 <!-- 작성 공간 -->
 <div class="pageTitle">
-<hr>
+<h3 style="color: forestgreen; font-weight: 600; font-size: 40px; margin-bottom: 20px;">대여 게시글</h3>
+<!-- <hr> -->
 </div>
 <div class="test">
 <div class="left">
+<!-- <div class="head_sm"> -->
 <div class="title">
-<h2>${car.carName }</h2>
+<h2 style= "font-size: 40px;"><span style="font-weight: 500; color: #008205;">${car.userId }</span>님의 ${car.carName }</h2>
 <div 
 data-id="${sessionScope.loginId }"
 data-no="${car.carNo }" class="heart">
@@ -581,9 +676,9 @@ data-no="${car.carNo }" class="heart">
 </c:if>
 </div>
 </div>
-<div class="userNickName">
-<h6>호스트 닉네임 : ${car.userId }</h6>
-</div>
+<!-- <div class="userNickName"> -->
+<%-- <h6 style="font-size: 20px; font-weight: bold;"> ${car.userId }</h6> --%>
+<!-- </div> -->
 <div class="carPhoto">
 <img alt="이미지없음" src="${pageContext.request.contextPath}/upload/${target.file.storedName}">
 </div>
@@ -605,10 +700,10 @@ data-no="${car.carNo }" class="heart">
 </div>
 </div>
 <div class="reviewAverage">
-<span data-no="${target.reviewInfo.AVEARGE_RATE}">평균별점 : ${target.reviewInfo.AVEARGE_RATE}점</span>
+<span style="font-size: 20px; margin-left: 10px;" data-no="${target.reviewInfo.AVEARGE_RATE}">평균 별점: ${target.reviewInfo.AVEARGE_RATE}점</span>
 </div>
 <div class="reviewNum">
-<span>리뷰${target.reviewInfo.REVIEW_NUM}건</span>
+<span style="font-size: 20px; margin-left: 10px;">이용 후기: ${target.reviewInfo.REVIEW_NUM}건</span>
 </div>
 </div>
 <div class="category">
@@ -616,7 +711,7 @@ data-no="${car.carNo }" class="heart">
 <span>캠핑카 소개</span>
 </div>
 <div href="#refund" class="refundButton">
-<span>환불 정책</span>
+<span style="font-weight: bold;">환불 정책</span>
 </div>
 <div href="#caution" class="cautionButton">
 <span>유의 사항</span>
@@ -625,14 +720,21 @@ data-no="${car.carNo }" class="heart">
 <span>이용후기</span>
 </div>
 
-</div>
-<div id="content" class="content">
+</div><!-- .category -->
+<div style="overflow: auto;"  id="content" class="content">
 ${car.content }
 </div>
 <div id="refund" class="refund">
 <div>
-<h3>환불규정</h3>
-<hr>
+<h3 style="border-bottom: 1px solid #BDBDBD;
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">환불 정책</h3>
+<!-- <hr> -->
+
+<div class="p_style">
 <p>이용당일(첫 날) 이후에 환불 관련 사항은 호스트에게 직접 문의하셔야 합니다.</p>
 <br>
 <p>이용 8일 전     총 금액의 100% 환불</p>
@@ -644,12 +746,19 @@ ${car.content }
 <p>이용 2일 전     총 금액의 50% 환불</p>
 <p>이용 전날     총 금액의 30% 환불</p>
 <p>이용 당일     총 금액의 10% 환불</p>
+</div>
 <hr>
 </div>
 </div>
 <div id="caution" class="caution">
-<h3>유의사항</h3>
-<hr>
+<h3 style="border-bottom: 1px solid #BDBDBD;
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">유의사항</h3>
+<!-- <hr> -->
+<div style="padding: 40px; font-size: 20px;">
 <ol>
 <li>캠핑카 반납시에는 인계 받을때 상태 그대로 반납해야 합니다.(부담금 50000원)</li>
 <li>사용중에 문제가 있다면 꼭 차주분께 먼저 전화로 알려주시기 바랍니다.</li>
@@ -658,23 +767,28 @@ ${car.content }
 <li>과도한 중량의 적재물은 사고를 유발합니다 항상 무게분산을 시켜주세요.</li>
 </ol>
 </div>
-<hr>
+</div>
+<!-- <hr> -->
 <div class="review-title">
-<span>리뷰</span>
+<h3 style="border-bottom: 1px solid #BDBDBD;
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	background-color: forestgreen;">이용 후기</h3>
 </div>
 <div id="reviewList" class="reviewList">
 </div>
 
-</div>
+</div><!-- .left -->
 
 <div class="right">
-<div class="detailInfo">
-<h3 style="
-margin-bottom:0px;
-margin-left: 120px;
-margin-top: 9px;
-">세부사항</h3>
-<hr>
+<div class="detailInfo" style="border-bottom: 1px solid #BDBDBD; min-height: 210px;">
+<div class="details">
+<h3 style="font-weight: bold; font-size: 40px;">세부사항</h3>
+</div>
+
+<div style="font-size: 20px;">
 <ul>
 <c:set var="areaDetails" value="${fn:split(car.areaDetail, '#')}" />
 <li>대여장소: ${areaDetails[1]} ${areaDetails[2]}</li>
@@ -688,10 +802,12 @@ margin-top: 9px;
 <li>취침 인원 : 최대 ${car.carSpax }명</li>
 <li>침대수 : ${car.carBeds }개</li>
 </ul>
-<hr>
 </div>
-<h3 style="margin-left:120px;">보유 옵션</h3>
-<hr>
+
+</div>
+<div class="option-title">
+<h3 style="font-weight: bold; font-size: 40px;">보유 옵션</h3>
+</div><!-- .option-title -->
 <div class="carOptions">
     <c:if test="${car.carElec == 1}">
         <div class="option">
@@ -754,11 +870,9 @@ margin-top: 9px;
         </div>
     </c:if>
 </div>
-<hr>
 <br>
 <div class="reservation_title">
-<h2 style="margin-left: 120px;">예약하기</h2>
-<hr>
+<h2 style="margin: 0px; background-color: #ebffeb;">예약하기</h2>
 </div>
 <div class="book d-flex flex-column align-items-start">
 
@@ -796,8 +910,8 @@ margin-top: 9px;
 
 </div>
 <div class="reqButton">
-<button class="btn btn-success"><a href="/message/list?boardNo=${car.carNo }&boardCate=1&receiverId=${car.userId}&title=${car.carName}&nick=${car.userId}&profile=3">문의하기</a></button> 
-<button class="btn btn-success" onclick="requestPay()">결제하기</button> 
+<button style="margin-right: 10px;" class="btn btn-success"><a href="/message/list?boardNo=${car.carNo }&boardCate=1&receiverId=${car.userId}&title=${car.carName}&nick=${car.userId}&profile=3">문의하기</a></button> 
+<button style="font-weight: bold; font-size: 20px;" class="btn btn-success" onclick="requestPay()">결제하기</button> 
 
 </div>
 </div>

@@ -558,7 +558,7 @@ $(() => {
       </div><!-- .subtitle -->
  	<hr>
  	
-   <div class="content">     
+   <div class="content" style="overflow: auto;">     
        ${board.content }  
        </div><!-- .content -->
 <div class="file_fin">
