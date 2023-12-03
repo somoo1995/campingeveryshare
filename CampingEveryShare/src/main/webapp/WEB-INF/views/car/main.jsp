@@ -188,9 +188,9 @@ $(document).ready(function () {
 </div>
 
     <div class="button-group mt-5">
-	    <a class="button active" id="btnMyHistory" >판매 내역</a>
-	    <a class="button" id="btnMyCar" >내 캠핑카</a>
-	    <a class="button" id="btnMySell" >수익 관리</a>
+	    <a style="text-decoration: none; color: #fff;" class="button active" id="btnMyHistory" >판매 내역</a>
+	    <a style="text-decoration: none;  color: #fff;" class="button" id="btnMyCar" >내 캠핑카</a>
+	    <a style="text-decoration: none;  color: #fff;" class="button" id="btnMySell" >수익 관리</a>
 	</div>
 	
 	<div class="myHistory"></div>
