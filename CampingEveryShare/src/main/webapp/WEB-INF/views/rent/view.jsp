@@ -128,10 +128,11 @@ pageEncoding="UTF-8"%>
 	margin-top: 5px;
 	margin-right: 5px;
 }
+
 .content{
    height: auto;
    padding: 40px;
-   font-size: 20px;
+   font-size: 20px;   
 }
 .refund{
    height: auto;
@@ -720,7 +721,7 @@ data-no="${car.carNo }" class="heart">
 </div>
 
 </div><!-- .category -->
-<div id="content" class="content">
+<div style="overflow: auto;"  id="content" class="content">
 ${car.content }
 </div>
 <div id="refund" class="refund">
